@@ -8,7 +8,7 @@
   >
     <template v-slot:prepend>
       <div class="logoArea">
-        <img src="@/assets/logo.png" width="148" height="30" alt="logo"/>
+        <img src='@/assets/images/logo.png' width="148" height="30" alt="logo"/>
         <span class="logoText">DevOps</span>
       </div>
       <v-app-bar-nav-icon @click="toggleMenu"></v-app-bar-nav-icon>
@@ -25,8 +25,8 @@
           :items="items"
       ></v-list>
     </v-navigation-drawer>-->
-    <div class="sideMenuBackGround">
-      <div class="sideMenuWrapper">
+    <div id='side_menu_background'>
+      <div id='side_menu_wrapper'>
         <v-list-item class="textAlignRight sideMenu">
           <v-icon icon="mdi-close" @click="closeMenu"/>
         </v-list-item>
@@ -37,21 +37,13 @@
 </template>
 
 <script>
+import { HEADER_MENU } from '@/assets/consts/consts'
 export default {
   name: "HeaderComponent",
   data: function () {
     return {
       showMenu: false,
-      items: [
-        {
-          title: '사용자 관리',
-          value: 'user manage',
-        },
-        {
-          title: '예측 관리',
-          value: 'expecting',
-        }
-      ],
+      items: HEADER_MENU
     }
   },
   methods: {
@@ -67,24 +59,26 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import "src/assets/style/variables";
 .sideMenu {
   cursor: pointer;
   height: 50px;
   padding: 0;
 }
-.sideMenuWrapper {
+#side_menu_wrapper {
   position: relative;
   top: 90px;
 }
-.sideMenuBackGround {
+#side_menu_background {
   width: 420px;
   font-size: 16px;
   font-weight: bold;
   height: 100%;
-  background: #232B3B;
-  color: #ffffff;
+  background: $main-color;
+  color: #fff;
   padding-left: 30px;
   padding-right: 30px;
+  overflow: hidden;
 }
 .logoArea {
   display: inline-block;

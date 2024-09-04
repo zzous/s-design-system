@@ -1,0 +1,118 @@
+<template>
+  <div id='navi' class='float-left'>
+    <div id='menu_title_wrapper'>
+      <div id='menu_title'>
+        데브옵스
+      </div>
+    </div>
+    <div id='project_select_wrapper'>
+      <div id='project_select'>
+        <v-select
+          class='h-30'
+          v-model='selectedProject'
+          :items='projectList'
+          item-title='name'
+          item-value='value'
+          label='Select'
+          persistent-hint
+          return-object
+          single-line
+        ></v-select>
+      </div>
+    </div>
+    <div id='menu_wrapper'>
+      <v-list v-model:opened='open'>
+        <v-list-group :value='menu.value' v-for='menu in naviMenu' :key='menu.value'>
+          <template v-slot:activator='{ props }'>
+            <v-list-item
+              v-bind='props'
+              height='50px'
+              active-class='menuActive'
+              :title='menu.title'
+              :append-icon="open.includes(menu.value) ? 'mdi-chevron-down' : 'mdi-chevron-right'"
+              @click='onClickMenuItem'
+            ></v-list-item>
+          </template>
+
+          <v-list-item
+            v-for='(subMenu, i) in menu.subMenu'
+            :key='i'
+            class='naviInnerMenu'
+            active-class='menuActive'
+            prepend-icon='mdi-circle-small'
+            :title='subMenu.title'
+            :value='subMenu.title'
+          ></v-list-item>
+        </v-list-group>
+      </v-list>
+    </div>
+  </div>
+</template>
+
+<script>
+import {NAVI_MENU} from '@/assets/consts/consts'
+export default {
+  name: 'NaviComponent',
+  data: function() {
+    return {
+      open: [], //활성화할 메뉴의 value
+      naviMenu: [ ...NAVI_MENU ],
+      selectedProject: { name: '전체', value: 'total' },
+      //TODO pinia 처리
+      projectList: [
+        { name: '전체', value: 'total' },
+        { name: '프로젝트1', value: 'projcet-1' },
+        { name: '프로젝트2', value: 'projcet-2' },
+        { name: '프로젝트3', value: 'projcet-3' }
+      ]
+    }
+  },
+  methods: {
+    onClickMenuItem: function() {
+      this.open = !this.open.length ? this.open : this.open.splice(this.open.length - 1, 1)
+    }
+  }
+}
+</script>
+
+<style scoped lang='scss'>
+//@import "@/assets/_variables.scss";
+@import "src/assets/style/variables";
+
+#menu_title_wrapper {
+  color: #ffffff;
+  margin-top: 20px;
+  padding-right: 10px;
+  height: 50px;
+  line-height: 50px;
+}
+
+#menu_title {
+  padding-left: 20px;
+  background: $main-color;
+  border-radius: 0 10px 10px 0;
+}
+
+#project_select_wrapper {
+  padding: 15px 25px 5px 25px;
+}
+
+#project_select {
+
+}
+
+#menu_wrapper {
+  padding-right: 20px;
+  padding-left: 20px;
+}
+.naviInnerMenu {
+  padding-inline: 15px !important;
+}
+.naviInnerMenu:hover {
+  color: $active-font-color;
+}
+.menuActive {
+  color: $active-font-color;
+}
+
+</style>

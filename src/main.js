@@ -1,5 +1,4 @@
-//import './assets/main.css'
-import '@/assets/common.css'
+import '@/assets/style/common.scss'
 import vuetify from '@/plugins/vuetify.js'
 import i18n from '@/plugins/i18n.js'
 
