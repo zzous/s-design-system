@@ -1,10 +1,6 @@
 <template>
   <div class='contentsWrapper'>
-    <div class='titleContainer d-flex justify-space-between align-center'>
-      <span>
-        <img :src='titleSvgPath' alt='icon' class='titleIcon'/>
-        프로젝트 목록 ({{projectCnt}})
-      </span>
+    <ViewHeaderComponent title='프로젝트 목록' :list-cnt='projectList.length'>
       <div class="d-flex inputWrapper">
         <v-text-field
           density="compact"
@@ -14,9 +10,9 @@
           prepend-inner-icon="mdi-magnify"
           variant="outlined"
         ></v-text-field>
-        <v-btn class='inline-block' color='#017BE5'>신규 프로젝트</v-btn>
+        <v-btn class='inline-block' :color='defaultBtnColor'>신규 프로젝트</v-btn>
       </div>
-    </div>
+    </ViewHeaderComponent>
     <div id='project_list_wrapper'>
       <v-data-table
         v-model:page="page"
@@ -25,88 +21,8 @@
         :items-per-page="itemsPerPage"
       >
         <!--  custom image -->
-        <template v-slot:[`item.img`]="{ item }">
-          <v-card elevation="2" rounded>
-            <v-img
-              :src='item.img'
-              height="64"
-              width='60'
-            ></v-img>
-          </v-card>
-        </template>
-        <template v-slot:[`item.title`]='{item}'>
-          <div class='projectTitle'>
-            {{ item.title }}
-          </div>
-        </template>
-        <template v-slot:[`item.buildCnt`]='{item}'>
-          <div class='textAlignCenter'>
-            <div class='innerContentsTitle'>
-              빌드
-            </div>
-            <div class='innerContents'>
-              {{ item.buildCnt }}
-            </div>
-          </div>
-        </template>
-        <template v-slot:[`item.projectAlias`]='{item}'>
-          <div class='textAlignCenter'>
-            <div>
-              {{item.projectAlias}}
-            </div>
-            <div class='innerContents'>
-            </div>
-          </div>
-        </template>
-        <template v-slot:[`item.deployCnt`]='{item}'>
-          <div class='textAlignCenter'>
-            <div class='innerContentsTitle'>
-              배포
-            </div>
-            <div class='innerContents'>
-              {{ item.deployCnt }}
-            </div>
-          </div>
-        </template>
-        <template v-slot:[`item.userCnt`]='{item}'>
-          <div class='textAlignCenter'>
-            <div class='innerContentsTitle'>
-              회원
-            </div>
-            <div class='innerContents'>
-              {{ item.userCnt }}
-            </div>
-          </div>
-        </template>
-        <template v-slot:[`item.repoName`]='{item}'>
-          <div class='textAlignCenter'>
-            <div class='innerContentsTitle'>
-              저장소
-            </div>
-            <div class='innerContents'>
-              {{ item.repoName }}
-            </div>
-          </div>
-        </template>
-        <template v-slot:[`item.createdAt`]='{item}'>
-          <div class='textAlignCenter'>
-            <div class='innerContentsTitle'>
-              생성일
-            </div>
-            <div class='innerContents'>
-              {{ item.createdAt }}
-            </div>
-          </div>
-        </template>
-        <template v-slot:[`item.showButton`]>
-          <div class='textAlignCenter'>
-            <div class='innerContentsTitle'>
-            </div>
-            <div class='innerContents'>
-              <v-btn color='#017BE5' class='mr-1'>상세</v-btn>
-              <v-btn color='#017BE5'>삭제</v-btn>
-            </div>
-          </div>
+        <template v-slot:item="{ item }">
+          <ProjectListRowComponent :item='item' />
         </template>
         <template v-slot:bottom>
           <div class="text-center pt-2">
@@ -122,14 +38,17 @@
 </template>
 
 <script>
-import titleSvg from '@/assets/svg/title_bg.svg'
 import gradleImag from '@/assets/images/gradle_logo.png'
+import ProjectListRowComponent from '@/components/project/ProjectListRowComponent.vue'
+import { DEFAULT_BUTTON_COLOR } from '@/assets/consts/consts'
+import ViewHeaderComponent from '@/components/common/ViewHeaderComponent.vue'
+
 export default {
   name: 'ProjectListView',
+  components: { ViewHeaderComponent, ProjectListRowComponent },
   data: function() {
    return {
-     projectCnt: 0,
-     titleSvgPath: titleSvg,
+     defaultBtnColor: DEFAULT_BUTTON_COLOR,
      page: 1,
      itemsPerPage: 5,
      projectList: [
@@ -162,16 +81,7 @@ export default {
   padding-top: 20px;
   padding-left: 20px;
 }
-.titleContainer {
-  height: 30px;
-  align-items: center;
-}
 
-.titleIcon {
-  width: 24px; /* 아이콘 크기 */
-  height: 24px;
-  margin-right: 8px; /* 타이틀과의 간격 */
-}
 .inputWrapper {
   padding-top: 20px;
   padding-right: 20px;
@@ -179,16 +89,5 @@ export default {
 #project_list_wrapper {
   padding-top: 50px;
   height: 300px;
-}
-.projectTitle {
-  color: $active-font-color;
-}
-.innerContents {
-  height: 40px;
-  line-height: 40px;
-  color: blue;
-}
-.innerContentsTitle {
-  color: red;
 }
 </style>

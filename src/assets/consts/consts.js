@@ -48,3 +48,4 @@ export const HEADER_MENU = [
   { title: '로그 모니터링', value: 'logMonitoring' },
   { title: '기업 관리', value: 'manageCompany' }
 ]
+export const DEFAULT_BUTTON_COLOR = '#017BE5'
