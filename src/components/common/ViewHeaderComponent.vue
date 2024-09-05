@@ -1,12 +1,15 @@
 <template>
-  <div class='titleContainer d-flex justify-space-between align-center'>
-    <span class='titleContents'>
-      <img :src='titleSvgPath' alt='icon' class='titleIcon'/>
-      {{title}} ({{ listCnt }})
-    </span>
-    <div class="d-flex inputWrapper">
-      <slot/>
+  <div class='titleWrapper mr-2'>
+    <div class='titleContainer d-flex justify-space-between align-center'>
+      <span class='titleContents'>
+        <img :src='titleSvgPath' alt='icon' class='titleIcon'/>
+        {{title}} ({{ listCnt }})
+      </span>
+        <div class="d-flex inputWrapper">
+          <slot/>
+        </div>
     </div>
+
   </div>
 </template>
 
@@ -33,8 +36,9 @@ export default {
 </script>
 
 <style scoped>
-.titleContainer {
-  height: 30px;
+.titleWrapper {
+  border-bottom: 1px solid #eeeeee;
+  height: 50px;
   align-items: center;
 }
 

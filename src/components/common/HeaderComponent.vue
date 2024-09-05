@@ -6,7 +6,7 @@
       color="#1C2536"
       :height="68"
   >
-    <template v-slot:prepend>
+    <template #prepend>
       <div class="logoArea">
         <img src='@/assets/images/logo.png' width="148" height="30" alt="logo"/>
         <span class="logoText">DevOps</span>

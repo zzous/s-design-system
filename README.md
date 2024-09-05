@@ -1,5 +1,7 @@
 # 주의사항
 [필독](etc/Convention.md)
+
+[단어선택 목록](etc/Word.md)
 # devops-frontend
 
 This template should help get you started developing with Vue 3 in Vite.

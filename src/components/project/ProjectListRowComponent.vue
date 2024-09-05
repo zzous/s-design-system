@@ -27,20 +27,21 @@
       <div class='rowContents'>{{item.createdAt}}</div>
     </td>
     <td>
-      <v-btn :color='defaultBtnColor' class='mr-1'>상세</v-btn>
-      <v-btn :color='defaultBtnColor'>삭제</v-btn>
+      <DefaultButtonComponent title='상세' class='mr-1'/>
+      <DefaultButtonComponent title='삭제' />
     </td>
   </tr>
 </template>
 
 <script>
-import { DEFAULT_BUTTON_COLOR } from '@/assets/consts/consts'
+import DefaultButtonComponent from '@/components/common/button/DefaultButtonComponent.vue'
 
 export default {
   name: 'ProjectListRowComponent',
+  components: { DefaultButtonComponent },
   data: function() {
     return {
-      defaultBtnColor: DEFAULT_BUTTON_COLOR
+
     }
   },
   props: {

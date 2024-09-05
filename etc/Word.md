@@ -1,0 +1,1 @@
+1. status 는 사용 하지 않고 state 사용

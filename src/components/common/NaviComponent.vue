@@ -23,7 +23,7 @@
     <div id='menu_wrapper'>
       <v-list v-model:opened='open'>
         <v-list-group :value='menu.value' v-for='menu in naviMenu' :key='menu.value'>
-          <template v-slot:activator='{ props }'>
+          <template #activator='{ props }'>
             <v-list-item
               v-bind='props'
               height='50px'

@@ -1,5 +1,5 @@
 <template>
-  <div class='contentsWrapper'>
+  <div class='viewWrapper'>
     <ViewHeaderComponent title='프로젝트 목록' :list-cnt='projectList.length'>
       <div class="d-flex inputWrapper">
         <v-text-field
@@ -10,7 +10,7 @@
           prepend-inner-icon="mdi-magnify"
           variant="outlined"
         ></v-text-field>
-        <v-btn class='inline-block' :color='defaultBtnColor'>신규 프로젝트</v-btn>
+        <DefaultButtonComponent class='inline-block' title='신규 프로젝트'/>
       </div>
     </ViewHeaderComponent>
     <div id='project_list_wrapper'>
@@ -21,10 +21,10 @@
         :items-per-page="itemsPerPage"
       >
         <!--  custom image -->
-        <template v-slot:item="{ item }">
+        <template #item="{ item }">
           <ProjectListRowComponent :item='item' />
         </template>
-        <template v-slot:bottom>
+        <template #bottom>
           <div class="text-center pt-2">
             <v-pagination
               v-model="page"
@@ -40,15 +40,14 @@
 <script>
 import gradleImag from '@/assets/images/gradle_logo.png'
 import ProjectListRowComponent from '@/components/project/ProjectListRowComponent.vue'
-import { DEFAULT_BUTTON_COLOR } from '@/assets/consts/consts'
 import ViewHeaderComponent from '@/components/common/ViewHeaderComponent.vue'
+import DefaultButtonComponent from '@/components/common/button/DefaultButtonComponent.vue'
 
 export default {
   name: 'ProjectListView',
-  components: { ViewHeaderComponent, ProjectListRowComponent },
+  components: { DefaultButtonComponent, ViewHeaderComponent, ProjectListRowComponent },
   data: function() {
    return {
-     defaultBtnColor: DEFAULT_BUTTON_COLOR,
      page: 1,
      itemsPerPage: 5,
      projectList: [
@@ -76,11 +75,6 @@ export default {
 
 <style scoped lang='scss'>
 @import "src/assets/style/variables";
-
-.contentsWrapper {
-  padding-top: 20px;
-  padding-left: 20px;
-}
 
 .inputWrapper {
   padding-top: 20px;
