@@ -12,9 +12,14 @@
         item-value="name"
       >
         <template #headers='{ columns }'>
-          <tr>
+          <tr class='tableHeader'>
             <th v-for='(header, idx) in columns' :style='{"textAlign": header.align}' :key='idx'> {{header.title}}</th>
           </tr>
+        </template>
+        <template #[`item.action`]>
+          <DefaultButtonComponent title='빌드' />
+          <DefaultButtonComponent title='상세' class='ml-1' />
+          <DefaultButtonComponent title='삭제' class='ml-1' />
         </template>
         <template #top>
           <v-text-field
@@ -23,6 +28,14 @@
             placeholder='배포명으로 검색'
             prepend-inner-icon='mdi-magnify'
           ></v-text-field>
+        </template>
+        <template #bottom>
+          <div class="text-center pt-2">
+            <v-pagination
+              v-model="page"
+              :length="pageCount"
+            ></v-pagination>
+          </div>
         </template>
       </v-data-table>
     </div>
@@ -37,6 +50,8 @@ export default {
   components: { DefaultButtonComponent, ViewHeaderComponent },
   data: () => {
     return {
+      page: 1,
+      itemsPerPage: 5,
       search: '',
       headers: [
         {
@@ -62,97 +77,30 @@ export default {
         {
           title: '마지막 빌드 상태',
           align: 'center',
-          key: 'lastBuildStat',
+          key: 'lastBuildState',
         },
         {
-          title: 'TDP (W)',
+          title: '액션',
+          key: 'action',
           align: 'center',
-          key: 'tdp',
         },
       ],
       items: [
         {
-          name: 'Intel Core i9-11900K',
-          cores: 8,
-          threads: 16,
-          baseClock: '3.5 GHz',
-          boostClock: '5.3 GHz',
-          tdp: '125W',
-        },
-        {
-          name: 'AMD Ryzen 9 5950X',
-          cores: 16,
-          threads: 32,
-          baseClock: '3.4 GHz',
-          boostClock: '4.9 GHz',
-          tdp: '105W',
-        },
-        {
-          name: 'Intel Core i7-10700K',
-          cores: 8,
-          threads: 16,
-          baseClock: '3.8 GHz',
-          boostClock: '5.1 GHz',
-          tdp: '125W',
-        },
-        {
-          name: 'AMD Ryzen 5 5600X',
-          cores: 6,
-          threads: 12,
-          baseClock: '3.7 GHz',
-          boostClock: '4.6 GHz',
-          tdp: '65W',
-        },
-        {
-          name: 'Intel Core i5-10600K',
-          cores: 6,
-          threads: 12,
-          baseClock: '4.1 GHz',
-          boostClock: '4.8 GHz',
-          tdp: '125W',
-        },
-        {
-          name: 'AMD Ryzen 7 5800X',
-          cores: 8,
-          threads: 16,
-          baseClock: '3.8 GHz',
-          boostClock: '4.7 GHz',
-          tdp: '105W',
-        },
-        {
-          name: 'Intel Core i3-10100',
-          cores: 4,
-          threads: 8,
-          baseClock: '3.6 GHz',
-          boostClock: '4.3 GHz',
-          tdp: '65W',
-        },
-        {
-          name: 'AMD Ryzen 3 3300X',
-          cores: 4,
-          threads: 8,
-          baseClock: '3.8 GHz',
-          boostClock: '4.3 GHz',
-          tdp: '65W',
-        },
-        {
-          name: 'Intel Pentium Gold G6400',
-          cores: 2,
-          threads: 4,
-          baseClock: '4.0 GHz',
-          tdp: '58W',
-        },
-        {
-          name: 'AMD Athlon 3000G',
-          cores: 2,
-          threads: 4,
-          baseClock: '3.5 GHz',
-          tdp: '35W',
-        },
+          name: 'spring-boot-demo-build-stg',
+          branch: 'stage',
+          buildCnt: 8,
+          lastBuildTime: '2024-09-03 18:26:31',
+          lastBuildState: 'SUCCESS'
+        }
       ],
     }
   },
-
+  computed: {
+    pageCount () {
+      return Math.ceil(this.items.length / this.itemsPerPage)
+    },
+  },
   methods: {
     filterOnlyCapsText (value, query) {
       return value != null &&
@@ -168,7 +116,7 @@ export default {
 .contentsWrapper {
 
 }
-.v-table__wrapper thead{
+.tableHeader{
   background: #F6F9FA;
 }
 
