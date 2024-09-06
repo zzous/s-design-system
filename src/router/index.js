@@ -15,6 +15,7 @@ const router = createRouter({
       name: 'projectList',
       component: () => import('@/views/project/ProjectListView.vue')
     },
+    //build
     {
       path: '/serviceGroups/:serviceGroupId/console/projects/:projectId/builds',
       name: 'projectBuildList',
@@ -24,7 +25,13 @@ const router = createRouter({
       path: '/serviceGroups/:serviceGroupId/console/projects/:projectId/builds/detail/:buildId',
       name: 'projectBuildDetail',
       component: () => import('@/views/project/build/ProjectBuildDetailView.vue')
-    }
+    },
+    //deploy
+    {
+      path: '/serviceGroups/:serviceGroupId/console/projects/:projectId/deploy',
+      name: 'deployBuildList',
+      component: () => import('@/views/project/deploy/DeployListView.vue')
+    },
   ]
 })
 

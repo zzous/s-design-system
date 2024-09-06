@@ -25,7 +25,7 @@
           <v-text-field
             v-model="search"
             class="pa-2"
-            placeholder='빌드명으로 검색'
+            placeholder='배포명으로 검색'
             prepend-inner-icon='mdi-magnify'
           ></v-text-field>
         </template>
@@ -43,10 +43,11 @@
 </template>
 
 <script>
-import ViewHeaderComponent from '@/components/common/ListViewHeaderComponent.vue'
 import DefaultButtonComponent from '@/components/common/button/DefaultButtonComponent.vue'
+import ViewHeaderComponent from '@/components/common/ListViewHeaderComponent.vue'
+
 export default {
-  name: 'ProjectBuildView',
+  name: 'DeployListView',
   components: { DefaultButtonComponent, ViewHeaderComponent },
   data: () => {
     return {
@@ -55,29 +56,33 @@ export default {
       search: '',
       headers: [
         {
-          title: '빌드명',
+          title: '배포명',
           align: 'start',
-          key: 'name',
+          key: 'deployName',
         },
         {
-          title: '브랜치',
+          title: '빌드명',
           align: 'center',
-          key: 'branch',
+          key: 'buildName',
         },
         {
-          title: '빌드 수',
+          title: '스테이지',
           align: 'center',
-          key: 'buildCnt',
+          key: 'stage',
         },
         {
-          title: '마지막 빌드 시간',
+          title: '프로바이더',
           align: 'center',
-          key: 'lastBuildDate',
+          key: 'provider',
         },
         {
-          title: '마지막 빌드 상태',
+          title: '마지막 배포 시간',
           align: 'center',
-          key: 'lastBuildState',
+          key: 'lastDeployDate',
+        },{
+          title: '마지막 배포 상태',
+          align: 'center',
+          key: 'lastDeployState',
         },
         {
           title: '액션',
@@ -87,11 +92,12 @@ export default {
       ],
       items: [
         {
-          name: 'spring-boot-demo-build-stg',
-          branch: 'stage',
-          buildCnt: 8,
-          lastBuildDate: '2024-09-03 18:26:31',
-          lastBuildState: 'SUCCESS'
+          deployName: 'spring-boot-demo-build-stg',
+          buildName: 'test build',
+          stage: 'PROD',
+          provider: 'SHELL',
+          lastDeployDate: '2024-09-03 18:26:31',
+          lastDeployState: 'SUCCESS'
         }
       ],
     }
