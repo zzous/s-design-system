@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 //import HomeView from '../views/HomeView.vue'
 
 const router = createRouter({
+  //TODO: router 분리
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
@@ -16,8 +17,13 @@ const router = createRouter({
     },
     {
       path: '/serviceGroups/:serviceGroupId/console/projects/:projectId/builds',
-      name: 'projectBuild',
-      component: () => import('@/views/project/ProjectBuildView.vue')
+      name: 'projectBuildList',
+      component: () => import('@/views/project/build/ProjectBuildListView.vue')
+    },
+    {
+      path: '/serviceGroups/:serviceGroupId/console/projects/:projectId/builds/detail/:buildId',
+      name: 'projectBuildDetail',
+      component: () => import('@/views/project/build/ProjectBuildDetailView.vue')
     }
   ]
 })

@@ -43,7 +43,7 @@
 </template>
 
 <script>
-import ViewHeaderComponent from '@/components/common/ViewHeaderComponent.vue'
+import ViewHeaderComponent from '@/components/common/ListViewHeaderComponent.vue'
 import DefaultButtonComponent from '@/components/common/button/DefaultButtonComponent.vue'
 export default {
   name: 'ProjectBuildView',
@@ -112,12 +112,13 @@ export default {
 }
 </script>
 
-<style scoped>
+<style scoped lang='scss'>
+@import "src/assets/style/variables";
 .contentsWrapper {
 
 }
 .tableHeader{
-  background: #F6F9FA;
+  background: $data-table-header-color;
 }
 
 </style>

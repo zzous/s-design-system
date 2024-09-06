@@ -40,7 +40,7 @@
 <script>
 import gradleImag from '@/assets/images/gradle_logo.png'
 import ProjectListRowComponent from '@/components/project/ProjectListRowComponent.vue'
-import ViewHeaderComponent from '@/components/common/ViewHeaderComponent.vue'
+import ViewHeaderComponent from '@/components/common/ListViewHeaderComponent.vue'
 import DefaultButtonComponent from '@/components/common/button/DefaultButtonComponent.vue'
 
 export default {
@@ -59,7 +59,7 @@ export default {
          deployCnt: 0,
          userCnt: 9,
          repoName: 'repoName',
-         createdAt: '2024-08-27 09:15:56',
+         createDate: '2024-08-27 09:15:56',
          showButton: true
        }
      ],

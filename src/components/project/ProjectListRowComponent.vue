@@ -24,7 +24,7 @@
     </td>
     <td class='w-10'>
       <div class='rowTitle'>생성일</div>
-      <div class='rowContents'>{{item.createdAt}}</div>
+      <div class='rowContents'>{{item.createDate}}</div>
     </td>
     <td>
       <DefaultButtonComponent title='상세' class='mr-1'/>

@@ -1,6 +1,6 @@
 <script setup>
 import { RouterView } from 'vue-router'
-import HeaderComponent from '@/components/common/HeaderComponent.vue'
+import HeaderComponent from '@/components/common/RootHeaderComponent.vue'
 import NaviComponent from '@/components/common/NaviComponent.vue'
 
 

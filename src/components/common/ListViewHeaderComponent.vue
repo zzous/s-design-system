@@ -16,7 +16,7 @@
 <script>
 import titleSvg from '@/assets/svg/title_bg.svg'
 export default {
-  name: 'ViewHeaderComponent',
+  name: 'ListViewHeaderComponent',
   props: {
     title: {
       type: String,

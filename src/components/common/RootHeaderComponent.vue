@@ -39,7 +39,7 @@
 <script>
 import { HEADER_MENU } from '@/assets/consts/consts'
 export default {
-  name: "HeaderComponent",
+  name: "RootHeaderComponent",
   data: function () {
     return {
       showMenu: false,
