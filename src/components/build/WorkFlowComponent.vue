@@ -2,12 +2,12 @@
   <v-col cols='auto'>
     <v-row>
       <v-col>
-        <div class='workFlowEl' :class='type'>
-          <div :class='type + "El"' class='centerVertical textAlignCenter flowEL'>
-            <span :class='type + "Text"'>{{ title }}</span>
+        <div class='work-flow-el' :class='type'>
+          <div :class='type + "-el"' class='center-vertical text-align-center flow-el'>
+            <span :class='type + "-text"'>{{ title }}</span>
           </div>
         </div>
-        <div class='centerVertical workFlowEl editUser textAlignCenter' :class='type'>
+        <div class='center-vertical work-flow-el edit-user text-align-center' :class='type'>
           {{ userName }}<br/>{{ updateDate }}
         </div>
       </v-col>
@@ -16,50 +16,47 @@
   <v-col cols='auto' v-if='showArrow'>
     <v-row>
       <v-col>
-        <div class='centerVertical direction top'>
-          <div class='arrowHead'></div>
+        <div class='center-vertical direction top'>
+          <div class='arrow-head'></div>
         </div>
-        <div class='centerVertical direction row'></div>
+        <div class='center-vertical direction row'></div>
       </v-col>
     </v-row>
     <v-row no-gutters>
       <v-col>
-        <div class='centerVertical direction'></div>
-        <div class='centerVertical direction'></div>
+        <div class='center-vertical direction'></div>
+        <div class='center-vertical direction'></div>
       </v-col>
     </v-row>
   </v-col>
 </template>
 
-<script>
-export default {
-  name: 'WorkFlowComponent',
-  props: {
-    title: {
-      type: String,
-      default: 'default title'
-    },
-    userName: {
-      type: String,
-      default: 'default user name'
-    },
-    updateDate: {
-      type: String,
-      default: 'yyyy-MM-dd hh:mm'
-    },
-    showArrow: {
-      type: Boolean,
-      default: true
-    },
-    type: {
-      type: String,
-      required: true,
-      validator: (value) => {
-        return ['circle', 'decision', 'dotCircle'].includes(value)
-      }
+<script setup>
+const props = defineProps({
+  title: {
+    type: String,
+    default: 'default title'
+  },
+  userName: {
+    type: String,
+    default: 'default user name'
+  },
+  updateDate: {
+    type: String,
+    default: 'yyyy-MM-dd hh:mm'
+  },
+  showArrow: {
+    type: Boolean,
+    default: true
+  },
+  type: {
+    type: String,
+    required: true,
+    validator: (value) => {
+      return ['circle', 'decision', 'dotCircle'].includes(value)
     }
   }
-}
+})
 </script>
 
 <style scoped lang='scss'>
@@ -68,7 +65,7 @@ $work-flow-width: 100px;
 $work-flow-wrapper-height: 200px;
 $work-flow-arrow-head-size: 15px;
 
-.editUser {
+.edit-user {
   font-size: 12px;
 }
 
@@ -86,7 +83,7 @@ $work-flow-arrow-head-size: 15px;
   border-top: 1px solid;
 }
 
-.arrowHead {
+.arrow-head {
   left: $work-flow-width / 2 - $work-flow-arrow-head-size - 2;
   top: $work-flow-height / 2 - $work-flow-arrow-head-size / 2;
   rotate: 45deg;
@@ -101,7 +98,7 @@ $work-flow-arrow-head-size: 15px;
   width: $work-flow-width + 44 !important;
 }
 
-.decisionEl {
+.decision-el {
   background: #d5c3fd;
   height: 100px;
   width: 100px;
@@ -110,7 +107,7 @@ $work-flow-arrow-head-size: 15px;
   position: relative;
 }
 
-.circleEl {
+.circle-el {
   background: #EFF2F5;
   height: 100px;
   width: 100px;
@@ -118,7 +115,7 @@ $work-flow-arrow-head-size: 15px;
   padding: 0 20px;
 }
 
-.dotCircleEl {
+.dot-circle-el {
   background: #EFF2F5;
   height: 100px;
   width: 100px;
@@ -127,15 +124,15 @@ $work-flow-arrow-head-size: 15px;
   border: 3px dashed;
 }
 
-.workFlowEl {
+.work-flow-el {
   height: $work-flow-height;
   width: $work-flow-width;
   white-space: normal;
 }
-.flowEL {
+.flow-el {
   padding: 0 10px;
 }
-.decisionText {
+.decision-text {
   rotate: -45deg;
 }
 

@@ -1,30 +1,30 @@
 <template>
-  <tr class='textAlignCenter'>
+  <tr class='text-align-center'>
     <td class='projectImage'><v-img width='30' height='30' :src='item.img'/></td>
-    <td class='activeTextColor projectTitle'>{{item.title}}</td>
+    <td class='active-text-color project-title'>{{item.title}}</td>
     <td>
-      <div class='projectAlias'>{{item.projectAlias}}</div>
-      <div class='rowContents'></div>
+      <div class='project-alias'>{{item.projectAlias}}</div>
+      <div class='row-contents'></div>
     </td>
     <td class='multiRowColumn'>
-      <div class='rowTitle'>빌드</div>
-      <div class='rowContents cntContents'>{{item.buildCnt}}</div>
+      <div class='row-title'>빌드</div>
+      <div class='row-contents cnt-contents'>{{item.buildCnt}}</div>
     </td>
     <td class='w-10'>
-      <div class='rowTitle'>배포</div>
-      <div class='rowContents cntContents'>{{item.deployCnt}}</div>
+      <div class='row-title'>배포</div>
+      <div class='row-contents cnt-contents'>{{item.deployCnt}}</div>
     </td>
     <td class='w-10'>
-      <div class='rowTitle'>회원</div>
-      <div class='rowContents cntContents'>{{item.userCnt}}</div>
+      <div class='row-title'>회원</div>
+      <div class='row-contents cnt-contents'>{{item.userCnt}}</div>
     </td>
     <td class='w-10'>
-      <div class='rowTitle'>저장소</div>
-      <div class='rowContents'>{{item.repoName}}</div>
+      <div class='row-title'>저장소</div>
+      <div class='row-contents'>{{item.repoName}}</div>
     </td>
     <td class='w-10'>
-      <div class='rowTitle'>생성일</div>
-      <div class='rowContents'>{{item.createDate}}</div>
+      <div class='row-title'>생성일</div>
+      <div class='row-contents'>{{item.createDate}}</div>
     </td>
     <td>
       <DefaultButtonComponent title='상세' class='mr-1'/>
@@ -33,41 +33,31 @@
   </tr>
 </template>
 
-<script>
+<script setup>
 import DefaultButtonComponent from '@/components/common/button/DefaultButtonComponent.vue'
-
-export default {
-  name: 'ProjectListRowComponent',
-  components: { DefaultButtonComponent },
-  data: function() {
-    return {
-
-    }
-  },
-  props: {
-    item: {
-      type: Object,
-      require: true
-    }
+const props = defineProps({
+  item: {
+    type: Object,
+    require: true
   }
-}
+})
 </script>
 
 <style scoped lang='scss'>
-.rowTitle {
+.row-title {
   color: gray;
 }
-.rowContents {
+.row-contents {
   height: 50px;
   line-height: 50px;
 }
-.projectAlias {
+.project-alias {
 
 }
-.cntContents {
+.cnt-contents {
   font-size: 30px;
 }
-.projectTitle {
+.project-title {
   font-size: 18px;
 }
 

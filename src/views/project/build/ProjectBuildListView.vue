@@ -1,5 +1,5 @@
 <template>
-  <div class='viewWrapper'>
+  <div class='view-wrapper'>
     <ViewHeaderComponent title='빌드'>
       <DefaultButtonComponent title='새 빌드' />
     </ViewHeaderComponent>
@@ -42,73 +42,61 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import ViewHeaderComponent from '@/components/common/ListViewHeaderComponent.vue'
 import DefaultButtonComponent from '@/components/common/button/DefaultButtonComponent.vue'
-export default {
-  name: 'ProjectBuildView',
-  components: { DefaultButtonComponent, ViewHeaderComponent },
-  data: () => {
-    return {
-      page: 1,
-      itemsPerPage: 5,
-      search: '',
-      headers: [
-        {
-          title: '빌드명',
-          align: 'start',
-          key: 'name',
-        },
-        {
-          title: '브랜치',
-          align: 'center',
-          key: 'branch',
-        },
-        {
-          title: '빌드 수',
-          align: 'center',
-          key: 'buildCnt',
-        },
-        {
-          title: '마지막 빌드 시간',
-          align: 'center',
-          key: 'lastBuildDate',
-        },
-        {
-          title: '마지막 빌드 상태',
-          align: 'center',
-          key: 'lastBuildState',
-        },
-        {
-          title: '액션',
-          key: 'action',
-          align: 'center',
-        },
-      ],
-      items: [
-        {
-          name: 'spring-boot-demo-build-stg',
-          branch: 'stage',
-          buildCnt: 8,
-          lastBuildDate: '2024-09-03 18:26:31',
-          lastBuildState: 'SUCCESS'
-        }
-      ],
-    }
+import { computed, ref } from 'vue'
+
+const page = ref(1)
+const itemsPerPage = ref(5)
+const search = ref('')
+const headers = ref([
+  {
+    title: '빌드명',
+    align: 'start',
+    key: 'name',
   },
-  computed: {
-    pageCount () {
-      return Math.ceil(this.items.length / this.itemsPerPage)
-    },
+  {
+    title: '브랜치',
+    align: 'center',
+    key: 'branch',
   },
-  methods: {
-    filterOnlyCapsText (value, query) {
-      return value != null &&
-        query != null &&
-        typeof value === 'string' &&
-        value.toString().toLocaleUpperCase().indexOf(query) !== -1
-    },
+  {
+    title: '빌드 수',
+    align: 'center',
+    key: 'buildCnt',
   },
+  {
+    title: '마지막 빌드 시간',
+    align: 'center',
+    key: 'lastBuildDate',
+  },
+  {
+    title: '마지막 빌드 상태',
+    align: 'center',
+    key: 'lastBuildState',
+  },
+  {
+    title: '액션',
+    key: 'action',
+    align: 'center',
+  },
+])
+const items = ref([
+  {
+    name: 'spring-boot-demo-build-stg',
+    branch: 'stage',
+    buildCnt: 8,
+    lastBuildDate: '2024-09-03 18:26:31',
+    lastBuildState: 'SUCCESS'
+  }
+])
+const pageCount = computed(() => Math.ceil(items.value.length / itemsPerPage.value))
+const filterOnlyCapsText = (value, query) => {
+  return value != null &&
+    query != null &&
+    typeof value === 'string' &&
+    value.toString().toLocaleUpperCase().indexOf(query) !== -1
 }
 </script>
 

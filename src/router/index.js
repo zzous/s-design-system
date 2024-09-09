@@ -29,8 +29,13 @@ const router = createRouter({
     //deploy
     {
       path: '/serviceGroups/:serviceGroupId/console/projects/:projectId/deploy',
-      name: 'deployBuildList',
+      name: 'projectDeployList',
       component: () => import('@/views/project/deploy/DeployListView.vue')
+    },
+    {
+      path: '/serviceGroups/:serviceGroupId/console/projects/:projectId/deploy/new',
+      name: 'projectNewDeploy',
+      component: () => import('@/views/project/deploy/NewDeploy.vue')
     },
   ]
 })

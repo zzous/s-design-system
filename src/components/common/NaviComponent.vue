@@ -37,7 +37,7 @@
           <v-list-item
             v-for='(subMenu, i) in menu.subMenu'
             :key='i'
-            class='naviInnerMenu'
+            class='navi-inner-menu'
             active-class='menuActive'
             prepend-icon='mdi-circle-small'
             :title='subMenu.title'
@@ -49,30 +49,26 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import {NAVI_MENU} from '@/assets/consts/consts'
-export default {
-  name: 'NaviComponent',
-  data: function() {
-    return {
-      open: [], //활성화할 메뉴의 value
-      naviMenu: [ ...NAVI_MENU ],
-      selectedProject: { name: '전체', value: 'total' },
-      //TODO pinia 처리
-      projectList: [
-        { name: '전체', value: 'total' },
-        { name: '프로젝트1', value: 'projcet-1' },
-        { name: '프로젝트2', value: 'projcet-2' },
-        { name: '프로젝트3', value: 'projcet-3' }
-      ]
-    }
-  },
-  methods: {
-    onClickMenuItem: function() {
-      this.open = !this.open.length ? this.open : this.open.splice(this.open.length - 1, 1)
-    }
-  }
+import { ref } from 'vue'
+
+
+const onClickMenuItem = () => {
+  open.value = !open.value.length ? open.value : open.value.splice(open.value.length - 1, 1)
 }
+const open = ref([]) //활성화할 메뉴의 value
+const naviMenu = ref([ ...NAVI_MENU ])
+const selectedProject = ref({ name: '전체', value: 'total' })
+  //TODO pinia 처리
+const projectList = ref([
+  { name: '전체', value: 'total' },
+  { name: '프로젝트1', value: 'projcet-1' },
+  { name: '프로젝트2', value: 'projcet-2' },
+  { name: '프로젝트3', value: 'projcet-3' }
+])
+
+
 </script>
 
 <style scoped lang='scss'>
@@ -105,13 +101,13 @@ export default {
   padding-right: 20px;
   padding-left: 20px;
 }
-.naviInnerMenu {
+.navi-inner-menu {
   padding-inline: 15px !important;
 }
-.naviInnerMenu:hover {
+.navi-inner-menu:hover {
   color: $active-font-color;
 }
-.menuActive {
+.menu-active {
   color: $active-font-color;
 }
 

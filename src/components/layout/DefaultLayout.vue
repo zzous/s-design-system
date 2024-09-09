@@ -8,9 +8,9 @@ import NaviComponent from '@/components/common/NaviComponent.vue'
 <template>
   <v-app>
     <HeaderComponent />
-    <div class="showHeader">
+    <div class='show-header'>
       <NaviComponent />
-      <RouterView id='router_view' class='showNavi' />
+      <RouterView id='router_view' class='show-navi' />
     </div>
   </v-app>
 </template>

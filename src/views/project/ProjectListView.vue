@@ -1,7 +1,7 @@
 <template>
-  <div class='viewWrapper'>
+  <div class='view-wrapper'>
     <ViewHeaderComponent title='프로젝트 목록' :list-cnt='projectList.length'>
-      <div class="d-flex inputWrapper">
+      <div class='d-flex input-wrapper'>
         <v-text-field
           density="compact"
           width='200px'
@@ -37,46 +37,36 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import gradleImag from '@/assets/images/gradle_logo.png'
 import ProjectListRowComponent from '@/components/project/ProjectListRowComponent.vue'
 import ViewHeaderComponent from '@/components/common/ListViewHeaderComponent.vue'
 import DefaultButtonComponent from '@/components/common/button/DefaultButtonComponent.vue'
+import { computed, ref } from 'vue'
 
-export default {
-  name: 'ProjectListView',
-  components: { DefaultButtonComponent, ViewHeaderComponent, ProjectListRowComponent },
-  data: function() {
-   return {
-     page: 1,
-     itemsPerPage: 5,
-     projectList: [
-       {
-         img: gradleImag,
-         title: 'Frozen Yogurt',
-         projectAlias: '데모',
-         buildCnt: 5,
-         deployCnt: 0,
-         userCnt: 9,
-         repoName: 'repoName',
-         createDate: '2024-08-27 09:15:56',
-         showButton: true
-       }
-     ],
-   }
-  },
-  computed: {
-    pageCount () {
-      return Math.ceil(this.projectList.length / this.itemsPerPage)
-    },
-  },
-}
+const itemsPerPage = ref(5)
+const page = ref(1)
+const projectList = ref([
+  {
+    img: gradleImag,
+    title: 'Frozen Yogurt',
+    projectAlias: '데모',
+    buildCnt: 5,
+    deployCnt: 0,
+    userCnt: 9,
+    repoName: 'repoName',
+    createDate: '2024-08-27 09:15:56',
+    showButton: true
+  }
+])
+const pageCount = computed(() => Math.ceil(projectList.value.length / itemsPerPage.value))
+
 </script>
 
 <style scoped lang='scss'>
 @import "src/assets/style/variables";
 
-.inputWrapper {
+.input-wrapper {
   padding-top: 20px;
   padding-right: 20px;
 }

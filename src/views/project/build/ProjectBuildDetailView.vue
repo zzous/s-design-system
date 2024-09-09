@@ -1,5 +1,5 @@
 <template>
-  <div class='viewWrapper'>
+  <div class='view-wrapper'>
     <div class='pl-15 pr-7'>
       <DetailViewHeaderComponent branch-name='test branch' build-name='test build name' project-name='test project'>
         <DefaultButtonComponent title='수정' />
@@ -61,64 +61,60 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import DefaultButtonComponent from '@/components/common/button/DefaultButtonComponent.vue'
 import DetailViewHeaderComponent from '@/components/common/DetailViewHeaderComponent.vue'
 import WorkFlowComponent from '@/components/build/WorkFlowComponent.vue'
-export default {
-  name: 'ProjectBuildDetailView',
-  components: { WorkFlowComponent, DetailViewHeaderComponent, DefaultButtonComponent },
-  data: () => {
-    return  {
-      page: 1,
-      itemsPerPage: 5,
-      buildHistoryHeader: [
-        { title: '상태', key: 'state', align: 'center', sortable: false },
-        { title: '빌드 아이디', key: 'buildId', align: 'center', sortable: false},
-        { title: '브랜치', key: 'branch', align: 'center', sortable: false},
-        { title: '설명', key: 'desc', align: 'center', sortable: false},
-        { title: '빌드 사용자', key: 'buildUserName', align: 'center', sortable: false},
-        { title: '빌드 날짜', key: 'buildDate', align: 'center', sortable: false},
-        { title: '승인이력', key: 'approveHistory', align: 'center', sortable: false},
-      ],
-      buildHistoryList: [
-        {
-          state: 'SUCCESS',
-          buildId: '#1',
-          branch: '#master',
-          desc: 'test',
-          buildUserName: 'test@strato.co.kr',
-          buildDate: '2024-07-13 16:20:06',
-          approveHistoryList: []
-        }, {
-          state: 'SUCCESS',
-          buildId: '#1',
-          branch: '#master',
-          desc: 'test',
-          buildUserName: 'test@strato.co.kr',
-          buildDate: '2024-07-13 16:20:06',
-          approveHistoryList: []
-        }, {
-          state: 'SUCCESS',
-          buildId: '#1',
-          branch: '#master',
-          desc: 'test',
-          buildUserName: 'test@strato.co.kr',
-          buildDate: '2024-07-13 16:20:06',
-          approveHistoryList: []
-        }, {
-          state: 'SUCCESS',
-          buildId: '#1',
-          branch: '#master',
-          desc: 'test',
-          buildUserName: 'test@strato.co.kr',
-          buildDate: '2024-07-13 16:20:06',
-          approveHistoryList: []
-        }
-      ]
-    }
+import { ref } from 'vue'
+
+const page =  ref(1)
+const itemPerPage = ref(5)
+const buildHistoryHeader = ref([
+  { title: '상태', key: 'state', align: 'center', sortable: false },
+  { title: '빌드 아이디', key: 'buildId', align: 'center', sortable: false},
+  { title: '브랜치', key: 'branch', align: 'center', sortable: false},
+  { title: '설명', key: 'desc', align: 'center', sortable: false},
+  { title: '빌드 사용자', key: 'buildUserName', align: 'center', sortable: false},
+  { title: '빌드 날짜', key: 'buildDate', align: 'center', sortable: false},
+  { title: '승인이력', key: 'approveHistory', align: 'center', sortable: false},
+])
+const buildHistoryList = ref([
+  {
+    state: 'SUCCESS',
+    buildId: '#1',
+    branch: '#master',
+    desc: 'test',
+    buildUserName: 'test@strato.co.kr',
+    buildDate: '2024-07-13 16:20:06',
+    approveHistoryList: []
+  }, {
+    state: 'SUCCESS',
+    buildId: '#1',
+    branch: '#master',
+    desc: 'test',
+    buildUserName: 'test@strato.co.kr',
+    buildDate: '2024-07-13 16:20:06',
+    approveHistoryList: []
+  }, {
+    state: 'SUCCESS',
+    buildId: '#1',
+    branch: '#master',
+    desc: 'test',
+    buildUserName: 'test@strato.co.kr',
+    buildDate: '2024-07-13 16:20:06',
+    approveHistoryList: []
+  }, {
+    state: 'SUCCESS',
+    buildId: '#1',
+    branch: '#master',
+    desc: 'test',
+    buildUserName: 'test@strato.co.kr',
+    buildDate: '2024-07-13 16:20:06',
+    approveHistoryList: []
   }
-}
+])
+
+
 </script>
 
 <style scoped lang='scss'>
