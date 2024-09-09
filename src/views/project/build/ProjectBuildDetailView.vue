@@ -126,7 +126,6 @@ const buildHistoryList = ref([
   padding-top: 20px;
 }
 
-
 .tableHeader{
   background: $data-table-header-color;
 }
