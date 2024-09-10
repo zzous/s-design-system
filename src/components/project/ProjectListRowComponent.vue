@@ -1,49 +1,50 @@
 <template>
-  <tr class='text-align-center'>
-    <td class='projectImage'><v-img width='30' height='30' :src='item.img'/></td>
-    <td class='active-text-color project-title'>{{item.title}}</td>
+  <tr class="text-align-center">
+    <td class="projectImage"><v-img width="30" height="30" :src="item.img" /></td>
+    <td class="active-text-color project-title">{{ item.title }}</td>
     <td>
-      <div class='project-alias'>{{item.projectAlias}}</div>
-      <div class='row-contents'></div>
+      <div class="project-alias">{{ item.projectAlias }}</div>
+      <div class="row-contents"></div>
     </td>
-    <td class='multiRowColumn'>
-      <div class='row-title'>빌드</div>
-      <div class='row-contents cnt-contents'>{{item.buildCnt}}</div>
+    <td class="multiRowColumn">
+      <div class="row-title">빌드</div>
+      <div class="row-contents cnt-contents">{{ item.buildCnt }}</div>
     </td>
-    <td class='w-10'>
-      <div class='row-title'>배포</div>
-      <div class='row-contents cnt-contents'>{{item.deployCnt}}</div>
+    <td class="w-10">
+      <div class="row-title">배포</div>
+      <div class="row-contents cnt-contents">{{ item.deployCnt }}</div>
     </td>
-    <td class='w-10'>
-      <div class='row-title'>회원</div>
-      <div class='row-contents cnt-contents'>{{item.userCnt}}</div>
+    <td class="w-10">
+      <div class="row-title">회원</div>
+      <div class="row-contents cnt-contents">{{ item.userCnt }}</div>
     </td>
-    <td class='w-10'>
-      <div class='row-title'>저장소</div>
-      <div class='row-contents'>{{item.repoName}}</div>
+    <td class="w-10">
+      <div class="row-title">저장소</div>
+      <div class="row-contents">{{ item.repoName }}</div>
     </td>
-    <td class='w-10'>
-      <div class='row-title'>생성일</div>
-      <div class='row-contents'>{{item.createDate}}</div>
+    <td class="w-10">
+      <div class="row-title">생성일</div>
+      <div class="row-contents">{{ item.createDate }}</div>
     </td>
     <td>
-      <DefaultButtonComponent title='상세' class='mr-1'/>
-      <DefaultButtonComponent title='삭제' />
+      <DefaultButtonComponent title="상세" class="mr-1" />
+      <DefaultButtonComponent title="삭제" />
     </td>
   </tr>
 </template>
 
 <script setup>
 import DefaultButtonComponent from '@/components/common/button/DefaultButtonComponent.vue'
-const props = defineProps({
+defineProps({
   item: {
     type: Object,
+    default: null,
     require: true
   }
 })
 </script>
 
-<style scoped lang='scss'>
+<style scoped lang="scss">
 .row-title {
   color: gray;
 }
@@ -52,7 +53,6 @@ const props = defineProps({
   line-height: 50px;
 }
 .project-alias {
-
 }
 .cnt-contents {
   font-size: 30px;
@@ -60,5 +60,4 @@ const props = defineProps({
 .project-title {
   font-size: 18px;
 }
-
 </style>

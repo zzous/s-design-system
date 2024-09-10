@@ -1,17 +1,21 @@
 <template>
   <div>
-    <div class='d-flex justify-space-between align-center'>
-      <div class='title-wrapper w-100'>
-        <div class='main-title titleText'>
+    <div class="d-flex justify-space-between align-center">
+      <div class="title-wrapper w-100">
+        <div class="main-title titleText">
           {{ buildName }}
         </div>
-        <div class='sub-title titleText'>
-          <span>프로젝트명 <strong>{{ projectName }}</strong></span>
-          <span class='ml-10'>기본 브랜치<strong>{{ branchName }}</strong></span>
+        <div class="sub-title titleText">
+          <span
+            >프로젝트명 <strong>{{ projectName }}</strong></span
+          >
+          <span class="ml-10"
+            >기본 브랜치<strong>{{ branchName }}</strong></span
+          >
         </div>
       </div>
       <div class="d-flex">
-        <slot/>
+        <slot />
       </div>
     </div>
   </div>
@@ -20,7 +24,7 @@
 <script setup>
 import { defineProps } from 'vue'
 
-const props = defineProps({
+defineProps({
   buildName: {
     type: String,
     default: ''
@@ -36,13 +40,12 @@ const props = defineProps({
 })
 </script>
 
-<style scoped lang='scss'>
+<style scoped lang="scss">
 $sub-title-height: 20px;
 $main-title-height: 36px;
 $main-title-font-color: #306bb1;
 
-.title-wrapper{
-
+.title-wrapper {
 }
 .main-title {
   font-weight: bold;

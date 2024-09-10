@@ -1,15 +1,14 @@
 <template>
-  <div class='title-wrapper mr-2'>
-    <div class='titleContainer d-flex justify-space-between align-center'>
-      <span class='title-contents'>
-        <img :src='titleSvgPath' alt='icon' class='title-icon'/>
-        {{title}} ({{ listCnt }})
+  <div class="title-wrapper mr-2">
+    <div class="titleContainer d-flex justify-space-between align-center">
+      <span class="title-contents">
+        <img :src="titleSvgPath" alt="icon" class="title-icon" />
+        {{ title }} ({{ listCnt }})
       </span>
-        <div class='d-flex input-wrapper'>
-          <slot/>
-        </div>
+      <div class="d-flex input-wrapper">
+        <slot />
+      </div>
     </div>
-
   </div>
 </template>
 
@@ -17,11 +16,12 @@
 import titleSvg from '@/assets/svg/title_bg.svg'
 import { defineProps, ref } from 'vue'
 const titleSvgPath = ref(titleSvg)
-const props = defineProps({
+defineProps({
   title: {
     type: String,
     required: true
   },
+
   listCnt: {
     type: Number,
     default: 0

@@ -1,35 +1,32 @@
 <template>
-  <div class='view-wrapper'>
-    <ViewHeaderComponent title='프로젝트 목록' :list-cnt='projectList.length'>
-      <div class='d-flex input-wrapper'>
+  <div class="view-wrapper">
+    <ViewHeaderComponent title="프로젝트 목록" :list-cnt="projectList.length">
+      <div class="d-flex input-wrapper">
         <v-text-field
           density="compact"
-          width='200px'
-          class='mr-5'
+          width="200px"
+          class="mr-5"
           placeholder="프로젝트명으로 검색"
           prepend-inner-icon="mdi-magnify"
           variant="outlined"
         ></v-text-field>
-        <DefaultButtonComponent class='inline-block' title='신규 프로젝트'/>
+        <DefaultButtonComponent class="inline-block" title="신규 프로젝트" />
       </div>
     </ViewHeaderComponent>
-    <div id='project_list_wrapper'>
+    <div id="project_list_wrapper">
       <v-data-table
         v-model:page="page"
-        :hide-default-header='true'
+        :hide-default-header="true"
         :items="projectList"
         :items-per-page="itemsPerPage"
       >
         <!--  custom image -->
         <template #item="{ item }">
-          <ProjectListRowComponent :item='item' />
+          <ProjectListRowComponent :item="item" />
         </template>
         <template #bottom>
           <div class="text-center pt-2">
-            <v-pagination
-              v-model="page"
-              :length="pageCount"
-            ></v-pagination>
+            <v-pagination v-model="page" :length="pageCount"></v-pagination>
           </div>
         </template>
       </v-data-table>
@@ -60,16 +57,16 @@ const projectList = ref([
   }
 ])
 const pageCount = computed(() => Math.ceil(projectList.value.length / itemsPerPage.value))
-
 </script>
 
-<style scoped lang='scss'>
-@import "src/assets/style/variables";
+<style scoped lang="scss">
+@import 'src/assets/style/variables';
 
 .input-wrapper {
   padding-top: 20px;
   padding-right: 20px;
 }
+
 #project_list_wrapper {
   padding-top: 50px;
   height: 300px;

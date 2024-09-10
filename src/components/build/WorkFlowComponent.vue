@@ -1,38 +1,38 @@
 <template>
-  <v-col cols='auto'>
+  <v-col cols="auto">
     <v-row>
       <v-col>
-        <div class='work-flow-el' :class='type'>
-          <div :class='type + "-el"' class='center-vertical text-align-center flow-el'>
-            <span :class='type + "-text"'>{{ title }}</span>
+        <div class="work-flow-el" :class="type">
+          <div :class="type + '-el'" class="center-vertical text-align-center flow-el">
+            <span :class="type + '-text'">{{ title }}</span>
           </div>
         </div>
-        <div class='center-vertical work-flow-el edit-user text-align-center' :class='type'>
-          {{ userName }}<br/>{{ updateDate }}
+        <div class="center-vertical work-flow-el edit-user text-align-center" :class="type">
+          {{ userName }}<br />{{ updateDate }}
         </div>
       </v-col>
     </v-row>
   </v-col>
-  <v-col cols='auto' v-if='showArrow'>
+  <v-col v-if="showArrow" cols="auto">
     <v-row>
       <v-col>
-        <div class='center-vertical direction top'>
-          <div class='arrow-head'></div>
+        <div class="center-vertical direction top">
+          <div class="arrow-head"></div>
         </div>
-        <div class='center-vertical direction row'></div>
+        <div class="center-vertical direction row"></div>
       </v-col>
     </v-row>
     <v-row no-gutters>
       <v-col>
-        <div class='center-vertical direction'></div>
-        <div class='center-vertical direction'></div>
+        <div class="center-vertical direction"></div>
+        <div class="center-vertical direction"></div>
       </v-col>
     </v-row>
   </v-col>
 </template>
 
 <script setup>
-const props = defineProps({
+defineProps({
   title: {
     type: String,
     default: 'default title'
@@ -59,7 +59,7 @@ const props = defineProps({
 })
 </script>
 
-<style scoped lang='scss'>
+<style scoped lang="scss">
 $work-flow-height: 100px;
 $work-flow-width: 100px;
 $work-flow-wrapper-height: 200px;
@@ -108,7 +108,7 @@ $work-flow-arrow-head-size: 15px;
 }
 
 .circle-el {
-  background: #EFF2F5;
+  background: #eff2f5;
   height: 100px;
   width: 100px;
   border-radius: 50px;
@@ -116,7 +116,7 @@ $work-flow-arrow-head-size: 15px;
 }
 
 .dot-circle-el {
-  background: #EFF2F5;
+  background: #eff2f5;
   height: 100px;
   width: 100px;
   border-radius: 50px;
@@ -135,5 +135,4 @@ $work-flow-arrow-head-size: 15px;
 .decision-text {
   rotate: -45deg;
 }
-
 </style>

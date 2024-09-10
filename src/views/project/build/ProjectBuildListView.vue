@@ -1,9 +1,9 @@
 <template>
-  <div class='view-wrapper'>
-    <ViewHeaderComponent title='빌드'>
-      <DefaultButtonComponent title='새 빌드' />
+  <div class="view-wrapper">
+    <ViewHeaderComponent title="빌드">
+      <DefaultButtonComponent title="새 빌드" />
     </ViewHeaderComponent>
-    <div class='contentsWrapper'>
+    <div class="contentsWrapper">
       <v-data-table
         :custom-filter="filterOnlyCapsText"
         :headers="headers"
@@ -11,30 +11,29 @@
         :search="search"
         item-value="name"
       >
-        <template #headers='{ columns }'>
-          <tr class='tableHeader'>
-            <th v-for='(header, idx) in columns' :style='{"textAlign": header.align}' :key='idx'> {{header.title}}</th>
+        <template #headers="{ columns }">
+          <tr class="tableHeader">
+            <th v-for="(header, idx) in columns" :key="idx" :style="{ textAlign: header.align }">
+              {{ header.title }}
+            </th>
           </tr>
         </template>
         <template #[`item.action`]>
-          <DefaultButtonComponent title='빌드' />
-          <DefaultButtonComponent title='상세' class='ml-1' />
-          <DefaultButtonComponent title='삭제' class='ml-1' />
+          <DefaultButtonComponent title="빌드" />
+          <DefaultButtonComponent title="상세" class="ml-1" />
+          <DefaultButtonComponent title="삭제" class="ml-1" />
         </template>
         <template #top>
           <v-text-field
             v-model="search"
             class="pa-2"
-            placeholder='빌드명으로 검색'
-            prepend-inner-icon='mdi-magnify'
+            placeholder="빌드명으로 검색"
+            prepend-inner-icon="mdi-magnify"
           ></v-text-field>
         </template>
         <template #bottom>
           <div class="text-center pt-2">
-            <v-pagination
-              v-model="page"
-              :length="pageCount"
-            ></v-pagination>
+            <v-pagination v-model="page" :length="pageCount"></v-pagination>
           </div>
         </template>
       </v-data-table>
@@ -54,33 +53,33 @@ const headers = ref([
   {
     title: '빌드명',
     align: 'start',
-    key: 'name',
+    key: 'name'
   },
   {
     title: '브랜치',
     align: 'center',
-    key: 'branch',
+    key: 'branch'
   },
   {
     title: '빌드 수',
     align: 'center',
-    key: 'buildCnt',
+    key: 'buildCnt'
   },
   {
     title: '마지막 빌드 시간',
     align: 'center',
-    key: 'lastBuildDate',
+    key: 'lastBuildDate'
   },
   {
     title: '마지막 빌드 상태',
     align: 'center',
-    key: 'lastBuildState',
+    key: 'lastBuildState'
   },
   {
     title: '액션',
     key: 'action',
-    align: 'center',
-  },
+    align: 'center'
+  }
 ])
 const items = ref([
   {
@@ -93,20 +92,20 @@ const items = ref([
 ])
 const pageCount = computed(() => Math.ceil(items.value.length / itemsPerPage.value))
 const filterOnlyCapsText = (value, query) => {
-  return value != null &&
+  return (
+    value != null &&
     query != null &&
     typeof value === 'string' &&
     value.toString().toLocaleUpperCase().indexOf(query) !== -1
+  )
 }
 </script>
 
-<style scoped lang='scss'>
-@import "src/assets/style/variables";
+<style scoped lang="scss">
+@import 'src/assets/style/variables';
 .contentsWrapper {
-
 }
-.tableHeader{
+.tableHeader {
   background: $data-table-header-color;
 }
-
 </style>

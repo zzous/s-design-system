@@ -1,47 +1,45 @@
 <template>
-  <div id='navi' class='float-left'>
-    <div id='menu_title_wrapper'>
-      <div id='menu_title'>
-        데브옵스
-      </div>
+  <div id="navi" class="float-left">
+    <div id="menu_title_wrapper">
+      <div id="menu_title">데브옵스</div>
     </div>
-    <div id='project_select_wrapper'>
-      <div id='project_select'>
+    <div id="project_select_wrapper">
+      <div id="project_select">
         <v-select
-          class='h-30'
-          v-model='selectedProject'
-          :items='projectList'
-          item-title='name'
-          item-value='value'
-          label='Select'
+          v-model="selectedProject"
+          class="h-30"
+          :items="projectList"
+          item-title="name"
+          item-value="value"
+          label="Select"
           persistent-hint
           return-object
           single-line
         ></v-select>
       </div>
     </div>
-    <div id='menu_wrapper'>
-      <v-list v-model:opened='open'>
-        <v-list-group :value='menu.value' v-for='menu in naviMenu' :key='menu.value'>
-          <template #activator='{ props }'>
+    <div id="menu_wrapper">
+      <v-list v-model:opened="open">
+        <v-list-group v-for="menu in naviMenu" :key="menu.value" :value="menu.value">
+          <template #activator="{ props }">
             <v-list-item
-              v-bind='props'
-              height='50px'
-              active-class='menuActive'
-              :title='menu.title'
+              v-bind="props"
+              height="50px"
+              active-class="menuActive"
+              :title="menu.title"
               :append-icon="open.includes(menu.value) ? 'mdi-chevron-down' : 'mdi-chevron-right'"
-              @click='onClickMenuItem'
+              @click="onClickMenuItem"
             ></v-list-item>
           </template>
 
           <v-list-item
-            v-for='(subMenu, i) in menu.subMenu'
-            :key='i'
-            class='navi-inner-menu'
-            active-class='menuActive'
-            prepend-icon='mdi-circle-small'
-            :title='subMenu.title'
-            :value='subMenu.title'
+            v-for="(subMenu, i) in menu.subMenu"
+            :key="i"
+            class="navi-inner-menu"
+            active-class="menuActive"
+            prepend-icon="mdi-circle-small"
+            :title="subMenu.title"
+            :value="subMenu.title"
           ></v-list-item>
         </v-list-group>
       </v-list>
@@ -50,30 +48,27 @@
 </template>
 
 <script setup>
-import {NAVI_MENU} from '@/assets/consts/consts'
+import { NAVI_MENU } from '@/assets/consts/consts'
 import { ref } from 'vue'
-
 
 const onClickMenuItem = () => {
   open.value = !open.value.length ? open.value : open.value.splice(open.value.length - 1, 1)
 }
 const open = ref([]) //활성화할 메뉴의 value
-const naviMenu = ref([ ...NAVI_MENU ])
+const naviMenu = ref([...NAVI_MENU])
 const selectedProject = ref({ name: '전체', value: 'total' })
-  //TODO pinia 처리
+//TODO pinia 처리
 const projectList = ref([
   { name: '전체', value: 'total' },
   { name: '프로젝트1', value: 'projcet-1' },
   { name: '프로젝트2', value: 'projcet-2' },
   { name: '프로젝트3', value: 'projcet-3' }
 ])
-
-
 </script>
 
-<style scoped lang='scss'>
+<style scoped lang="scss">
 //@import "@/assets/_variables.scss";
-@import "src/assets/style/variables";
+@import 'src/assets/style/variables';
 
 #menu_title_wrapper {
   color: #ffffff;
@@ -94,7 +89,6 @@ const projectList = ref([
 }
 
 #project_select {
-
 }
 
 #menu_wrapper {
@@ -110,5 +104,4 @@ const projectList = ref([
 .menu-active {
   color: $active-font-color;
 }
-
 </style>

@@ -35,8 +35,8 @@ const router = createRouter({
     {
       path: '/serviceGroups/:serviceGroupId/console/projects/:projectId/deploy/new',
       name: 'projectNewDeploy',
-      component: () => import('@/views/project/deploy/NewDeploy.vue')
-    },
+      component: () => import('@/views/project/deploy/NewDeployView.vue')
+    }
   ]
 })
 

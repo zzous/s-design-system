@@ -1,24 +1,24 @@
 <template>
   <div>
-    <div class='label-wrapper'>
+    <div class="label-wrapper">
       <label>스크립트</label>
-      <DefaultButtonComponent title='스크립트 생성'  class='float-right'/>
+      <DefaultButtonComponent title="스크립트 생성" class="float-right" />
     </div>
-    <div class='shell-script-wrapper'>
+    <div class="shell-script-wrapper">
       <!-- 라인 번호 표시 영역 -->
-      <div class='line-numbers'>
-        <span v-for='n in lineCount' :key='n'>{{ n }}</span>
+      <div class="line-numbers">
+        <span v-for="n in lineCount" :key="n">{{ n }}</span>
       </div>
 
       <!-- 쉘 스크립트 입력 영역 -->
       <v-textarea
-        v-model='shellScript'
-        placeholder=''
+        v-model="shellScript"
+        placeholder=""
         auto-grow
-        rows='10'
+        rows="10"
         outlined
-        class='shell-script-textarea'
-        @input='updateLineCount'
+        class="shell-script-textarea"
+        @input="updateLineCount"
       ></v-textarea>
     </div>
   </div>
@@ -38,7 +38,6 @@ const updateLineCount = () => {
 </script>
 
 <style scoped>
-
 .shell-script-wrapper {
   display: flex;
   align-items: flex-start;

@@ -1,23 +1,19 @@
 <template>
   <!--  #1C2536 -->
 
-  <v-app-bar
-      :elevation="2"
-      color="#1C2536"
-      :height="68"
-  >
+  <v-app-bar :elevation="2" color="#1C2536" :height="68">
     <template #prepend>
-      <div class='logo-area'>
-        <img src='@/assets/images/logo.png' width="148" height="30" alt="logo"/>
-        <span class='logo-text'>DevOps</span>
+      <div class="logo-area">
+        <img src="@/assets/images/logo.png" width="148" height="30" alt="logo" />
+        <span class="logo-text">DevOps</span>
       </div>
       <v-app-bar-nav-icon @click="toggleMenu"></v-app-bar-nav-icon>
     </template>
 
-    <v-app-bar-title class='header-title-text'>서비스</v-app-bar-title>
+    <v-app-bar-title class="header-title-text">서비스</v-app-bar-title>
   </v-app-bar>
-  <div class='menu-back-ground' :class="{show:showMenu, hide: !showMenu}">
-<!--    <v-navigation-drawer
+  <div class="menu-back-ground" :class="{ show: showMenu, hide: !showMenu }">
+    <!--    <v-navigation-drawer
         v-model="showMenu"
         temporary
     >
@@ -25,12 +21,17 @@
           :items="items"
       ></v-list>
     </v-navigation-drawer>-->
-    <div id='side_menu_background'>
-      <div id='side_menu_wrapper'>
-        <v-list-item class='text-align-right side-menu'>
-          <v-icon icon="mdi-close" @click="closeMenu"/>
+    <div id="side_menu_background">
+      <div id="side_menu_wrapper">
+        <v-list-item class="text-align-right side-menu">
+          <v-icon icon="mdi-close" @click="closeMenu" />
         </v-list-item>
-        <v-list-item class='side-menu' :title="item.title" :key="item.title" v-for="item in items" />
+        <v-list-item
+          v-for="item in items"
+          :key="item.title"
+          class="side-menu"
+          :title="item.title"
+        />
       </div>
     </div>
   </div>
@@ -50,7 +51,7 @@ const closeMenu = () => {
 </script>
 
 <style lang="scss" scoped>
-@import "src/assets/style/variables";
+@import 'src/assets/style/variables';
 .side-menu {
   cursor: pointer;
   height: 50px;
@@ -90,7 +91,7 @@ const closeMenu = () => {
   position: absolute;
   width: 100%;
   z-index: 100;
-  background: rgba(0,0,0,0.2);
+  background: rgba(0, 0, 0, 0.2);
 }
 .menu-back-ground.hide {
   height: 0;

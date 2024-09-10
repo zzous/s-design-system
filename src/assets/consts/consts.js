@@ -1,33 +1,67 @@
 export const NAVI_MENU = [
   {
-    title: '프로젝트 관리', value: 'settingProject', subMenu: [{
-      title: '빌드', value: 'build'
-    }, {
-      title: '배포', value: 'deploy'
-    }, {
-      title: '저장소', value: 'repository'
-    }, {
-      title: '회원', value: 'user'
-    }]
-  }, {
-    title: 'DevOps 환경설정', value: 'settingDevOps', subMenu: [{
-      title: '툴체인 구성 (테넌트 관리)', value: 'settingToolChain'
-    }, {
-      title: '젠킨스 스테이지 관리', value: 'settingJenkins'
-    }, {
-      title: '소나큐브 룰 관리', value: 'settingSonarRule'
-    }, {
-      title: '클러스터 관리', value: 'settingCluster'
-    }, {
-      title: '산출물 관리', value: 'settingProduct'
-    }, {
-      title: '프로젝트 복구', value: 'restoreProject'
-    }]
-  }, {
-    title: '포탈 관리', value: 'settingPortal', subMenu: [{
-      title: '툴체인 환경 설정', value: 'settingToolChainEnv'
-    }]
-  }]
+    title: '프로젝트 관리',
+    value: 'settingProject',
+    subMenu: [
+      {
+        title: '빌드',
+        value: 'build'
+      },
+      {
+        title: '배포',
+        value: 'deploy'
+      },
+      {
+        title: '저장소',
+        value: 'repository'
+      },
+      {
+        title: '회원',
+        value: 'user'
+      }
+    ]
+  },
+  {
+    title: 'DevOps 환경설정',
+    value: 'settingDevOps',
+    subMenu: [
+      {
+        title: '툴체인 구성 (테넌트 관리)',
+        value: 'settingToolChain'
+      },
+      {
+        title: '젠킨스 스테이지 관리',
+        value: 'settingJenkins'
+      },
+      {
+        title: '소나큐브 룰 관리',
+        value: 'settingSonarRule'
+      },
+      {
+        title: '클러스터 관리',
+        value: 'settingCluster'
+      },
+      {
+        title: '산출물 관리',
+        value: 'settingProduct'
+      },
+      {
+        title: '프로젝트 복구',
+        value: 'restoreProject'
+      }
+    ]
+  },
+  {
+    title: '포탈 관리',
+    value: 'settingPortal',
+    subMenu: [
+      {
+        title: '툴체인 환경 설정',
+        value: 'settingToolChainEnv'
+      }
+    ]
+  }
+]
 export const HEADER_MENU = [
   { title: '사용자 관리', value: 'manageUser' },
   { title: '예측 관리', value: 'manageExpecting' },
