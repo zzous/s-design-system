@@ -18,12 +18,7 @@
       </v-col>
     </v-row>
     <label for="select_deploy_approve_process">배포 승인 프로세스</label>
-    <v-select
-      id="select_deploy_approve_process"
-      name="deployApproveProcess"
-      :items="deployApproveProcessList"
-      item-title="name"
-    />
+    <v-select id="select_deploy_approve_process" name="deployApproveProcess" :items="deployApproveProcessList" item-title="name" />
     <br />
     <label for="select_build">빌드</label>
     <v-select id="select_build" name="build" :items="buildList" item-title="name" />
@@ -46,42 +41,81 @@
       <v-select name="provider" placeholder="빌드를 선택하세요." />
       <label>클러스터</label>
       <v-select name="provider" placeholder="구성 항목을 선택하세" />
-      <DefaultButtonComponent title="Yaml" class="float-right" size="small" />
-
-      <v-expansion-panels variant="accordion" multiple>
-        <v-expansion-panel title="기본">
-          <template #text>
-            <div>test</div>
-            <div>test</div>
-            <div>test</div>
-            <div>test</div>
-          </template>
-        </v-expansion-panel>
-        <v-expansion-panel title="Advance">
-          <template #text>
-            <div>test</div>
-            <div>test</div>
-            <div>test</div>
-            <div>test</div>
-          </template>
-        </v-expansion-panel>
-        <v-expansion-panel title="Storage">
-          <template #text>
-            <div>test</div>
-            <div>test</div>
-            <div>test</div>
-            <div>test</div>
-          </template>
-        </v-expansion-panel>
-        <v-expansion-panel title="Resource">
-          <template #text>
-            <div>test</div>
-            <div>test</div>
-            <div>test</div>
-            <div>test</div>
-          </template>
-        </v-expansion-panel>
-      </v-expansion-panels>
+      <div style="position: relative; height: 30px">
+        <DefaultButtonComponent title="Yaml" class="float-right" size="small" />
+      </div>
+      <AccordionMenuComponent class="border-t-md" title="기본">
+        <label>배포 복사</label>
+        <v-text-field />
+        <label>네임스페이스</label>
+        <v-text-field />
+        <v-alert title="목록에서 선택하거나 새롭게 생성 가능 (현재 필터링 적용)" icon="$warning"></v-alert>
+        <label>이름</label>
+        <v-text-field />
+        <label>컨트롤러</label>
+        <v-text-field />
+        <label>레플리카</label>
+        <v-text-field />
+        <label>배포 전략</label>
+        <v-text-field />
+        <label>서비스타입</label>
+        <v-text-field />
+        <label>포트</label>
+        <DeployPortInputComponent v-model="inputPortList" />
+        <br />
+        <label>도메인</label>
+        <v-text-field />
+        <DomainInputComponent :disabled="false" />
+        <v-row>
+          <v-col><label>KEY 파일</label><FileInputButtonComponent /></v-col>
+          <v-col><label>CRT 파일</label><FileInputButtonComponent /></v-col>
+        </v-row>
+      </AccordionMenuComponent>
+      <AccordionMenuComponent class="border-t-md" title="Advance">
+        <label>imagePullSecrets</label>
+        <v-text-field placeholder="Secret을 입력하세요." />
+        <label>명령</label>
+        <v-text-field placeholder="선택항목" />
+        <label>Args</label>
+        <v-text-field placeholder="선택항목" />
+        <label>환경변수</label>
+        <EnvInputComponent v-model="envList" />
+        <label>ConfigMap</label>
+        <TextCheckBoxInputComponent />
+        <label>SecretKey</label>
+        <TextCheckBoxInputComponent />
+        <label>호스트이름</label>
+        <v-text-field />
+        <label>노드선택</label>
+        <v-text-field />
+        <label>HostAliases</label>
+        <HostAliasesInputComponent v-model="hostAliaseList" />
+      </AccordionMenuComponent>
+      <AccordionMenuComponent class="border-t-md" title="Storage">
+        <label>볼륨 - PersistentVolumeClaim</label>
+        <PersistentVolumeClaimInputComponent v-model="pvcList" />
+        <label>볼륨 - HostPath</label>
+        <HostPathInputComponent v-model="hostPathList" />
+      </AccordionMenuComponent>
+      <AccordionMenuComponent title="Resource" class="border-b-md border-t-md">
+        <label>Requests</label>
+        <CpuMemoryInputComponent />
+        <label>Limits</label>
+        <CpuMemoryInputComponent class="border-b-md" />
+        <div>
+          <span>HPA (Horizontal Pod Autoscaling)</span>
+        </div>
+        <v-label for="maximumReplicaNumber">최대 레플리카</v-label>
+        <v-text-field id="maximumReplicaNumber" />
+        <v-label>평균 사용률</v-label>
+        <CpuMemoryInputComponent />
+      </AccordionMenuComponent>
+      <div>
+        <div class="inline-block float-right mt-2">
+          <v-btn flat color="#7E8299" class="mr-1">취소</v-btn>
+          <DefaultButtonComponent title="저장" />
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -92,7 +126,22 @@ import { DEFAULT_BUTTON_COLOR } from '@/assets/consts/consts'
 import DefaultButtonComponent from '@/components/common/button/DefaultButtonComponent.vue'
 import { ref } from 'vue'
 import ShellScriptComponent from '@/components/deploy/ShellScriptComponent.vue'
+import AccordionMenuComponent from '@/components/common/AccordionMenuComponent.vue'
+import DeployPortInputComponent from '@/components/deploy/DeployPortInputComponent.vue'
+import DomainInputComponent from '@/components/deploy/DomainInputComponent.vue'
+import FileInputButtonComponent from '@/components/deploy/FileInputButtonComponent.vue'
+import EnvInputComponent from '@/components/deploy/EnvInputComponent.vue'
+import TextCheckBoxInputComponent from '@/components/common/input/TextCheckBoxInputComponent.vue'
+import HostAliasesInputComponent from '@/components/deploy/HostAliasesInputComponent.vue'
+import PersistentVolumeClaimInputComponent from '@/components/deploy/PersistentVolumeClaimInputComponent.vue'
+import HostPathInputComponent from '@/components/deploy/HostPathInputComponent.vue'
+import CpuMemoryInputComponent from '@/components/deploy/CpuMemoryInputComponent.vue'
 
+const hostPathList = ref([])
+const pvcList = ref([])
+const hostAliaseList = ref([])
+const envList = ref([])
+const inputPortList = ref([])
 const deployTypeBtnColor = ref(DEFAULT_BUTTON_COLOR)
 const selectedDeployType = ref('')
 const deployTypeList = ref([
@@ -102,8 +151,7 @@ const deployTypeList = ref([
 const deployName = ref('')
 const deployNameRule = ref([
   (v) => !!v || '배포명은 필수 입니다.',
-  (v) =>
-    (v && REG_ALLOW_ENG_NUM_HYPHEN.test(v)) || '규칙에 맞게 입력해주세요.(영문자, 숫자, (-)만 가능)'
+  (v) => (v && REG_ALLOW_ENG_NUM_HYPHEN.test(v)) || '규칙에 맞게 입력 해 주세요.(영문자, 숫자, (-)만 가능)'
 ])
 const deployApproveProcessList = ref([
   { id: 1, name: '1번 프로세스' },

@@ -4,13 +4,7 @@
       <DefaultButtonComponent title="새 빌드" />
     </ViewHeaderComponent>
     <div class="contentsWrapper">
-      <v-data-table
-        :custom-filter="filterOnlyCapsText"
-        :headers="headers"
-        :items="items"
-        :search="search"
-        item-value="name"
-      >
+      <v-data-table :custom-filter="filterOnlyCapsText" :headers="headers" :items="items" :search="search" item-value="name">
         <template #headers="{ columns }">
           <tr class="tableHeader">
             <th v-for="(header, idx) in columns" :key="idx" :style="{ textAlign: header.align }">
@@ -24,12 +18,7 @@
           <DefaultButtonComponent title="삭제" class="ml-1" />
         </template>
         <template #top>
-          <v-text-field
-            v-model="search"
-            class="pa-2"
-            placeholder="배포명으로 검색"
-            prepend-inner-icon="mdi-magnify"
-          ></v-text-field>
+          <v-text-field v-model="search" class="pa-2" placeholder="배포명으로 검색" prepend-inner-icon="mdi-magnify"></v-text-field>
         </template>
         <template #bottom>
           <div class="text-center pt-2">
@@ -99,12 +88,7 @@ const items = ref([
 
 const pageCount = computed(() => Math.ceil(items.value.length / itemsPerPage.value))
 const filterOnlyCapsText = (value, query) => {
-  return (
-    value != null &&
-    query != null &&
-    typeof value === 'string' &&
-    value.toString().toLocaleUpperCase().indexOf(query) !== -1
-  )
+  return value != null && query != null && typeof value === 'string' && value.toString().toLocaleUpperCase().indexOf(query) !== -1
 }
 </script>
 

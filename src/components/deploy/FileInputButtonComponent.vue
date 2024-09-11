@@ -1,0 +1,22 @@
+<template>
+  <DefaultButtonComponent title="select" @click="onClickTriggerButton" />
+  <v-file-input ref="fileInputRef" hide-input class="file-input display-none">
+    <template #append> </template>
+  </v-file-input>
+</template>
+
+<script setup>
+import DefaultButtonComponent from '@/components/common/button/DefaultButtonComponent.vue'
+import { ref } from 'vue'
+const onClickTriggerButton = () => {
+  if (fileInputRef.value) {
+    fileInputRef.value.click()
+  }
+}
+const fileInputRef = ref(null)
+</script>
+<style scoped>
+.file-input {
+  background: red;
+}
+</style>

@@ -1,5 +1,5 @@
 <template>
-  <div class="view-wrapper">
+  <div class="pt-0 view-wrapper">
     <ViewHeaderComponent title="프로젝트 목록" :list-cnt="projectList.length">
       <div class="d-flex input-wrapper">
         <v-text-field
@@ -14,12 +14,7 @@
       </div>
     </ViewHeaderComponent>
     <div id="project_list_wrapper">
-      <v-data-table
-        v-model:page="page"
-        :hide-default-header="true"
-        :items="projectList"
-        :items-per-page="itemsPerPage"
-      >
+      <v-data-table v-model:page="page" :hide-default-header="true" :items="projectList" :items-per-page="itemsPerPage">
         <!--  custom image -->
         <template #item="{ item }">
           <ProjectListRowComponent :item="item" />

@@ -6,7 +6,7 @@ import NaviComponent from '@/components/common/NaviComponent.vue'
 <template>
   <v-app>
     <HeaderComponent />
-    <div class="show-header">
+    <div class="show-header mb-10">
       <NaviComponent />
       <RouterView id="router_view" class="show-navi" />
     </div>

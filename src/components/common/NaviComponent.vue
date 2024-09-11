@@ -25,7 +25,7 @@
             <v-list-item
               v-bind="props"
               height="50px"
-              active-class="menuActive"
+              active-class="menu-active"
               :title="menu.title"
               :append-icon="open.includes(menu.value) ? 'mdi-chevron-down' : 'mdi-chevron-right'"
               @click="onClickMenuItem"
@@ -36,7 +36,7 @@
             v-for="(subMenu, i) in menu.subMenu"
             :key="i"
             class="navi-inner-menu"
-            active-class="menuActive"
+            active-class="menu-active"
             prepend-icon="mdi-circle-small"
             :title="subMenu.title"
             :value="subMenu.title"
