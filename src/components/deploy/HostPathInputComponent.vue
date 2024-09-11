@@ -12,13 +12,13 @@
 
     <v-row v-for="hostPath in model" class="port-row" dense no-gutters>
       <v-col class="port-input-col large-col">
-        <v-text-field v-model="hostPath.name" type="" placeholder="app-log" />
+        <v-text-field v-model="hostPath.name" variant="outlined" type="" placeholder="app-log" />
       </v-col>
       <v-col class="port-input-col large-col">
-        <v-text-field v-model="hostPath.mountPath" type="" placeholder="/logs" />
+        <v-text-field v-model="hostPath.mountPath" variant="outlined" type="" placeholder="/logs" />
       </v-col>
       <v-col class="port-input-col large-col">
-        <v-text-field v-model="hostPath.hostPath" type="" placeholder="/logs" />
+        <v-text-field v-model="hostPath.hostPath" variant="outlined" type="" placeholder="/logs" />
       </v-col>
       <v-col class="port-input-col large-col">
         <v-select v-model="hostPath.type" :items="hostPathTypeList" />

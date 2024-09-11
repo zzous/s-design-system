@@ -1,7 +1,7 @@
 <template>
   <v-row>
     <v-col>
-      <v-text-field />
+      <v-text-field variant="outlined" />
     </v-col>
     <v-col>
       <v-checkbox />

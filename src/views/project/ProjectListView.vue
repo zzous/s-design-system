@@ -3,6 +3,7 @@
     <ViewHeaderComponent title="프로젝트 목록" :list-cnt="projectList.length">
       <div class="d-flex input-wrapper">
         <v-text-field
+          variant="outlined"
           density="compact"
           width="200px"
           class="mr-5"
@@ -21,7 +22,7 @@
         </template>
         <template #bottom>
           <div class="text-center pt-2">
-            <v-pagination v-model="page" :length="pageCount"></v-pagination>
+            <v-pagination v-model="page" :length="pageCnt"></v-pagination>
           </div>
         </template>
       </v-data-table>
@@ -51,7 +52,7 @@ const projectList = ref([
     showButton: true
   }
 ])
-const pageCount = computed(() => Math.ceil(projectList.value.length / itemsPerPage.value))
+const pageCnt = computed(() => Math.ceil(projectList.value.length / itemsPerPage.value))
 </script>
 
 <style scoped lang="scss">

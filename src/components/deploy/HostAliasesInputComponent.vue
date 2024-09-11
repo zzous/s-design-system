@@ -10,10 +10,10 @@
 
     <v-row v-for="portGroup in model" class="port-row" dense no-gutters>
       <v-col class="port-input-col large-col">
-        <v-text-field v-model="portGroup.ipAddr" />
+        <v-text-field v-model="portGroup.ipAddr" variant="outlined" />
       </v-col>
       <v-col class="port-input-col large-col">
-        <v-text-field v-model="portGroup.hostName" />
+        <v-text-field v-model="portGroup.hostName" variant="outlined" />
       </v-col>
       <v-col class="port-input-col small-col">
         <v-icon icon="mdi-minus-circle-outline" @click="onClickRemoveRow" />

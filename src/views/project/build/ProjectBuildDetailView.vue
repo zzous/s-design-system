@@ -54,7 +54,7 @@
               </template>
               <template #bottom>
                 <div class="text-center pt-2">
-                  <v-pagination v-model="page" :length="pageCount"></v-pagination>
+                  <v-pagination v-model="page" :length="pageCnt"></v-pagination>
                 </div>
               </template>
             </v-data-table>
@@ -69,9 +69,10 @@
 import DefaultButtonComponent from '@/components/common/button/DefaultButtonComponent.vue'
 import DetailViewHeaderComponent from '@/components/build/DetailViewHeaderComponent.vue'
 import WorkFlowComponent from '@/components/build/WorkFlowComponent.vue'
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 
 const page = ref(1)
+const pageCnt = computed(() => Math.ceil(buildHistoryList.value.length / buildHistoryList.value))
 //const itemPerPage = ref(5)
 const buildHistoryHeader = ref([
   { title: '상태', key: 'state', align: 'center', sortable: false },

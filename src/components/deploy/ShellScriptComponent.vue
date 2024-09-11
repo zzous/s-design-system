@@ -7,7 +7,7 @@
     <div class="shell-script-wrapper">
       <!-- 라인 번호 표시 영역 -->
       <div class="line-numbers">
-        <span v-for="n in lineCount" :key="n">{{ n }}</span>
+        <span v-for="n in lineCnt" :key="n">{{ n }}</span>
       </div>
 
       <!-- 쉘 스크립트 입력 영역 -->
@@ -18,7 +18,7 @@
         rows="10"
         outlined
         class="shell-script-textarea"
-        @input="updateLineCount"
+        @input="updateLineCnt"
       ></v-textarea>
     </div>
   </div>
@@ -29,11 +29,11 @@ import { ref } from 'vue'
 import DefaultButtonComponent from '@/components/common/button/DefaultButtonComponent.vue'
 
 const shellScript = ref('') // 쉘 스크립트 내용
-const lineCount = ref(1) // 라인 수
+const lineCnt = ref(1) // 라인 수
 
-const updateLineCount = () => {
+const updateLineCnt = () => {
   // 현재 쉘 스크립트의 줄 수를 업데이트
-  lineCount.value = shellScript.value.split('\n').length
+  lineCnt.value = shellScript.value.split('\n').length
 }
 </script>
 

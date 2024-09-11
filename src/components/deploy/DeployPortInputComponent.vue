@@ -12,16 +12,16 @@
 
     <v-row v-for="portGroup in model" class="port-row" dense no-gutters>
       <v-col class="port-input-col large-col">
-        <v-text-field v-model="portGroup.servicePort" type="" placeholder="8080" />
+        <v-text-field v-model="portGroup.servicePort" variant="outlined" type="" placeholder="8080" />
       </v-col>
       <v-col class="port-input-col large-col">
-        <v-text-field v-model="portGroup.containerPort" type="" placeholder="8080" />
+        <v-text-field v-model="portGroup.containerPort" variant="outlined" type="" placeholder="8080" />
       </v-col>
       <v-col class="port-input-col large-col">
-        <v-text-field disabled :model-value="30000" />
+        <v-text-field variant="outlined" disabled :model-value="30000" />
       </v-col>
       <v-col class="port-input-col large-col">
-        <v-text-field v-model="portGroup.ingressPath" type="" placeholder="/app" />
+        <v-text-field v-model="portGroup.ingressPath" variant="outlined" type="" placeholder="/app" />
       </v-col>
       <v-col class="port-input-col small-col">
         <v-icon icon="mdi-minus-circle-outline" @click="onClickRemoveRow" />

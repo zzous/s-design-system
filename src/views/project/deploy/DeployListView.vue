@@ -18,11 +18,17 @@
           <DefaultButtonComponent title="삭제" class="ml-1" />
         </template>
         <template #top>
-          <v-text-field v-model="search" class="pa-2" placeholder="배포명으로 검색" prepend-inner-icon="mdi-magnify"></v-text-field>
+          <v-text-field
+            v-model="search"
+            variant="outlined"
+            class="pa-2"
+            placeholder="배포명으로 검색"
+            prepend-inner-icon="mdi-magnify"
+          ></v-text-field>
         </template>
         <template #bottom>
           <div class="text-center pt-2">
-            <v-pagination v-model="page" :length="pageCount"></v-pagination>
+            <v-pagination v-model="page" :length="pageCnt"></v-pagination>
           </div>
         </template>
       </v-data-table>
@@ -86,7 +92,7 @@ const items = ref([
   }
 ])
 
-const pageCount = computed(() => Math.ceil(items.value.length / itemsPerPage.value))
+const pageCnt = computed(() => Math.ceil(items.value.length / itemsPerPage.value))
 const filterOnlyCapsText = (value, query) => {
   return value != null && query != null && typeof value === 'string' && value.toString().toLocaleUpperCase().indexOf(query) !== -1
 }

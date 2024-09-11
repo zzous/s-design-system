@@ -6,6 +6,7 @@
         <v-text-field
           id="input_deploy_name"
           v-model="deployName"
+          variant="outlined"
           name="inputDeployName"
           height="15"
           density="compact"
@@ -46,25 +47,25 @@
       </div>
       <AccordionMenuComponent class="border-t-md" title="기본">
         <label>배포 복사</label>
-        <v-text-field />
+        <v-text-field variant="outlined" />
         <label>네임스페이스</label>
-        <v-text-field />
+        <v-text-field variant="outlined" />
         <v-alert title="목록에서 선택하거나 새롭게 생성 가능 (현재 필터링 적용)" icon="$warning"></v-alert>
         <label>이름</label>
-        <v-text-field />
+        <v-text-field variant="outlined" />
         <label>컨트롤러</label>
-        <v-text-field />
+        <v-text-field variant="outlined" />
         <label>레플리카</label>
-        <v-text-field />
+        <v-text-field variant="outlined" />
         <label>배포 전략</label>
-        <v-text-field />
+        <v-text-field variant="outlined" />
         <label>서비스타입</label>
-        <v-text-field />
+        <v-text-field variant="outlined" />
         <label>포트</label>
         <DeployPortInputComponent v-model="inputPortList" />
         <br />
         <label>도메인</label>
-        <v-text-field />
+        <v-text-field variant="outlined" />
         <DomainInputComponent :disabled="false" />
         <v-row>
           <v-col><label>KEY 파일</label><FileInputButtonComponent /></v-col>
@@ -73,11 +74,11 @@
       </AccordionMenuComponent>
       <AccordionMenuComponent class="border-t-md" title="Advance">
         <label>imagePullSecrets</label>
-        <v-text-field placeholder="Secret을 입력하세요." />
+        <v-text-field variant="outlined" placeholder="Secret을 입력하세요." />
         <label>명령</label>
-        <v-text-field placeholder="선택항목" />
+        <v-text-field variant="outlined" placeholder="선택항목" />
         <label>Args</label>
-        <v-text-field placeholder="선택항목" />
+        <v-text-field variant="outlined" placeholder="선택항목" />
         <label>환경변수</label>
         <EnvInputComponent v-model="envList" />
         <label>ConfigMap</label>
@@ -85,9 +86,9 @@
         <label>SecretKey</label>
         <TextCheckBoxInputComponent />
         <label>호스트이름</label>
-        <v-text-field />
+        <v-text-field variant="outlined" />
         <label>노드선택</label>
-        <v-text-field />
+        <v-text-field variant="outlined" />
         <label>HostAliases</label>
         <HostAliasesInputComponent v-model="hostAliaseList" />
       </AccordionMenuComponent>
@@ -106,7 +107,7 @@
           <span>HPA (Horizontal Pod Autoscaling)</span>
         </div>
         <v-label for="maximumReplicaNumber">최대 레플리카</v-label>
-        <v-text-field id="maximumReplicaNumber" />
+        <v-text-field id="maximumReplicaNumber" variant="outlined" />
         <v-label>평균 사용률</v-label>
         <CpuMemoryInputComponent />
       </AccordionMenuComponent>

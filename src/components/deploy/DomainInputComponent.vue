@@ -5,7 +5,7 @@
         <v-select v-model="selectedProtocol" :items="protocolList" :disabled="disabled" />
       </v-col>
       <v-col class="large-col">
-        <v-text-field placeholder="도메인을 입력하세요" :disabled="disabled" />
+        <v-text-field variant="outlined" placeholder="도메인을 입력하세요" :disabled="disabled" />
       </v-col>
     </v-row>
     <div class="error-message-wrapper">
