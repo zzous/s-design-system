@@ -1,6 +1,6 @@
 <template>
   <div class="accordion-wrapper">
-    <div class="title">
+    <div class="title" :class="{ titleBold: titleBold }">
       {{ title }}
       <v-icon class="float-right" style="top: 10px" icon="mdi-chevron-down" @click="toggleAccordion" />
     </div>
@@ -17,6 +17,10 @@ defineProps({
   title: {
     type: String,
     required: true
+  },
+  titleBold: {
+    type: Boolean,
+    default: false
   }
 })
 
@@ -56,5 +60,8 @@ const onTransitionEnd = () => {
 }
 
 .title {
+}
+.titleBold {
+  font-weight: bold;
 }
 </style>

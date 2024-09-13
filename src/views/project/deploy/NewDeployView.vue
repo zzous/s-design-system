@@ -36,7 +36,7 @@
         >{{ deployType.name }}
       </v-btn>
     </v-btn-toggle>
-    <ShellScriptComponent v-if="selectedDeployType === 'SHELL'" />
+    <DeployShellScriptComponent v-if="selectedDeployType === 'SHELL'" />
     <div v-if="selectedDeployType === 'K8S'">
       <label>프로바이더</label>
       <v-select name="provider" placeholder="빌드를 선택하세요." />
@@ -126,7 +126,7 @@ import { REG_ALLOW_ENG_NUM_HYPHEN } from '@/assets/consts/regex'
 import { DEFAULT_BUTTON_COLOR } from '@/assets/consts/consts'
 import DefaultButtonComponent from '@/components/common/button/DefaultButtonComponent.vue'
 import { ref } from 'vue'
-import ShellScriptComponent from '@/components/deploy/ShellScriptComponent.vue'
+import DeployShellScriptComponent from '@/components/deploy/DeployShellScriptComponent.vue'
 import AccordionMenuComponent from '@/components/common/AccordionMenuComponent.vue'
 import DeployPortInputComponent from '@/components/deploy/DeployPortInputComponent.vue'
 import DomainInputComponent from '@/components/deploy/DomainInputComponent.vue'

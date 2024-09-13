@@ -23,6 +23,21 @@ module.exports = {
         'vueSingleQuote': false, // .vue 파일의 <template>에서는 큰따옴표 사용
       },
     ],
+    'no-restricted-syntax': [
+      'error',
+      {
+        'selector': 'Identifier[name=/^[a-zA-Z]*Count$/]',
+        'message': '"Count"를 "Cnt" 로 바꿔 주세요.'
+      },
+      {
+        'selector': 'Identifier[name=/^[a-zA-Z]*Description$/]',
+        'message': '"Description"를 "Desc"로 바꿔 주세요.'
+      },
+      {
+        'selector': 'Identifier[name=/^[a-zA-Z]*Status$/]',
+        'message': '"Status"를 "State"로 바꿔 주세요.'
+      }
+    ]
   },
   overrides: [
     {
