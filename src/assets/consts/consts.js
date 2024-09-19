@@ -5,19 +5,23 @@ export const NAVI_MENU = [
     subMenu: [
       {
         title: '빌드',
-        value: 'build'
+        value: 'build',
+        url: '/serviceGroups/9/console/projects/83/builds'
       },
       {
         title: '배포',
-        value: 'deploy'
+        value: 'deploy',
+        url: '/serviceGroups/9/console/projects/83/deploy'
       },
       {
         title: '저장소',
-        value: 'repository'
+        value: 'repository',
+        url: '/serviceGroups/9/console/projects/83/repository/file'
       },
       {
         title: '회원',
-        value: 'user'
+        value: 'user',
+        url: '/serviceGroups/9/console/projects/83/builds'
       }
     ]
   },
@@ -27,27 +31,33 @@ export const NAVI_MENU = [
     subMenu: [
       {
         title: '툴체인 구성 (테넌트 관리)',
-        value: 'settingToolChain'
+        value: 'settingToolChain',
+        url: '/serviceGroups/9/console/projects/83/builds'
       },
       {
         title: '젠킨스 스테이지 관리',
-        value: 'settingJenkins'
+        value: 'settingJenkins',
+        url: '/serviceGroups/9/console/projects/83/builds'
       },
       {
         title: '소나큐브 룰 관리',
-        value: 'settingSonarRule'
+        value: 'settingSonarRule',
+        url: '/serviceGroups/9/console/projects/83/builds'
       },
       {
         title: '클러스터 관리',
-        value: 'settingCluster'
+        value: 'settingCluster',
+        url: '/serviceGroups/9/console/projects/83/builds'
       },
       {
         title: '산출물 관리',
-        value: 'settingProduct'
+        value: 'settingProduct',
+        url: '/serviceGroups/9/console/projects/83/builds'
       },
       {
         title: '프로젝트 복구',
-        value: 'restoreProject'
+        value: 'restoreProject',
+        url: '/serviceGroups/9/console/projects/83/builds'
       }
     ]
   },
@@ -57,7 +67,8 @@ export const NAVI_MENU = [
     subMenu: [
       {
         title: '툴체인 환경 설정',
-        value: 'settingToolChainEnv'
+        value: 'settingToolChainEnv',
+        url: '/serviceGroups/9/console/projects/83/builds'
       }
     ]
   }

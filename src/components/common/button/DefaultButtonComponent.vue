@@ -1,5 +1,16 @@
 <template>
-  <v-btn :color="btnColor" :size="size">{{ title }}</v-btn>
+  <template v-if="to">
+    <RouterLink :to="to">
+      <v-btn :color="btnColor" :size="size">
+        {{ title }}
+      </v-btn>
+    </RouterLink>
+  </template>
+  <template v-else>
+    <v-btn :color="btnColor" :size="size">
+      {{ title }}
+    </v-btn>
+  </template>
 </template>
 
 <script setup>
@@ -10,6 +21,11 @@ defineProps({
   title: {
     type: String,
     required: true
+  },
+  to: {
+    type: String,
+    required: false,
+    default: null
   },
   size: {
     type: String,

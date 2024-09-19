@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 //import HomeView from '../views/HomeView.vue'
+import projectRouter from './project'
 
 const router = createRouter({
   //TODO: router 분리
@@ -15,7 +16,11 @@ const router = createRouter({
       name: 'projectList',
       component: () => import('@/views/project/ProjectListView.vue')
     },
-    //build
+    {
+      path: '/serviceGroups/:serviceGroupId/console',
+      children: [...projectRouter]
+    }
+    /*//build
     {
       path: '/serviceGroups/:serviceGroupId/console/projects/:projectId/builds',
       name: 'projectBuildList',
@@ -41,7 +46,7 @@ const router = createRouter({
       path: '/serviceGroups/:serviceGroupId/console/projects/:projectId/deploy/new',
       name: 'projectNewDeploy',
       component: () => import('@/views/project/deploy/NewDeployView.vue')
-    }
+    }*/
   ]
 })
 

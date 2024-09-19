@@ -29,7 +29,8 @@
               :title="menu.title"
               :append-icon="open.includes(menu.value) ? 'mdi-chevron-down' : 'mdi-chevron-right'"
               @click="onClickMenuItem"
-            ></v-list-item>
+            >
+            </v-list-item>
           </template>
 
           <v-list-item
@@ -38,9 +39,11 @@
             class="navi-inner-menu"
             active-class="menu-active"
             prepend-icon="mdi-circle-small"
-            :title="subMenu.title"
-            :value="subMenu.title"
-          ></v-list-item>
+          >
+            <template #title>
+              <RouterLink class="navi-inner-menu-title" :to="subMenu.url">{{ subMenu.title }}</RouterLink>
+            </template>
+          </v-list-item>
         </v-list-group>
       </v-list>
     </div>
@@ -97,6 +100,16 @@ const projectList = ref([
 }
 .navi-inner-menu {
   padding-inline: 15px !important;
+}
+.navi-inner-menu-title {
+  text-decoration: none;
+  color: black;
+}
+.navi-inner-menu-title.router-link-exact-active {
+  color: $active-font-color;
+}
+.navi-inner-menu-title:hover {
+  color: $active-font-color;
 }
 .navi-inner-menu:hover {
   color: $active-font-color;

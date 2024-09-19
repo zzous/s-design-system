@@ -1,7 +1,8 @@
 <template>
   <div class="view-wrapper">
     <ViewHeaderComponent title="빌드">
-      <DefaultButtonComponent title="새 빌드" />
+      <DefaultButtonComponent title="새 빌드" to="builds/new" />
+      <!--/serviceGroups/9/console/projects/83/builds/new-->
     </ViewHeaderComponent>
     <div class="contentsWrapper">
       <v-data-table :custom-filter="filterOnlyCapsText" :headers="headers" :items="items" :search="search" item-value="name">
@@ -14,7 +15,7 @@
         </template>
         <template #[`item.action`]>
           <DefaultButtonComponent title="빌드" />
-          <DefaultButtonComponent title="상세" class="ml-1" />
+          <DefaultButtonComponent title="상세" class="ml-1" to="builds/detail/27" />
           <DefaultButtonComponent title="삭제" class="ml-1" />
         </template>
         <template #top>

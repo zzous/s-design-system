@@ -1,7 +1,7 @@
 <template>
   <div class="view-wrapper">
-    <ViewHeaderComponent title="빌드">
-      <DefaultButtonComponent title="새 빌드" />
+    <ViewHeaderComponent title="배포">
+      <DefaultButtonComponent title="새 배포" to="deploy/new" />
     </ViewHeaderComponent>
     <div class="contentsWrapper">
       <v-data-table :custom-filter="filterOnlyCapsText" :headers="headers" :items="items" :search="search" item-value="name">
