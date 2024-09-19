@@ -1,9 +1,9 @@
 <template>
   <div class="title-wrapper mr-2">
-    <div class="titleContainer d-flex justify-space-between align-center">
+    <div class="d-flex justify-space-between align-center title-contents-wrapper">
       <span class="title-contents">
         <img :src="titleSvgPath" alt="icon" class="title-icon" />
-        {{ title }} ({{ listCnt }})
+        {{ title }} {{ showCnt ? `(${listCnt})` : '' }}
       </span>
       <div class="d-flex input-wrapper">
         <slot />
@@ -21,7 +21,11 @@ defineProps({
     type: String,
     required: true
   },
-
+  showCnt: {
+    type: Boolean,
+    required: false,
+    default: true
+  },
   listCnt: {
     type: Number,
     default: 0
@@ -43,5 +47,8 @@ defineProps({
 }
 .title-contents {
   display: inline-flex;
+}
+.title-contents-wrapper {
+  height: 36px;
 }
 </style>

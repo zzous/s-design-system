@@ -1,16 +1,7 @@
 <template>
-  <template v-if="to">
-    <RouterLink :to="to">
-      <v-btn :color="btnColor" :size="size">
-        {{ title }}
-      </v-btn>
-    </RouterLink>
-  </template>
-  <template v-else>
-    <v-btn :color="btnColor" :size="size">
-      {{ title }}
-    </v-btn>
-  </template>
+  <v-btn :color="btnColor" :size="size" :to="to" :height="height">
+    {{ title }}
+  </v-btn>
 </template>
 
 <script setup>
@@ -24,6 +15,11 @@ defineProps({
   },
   to: {
     type: String,
+    required: false,
+    default: null
+  },
+  height: {
+    type: Number,
     required: false,
     default: null
   },
