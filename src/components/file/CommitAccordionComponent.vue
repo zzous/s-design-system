@@ -47,7 +47,6 @@ const onTransitionEnd = () => {
 <style scoped>
 .accordion-wrapper {
   font-size: 18px;
-  line-height: 50px;
   overflow: hidden;
 }
 .accordion-contents {
@@ -57,6 +56,7 @@ const onTransitionEnd = () => {
 }
 
 .title {
+  line-height: 50px;
   border: 1px #c8ced3 solid;
   background-color: rgba(0, 0, 0, 0.05);
   color: #666;

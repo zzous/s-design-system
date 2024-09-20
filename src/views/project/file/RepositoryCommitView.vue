@@ -19,7 +19,22 @@
     </v-row>
   </div>
   <div>
-    <CommitAccordionComponent title="2024.09.12 커밋"> test </CommitAccordionComponent>
+    <CommitAccordionComponent title="2024.09.12 커밋">
+      <div class="table-container">
+        <table class="commit-table">
+          <tbody>
+            <tr>
+              <td class="commit-message">[DevOps]add template</td>
+              <!-- Rowspan을 사용하여 첫 번째 열을 두 행에 걸쳐 병합 -->
+              <td rowspan="2" class="commit-date">2024-09-12 19:07</td>
+            </tr>
+            <tr>
+              <td class="commit-repository">strato-devops</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </CommitAccordionComponent>
   </div>
 </template>
 
@@ -37,13 +52,28 @@ const selectedBranch = ref('dev')
 </script>
 
 <style scoped>
-/* 배경색 커스터마이징 */
-.v-expansion-panel-title {
-  background-color: #f1f1f1;
+.table-container {
+  font-size: 14px;
+  display: flex;
+  justify-content: center;
 }
 
-/* 커밋 패널 내 텍스트 스타일링 */
-.v-expansion-panel-text {
-  padding: 16px;
+.commit-table {
+  width: 100%;
+}
+.commit-message {
+  font-size: 1.1em;
+  font-weight: bold;
+}
+.commit-repository {
+  color: #919191;
+  font-size: 13px;
+  font-weight: 400;
+}
+.commit-date {
+  text-align: right;
+  color: #666;
+  font-size: 13px;
+  font-weight: 400;
 }
 </style>
