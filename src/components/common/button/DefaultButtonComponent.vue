@@ -1,6 +1,9 @@
 <template>
   <v-btn :color="btnColor" :size="size" :to="to" :height="height">
-    {{ title }}
+    <template v-if="title">
+      {{ title }}
+    </template>
+    <slot v-else />
   </v-btn>
 </template>
 
@@ -11,7 +14,8 @@ const btnColor = ref(DEFAULT_BUTTON_COLOR)
 defineProps({
   title: {
     type: String,
-    required: true
+    required: false,
+    default: ''
   },
   to: {
     type: String,
