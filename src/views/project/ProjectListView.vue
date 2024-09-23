@@ -9,7 +9,6 @@
           class="mr-5"
           placeholder="프로젝트명으로 검색"
           prepend-inner-icon="mdi-magnify"
-          variant="outlined"
         ></v-text-field>
         <DefaultButtonComponent class="inline-block" title="신규 프로젝트" />
       </div>

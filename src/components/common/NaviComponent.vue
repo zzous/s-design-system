@@ -8,6 +8,8 @@
         <v-select
           v-model="selectedProject"
           class="h-30"
+          variant="outlined"
+          density="compact"
           :items="projectList"
           item-title="name"
           item-value="value"

@@ -5,3 +5,4 @@
 5. 무한스크롤 사용지 꼭 가상 스크롤 (v-infinite-scroll 참고) 사용 할 것
 6. table 의 경우 vuetify 의 virtual tables 를 이용할 것 
 7. URL 에 camelCase 금지, kebab-case 허용
+8. vuetify 컴포넌트 클래스 변경시 ::v-deep .v-slide-group__content 와 같이 ::v-deep 을 작성하여 scoped 스타일 내에 작성할것

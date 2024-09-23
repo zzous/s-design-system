@@ -19,10 +19,17 @@
       </v-col>
     </v-row>
     <label for="select_deploy_approve_process">배포 승인 프로세스</label>
-    <v-select id="select_deploy_approve_process" name="deployApproveProcess" :items="deployApproveProcessList" item-title="name" />
+    <v-select
+      id="select_deploy_approve_process"
+      variant="outlined"
+      density="compact"
+      name="deployApproveProcess"
+      :items="deployApproveProcessList"
+      item-title="name"
+    />
     <br />
     <label for="select_build">빌드</label>
-    <v-select id="select_build" name="build" :items="buildList" item-title="name" />
+    <v-select id="select_build" name="build" :items="buildList" variant="outlined" density="compact" item-title="name" />
     <label>배포 유형</label>
     <br />
     <v-btn-toggle v-model="selectedDeployType" mandatory class="deploy-toggle-wrapper">
@@ -39,33 +46,33 @@
     <DeployShellScriptComponent v-if="selectedDeployType === 'SHELL'" />
     <div v-if="selectedDeployType === 'K8S'">
       <label>프로바이더</label>
-      <v-select name="provider" placeholder="빌드를 선택하세요." />
+      <v-select name="provider" placeholder="빌드를 선택하세요." density="compact" variant="outlined" />
       <label>클러스터</label>
-      <v-select name="provider" placeholder="구성 항목을 선택하세" />
+      <v-select name="provider" placeholder="구성 항목을 선택하세" density="compact" variant="outlined" />
       <div style="position: relative; height: 30px">
         <DefaultButtonComponent title="Yaml" class="float-right" size="small" />
       </div>
       <AccordionMenuComponent class="border-t-md" title="기본">
         <label>배포 복사</label>
-        <v-text-field variant="outlined" />
+        <v-text-field density="compact" variant="outlined" />
         <label>네임스페이스</label>
-        <v-text-field variant="outlined" />
+        <v-text-field density="compact" variant="outlined" />
         <v-alert title="목록에서 선택하거나 새롭게 생성 가능 (현재 필터링 적용)" icon="$warning"></v-alert>
         <label>이름</label>
-        <v-text-field variant="outlined" />
+        <v-text-field density="compact" variant="outlined" />
         <label>컨트롤러</label>
-        <v-text-field variant="outlined" />
+        <v-text-field density="compact" variant="outlined" />
         <label>레플리카</label>
-        <v-text-field variant="outlined" />
+        <v-text-field density="compact" variant="outlined" />
         <label>배포 전략</label>
-        <v-text-field variant="outlined" />
+        <v-text-field density="compact" variant="outlined" />
         <label>서비스타입</label>
-        <v-text-field variant="outlined" />
+        <v-text-field density="compact" variant="outlined" />
         <label>포트</label>
         <DeployPortInputComponent v-model="inputPortList" />
         <br />
         <label>도메인</label>
-        <v-text-field variant="outlined" />
+        <v-text-field density="compact" variant="outlined" />
         <DomainInputComponent :disabled="false" />
         <v-row>
           <v-col><label>KEY 파일</label><FileInputButtonComponent /></v-col>
@@ -74,11 +81,11 @@
       </AccordionMenuComponent>
       <AccordionMenuComponent class="border-t-md" title="Advance">
         <label>imagePullSecrets</label>
-        <v-text-field variant="outlined" placeholder="Secret을 입력하세요." />
+        <v-text-field density="compact" variant="outlined" placeholder="Secret을 입력하세요." />
         <label>명령</label>
-        <v-text-field variant="outlined" placeholder="선택항목" />
+        <v-text-field density="compact" variant="outlined" placeholder="선택항목" />
         <label>Args</label>
-        <v-text-field variant="outlined" placeholder="선택항목" />
+        <v-text-field density="compact" variant="outlined" placeholder="선택항목" />
         <label>환경변수</label>
         <EnvInputComponent v-model="envList" />
         <label>ConfigMap</label>
@@ -86,9 +93,9 @@
         <label>SecretKey</label>
         <TextCheckBoxInputComponent />
         <label>호스트이름</label>
-        <v-text-field variant="outlined" />
+        <v-text-field density="compact" variant="outlined" />
         <label>노드선택</label>
-        <v-text-field variant="outlined" />
+        <v-text-field density="compact" variant="outlined" />
         <label>HostAliases</label>
         <HostAliasesInputComponent v-model="hostAliaseList" />
       </AccordionMenuComponent>

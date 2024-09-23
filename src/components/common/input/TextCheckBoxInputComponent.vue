@@ -1,10 +1,10 @@
 <template>
   <v-row>
     <v-col>
-      <v-text-field variant="outlined" />
+      <v-text-field density="compact" variant="outlined" />
     </v-col>
     <v-col>
-      <v-checkbox />
+      <v-checkbox density="compact" variant="outlined" />
     </v-col>
   </v-row>
 </template>

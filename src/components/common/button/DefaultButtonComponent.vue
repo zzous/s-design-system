@@ -1,5 +1,5 @@
 <template>
-  <v-btn :color="btnColor" :size="size" :to="to" :height="height">
+  <v-btn class="test-class" :color="btnColor" :size="size" :to="to" :height="height">
     <template v-if="title">
       {{ title }}
     </template>
@@ -37,4 +37,8 @@ defineProps({
 })
 </script>
 
-<style scoped></style>
+<style scoped>
+.test-class {
+  color: red;
+}
+</style>
