@@ -51,7 +51,7 @@
 
 <script setup>
 import { ref } from 'vue'
-import DefaultButtonComponent from '@/components/common/button/DefaultButtonComponent.vue'
+import DefaultButtonComponent from '@/components/_common/button/DefaultButtonComponent.vue'
 
 const branchList = ref([
   { id: 'dev', name: 'dev' },

@@ -66,7 +66,7 @@
 </template>
 
 <script setup>
-import DefaultButtonComponent from '@/components/common/button/DefaultButtonComponent.vue'
+import DefaultButtonComponent from '@/components/_common/button/DefaultButtonComponent.vue'
 import DetailViewHeaderComponent from '@/components/build/DetailViewHeaderComponent.vue'
 import WorkFlowComponent from '@/components/build/WorkFlowComponent.vue'
 import { computed, ref } from 'vue'

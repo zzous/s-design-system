@@ -14,7 +14,6 @@
 <script setup>
 import { ref } from 'vue'
 import { DEFAULT_BUTTON_COLOR } from '/src/assets/consts/consts.js'
-
 const selectedTab = ref('')
 
 const tabList = ref(['Open', 'Merged', 'Closed', 'All'])

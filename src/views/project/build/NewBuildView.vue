@@ -105,10 +105,10 @@
 </template>
 
 <script setup>
-import DefaultButtonComponent from '@/components/common/button/DefaultButtonComponent.vue'
+import DefaultButtonComponent from '@/components/_common/button/DefaultButtonComponent.vue'
 import { ref } from 'vue'
-import AccordionMenuComponent from '@/components/common/AccordionMenuComponent.vue'
-import ShellScriptInputComponent from '@/components/common/input/ShellScriptInputComponent.vue'
+import AccordionMenuComponent from '@/components/_common/AccordionMenuComponent.vue'
+import ShellScriptInputComponent from '@/components/_common/input/ShellScriptInputComponent.vue'
 import { DEFAULT_CHECKOUT_SCRIPT, DEFAULT_FILE_UPLOAD_SCRIPT } from '@/assets/consts/consts'
 
 const checkoutScript = ref(DEFAULT_CHECKOUT_SCRIPT)

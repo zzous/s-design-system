@@ -34,7 +34,7 @@
 </template>
 
 <script setup>
-import DefaultButtonComponent from '@/components/common/button/DefaultButtonComponent.vue'
+import DefaultButtonComponent from '@/components/_common/button/DefaultButtonComponent.vue'
 defineProps({
   item: {
     type: Object,

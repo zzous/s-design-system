@@ -6,7 +6,7 @@
 </template>
 
 <script setup>
-import DefaultButtonComponent from '@/components/common/button/DefaultButtonComponent.vue'
+import DefaultButtonComponent from '@/components/_common/button/DefaultButtonComponent.vue'
 import { ref } from 'vue'
 const onClickTriggerButton = () => {
   if (fileInputRef.value) {

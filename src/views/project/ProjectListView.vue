@@ -32,8 +32,8 @@
 <script setup>
 import gradleImag from '@/assets/images/gradle_logo.png'
 import ProjectListRowComponent from '@/components/project/ProjectListRowComponent.vue'
-import ViewHeaderComponent from '@/components/common/ListViewHeaderComponent.vue'
-import DefaultButtonComponent from '@/components/common/button/DefaultButtonComponent.vue'
+import ViewHeaderComponent from '@/components/_common/ListViewHeaderComponent.vue'
+import DefaultButtonComponent from '@/components/_common/button/DefaultButtonComponent.vue'
 import { computed, ref } from 'vue'
 
 const itemsPerPage = ref(5)

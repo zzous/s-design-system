@@ -39,7 +39,7 @@
 </template>
 
 <script setup>
-import DefaultButtonComponent from '@/components/common/button/DefaultButtonComponent.vue'
+import DefaultButtonComponent from '@/components/_common/button/DefaultButtonComponent.vue'
 import { ref } from 'vue'
 import CommitAccordionComponent from '@/components/file/CommitAccordionComponent.vue'
 
