@@ -30,7 +30,6 @@
 </template>
 
 <script setup>
-import gradleImag from '@/assets/images/gradle_logo.png'
 import ProjectListRowComponent from '@/components/project/ProjectListRowComponent.vue'
 import ViewHeaderComponent from '@/components/_common/ListViewHeaderComponent.vue'
 import DefaultButtonComponent from '@/components/_common/button/DefaultButtonComponent.vue'
@@ -40,7 +39,7 @@ const itemsPerPage = ref(5)
 const page = ref(1)
 const projectList = ref([
   {
-    img: gradleImag,
+    img: 'gradle',
     title: 'Frozen Yogurt',
     projectAlias: '데모',
     buildCnt: 5,

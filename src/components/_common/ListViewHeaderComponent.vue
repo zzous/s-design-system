@@ -2,7 +2,7 @@
   <div class="title-wrapper mr-2">
     <div class="d-flex justify-space-between align-center title-contents-wrapper">
       <span class="title-contents">
-        <img :src="titleSvgPath" alt="icon" class="title-icon" />
+        <img src="/svg/title_bg.svg" alt="icon" class="title-icon" />
         {{ title }} {{ showCnt ? `(${listCnt})` : '' }}
       </span>
       <div class="d-flex input-wrapper">
@@ -13,9 +13,7 @@
 </template>
 
 <script setup>
-import titleSvg from '@/assets/svg/title_bg.svg'
 import { defineProps, ref } from 'vue'
-const titleSvgPath = ref(titleSvg)
 defineProps({
   title: {
     type: String,

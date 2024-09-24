@@ -1,6 +1,8 @@
 <template>
   <tr class="text-align-center">
-    <td class="projectImage"><v-img width="30" height="30" :src="item.img" /></td>
+    <td class="projectImage">
+      <v-img width="30" height="30" :src="`/images/${item.img}_logo.png`" />
+    </td>
     <td class="active-text-color project-title">{{ item.title }}</td>
     <td>
       <div class="project-alias">{{ item.projectAlias }}</div>

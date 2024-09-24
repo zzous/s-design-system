@@ -46,8 +46,8 @@
                 </tr>
               </template>
               <template #[`item.state`]="{ item }">
-                <img v-show="item.state === 'FAIL'" :alt="item.state" src="@/assets/images/icon/icon_f.gif" />
-                <img v-show="item.state === 'SUCCESS'" :alt="item.state" src="@/assets/images/icon/icon_s.gif" />
+                <img v-show="item.state === 'FAIL'" :alt="item.state" src="/images/icon/icon_f.gif" />
+                <img v-show="item.state === 'SUCCESS'" :alt="item.state" src="/images/icon/icon_s.gif" />
               </template>
               <template #[`item.approveHistory`]>
                 <v-icon class="historyButton" icon="mdi-clipboard-outline"></v-icon>
