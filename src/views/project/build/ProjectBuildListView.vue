@@ -2,7 +2,6 @@
   <div class="view-wrapper">
     <ViewHeaderComponent title="빌드">
       <DefaultButtonComponent title="새 빌드" to="builds/new" />
-      <!--/serviceGroups/9/console/projects/83/builds/new-->
     </ViewHeaderComponent>
     <div class="contentsWrapper">
       <v-data-table :custom-filter="filterOnlyCapsText" :headers="headers" :items="items" :search="search" item-value="name">

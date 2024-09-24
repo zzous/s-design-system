@@ -7,7 +7,8 @@ import repositoryRouter from './repository'*/
 
 export default [
   {
-    path: 'projects/:projectId',
+    path: 'projects',
+    redirect: (to) => `${to.path}/builds`,
     children: [...buildRouter, ...deployRouter, ...repositoryRouter]
   }
 ]

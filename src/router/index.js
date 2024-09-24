@@ -4,7 +4,7 @@ import projectRouter from './project'
 
 const router = createRouter({
   //TODO: router 분리
-  history: createWebHistory(import.meta.env.BASE_URL),
+  history: createWebHistory(import.meta.env.VITE_BASE_PUBLIC_URL),
   routes: [
     {
       path: '/',
@@ -12,12 +12,12 @@ const router = createRouter({
       component: () => import('@/views/HomeView.vue')
     },
     {
-      path: '/serviceGroups/:serviceGroupId/project/list',
+      path: '/project/list',
       name: 'projectList',
       component: () => import('@/views/project/ProjectListView.vue')
     },
     {
-      path: '/serviceGroups/:serviceGroupId/console',
+      path: '/console',
       children: [...projectRouter]
     }
     /*//build
