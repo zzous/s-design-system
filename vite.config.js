@@ -9,13 +9,7 @@ export default ({ mode }) => {
   process.env = { ...process.env, ...loadEnv(mode, process.cwd()) }
   return defineConfig({
     base: `${process.env.VITE_BASE_PUBLIC_URL}/`,
-    plugins: [
-      vue(),
-      vueDevTools(),
-    ],
-    server: {
-      port: 8080
-    },
+    plugins: [vue(), vueDevTools()],
     css: {
       preprocessorOptions: {
         scss: {
@@ -34,9 +28,22 @@ export default ({ mode }) => {
       terserOptions: {
         compress: {
           drop_console: mode !== 'dev',
-          drop_debugger: mode !== 'dev',
-        },
-      },
+          drop_debugger: mode !== 'dev'
+        }
+      }
+    },
+    server: {
+      port: 8080,
+      proxy: {
+        '^/api(/v1|/v2)/portal': {
+          target: process.env.VITE_USER_API,
+          changeOrigin: true,
+          secure: false,
+          headers: {
+            origin: process.env.VITE_USER_API
+          }
+        }
+      }
     }
   })
 }

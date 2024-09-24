@@ -7,9 +7,7 @@
             <span :class="type + '-text'">{{ title }}</span>
           </div>
         </div>
-        <div class="center-vertical work-flow-el edit-user text-align-center" :class="type">
-          {{ userName }}<br />{{ updateDate }}
-        </div>
+        <div class="center-vertical work-flow-el edit-user text-align-center" :class="type">{{ userName }}<br />{{ updateDate }}</div>
       </v-col>
     </v-row>
   </v-col>

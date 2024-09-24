@@ -8,7 +8,7 @@
       </v-col>
     </v-row>
 
-    <v-row v-for="portGroup in model" class="port-row" dense no-gutters>
+    <v-row v-for="portGroup in model" :key="portGroup.mountPath" class="port-row" dense no-gutters>
       <v-col class="port-input-col large-col">
         <v-text-field v-model="portGroup.mountPath" variant="outlined" />
       </v-col>
@@ -35,7 +35,7 @@ const onClickAddRow = () => {
 const model = defineModel({
   pvcList: {
     type: Array,
-    default: []
+    default: () => []
   }
 })
 </script>

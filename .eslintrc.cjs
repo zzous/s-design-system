@@ -3,7 +3,10 @@ require('@rushstack/eslint-patch/modern-module-resolution')
 
 module.exports = {
   root: true,
-  parser: "babel-parser",
+  env: {
+    node: true,
+    commonjs: true
+  },
   extends: [
     'plugin:vue/vue3-essential',
     'plugin:vue/vue3-recommended',
@@ -47,6 +50,9 @@ module.exports = {
     }
   ],
   parserOptions: {
+    babelOptions: {
+      presets: ['@babel/preset-react']
+    },
     ecmaVersion: 'latest'
   }
 }

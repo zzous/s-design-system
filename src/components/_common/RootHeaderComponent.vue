@@ -1,16 +1,55 @@
 <template>
-  <!--  #1C2536 -->
   <v-app-bar :elevation="2" color="#1C2536" :height="68">
     <template #prepend>
       <div class="s-logo">
-        <router-link to="/overview">
+        <a href="#" @click="$emit('click:logo')">
+          <span class="d-none">main-logo</span>
           <img class="s-logo__img" src="/public/devops/assets/images/logo.svg" alt="" />
-        </router-link>
+        </a>
       </div>
-      <v-app-bar-nav-icon @click="toggleMenu"></v-app-bar-nav-icon>
+      <v-app-bar-title density="compact" variant="flat" size="small" background-color="white">
+        <v-btn class="s-btn__menu" text="서비스" @click="toggleMenu">
+          <template #prepend>
+            <v-icon class="s-btn__menu__icon" variant="text" density="compact" icon="mdi-menu"></v-icon>
+          </template>
+        </v-btn>
+      </v-app-bar-title>
     </template>
-
-    <v-app-bar-title class="header-title-text">서비스</v-app-bar-title>
+    <template #append>
+      <div v-if="!isLoggedIn" class="s-item-group">
+        <a class="s-sign__btn" @keypress.ctrl.i="$emit('log-in')" @click.stop="$emit('click:log-in')">
+          {{ $t('button.signIn') }}
+        </a>
+        <!-- 회원가입 start -->
+        <a class="s-sign__btn" @keypress.ctrl.i="$emit('signUp')" @click.stop="$emit('click:sign-up')">
+          {{ $t('button.signUp') }}
+        </a>
+        <!-- 회원가입 end -->
+      </div>
+      <!-- 전역 테넌트 셀렉트박스 -->
+      <div v-else class="button-wrapper">
+        <slot name="inner-append"></slot>
+        <user-avatar
+          class="sp-avater"
+          :user="userInfo"
+          :menu-items="menuItems"
+          :class-name="{ fontWhite: true }"
+          @click-item="onClickMenuItem"
+        >
+          <template #badge>
+            <v-avatar size="35">
+              <!-- <sp-image
+                v-if="userInfo.picture"
+                lazy-src="user-avatar.png"
+                :src-url="`data:image/${userInfo.picture.format};base64,${userInfo.picture.data}`"
+                width="100"
+              />
+              <sp-image v-else lazy-src="user-avatar.png" src="user-avatar.png" width="100" /> -->
+            </v-avatar>
+          </template>
+        </user-avatar>
+      </div>
+    </template>
   </v-app-bar>
   <div class="menu-back-ground" :class="{ show: showMenu, hide: !showMenu }">
     <!--    <v-navigation-drawer
@@ -33,10 +72,37 @@
 </template>
 
 <script setup>
-import { HEADER_MENU } from '@/assets/consts/consts'
 import { ref } from 'vue'
+import { HEADER_MENU } from '@/assets/consts/consts'
+
+import UserAvatar from '@/components/_common/avatar/AvatarComponent.vue'
+
+defineProps({
+  isLoggedIn: {
+    type: Boolean
+  },
+  userInfo: {
+    type: Object,
+    default: () => {
+      return {
+        name: '-',
+        picture: {
+          format: 'png'
+        }
+      }
+    }
+  },
+  menuItems: {
+    type: Array,
+    default: () => []
+  }
+})
+
+defineEmits(['click:log-in', 'click:sign-up', 'click:menu-item', 'click:logo'])
+
 const showMenu = ref(false)
 const items = ref(HEADER_MENU)
+
 const toggleMenu = () => {
   showMenu.value = !showMenu.value
 }
@@ -69,10 +135,34 @@ const closeMenu = () => {
 }
 
 .s-logo {
+  width: 300px;
   height: 68px;
 
   .s-logo__img {
     margin-top: 17px;
+  }
+}
+
+.s-item-group {
+  .s-sign__btn {
+    display: inline-table;
+    cursor: pointer;
+    color: #fff;
+    background: $s-btn__primary 0% 0% no-repeat padding-box;
+    opacity: 1;
+    padding: 6px 20px;
+    text-align: center;
+    margin-right: 10px;
+    padding: 0;
+    width: 110px;
+    height: 36px;
+
+    border-radius: 5px;
+    border: solid 1px #fff;
+    font-size: 14px;
+    font-weight: 500;
+
+    line-height: 36px;
   }
 }
 
@@ -92,5 +182,30 @@ const closeMenu = () => {
 .menu-back-ground.show {
   height: 100%;
   transition: linear 0.5s;
+}
+</style>
+<style lang="scss">
+.s-btn__menu {
+  &:hover > .v-btn__overlay,
+  &:focus-visible > .v-btn__overlay {
+    opacity: 0;
+  }
+
+  > .v-ripple__container {
+    display: none;
+  }
+
+  &:focus-visible::after {
+    opacity: 0;
+  }
+
+  .s-btn__menu__icon {
+    color: #000;
+    background-color: #fff;
+    border-radius: 50%;
+    font-size: 1rem;
+    width: 18px;
+    height: 18px;
+  }
 }
 </style>
