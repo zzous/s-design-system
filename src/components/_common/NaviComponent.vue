@@ -73,7 +73,7 @@ const projectList = ref([
 
 <style scoped lang="scss">
 //@import "@/assets/_variables.scss";
-@import 'src/assets/style/variables';
+@import '@/assets/style/variables';
 
 #menu_title_wrapper {
   color: #ffffff;

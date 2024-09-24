@@ -124,7 +124,7 @@ const buildHistoryList = ref([
 </script>
 
 <style lang="scss" scoped>
-@import 'src/assets/style/variables';
+@import '@/assets/style/variables';
 
 #work_flow_contents {
   overflow-x: auto; /* 가로 스크롤 활성화 */

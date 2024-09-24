@@ -51,7 +51,7 @@ const closeMenu = () => {
 </script>
 
 <style lang="scss" scoped>
-@import 'src/assets/style/variables';
+@import '@/assets/style/variables';
 .side-menu {
   cursor: pointer;
   height: 50px;

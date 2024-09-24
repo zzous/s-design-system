@@ -16,6 +16,13 @@ export default ({ mode }) => {
     server: {
       port: 8080
     },
+    css: {
+      preprocessorOptions: {
+        scss: {
+          api: 'modern' // or "modern"
+        }
+      }
+    },
     resolve: {
       alias: {
         '@': fileURLToPath(new URL('./src', import.meta.url))

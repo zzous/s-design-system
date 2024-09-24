@@ -93,7 +93,7 @@ const filterOnlyCapsText = (value, query) => {
 </script>
 
 <style scoped lang="scss">
-@import 'src/assets/style/variables';
+@import '@/assets/style/variables';
 .contentsWrapper {
 }
 .tableHeader {

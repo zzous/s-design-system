@@ -55,7 +55,7 @@ const pageCnt = computed(() => Math.ceil(projectList.value.length / itemsPerPage
 </script>
 
 <style scoped lang="scss">
-@import 'src/assets/style/variables';
+@import '@/assets/style/variables';
 
 .input-wrapper {
   padding-top: 20px;
