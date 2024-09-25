@@ -6,17 +6,19 @@
     <div class="border-b">
       <!--   TODO: 나중에 v-data-table 로 바꾸는게 좋을지 확인 해 볼것   -->
       <table class="branch-wrapper mt-5 mb-5">
-        <tr>
-          <td class="branch-name"><v-icon>mdi-monitor</v-icon>&nbsp;master <v-badge color="info" content="Default" inline></v-badge></td>
-          <td rowspan="2" class="branch-extra text-end">
-            <DefaultButtonComponent title="삭제" />
-          </td>
-        </tr>
-        <tr>
-          <td class="branch-info">
-            <v-icon class="rotate-90">mdi-source-commit</v-icon>1ed5149a60b79d3551f549860d704290decdb64d / 8 days ago
-          </td>
-        </tr>
+        <tbody>
+          <tr>
+            <td class="branch-name"><v-icon>mdi-monitor</v-icon>&nbsp;master <v-badge color="info" content="Default" inline></v-badge></td>
+            <td rowspan="2" class="branch-extra text-end">
+              <DefaultButtonComponent title="삭제" />
+            </td>
+          </tr>
+          <tr>
+            <td class="branch-info">
+              <v-icon class="rotate-90">mdi-source-commit</v-icon>1ed5149a60b79d3551f549860d704290decdb64d / 8 days ago
+            </td>
+          </tr>
+        </tbody>
       </table>
     </div>
     <v-pagination v-model="page" :length="pageCnt"></v-pagination>
