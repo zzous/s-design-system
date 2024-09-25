@@ -7,3 +7,6 @@
 7. URL 에 camelCase 금지, kebab-case 허용
 8. vuetify 컴포넌트 클래스 변경시 ::v-deep .v-slide-group__content 와 같이 ::v-deep 을 작성하여 scoped 스타일 내에 작성할것
 9. Tab 인덴트는 2칸
+10. _common 컴포넌트는 내부 이벤트에 대한 메서드는 부모가 가지는 형식으로 할 것
+11. _common 컴포넌트는 상태관련 코드 금지
+12. 목록화면은 /list 로 구성 ex) 빌드 목록 -> /build/list
