@@ -24,7 +24,7 @@
                 <WorkFlowComponent
                   :show-arrow="false"
                   title="Build Request"
-                  type="dotCircle"
+                  type="dot-circle"
                   updated-at="2024-09-06 0:48"
                   user-name="demouser1"
                 />

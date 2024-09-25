@@ -51,7 +51,7 @@ defineProps({
     type: String,
     required: true,
     validator: (value) => {
-      return ['circle', 'decision', 'dotCircle'].includes(value)
+      return ['circle', 'decision', 'dot-circle'].includes(value)
     }
   }
 })
