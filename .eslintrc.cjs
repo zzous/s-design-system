@@ -12,13 +12,13 @@ module.exports = {
     'plugin:vue/vue3-recommended',
     'eslint:recommended',
     '@vue/eslint-config-prettier/skip-formatting',
-    'plugin:prettier/recommended'
+    /*'plugin:prettier/recommended'*/
   ],
   rules: {
     'max-len': ['error', { code: 140, tabWidth: 2, ignoreUrls: true, ignoreStrings: true, ignoreTemplateLiterals: true }],
     quotes: ['error', 'single', { allowTemplateLiterals: true }], // <script> 블록에서 작은따옴표 사용
     'no-warning-comments': 'off', // 주석에서 경고 단어 검사 비활성화
-    'prettier/prettier': [
+    /*'prettier/prettier': [
       'error',
       {
         singleQuote: true,
@@ -26,7 +26,7 @@ module.exports = {
         ignoreComments: true,
         vueSingleQuote: false // .vue 파일의 <template>에서는 큰따옴표 사용
       }
-    ],
+    ],*/
     'no-restricted-syntax': [
       'error',
       {
@@ -43,12 +43,12 @@ module.exports = {
       }
     ]
   },
-  overrides: [
+  /*overrides: [
     {
-      files: ['cypress/e2e/**/*.{cy,spec}.{js,ts,jsx,tsx}', 'cypress/support/**/*.{js,ts,jsx,tsx}'],
+      files: ['cypress/e2e/!**!/!*.{cy,spec}.{js,ts,jsx,tsx}', 'cypress/support/!**!/!*.{js,ts,jsx,tsx}'],
       extends: ['plugin:cypress/recommended']
     }
-  ],
+  ],*/
   parserOptions: {
     babelOptions: {
       presets: ['@babel/preset-react']

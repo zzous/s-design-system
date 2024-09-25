@@ -6,7 +6,7 @@ export const NAVI_MENU = [
       {
         title: '빌드',
         value: 'build',
-        url: '/console/projects/builds'
+        url: '/console/projects/build/list'
       },
       {
         title: '배포',
@@ -21,7 +21,7 @@ export const NAVI_MENU = [
       {
         title: '회원',
         value: 'user',
-        url: '/console/projects/builds'
+        url: '/console/projects/build/list'
       }
     ]
   },
@@ -32,32 +32,32 @@ export const NAVI_MENU = [
       {
         title: '툴체인 구성 (테넌트 관리)',
         value: 'settingToolChain',
-        url: '/console/projects/builds'
+        url: '/console/projects/build/list'
       },
       {
         title: '젠킨스 스테이지 관리',
         value: 'settingJenkins',
-        url: '/console/projects/builds'
+        url: '/console/projects/build/list'
       },
       {
         title: '소나큐브 룰 관리',
         value: 'settingSonarRule',
-        url: '/console/projects/builds'
+        url: '/console/projects/build/list'
       },
       {
         title: '클러스터 관리',
         value: 'settingCluster',
-        url: '/console/projects/builds'
+        url: '/console/projects/build/list'
       },
       {
         title: '산출물 관리',
         value: 'settingProduct',
-        url: '/console/projects/builds'
+        url: '/console/projects/build/list'
       },
       {
         title: '프로젝트 복구',
         value: 'restoreProject',
-        url: '/console/projects/builds'
+        url: '/console/projects/build/list'
       }
     ]
   },
@@ -68,7 +68,7 @@ export const NAVI_MENU = [
       {
         title: '툴체인 환경 설정',
         value: 'settingToolChainEnv',
-        url: '/console/projects/builds'
+        url: '/console/projects/build/list'
       }
     ]
   }

@@ -33,7 +33,7 @@ export default ({ mode }) => {
       }
     },
     server: {
-      port: 8080,
+      port: 3001,
       proxy: {
         '^/api(/v1|/v2)/portal': {
           target: process.env.VITE_USER_API,
