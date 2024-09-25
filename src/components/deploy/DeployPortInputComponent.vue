@@ -42,10 +42,8 @@ const onClickAddRow = () => {
   })
 }
 const model = defineModel({
-  portList: {
-    type: Array,
-    default: []
-  }
+  type: Array,
+  default: []
 })
 </script>
 

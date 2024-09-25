@@ -46,10 +46,8 @@ const onClickAddRow = () => {
   })
 }
 const model = defineModel({
-  hostPathList: {
-    type: Array,
-    default: []
-  }
+  type: Array,
+  default: []
 })
 </script>
 

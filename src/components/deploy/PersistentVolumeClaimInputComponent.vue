@@ -33,10 +33,8 @@ const onClickAddRow = () => {
   })
 }
 const model = defineModel({
-  pvcList: {
-    type: Array,
-    default: () => []
-  }
+  type: Array,
+  default: () => []
 })
 </script>
 
