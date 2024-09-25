@@ -1,7 +1,7 @@
 <template>
   <tr class="text-align-center">
     <td class="projectImage">
-      <v-img width="30" height="30" :src="`/images/${item.img}_logo.png`" />
+      <v-img width="30" height="30" :src="`/devops/assets/images/${item.img}_logo.png`" />
     </td>
     <td class="active-text-color project-title">{{ item.title }}</td>
     <td>

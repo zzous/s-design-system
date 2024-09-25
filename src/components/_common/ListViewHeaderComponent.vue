@@ -2,7 +2,7 @@
   <div class="title-wrapper mr-2">
     <div class="d-flex justify-space-between align-center title-contents-wrapper">
       <span class="title-contents">
-        <img src="/svg/title_bg.svg" alt="icon" class="title-icon" />
+        <img src="/devops/assets/images/title_bg.svg" alt="icon" class="title-icon" />
         {{ title }} {{ showCnt ? `(${listCnt})` : '' }}
       </span>
       <div class="d-flex input-wrapper">
@@ -14,7 +14,7 @@
 
 <script setup>
 
-const titleSvgPath = ref(titleSvg)
+
 defineProps({
   title: {
     type: String,
