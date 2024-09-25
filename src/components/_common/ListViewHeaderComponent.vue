@@ -14,7 +14,7 @@
 
 <script setup>
 import titleSvg from '@/assets/svg/title_bg.svg'
-import { defineProps, ref } from 'vue'
+import { ref } from 'vue'
 const titleSvgPath = ref(titleSvg)
 defineProps({
   title: {
