@@ -1,3 +1,4 @@
+// /console/projects/
 export default [
   {
     path: 'repository',

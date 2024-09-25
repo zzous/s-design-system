@@ -11,7 +11,7 @@ export const NAVI_MENU = [
       {
         title: '배포',
         value: 'deploy',
-        url: '/console/projects/deploy'
+        url: '/console/projects/deploy/list'
       },
       {
         title: '저장소',
