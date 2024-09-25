@@ -1,26 +1,86 @@
 <template>
   <div class="view-wrapper">
     <div class="pl-15 pr-7">
-      <DetailViewHeaderComponent branch-name="test branch" build-name="test build name" project-name="test project">
+      <DetailViewHeaderComponent
+        branch-name="test branch"
+        build-name="test build name"
+        project-name="test project"
+      >
         <DefaultButtonComponent title="수정" />
-        <DefaultButtonComponent class="ml-1" title="삭제" />
+        <DefaultButtonComponent
+          class="ml-1"
+          title="삭제"
+        />
       </DetailViewHeaderComponent>
       <div class="buildContents">
         <div class="mt-16 mb-16">
           빌드 승인 프로세스
           <div class="pl-10 pr-10">
             <div id="work_flow_contents">
-              <v-row class="scroll-row" no-gutters>
-                <WorkFlowComponent title="Build Request" type="circle" updated-at="2024-09-06 0:48" user-name="demouser1" />
-                <WorkFlowComponent title="Project Manager" type="decision" updated-at="2024-09-06 0:48" user-name="demouser1" />
-                <WorkFlowComponent title="Project Manager" type="decision" updated-at="2024-09-06 0:48" user-name="demouser1" />
-                <WorkFlowComponent title="Project Manager" type="decision" updated-at="2024-09-06 0:48" user-name="demouser1" />
-                <WorkFlowComponent title="Project Manager" type="decision" updated-at="2024-09-06 0:48" user-name="demouser1" />
-                <WorkFlowComponent title="Project Manager" type="decision" updated-at="2024-09-06 0:48" user-name="demouser1" />
-                <WorkFlowComponent title="Project Manager" type="decision" updated-at="2024-09-06 0:48" user-name="demouser1" />
-                <WorkFlowComponent title="Project Manager" type="decision" updated-at="2024-09-06 0:48" user-name="demouser1" />
-                <WorkFlowComponent title="Project Manager" type="decision" updated-at="2024-09-06 0:48" user-name="demouser1" />
-                <WorkFlowComponent title="Project Manager" type="decision" updated-at="2024-09-06 0:48" user-name="demouser1" />
+              <v-row
+                class="scroll-row"
+                no-gutters
+              >
+                <WorkFlowComponent
+                  title="Build Request"
+                  type="circle"
+                  updated-at="2024-09-06 0:48"
+                  user-name="demouser1"
+                />
+                <WorkFlowComponent
+                  title="Project Manager"
+                  type="decision"
+                  updated-at="2024-09-06 0:48"
+                  user-name="demouser1"
+                />
+                <WorkFlowComponent
+                  title="Project Manager"
+                  type="decision"
+                  updated-at="2024-09-06 0:48"
+                  user-name="demouser1"
+                />
+                <WorkFlowComponent
+                  title="Project Manager"
+                  type="decision"
+                  updated-at="2024-09-06 0:48"
+                  user-name="demouser1"
+                />
+                <WorkFlowComponent
+                  title="Project Manager"
+                  type="decision"
+                  updated-at="2024-09-06 0:48"
+                  user-name="demouser1"
+                />
+                <WorkFlowComponent
+                  title="Project Manager"
+                  type="decision"
+                  updated-at="2024-09-06 0:48"
+                  user-name="demouser1"
+                />
+                <WorkFlowComponent
+                  title="Project Manager"
+                  type="decision"
+                  updated-at="2024-09-06 0:48"
+                  user-name="demouser1"
+                />
+                <WorkFlowComponent
+                  title="Project Manager"
+                  type="decision"
+                  updated-at="2024-09-06 0:48"
+                  user-name="demouser1"
+                />
+                <WorkFlowComponent
+                  title="Project Manager"
+                  type="decision"
+                  updated-at="2024-09-06 0:48"
+                  user-name="demouser1"
+                />
+                <WorkFlowComponent
+                  title="Project Manager"
+                  type="decision"
+                  updated-at="2024-09-06 0:48"
+                  user-name="demouser1"
+                />
                 <WorkFlowComponent
                   :show-arrow="false"
                   title="Build Request"
@@ -33,12 +93,24 @@
           </div>
         </div>
         <div id="build_history_list_wrapper">
-          <div id="build_history_list_table_title">빌드 내역 (0)</div>
-          <div id="build_history_list_table_wrapper" class="mt-10">
-            <v-data-table v-model="page" :headers="buildHistoryHeader" :items="buildHistoryList">
+          <div id="build_history_list_table_title">
+            빌드 내역 (0)
+          </div>
+          <div
+            id="build_history_list_table_wrapper"
+            class="mt-10"
+          >
+            <v-data-table
+              v-model="page"
+              :headers="buildHistoryHeader"
+              :items="buildHistoryList"
+            >
               <template #headers="{ columns }">
                 <tr class="tableHeader">
-                  <template v-for="(header, idx) in columns" :key="idx">
+                  <template
+                    v-for="(header, idx) in columns"
+                    :key="idx"
+                  >
                     <th :style="{ textAlign: header.align ? header.align : 'center' }">
                       {{ header.title }}
                     </th>
@@ -46,15 +118,29 @@
                 </tr>
               </template>
               <template #[`item.state`]="{ item }">
-                <img v-show="item.state === 'FAIL'" :alt="item.state" src="/images/icon/icon_f.gif" />
-                <img v-show="item.state === 'SUCCESS'" :alt="item.state" src="/images/icon/icon_s.gif" />
+                <img
+                  v-show="item.state === 'FAIL'"
+                  :alt="item.state"
+                  src="/devops/assets/images/icon_f.gif"
+                >
+                <img
+                  v-show="item.state === 'SUCCESS'"
+                  :alt="item.state"
+                  src="/devops/assets/images/icon_s.gif"
+                >
               </template>
               <template #[`item.approveHistory`]>
-                <v-icon class="historyButton" icon="mdi-clipboard-outline"></v-icon>
+                <v-icon
+                  class="historyButton"
+                  icon="mdi-clipboard-outline"
+                />
               </template>
               <template #bottom>
                 <div class="text-center pt-2">
-                  <v-pagination v-model="page" :length="pageCnt"></v-pagination>
+                  <v-pagination
+                    v-model="page"
+                    :length="pageCnt"
+                  />
                 </div>
               </template>
             </v-data-table>
