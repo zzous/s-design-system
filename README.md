@@ -1,7 +1,11 @@
 # 주의사항
+
 [필독](etc/Convention.md)
 
+[국제화 코드](etc/i18n/index.md)
+
 [단어선택 목록](etc/Word.md)
+
 # devops-frontend
 
 This template should help get you started developing with Vue 3 in Vite.
@@ -15,8 +19,9 @@ This template should help get you started developing with Vue 3 in Vite.
 See [Vite Configuration Reference](https://vitejs.dev/config/).
 
 ## Package Manager Set up
+
 - Windows : iwr htttps://get.pnpm.io/install/ps1 -useb | iex
-- Mac : brew install pnpm 
+- Mac : brew install pnpm
 
 ## Project Setup
 

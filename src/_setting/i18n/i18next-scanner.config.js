@@ -6,6 +6,7 @@ export default {
   // 원하는 언어를 배열 형태로 설정합니다.
   options: {
     debug: true,
+    removeUnusedKeys: true,
     func: {
       list: ['$t', 't', 'i18next.t'],
       // 사용할 함수 목록
@@ -46,6 +47,11 @@ export default {
 
     done();
   },
+  /**
+   * flush: i18next-scanner의 flush 단계에서 실행됩니다.
+   * 이 함수는 i18next-scanner가 수집한 새로운 번역 키를 기존 번역 파일과 병합합니다.
+   * @param {Function} done - flush가 완료된 후 호출할 함수
+   */
   flush: function postProcess(done) {
     const parser = this.parser;
 
@@ -54,15 +60,11 @@ export default {
     const namespaces = parser.options.ns;
 
     const saveFile = (filePath, existingData, newData) => {
-      console.log(existingData, newData)
       const mergedData = _.merge(newData, existingData);
-        console.log('mergedData', mergedData)
         // 병합된 데이터로 파일 덮어쓰기
-        console.log(filePath)
         fs.writeFileSync(filePath, JSON.stringify(mergedData, null, 2));
     }
 
-    console.log('postProcess', namespaces);
     languages.forEach((lng) => {
       namespaces.forEach((ns) => {
         const filePath = path.resolve(`./src/_setting/i18n/${lng}/${ns}.json`);
@@ -72,7 +74,6 @@ export default {
         if (fs.existsSync(filePath)) {
           existingData = JSON.parse(fs.readFileSync(filePath, 'utf8'));
         }
-        console.log(existingData)
         // 새로 수집된 데이터 가져오기
         const newData = parser.get({ lng, ns });
 

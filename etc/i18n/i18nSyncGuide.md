@@ -28,6 +28,8 @@ https://<hi>docs.<hi>google<hi>.com/spreadsheets/d/<span style="background-color
 
 ***<span style="background-color:#FFE6E6">코드 내에서 value를 수정하지 마세요. 구글 스프레드시트에서 수정된 파일을 pull 받으세요.</span>***
 
+최초 업로드 시 value 값을 추가해도 됩니다.
+
 ### 3.2 Google Sheets 업로드
 
 ```pnpm run i18n:push```
@@ -45,6 +47,10 @@ https://<hi>docs.<hi>google<hi>.com/spreadsheets/d/<span style="background-color
 - 다국어 지원 확장
 
 실제 프로젝트에 적용할 때는 보안, 성능, 사용자 경험 등을 고려하여 추가적인 개선이 필요할 수 있습니다.
+
+- 코드 안정화
+
+이전에 생성한 key중 사용하지 않는 값이 있을 때, translation.json 데이터 추출 시 자동으로 삭제가 되지 않는 이슈가 있습니다.
 
 ## 5. 정리
 
