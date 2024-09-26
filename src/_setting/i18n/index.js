@@ -1,6 +1,5 @@
 // src/i18n.js
 import i18next from 'i18next'
-import { initI18nextVue } from 'i18next-vue'
 import ko_KR from './ko/translation.json'
 import en_US from './en/translation.json'
 
@@ -13,12 +12,25 @@ const resources = {
 }
 
 // i18n 인스턴스 생성
-i18next.use(initI18nextVue).init({
+i18next.init({
   lng: navLang,
   fallbackLng: 'ko',
   resources
 })
 
-const i18n = initI18nextVue(i18next)
+export const useI18n = () => {
+  const t = (key, options) => {
+    return i18next.t(key, options);
+  };
 
-export default i18n
+  const changeLanguage = (lng) => {
+    i18next.changeLanguage(lng);
+  }
+
+  return {
+    t,
+    changeLanguage,
+  }
+}
+
+export default i18next

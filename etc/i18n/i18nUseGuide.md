@@ -16,7 +16,7 @@
 <strong>sample</strong>
 
   ```
-  t('key', { what: 'i18next', how: 'great' })
+  $t('key', { what: 'i18next', how: 'great' })
   ```
 
 ## 데이터 매핑
@@ -32,11 +32,13 @@
 <strong>sample</strong>
 
   ```
+  import { useI18n } from 'i18next-vue'
+  const { t } = useI18n()
   const author = {
     name: 'Jan',
     github: 'jamuhl'
   };
-  i18next.t('key', { author });
+  t('key', { author });
   // -> "I am Jan"
   ```
 

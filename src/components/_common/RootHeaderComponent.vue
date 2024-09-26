@@ -18,11 +18,11 @@
     <template #append>
       <div v-if="!isLoggedIn" class="s-item-group">
         <a class="s-sign__btn" @keypress.ctrl.i="$emit('click:log-in')" @click.stop="$emit('click:log-in')">
-          {{ t('로그인') }}
+          {{ $t('로그인') }}
         </a>
         <!-- 회원가입 start -->
         <a class="s-sign__btn" @keypress.ctrl.i="$emit('click:sign-up')" @click.stop="$emit('click:sign-up')">
-          {{ t('회원가입') }}
+          {{ $t('회원가입') }}
         </a>
         <!-- 회원가입 end -->
       </div>
@@ -74,6 +74,8 @@
 <script setup>
 import { ref } from 'vue'
 import { HEADER_MENU } from '@/assets/consts/consts'
+
+import { useI18n } from '@/_setting/i18n'
 
 import UserAvatar from '@/components/_common/avatar/AvatarComponent.vue'
 
