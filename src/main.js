@@ -1,5 +1,5 @@
 import '@/assets/style/common.scss'
-import vuetify from '@/_setting/plugins/vuetify.js'
+import vuetify from '@/_setting/vuetify/vuetify.js'
 import i18n from '@/_setting/i18n/i18n.js'
 
 import { createApp } from 'vue'

@@ -7,7 +7,7 @@
           density="compact"
           width="200px"
           class="mr-5"
-          placeholder="프로젝트명으로 검색"
+          :placeholder="$t('프로젝트명으로 검색')"
           prepend-inner-icon="mdi-magnify"
         ></v-text-field>
         <DefaultButtonComponent class="inline-block" title="신규 프로젝트" />
