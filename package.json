@@ -4,6 +4,9 @@
   "private": true,
   "type": "module",
   "scripts": {
+    "i18n:extract": "i18next-scanner-esm --config ./src/_setting/i18n/i18next-scanner.config.js --output ./src/_setting 'src/**/*.{js,vue}'",
+    "i18n:push": "node ./src/_setting/i18n/push.js",
+    "i18n:pull": "node ./src/_setting/i18n/pull.js",
     "dev": "vite --mode dev",
     "build": "vite build",
     "preview": "vite preview",
@@ -14,14 +17,18 @@
     "@mdi/font": "^7.4.47",
     "async-mutex": "^0.5.0",
     "axios": "^1.7.7",
+    "googleapis": "^144.0.0",
+    "i18next": "^23.15.1",
+    "i18next-scanner-esm": "^3.1.1",
+    "i18next-vue": "^5.0.0",
     "lodash-es": "^4.17.21",
     "moment": "^2.30.1",
     "pinia": "^2.1.7",
     "sass": "^1.77.8",
     "sass-loader": "^16.0.1",
     "vue": "^3.4.29",
-    "vue-i18n": "^10.0.0-beta.6",
-    "vue-router": "^4.3.3"
+    "vue-router": "^4.3.3",
+    "xlsx": "^0.18.5"
   },
   "devDependencies": {
     "@rushstack/eslint-patch": "^1.8.0",

@@ -1,12 +1,14 @@
 import '@/assets/style/common.scss'
 import vuetify from '@/_setting/plugins/vuetify.js'
-import i18n from '@/_setting/plugins/i18n.js'
+import i18n from '@/_setting/i18n/i18n.js'
 
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
 
 import App from './App.vue'
 import router from './router'
+
+app.config.globalProperties.$t = i18n.t
 
 const app = createApp(App)
 

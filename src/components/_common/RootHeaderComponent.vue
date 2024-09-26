@@ -17,12 +17,12 @@
     </template>
     <template #append>
       <div v-if="!isLoggedIn" class="s-item-group">
-        <a class="s-sign__btn" @keypress.ctrl.i="$emit('log-in')" @click.stop="$emit('click:log-in')">
-          {{ $t('button.signIn') }}
+        <a class="s-sign__btn" @keypress.ctrl.i="$emit('click:log-in')" @click.stop="$emit('click:log-in')">
+          {{ t('로그인') }}
         </a>
         <!-- 회원가입 start -->
-        <a class="s-sign__btn" @keypress.ctrl.i="$emit('signUp')" @click.stop="$emit('click:sign-up')">
-          {{ $t('button.signUp') }}
+        <a class="s-sign__btn" @keypress.ctrl.i="$emit('click:sign-up')" @click.stop="$emit('click:sign-up')">
+          {{ t('회원가입') }}
         </a>
         <!-- 회원가입 end -->
       </div>
