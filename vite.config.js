@@ -14,7 +14,7 @@ export default ({ mode }) => {
       preprocessorOptions: {
         scss: {
           api: 'modern', // or "modern"
-          /*additionalData: `@import "@/assets/style/variables.scss";` //scss 값 전역 설정*/
+          additionalData: `@import "@/assets/style/_variables.scss";@import "@/assets/style/_mixin.scss";` //scss 값 전역 설정
         }
       }
     },

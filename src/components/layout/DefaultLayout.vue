@@ -2,7 +2,7 @@
   <v-app>
     <HeaderComponent
       :is-logged-in="isLoggedIn"
-      :user-info="userInfo"
+      :user-info="userInfoTrans"
       :menu-items="menuItems"
       @click:logo="goToMain"
       @click:menu-item="onClickMenuItem"
@@ -27,12 +27,14 @@
     </HeaderComponent>
     <div class="show-header mb-10">
       <NaviComponent />
-      <RouterView id="router_view" class="show-navi" />
+      <div class="base-layout">
+        <RouterView id="router_view" class="show-navi" />
+      </div>
     </div>
   </v-app>
 </template>
 <script setup>
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 import { RouterView, useRouter } from 'vue-router'
 
 import { useTokenStore } from '@/stores/portal/token'
@@ -46,13 +48,25 @@ const router = useRouter()
 const tokenStore = useTokenStore()
 const userStore = useUserStore()
 const { isLoggedIn, userInfo } = storeToRefs(userStore)
-const menuItems = ref([])
+const menuItems = ref([
+  { title: '나의 정보', value: 'user-detail', checkAuth: false },
+  { title: '기업 정보', value: 'my-company', checkAuth: true },
+  { title: '로그아웃', value: 'logout', checkAuth: false },
+])
 const globalServiceGroup = ref(0)
 const globalServiceGroupList = ref([
   { groupNameTitle: 'Global Service Group 1', uuid: 1 },
   { groupNameTitle: 'Global Service Group 2', uuid: 2 },
   { groupNameTitle: 'Global Service Group 3', uuid: 3 }
 ])
+
+const userInfoTrans = computed(() => {
+  return {
+    ...userInfo.value,
+    name: userInfo.value?.usernameKr
+  }
+})
+
 
 const onClickLogin = () => {
   tokenStore.onLogIn()

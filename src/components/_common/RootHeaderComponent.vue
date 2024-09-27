@@ -4,13 +4,23 @@
       <div class="s-logo">
         <a href="#" @click="$emit('click:logo')">
           <span class="d-none">main-logo</span>
-          <img class="s-logo__img" src="/devops/assets/images/logo.svg" alt="" />
+          <img class="s-logo__img" src="/devops/assets/images/logo.svg" alt="">
         </a>
       </div>
-      <v-app-bar-title density="compact" variant="flat" size="small" background-color="white">
+      <v-app-bar-title
+        density="compact"
+        variant="flat"
+        size="small"
+        background-color="white"
+      >
         <v-btn class="s-btn__menu" text="서비스" @click="toggleMenu">
           <template #prepend>
-            <v-icon class="s-btn__menu__icon" variant="text" density="compact" icon="mdi-menu"></v-icon>
+            <v-icon
+              class="s-btn__menu__icon"
+              variant="text"
+              density="compact"
+              icon="mdi-menu"
+            />
           </template>
         </v-btn>
       </v-app-bar-title>
@@ -27,10 +37,9 @@
         <!-- 회원가입 end -->
       </div>
       <!-- 전역 테넌트 셀렉트박스 -->
-      <div v-else class="button-wrapper">
-        <slot name="inner-append"></slot>
+      <div v-else class="s-item-group">
+        <slot name="inner-append" />
         <user-avatar
-          class="sp-avater"
           :user="userInfo"
           :menu-items="menuItems"
           :class-name="{ fontWhite: true }"
@@ -38,34 +47,44 @@
         >
           <template #badge>
             <v-avatar size="35">
-              <!-- <sp-image
+              <!-- <v-img
                 v-if="userInfo.picture"
                 lazy-src="user-avatar.png"
                 :src-url="`data:image/${userInfo.picture.format};base64,${userInfo.picture.data}`"
                 width="100"
               />
-              <sp-image v-else lazy-src="user-avatar.png" src="user-avatar.png" width="100" /> -->
+              <v-img
+                v-else
+                lazy-src="user-avatar.png"
+                src="user-avatar.png"
+                width="100"
+              /> -->
             </v-avatar>
           </template>
         </user-avatar>
       </div>
     </template>
   </v-app-bar>
+
+  <!-- 서비스 메뉴 -->
   <div class="menu-back-ground" :class="{ show: showMenu, hide: !showMenu }">
-    <!--    <v-navigation-drawer
-        v-model="showMenu"
-        temporary
+    <v-navigation-drawer
+      v-model="showMenu"
+      temporary
     >
-      <v-list
-          :items="items"
-      ></v-list>
-    </v-navigation-drawer>-->
+      <v-list :items="items" />
+    </v-navigation-drawer>
     <div id="side_menu_background">
       <div id="side_menu_wrapper">
         <v-list-item class="text-align-right side-menu">
           <v-icon icon="mdi-close" @click="closeMenu" />
         </v-list-item>
-        <v-list-item v-for="item in items" :key="item.title" class="side-menu" :title="item.title" />
+        <v-list-item
+          v-for="item in items"
+          :key="item.title"
+          class="side-menu"
+          :title="item.title"
+        />
       </div>
     </div>
   </div>
@@ -74,8 +93,6 @@
 <script setup>
 import { ref } from 'vue'
 import { HEADER_MENU } from '@/assets/consts/consts'
-
-import { useI18n } from '@/_setting/i18n'
 
 import UserAvatar from '@/components/_common/avatar/AvatarComponent.vue'
 
@@ -100,7 +117,7 @@ defineProps({
   }
 })
 
-defineEmits(['click:log-in', 'click:sign-up', 'click:menu-item', 'click:logo'])
+const emits = defineEmits(['click:log-in', 'click:sign-up', 'click:menu-item', 'click:logo'])
 
 const showMenu = ref(false)
 const items = ref(HEADER_MENU)
@@ -111,10 +128,13 @@ const toggleMenu = () => {
 const closeMenu = () => {
   showMenu.value = false
 }
+
+const onClickMenuItem = (value) => {
+  emits('click:menu-item', value)
+}
 </script>
 
 <style lang="scss" scoped>
-@import '@/assets/style/variables';
 .side-menu {
   cursor: pointer;
   height: 50px;
@@ -146,6 +166,12 @@ const closeMenu = () => {
 }
 
 .s-item-group {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 10px;
+  gap: 10px;
+
   .s-sign__btn {
     display: inline-table;
     cursor: pointer;
@@ -154,7 +180,6 @@ const closeMenu = () => {
     opacity: 1;
     padding: 6px 20px;
     text-align: center;
-    margin-right: 10px;
     padding: 0;
     width: 110px;
     height: 36px;

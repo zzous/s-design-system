@@ -1,14 +1,31 @@
+@import url('./font/Paperlogy_wght.scss');
+
+$scroll-width: 10px;
+$scroll-height: 17%;
+$scroll-background-color: #C4C4C4;
+$scroll-border-color: #707070;
+$scroll-border-radius: 10px;
+
+$s-base-font: 'Paperlogy', 'Noto Sans KR', sans-serif;
+
 // 주색
-$main-color: #232B3B;
+$main-color: #1C2536;
 
 // 선택된 메뉴에 대한 폰트 색상
-$active-font-color: #1297f2;
+$active-font-color: #1B75BB;
 
-// 활성화 된 버튼 바당 색
-$button-color: #017BE5;
+// 활성화 된 버튼 바탕 색
+$button-color: #1B75BB;
 
 $data-table-header-color: #F6F9FA;
 
+/**
+* Default Color
+*/
+$s-primary: #1C2536;
+$s-secondary: linear-gradient(90deg, #7C0F80 0%, #1B75BB 100%);
+$s-blue: #1B75BB;
+$s-purple: #7C0F80;
 
 /**
 * BUTTON COLOR
@@ -27,5 +44,20 @@ $s-btn--blue-3: #EDF4FA;
 $s-btn--gray-1: #F7F9FA;
 $s-btn--blue-4: #EEEEEE;
 $s-btn--blue-6: #CCCCCC;
-$s-btn__secondary: linear-gradient(90deg, #7C0F80 0%, #1B75BB 100%) ;
+$s-btn__secondary: linear-gradient(90deg, #7C0F80 0%, #1B75BB 100%);
 $s-btn__primary: #1C2536;
+
+/**
+* TEXT COLOR
+*/
+$s-text__gray-0: #FFFFFF;
+$s-text__gray-1: #F7F9FA;
+$s-text__gray-2: #F6F6F6;
+$s-text__gray-3: #F2F2F2;
+$s-text__gray-4: #EEEEEE;
+$s-text__gray-5: #DDDDDD; // border color
+$s-text__gray-6: #CCCCCC;
+$s-text__gray-7: #999999;
+$s-text__gray-8: #6C6C6C;
+$s-text__gray-9: #333333;
+$s-text__gray-10: #000000;

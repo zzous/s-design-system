@@ -1,5 +1,4 @@
 import { createRouter, createWebHistory } from 'vue-router'
-//import HomeView from '../views/HomeView.vue'
 import projectRouter from './project'
 import { useTokenStore } from '@/stores/portal/token'
 import { useUserStore } from '@/stores/portal/user'
@@ -12,13 +11,18 @@ const router = createRouter({
   routes: [
     {
       path: '/',
-      name: 'home',
-      component: () => import('@/views/HomeView.vue')
+      redirect: '/project/list'
     },
     {
-      path: '/project/list',
-      name: 'projectList',
-      component: () => import('@/views/project/ProjectListView.vue')
+      path: '/project',
+      redirect: '/project/list',
+      children: [
+        {
+          path: '/project/list',
+          name: 'projectList',
+          component: () => import('@/views/project/ProjectListView.vue')
+        },
+      ]
     },
     {
       path: '/console',

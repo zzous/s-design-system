@@ -1,7 +1,9 @@
 <template>
   <div id="navi" class="float-left">
     <div id="menu_title_wrapper">
-      <div id="menu_title">데브옵스</div>
+      <div id="menu_title">
+        데브옵스
+      </div>
     </div>
     <div id="project_select_wrapper">
       <div id="project_select">
@@ -17,7 +19,7 @@
           persistent-hint
           return-object
           single-line
-        ></v-select>
+        />
       </div>
     </div>
     <div id="menu_wrapper">
@@ -31,8 +33,7 @@
               :title="menu.title"
               :append-icon="open.includes(menu.value) ? 'mdi-chevron-down' : 'mdi-chevron-right'"
               @click="onClickMenuItem"
-            >
-            </v-list-item>
+            />
           </template>
 
           <v-list-item
@@ -43,7 +44,9 @@
             prepend-icon="mdi-circle-small"
           >
             <template #title>
-              <RouterLink class="navi-inner-menu-title" :to="subMenu.url">{{ subMenu.title }}</RouterLink>
+              <RouterLink class="navi-inner-menu-title" :to="subMenu.url">
+                {{ subMenu.title }}
+              </RouterLink>
             </template>
           </v-list-item>
         </v-list-group>

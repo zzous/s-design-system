@@ -1,0 +1,171 @@
+@import "./_variables";
+
+
+// convert to px to rem
+@function toRem($value) {
+    $remValue: calc($value / 16) + rem;
+    @return $remValue;
+}
+
+// get the value of a text
+@mixin set-text($fontWeight, $fontSize, $fontColor, $fontShadowColor:false) {
+   font-weight: $fontWeight;
+   font-size: toRem($fontSize);
+   color: $fontColor;
+   @if $fontShadowColor {
+     text-shadow: 0 0 1px $fontShadowColor;
+  }
+  // @if $subFont {
+  //   font-family: $sub-font;
+  // }
+}
+
+@mixin box-shadow($top, $left, $blur, $size, $color, $inset: false) {
+    @if $inset {
+        -webkit-box-shadow:inset $top $left $blur $size $color;
+        -moz-box-shadow:inset $top $left $blur $size $color;
+        box-shadow:inset $top $left $blur $size $color;
+    } @else {
+        -webkit-box-shadow: $top $left $blur $size $color;
+        -moz-box-shadow: $top $left $blur $size $color;
+        box-shadow: $top $left $blur $size $color;
+    }
+}
+
+@mixin rounded($radius: 0.5em) {
+  -webkit-border-radius: $radius;
+  -moz-border-radius: $radius;
+  border-radius: $radius;
+}
+
+@mixin scroll() {
+    &::-webkit-scrollbar {
+      width: $scroll-width;
+      height: $scroll-width;
+    }
+    &::-webkit-scrollbar-thumb {
+      height: $scroll-height;
+      background-color: $scroll-background-color;
+      border-radius: $scroll-border-radius;
+    }
+}
+
+@mixin one-line-ellipsis($width: 100%) {
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  white-space: nowrap !important;
+  width: $width;
+}
+
+
+@mixin popup-buttons($className:'', $addClass:false) {
+  .#{$className}__button-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    .#{$className}--button {
+      border-radius: 5px;
+      width: 114px;
+      margin-top: 40px;
+      margin-bottom: 25px;
+      background-color: #fff !important;
+      &.cancel {
+        height: 44px;
+        margin-right: 15px;
+        @include set-text(bold, 13, rgba($color: $sp-sky-blue-500, $alpha: 1));
+        border: thin solid rgba($color: $sp-sky-blue-500, $alpha: 1);
+      }
+    @if $addClass {
+        &.#{$addClass} {
+          height: 44px;
+          @include set-text(bold, 13, rgba($color: $sp-teriary, $alpha: 1));
+          border: thin solid rgba($color: $sp-teriary, $alpha: 1);
+        }
+      }
+    }
+  }
+}
+
+@mixin set-button($color, $hoverColor) {
+  @include set-text(700, 14, null);
+  font-size:14px;
+  border-color:$color;
+  color:#fff;
+  cursor: pointer;
+  font-weight:700 !important;
+  min-width: 110px;
+  height: 46px;
+  background: $color;
+  border-radius: 5px !important;
+  opacity: 1;
+  transition: none;
+
+  padding: 0px 20px;
+  text-align: center;
+  margin-right: 10px;
+  &:hover {
+    background:$hoverColor;
+    border-color:$hoverColor;
+  }
+  &:last-child{
+    margin-right: 0;
+  }
+
+  &.v-btn--disabled {
+    color: rgba(var(--v-theme-on-surface), 0.26);
+    background: $sp-disabled;
+    border: 2px solid $sp-disabled;
+  }
+}
+@mixin set-button-line($color, $hoverColor) {
+  @include set-text(700, 14, null);
+  font-size:14px;
+  border-color:$color;
+  color: $color;
+  cursor: pointer;
+  font-weight:700 !important;
+  min-width: 110px;
+  height: 46px;
+  background: white;
+  border-radius: 5px !important;
+  opacity: 1;
+  transition: none;
+
+  padding: 0px 20px;
+  text-align: center;
+  margin-right: 10px;
+
+  &:hover {
+    color: $color;
+    background: $hoverColor;
+    border-color: $color;
+  }
+  &:last-child{
+    margin-right: 0;
+  }
+
+  &.v-btn--disabled {
+    color: rgba(var(--v-theme-on-surface), 0.26);
+    background: $sp-disabled;
+    border: 2px solid $sp-disabled;
+  }
+}
+
+
+@mixin desktop-small($small:$breakpoint-small, $medium:$breakpoint-medium) {
+  @media (min-width: #{$small}) and (max-width: #{$medium}) {
+    @content;
+  }
+}
+
+@mixin desktop-medium {
+  @media (min-width: #{$breakpoint-medium + 1px }) and (max-width: #{$breakpoint-large }) {
+    @content;
+  }
+}
+
+@mixin desktop-large {
+  @media (min-width: #{$breakpoint-large + 1px}) {
+    @content;
+  }
+}

@@ -1,6 +1,7 @@
 import '@/assets/style/common.scss'
 import vuetify from '@/_setting/vuetify/vuetify.js'
 import i18n from '@/_setting/i18n'
+import setComponents from '@/components/_common/global-components.js'
 import I18nextVue from 'i18next-vue';
 
 import { createApp } from 'vue'
@@ -15,5 +16,7 @@ app.use(createPinia())
 app.use(router)
 app.use(vuetify)
 app.use(I18nextVue, {i18next: i18n})
+
+setComponents(app)
 
 app.mount('#app')

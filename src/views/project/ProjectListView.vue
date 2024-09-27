@@ -1,27 +1,32 @@
 <template>
-  <div class="pt-0 view-wrapper">
-    <ViewHeaderComponent title="프로젝트 목록" :list-cnt="projectList.length">
-      <div class="d-flex input-wrapper">
-        <v-text-field
-          variant="outlined"
-          density="compact"
-          width="200px"
-          class="mr-5"
-          :placeholder="$t('프로젝트명으로 검색')"
-          prepend-inner-icon="mdi-magnify"
-        ></v-text-field>
-        <DefaultButtonComponent class="inline-block" title="신규 프로젝트" />
-      </div>
+  <div class="layout__list">
+    <ViewHeaderComponent :title="$t('프로젝트 목록')" :list-cnt="projectList.length">
+      <DefaultButtonComponent class="inline-block" :title="$t('신규 프로젝트')" />
     </ViewHeaderComponent>
-    <div id="project_list_wrapper">
-      <v-data-table v-model:page="page" :hide-default-header="true" :items="projectList" :items-per-page="itemsPerPage">
+    <div class="layout__list-contents">
+      <v-text-field
+        class="sp-text-field search-box-text"
+        variant="outlined"
+        density="compact"
+        width="200px"
+        hide-details
+        :placeholder="$t('프로젝트명으로 검색')"
+        prepend-inner-icon="mdi-magnify"
+      />
+      <v-data-table
+        v-model:page="page"
+        class="sp-data-table"
+        :hide-default-header="true"
+        :items="projectList"
+        :items-per-page="itemsPerPage"
+      >
         <!--  custom image -->
         <template #item="{ item }">
-          <ProjectListRowComponent :item="item" />
+          <s-card-table :item="item" />
         </template>
         <template #bottom>
           <div class="text-center pt-2">
-            <v-pagination v-model="page" :length="pageCnt"></v-pagination>
+            <v-pagination v-model="page" :length="pageCnt" />
           </div>
         </template>
       </v-data-table>
@@ -30,7 +35,7 @@
 </template>
 
 <script setup>
-import ProjectListRowComponent from '@/components/project/ProjectListRowComponent.vue'
+import SCardTable from '@/components/_common/table/CustomCardTableComponent.vue'
 import ViewHeaderComponent from '@/components/_common/ListViewHeaderComponent.vue'
 import DefaultButtonComponent from '@/components/_common/button/DefaultButtonComponent.vue'
 import { computed, ref } from 'vue'
@@ -59,10 +64,5 @@ const pageCnt = computed(() => Math.ceil(projectList.value.length / itemsPerPage
 .input-wrapper {
   padding-top: 20px;
   padding-right: 20px;
-}
-
-#project_list_wrapper {
-  padding-top: 50px;
-  height: 300px;
 }
 </style>
