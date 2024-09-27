@@ -15,7 +15,39 @@ module.exports = {
     /*'plugin:prettier/recommended'*/
   ],
   rules: {
-    'max-len': ['error', { code: 140, tabWidth: 2, ignoreUrls: true, ignoreStrings: true, ignoreTemplateLiterals: true }],
+    'vue/max-attributes-per-line': ['error', {
+      singleline: {
+        max: 3
+      },
+      multiline: {
+        max: 1
+      }
+    }],
+    'vue/first-attribute-linebreak': ['error', {
+      singleline: 'beside',
+      multiline: 'below'
+    }],
+    'vue/multiline-html-element-content-newline': 'error',
+    'vue/singleline-html-element-content-newline': 'error',
+    'vue/attribute-hyphenation': 'error',
+    'vue/html-closing-bracket-newline': ['error', {
+      singleline: 'never',
+      multiline: 'always'
+    }],
+    'vue/html-closing-bracket-spacing': 'error',
+    'vue/html-end-tags': 'error',
+    'vue/html-indent': ['error', 2],
+    'vue/html-quotes': 'error',
+    'vue/html-self-closing': 'error',
+    'vue/max-len': ['error', {
+      code: 140,
+      template: 140,
+      ignoreUrls: true,
+      ignoreStrings: true,
+      ignoreTemplateLiterals: true,
+      ignoreRegExpLiterals: true
+    }],
+    'no-trailing-spaces': ['error'], // 라인 끝 공백 에러로 처리
     quotes: ['error', 'single', { allowTemplateLiterals: true }], // <script> 블록에서 작은따옴표 사용
     'no-warning-comments': 'off', // 주석에서 경고 단어 검사 비활성화
     /*'prettier/prettier': [
@@ -41,7 +73,8 @@ module.exports = {
         selector: 'Identifier[name=/^[a-zA-Z]*Status$/]',
         message: '"Status"를 "State"로 바꿔 주세요.'
       }
-    ]
+    ],
+    'vue/multi-word-component-names': 'off'
   },
   /*overrides: [
     {

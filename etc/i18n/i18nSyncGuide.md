@@ -20,7 +20,7 @@ https://<hi>docs.<hi>google<hi>.com/spreadsheets/d/<span style="background-color
 
 1. Google Cloud Console에서 전체 메뉴를 클릭하여 `API 및 서비스> 사용자 인증 정보` 화면으로 이동합니다.
 2. `frontend-i18n-sync` 계정을 클릭하여 상세 화면으로 이동합니다.
-3. 키 탭으로 이동한 뒤 키 추가 버튼을 클릭하여 키를 json 형태로 다운로드 받습니다.
+3. `키` 탭으로 이동한 뒤 키 추가 버튼을 클릭하여 키를 json 형태로 다운로드 받습니다.
 4. 다운로드 받은 json 파일의 내용을 복사하여 /src/_setting/i18n/.credentials/auth.json 파일에 복사합니다.
 (최초 clone 받을 시 해당 폴더와 파일은 없으므로 생성 후 내용을 복사하세요.)
 
@@ -30,9 +30,9 @@ https://<hi>docs.<hi>google<hi>.com/spreadsheets/d/<span style="background-color
 
 ```pnpm run i18n:extract```
 
-소스 코드에서 i18n('키'), t('키')로 작성된 문자열을 추출하여 _setting/i18n directory에 ko/translation.json 등의 파일로 자동 생성합니다.
+소스 코드에서 i18n('키'), t('키')로 작성된 문자열을 추출하여 _setting/i18n 폴더에 ko/translation.json 등의 파일로 자동 생성합니다.
 
-❗️***<span style="background-color:#FFE6E6">코드 내에서 value를 수정하지 마세요. 구글 스프레드시트에서 수정된 파일을 pull 받으세요.</span>***
+***<span style="background-color:#FFE6E6">❗️ 코드 내에서 value를 수정하지 마세요. 구글 스프레드시트에서 수정된 파일을 pull 받으세요.</span>***
 
 최초 업로드 시 value 값을 추가해도 됩니다.
 
