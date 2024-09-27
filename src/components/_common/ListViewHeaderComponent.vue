@@ -1,21 +1,24 @@
 <template>
-  <div class="title-wrapper mr-2">
-    <div class="d-flex justify-space-between align-center title-contents-wrapper">
-      <span class="title-contents">
-        <img src="/devops/assets/images/title_bg.svg" alt="icon" class="title-icon" />
-        {{ title }} {{ showCnt ? `(${listCnt})` : '' }}
-      </span>
-      <div class="d-flex input-wrapper">
-        <slot />
+  <div :class="['s-title-area', className]">
+    <div class="s-title-area__content">
+      <div class="s-title-area__title">
+        {{ title }}
+        <span v-if="showCnt" class="s-title-area__number">({{ listCnt }})</span>
+      </div>
+      <div class="s-title-area__buttons button-wrapper">
+        <slot name="default" />
       </div>
     </div>
   </div>
 </template>
 
 <script setup>
-
-
 defineProps({
+  className: {
+    type: String,
+    default: '',
+    description: '페이지타이틀의 custom class',
+  },
   title: {
     type: String,
     required: true
@@ -33,25 +36,4 @@ defineProps({
 </script>
 
 <style scoped>
-.title-wrapper {
-  border-bottom: 1px solid #eeeeee;
-  height: 50px;
-  align-items: center;
-}
-
-.title-icon {
-  width: 24px;
-  /* 아이콘 크기 */
-  height: 24px;
-  margin-right: 8px;
-  /* 타이틀과의 간격 */
-}
-
-.title-contents {
-  display: inline-flex;
-}
-
-.title-contents-wrapper {
-  height: 36px;
-}
 </style>
