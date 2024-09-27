@@ -1,6 +1,6 @@
 import { Mutex } from 'async-mutex'
 import { useLoadingStore } from '@/stores/components/loading'
-import { getAuthToken, useTokenStore } from '@/stores/login-user/token'
+import { getAuthToken, useTokenStore } from '@/stores/portal/token'
 import cookieHelper from '@/_setting/cookie/cookie-helper'
 import { LOCALSTORAGE_KEY } from '@/assets/consts/consts'
 import i18n from '@/_setting/i18n'
@@ -79,7 +79,7 @@ function setInterceptor(service) {
         mutex.release()
       }
 
-      config.headers.locale = i18n.global.locale.value
+      //config.headers.locale = i18n.global.locale.value
       return config
     },
     (error) => {

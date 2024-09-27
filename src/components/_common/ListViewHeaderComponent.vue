@@ -40,13 +40,17 @@ defineProps({
 }
 
 .title-icon {
-  width: 24px; /* 아이콘 크기 */
+  width: 24px;
+  /* 아이콘 크기 */
   height: 24px;
-  margin-right: 8px; /* 타이틀과의 간격 */
+  margin-right: 8px;
+  /* 타이틀과의 간격 */
 }
+
 .title-contents {
   display: inline-flex;
 }
+
 .title-contents-wrapper {
   height: 36px;
 }

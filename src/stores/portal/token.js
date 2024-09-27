@@ -18,19 +18,26 @@ export const useTokenStore = defineStore('token', () => {
   const requestTime = ref(9999)
   const intervalId = ref(null)
 
-  function setToken(token) {
-    if (!token) return
-    const tokenStore = useTokenStore()
-    cookieHelper.setCookie('access', token.access_token, null, token.expires_at)
-    cookieHelper.setCookie('refresh', token.refresh_token, null, token.refresh_expires_at)
+  //토큰 저장 store, cookie
+  async function setToken(token) {
+    try {
+      //토큰 없으면 리턴
+      if (!token) return
+      const tokenStore = useTokenStore()
+      cookieHelper.setCookie('access', token.access_token, null, token.expires_at)
+      cookieHelper.setCookie('refresh', token.refresh_token, null, token.refresh_expires_at)
 
-    if (token) {
+      //토큰 만료 방지를 위한 인터벌 실행
       const diffSecond = moment(token.expires_at * 1000).diff(moment(), 'second')
       requestTime.value = diffSecond - 10
       if (intervalId.value) {
         clearInterval(intervalId.value)
       }
       tokenStore.requestInterval()
+      //이후 절차를 위한 Promise return
+      return Promise.resolve()
+    } catch (error) {
+      return Promise.reject(error)
     }
   }
 

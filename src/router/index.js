@@ -1,7 +1,10 @@
 import { createRouter, createWebHistory } from 'vue-router'
 //import HomeView from '../views/HomeView.vue'
 import projectRouter from './project'
-import { useTokenStore } from '@/stores/login-user/token'
+import { useTokenStore } from '@/stores/portal/token'
+import { useUserStore } from '@/stores/portal/user'
+import { useMenuStore } from '@/stores/portal/menu'
+
 
 const router = createRouter({
   //TODO: router 분리
@@ -58,16 +61,18 @@ router.beforeEach((to, from, next) => {
   //token 이 있을경우
   if(token) {
     try{
-      //토큰 저장    
+      //토큰 저장
       const tokenObj = JSON.parse(atob(token))
       useTokenStore().setToken(tokenObj)
+      useUserStore().getUserDetail()
+      useMenuStore().getAccessibleMenu()
       //TODO : 사용자 정보 요청
       //쿼리스트링에서 토큰 제거하고 원래 시도한 경로로 리다이렉트
       next({ path: to.path, query: restQuery, replace: true });
     }catch(e) {
       console.error(e)
       next()
-    }    
+    }
   }else{
     //진행
     next()

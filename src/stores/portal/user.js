@@ -2,11 +2,10 @@ import { defineStore } from 'pinia'
 import { ref, computed } from 'vue'
 import axios from '@/_setting/axios/request-user'
 import cookieHelper from '@/_setting/cookie/cookie-helper'
+import { GET_LOGIN_USER_DETAIL, PUT_LOGIN_USER_DETAIL } from '@/assets/consts/api/portal/user.js'
 
-const GET_LOGIN_USER_DETAIL = '/api/v2/portal/login-user'
-const PUT_LOGIN_USER_DETAIL = '/api/v2/portal/user'
 
-export const useLoginUserStore = defineStore('loginUser', () => {
+export const useUserStore = defineStore('user', () => {
   const userInfo = ref({
     uuid: '',
     userId: '',
@@ -26,8 +25,9 @@ export const useLoginUserStore = defineStore('loginUser', () => {
   const isLoggedIn = computed(() => !!userInfo.value.userId)
 
   async function getUserDetail() {
+    const loginStore = useUserStore()
     try {
-      const { data } = await axios.get(GET_LOGIN_USER_DETAIL)
+      const { data } = await loginStore.getLoginUser()
       if (data) {
         userInfo.value = data
         return Promise.resolve(data)
@@ -42,7 +42,7 @@ export const useLoginUserStore = defineStore('loginUser', () => {
 
   async function getLoginUser() {
     try {
-      await axios.get(GET_LOGIN_USER_DETAIL)
+      return await axios.get(GET_LOGIN_USER_DETAIL)
     } catch (e) {
       console.log(e)
     }

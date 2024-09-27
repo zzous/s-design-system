@@ -35,18 +35,17 @@
 import { ref } from 'vue'
 import { RouterView, useRouter } from 'vue-router'
 
-import { useTokenStore } from '@/stores/login-user/token'
-import { useLoginUserStore } from '@/stores/login-user/user'
+import { useTokenStore } from '@/stores/portal/token'
+import { useUserStore } from '@/stores/portal/user'
 
 import HeaderComponent from '@/components/_common/RootHeaderComponent.vue'
 import NaviComponent from '@/components/_common/NaviComponent.vue'
+import { storeToRefs } from 'pinia'
 
 const router = useRouter()
 const tokenStore = useTokenStore()
-const loginUserStore = useLoginUserStore()
-
-const isLoggedIn = ref(false)
-const userInfo = ref({})
+const userStore = useUserStore()
+const { isLoggedIn, userInfo } = storeToRefs(userStore)
 const menuItems = ref([])
 const globalServiceGroup = ref(0)
 const globalServiceGroupList = ref([
@@ -64,11 +63,11 @@ const onLogOut = () => {
   tokenStore.onLogOut()
 
   setTimeout(() => {
-    loginUserStore.userInit()
+    userStore.userInit()
   }, 10000)
 }
 
-const onClickSignUp = () => {}
+const onClickSignUp = () => { }
 
 const onClickMenuItem = (value) => {
   if (value === 'my-company') {
@@ -90,6 +89,6 @@ const goToMain = () => {
   window.location.href = import.meta.env.VITE_STRATO_PORTAL
 }
 
-const onUpdateGlobalValue = () => {}
+const onUpdateGlobalValue = () => { }
 </script>
 <style scoped></style>
