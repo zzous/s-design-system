@@ -57,9 +57,17 @@ router.beforeEach((to, from, next) => {
 
   //token 이 있을경우
   if(token) {
-    //TODO : 토큰 저장
-    //쿼리스트링에서 토큰 제거하고 원래 시도한 경로로 리다이렉트
-    next({ path: to.path, query: restQuery, replace: true });
+    try{
+      //토큰 저장    
+      const tokenObj = JSON.parse(atob(token))
+      useTokenStore().setToken(tokenObj)
+      //TODO : 사용자 정보 요청
+      //쿼리스트링에서 토큰 제거하고 원래 시도한 경로로 리다이렉트
+      next({ path: to.path, query: restQuery, replace: true });
+    }catch(e) {
+      console.error(e)
+      next()
+    }    
   }else{
     //진행
     next()
