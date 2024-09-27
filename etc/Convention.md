@@ -11,3 +11,8 @@
 11. _common 컴포넌트는 상태관련 코드 금지
 12. 목록화면은 /list 로 구성 ex) 빌드 목록 -> /build/list
 13. components/_common의 커스텀 컴포넌트는 class 명에 s- 접두사를 붙일 것
+14. 컨트롤러 단위로 store를 나누되 파일명 기준은 uri를 참고하고 단수형으로 작성한다.
+15. store 및 변수 사용 시 모듈 기준으로 작성한다.
+        - 통합 포탈 모듈 -> portal
+        - 데브옵스 모듈 -> devops
+        - 컨테이너 모듈 -> comp
