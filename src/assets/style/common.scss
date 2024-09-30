@@ -23,11 +23,6 @@
     width: 300px;
     height: 100%;
 }
-.view-wrapper {
-    padding-top: 20px;
-    padding-left: 20px;
-    padding-right: 20px;
-}
 
 .center-vertical {
     display: flex;
@@ -50,7 +45,21 @@
 
         .v-list-item-title {
             text-align: center;
-            @include set-text(500, 12, $s-text__gray-9)
+            @include set-text(500, 12, $s-text__gray-9);
         }
+    }
+}
+
+.v-menu .v-list-item--density-default.v-list-item--one-line {
+    min-height: 24px;
+
+    .v-list-item-title{
+        @include set-text(500, 12, $s-text__gray-9);
+    }
+}
+
+.s-global-select {
+    .v-select__selection .v-select__selection-text {
+        @include set-text(500, 12, $s-text__gray-6);
     }
 }

@@ -4,7 +4,13 @@
       <DefaultButtonComponent title="새 배포" to="deploy/new" />
     </ViewHeaderComponent>
     <div class="contentsWrapper">
-      <v-data-table :custom-filter="filterOnlyCapsText" :headers="headers" :items="items" :search="search" item-value="name">
+      <v-data-table
+        :custom-filter="filterOnlyCapsText"
+        :headers="headers"
+        :items="items"
+        :search="search"
+        item-value="name"
+      >
         <template #headers="{ columns }">
           <tr class="tableHeader">
             <th v-for="(header, idx) in columns" :key="idx" :style="{ textAlign: header.align }">
@@ -24,11 +30,11 @@
             class="pa-2"
             placeholder="배포명으로 검색"
             prepend-inner-icon="mdi-magnify"
-          ></v-text-field>
+          />
         </template>
         <template #bottom>
           <div class="text-center pt-2">
-            <v-pagination v-model="page" :length="pageCnt"></v-pagination>
+            <v-pagination v-model="page" :length="pageCnt" />
           </div>
         </template>
       </v-data-table>

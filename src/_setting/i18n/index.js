@@ -1,5 +1,7 @@
 // src/i18n.js
 import i18next from 'i18next'
+import { computed } from 'vue'
+
 import ko_KR from './ko/translation.json'
 import en_US from './en/translation.json'
 
@@ -20,17 +22,23 @@ i18next.init({
 
 export const useI18n = () => {
   const t = (key, options) => {
-    return i18next.t(key, options);
-  };
+    return i18next.t(key, options)
+  }
+
+  const tt = (key, options) => {
+    return computed(() => i18next.t(key, options)).value
+  }
 
   const changeLanguage = (lng) => {
-    i18next.changeLanguage(lng);
+    i18next.changeLanguage(lng)
   }
 
   return {
     t,
+    tt,
     changeLanguage,
   }
 }
+
 
 export default i18next

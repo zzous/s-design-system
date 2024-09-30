@@ -3,30 +3,54 @@
     <td class="projectImage">
       <v-img width="30" height="30" :src="`/devops/assets/images/${item.img}_logo.png`" />
     </td>
-    <td class="active-text-color project-title">{{ item.title }}</td>
+    <td class="active-text-color project-title">
+      {{ item.title }}
+    </td>
     <td>
-      <div class="project-alias">{{ item.projectAlias }}</div>
-      <div class="row-contents"></div>
+      <div class="project-alias">
+        {{ item.projectAlias }}
+      </div>
+      <div class="row-contents" />
     </td>
     <td class="multiRowColumn">
-      <div class="row-title">빌드</div>
-      <div class="row-contents cnt-contents">{{ item.buildCnt }}</div>
+      <div class="row-title">
+        빌드
+      </div>
+      <div class="row-contents cnt-contents">
+        {{ item.buildCnt }}
+      </div>
     </td>
     <td class="w-10">
-      <div class="row-title">배포</div>
-      <div class="row-contents cnt-contents">{{ item.deployCnt }}</div>
+      <div class="row-title">
+        배포
+      </div>
+      <div class="row-contents cnt-contents">
+        {{ item.deployCnt }}
+      </div>
     </td>
     <td class="w-10">
-      <div class="row-title">회원</div>
-      <div class="row-contents cnt-contents">{{ item.userCnt }}</div>
+      <div class="row-title">
+        회원
+      </div>
+      <div class="row-contents cnt-contents">
+        {{ item.userCnt }}
+      </div>
     </td>
     <td class="w-10">
-      <div class="row-title">저장소</div>
-      <div class="row-contents">{{ item.repoName }}</div>
+      <div class="row-title">
+        저장소
+      </div>
+      <div class="row-contents">
+        {{ item.repoName }}
+      </div>
     </td>
     <td class="w-10">
-      <div class="row-title">생성일</div>
-      <div class="row-contents">{{ item.createDate }}</div>
+      <div class="row-title">
+        생성일
+      </div>
+      <div class="row-contents">
+        {{ item.createDate }}
+      </div>
     </td>
     <td>
       <DefaultButtonComponent title="상세" class="mr-1" />

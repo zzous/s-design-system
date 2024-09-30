@@ -8,20 +8,24 @@
       <table class="branch-wrapper mt-5 mb-5">
         <tbody>
           <tr>
-            <td class="branch-name"><v-icon>mdi-monitor</v-icon>&nbsp;master <v-badge color="info" content="Default" inline></v-badge></td>
+            <td class="branch-name">
+              <v-icon>mdi-monitor</v-icon>&nbsp;master <v-badge color="info" content="Default" inline />
+            </td>
             <td rowspan="2" class="branch-extra text-end">
               <DefaultButtonComponent title="삭제" />
             </td>
           </tr>
           <tr>
             <td class="branch-info">
-              <v-icon class="rotate-90">mdi-source-commit</v-icon>1ed5149a60b79d3551f549860d704290decdb64d / 8 days ago
+              <v-icon class="rotate-90">
+                mdi-source-commit
+              </v-icon>1ed5149a60b79d3551f549860d704290decdb64d / 8 days ago
             </td>
           </tr>
         </tbody>
       </table>
     </div>
-    <v-pagination v-model="page" :length="pageCnt"></v-pagination>
+    <v-pagination v-model="page" :length="pageCnt" />
   </div>
 </template>
 

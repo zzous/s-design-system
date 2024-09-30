@@ -39,7 +39,7 @@
       <!-- 전역 테넌트 셀렉트박스 -->
       <div v-else class="s-item-group">
         <slot name="inner-append" />
-        <user-avatar
+        <s-user
           :user="userInfo"
           :menu-items="menuItems"
           :class-name="{ fontWhite: true }"
@@ -47,21 +47,21 @@
         >
           <template #badge>
             <v-avatar size="35">
-              <!-- <v-img
+              <s-img
                 v-if="userInfo.picture"
                 lazy-src="user-avatar.png"
                 :src-url="`data:image/${userInfo.picture.format};base64,${userInfo.picture.data}`"
                 width="100"
               />
-              <v-img
+              <s-img
                 v-else
                 lazy-src="user-avatar.png"
                 src="user-avatar.png"
                 width="100"
-              /> -->
+              />
             </v-avatar>
           </template>
-        </user-avatar>
+        </s-user>
       </div>
     </template>
   </v-app-bar>
@@ -93,8 +93,6 @@
 <script setup>
 import { ref } from 'vue'
 import { HEADER_MENU } from '@/assets/consts/consts'
-
-import UserAvatar from '@/components/_common/avatar/AvatarComponent.vue'
 
 defineProps({
   isLoggedIn: {

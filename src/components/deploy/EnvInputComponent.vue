@@ -1,14 +1,24 @@
 <template>
   <div class="port-input-wrapper">
     <v-row class="port-header port-row" dense no-gutters>
-      <v-col class="port-header-col large-col">name</v-col>
-      <v-col class="port-header-col large-col">value</v-col>
+      <v-col class="port-header-col large-col">
+        name
+      </v-col>
+      <v-col class="port-header-col large-col">
+        value
+      </v-col>
       <v-col class="port-header-col small-col">
         <v-icon icon="mdi-plus-circle-outline" @click="onClickAddRow" />
       </v-col>
     </v-row>
 
-    <v-row v-for="portGroup in model" class="port-row" dense no-gutters>
+    <v-row
+      v-for="portGroup in model"
+      :key="portGroup.name"
+      class="port-row"
+      dense
+      no-gutters
+    >
       <v-col class="port-input-col large-col">
         <v-text-field v-model="portGroup.name" density="compact" variant="outlined" />
       </v-col>

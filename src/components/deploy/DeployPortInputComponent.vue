@@ -1,27 +1,56 @@
 <template>
   <div class="port-input-wrapper">
     <v-row class="port-header port-row" dense no-gutters>
-      <v-col class="port-header-col large-col">ServicePort</v-col>
-      <v-col class="port-header-col large-col">ContainerPort</v-col>
-      <v-col class="port-header-col large-col">NodePort</v-col>
-      <v-col class="port-header-col large-col">IngressPath</v-col>
+      <v-col class="port-header-col large-col">
+        ServicePort
+      </v-col>
+      <v-col class="port-header-col large-col">
+        ContainerPort
+      </v-col>
+      <v-col class="port-header-col large-col">
+        NodePort
+      </v-col>
+      <v-col class="port-header-col large-col">
+        IngressPath
+      </v-col>
       <v-col class="port-header-col small-col">
         <v-icon icon="mdi-plus-circle-outline" @click="onClickAddRow" />
       </v-col>
     </v-row>
 
-    <v-row v-for="portGroup in model" class="port-row" dense no-gutters>
+    <v-row
+      v-for="portGroup in model"
+      :key="portGroup.servicePort"
+      class="port-row"
+      dense
+      no-gutters
+    >
       <v-col class="port-input-col large-col">
-        <v-text-field v-model="portGroup.servicePort" variant="outlined" type="" placeholder="8080" />
+        <v-text-field
+          v-model="portGroup.servicePort"
+          variant="outlined"
+          type=""
+          placeholder="8080"
+        />
       </v-col>
       <v-col class="port-input-col large-col">
-        <v-text-field v-model="portGroup.containerPort" variant="outlined" type="" placeholder="8080" />
+        <v-text-field
+          v-model="portGroup.containerPort"
+          variant="outlined"
+          type=""
+          placeholder="8080"
+        />
       </v-col>
       <v-col class="port-input-col large-col">
         <v-text-field variant="outlined" disabled :model-value="30000" />
       </v-col>
       <v-col class="port-input-col large-col">
-        <v-text-field v-model="portGroup.ingressPath" variant="outlined" type="" placeholder="/app" />
+        <v-text-field
+          v-model="portGroup.ingressPath"
+          variant="outlined"
+          type=""
+          placeholder="/app"
+        />
       </v-col>
       <v-col class="port-input-col small-col">
         <v-icon icon="mdi-minus-circle-outline" @click="onClickRemoveRow" />

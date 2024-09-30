@@ -12,7 +12,7 @@
           density="compact"
           :rules="deployNameRule"
           placeholder="배포명을 입력하세요."
-        ></v-text-field>
+        />
       </v-col>
       <v-col cols="auto">
         <DefaultButtonComponent title="중복 체크" />
@@ -27,11 +27,18 @@
       :items="deployApproveProcessList"
       item-title="name"
     />
-    <br />
+    <br>
     <label for="select_build">빌드</label>
-    <v-select id="select_build" name="build" :items="buildList" variant="outlined" density="compact" item-title="name" />
+    <v-select
+      id="select_build"
+      name="build"
+      :items="buildList"
+      variant="outlined"
+      density="compact"
+      item-title="name"
+    />
     <label>배포 유형</label>
-    <br />
+    <br>
     <v-btn-toggle v-model="selectedDeployType" mandatory class="deploy-toggle-wrapper">
       <v-btn
         v-for="deployType in deployTypeList"
@@ -40,15 +47,26 @@
         class="deploy-type"
         :color="deployTypeBtnColor"
         :value="deployType.id"
-        >{{ deployType.name }}
+      >
+        {{ deployType.name }}
       </v-btn>
     </v-btn-toggle>
     <DeployShellScriptComponent v-if="selectedDeployType === 'SHELL'" />
     <div v-if="selectedDeployType === 'K8S'">
       <label>프로바이더</label>
-      <v-select name="provider" placeholder="빌드를 선택하세요." density="compact" variant="outlined" />
+      <v-select
+        name="provider"
+        placeholder="빌드를 선택하세요."
+        density="compact"
+        variant="outlined"
+      />
       <label>클러스터</label>
-      <v-select name="provider" placeholder="구성 항목을 선택하세" density="compact" variant="outlined" />
+      <v-select
+        name="provider"
+        placeholder="구성 항목을 선택하세"
+        density="compact"
+        variant="outlined"
+      />
       <div style="position: relative; height: 30px">
         <DefaultButtonComponent title="Yaml" class="float-right" size="small" />
       </div>
@@ -57,7 +75,7 @@
         <v-text-field density="compact" variant="outlined" />
         <label>네임스페이스</label>
         <v-text-field density="compact" variant="outlined" />
-        <v-alert title="목록에서 선택하거나 새롭게 생성 가능 (현재 필터링 적용)" icon="$warning"></v-alert>
+        <v-alert title="목록에서 선택하거나 새롭게 생성 가능 (현재 필터링 적용)" icon="$warning" />
         <label>이름</label>
         <v-text-field density="compact" variant="outlined" />
         <label>컨트롤러</label>
@@ -70,7 +88,7 @@
         <v-text-field density="compact" variant="outlined" />
         <label>포트</label>
         <DeployPortInputComponent v-model="inputPortList" />
-        <br />
+        <br>
         <label>도메인</label>
         <v-text-field density="compact" variant="outlined" />
         <DomainInputComponent :disabled="false" />
@@ -113,14 +131,18 @@
         <div>
           <span>HPA (Horizontal Pod Autoscaling)</span>
         </div>
-        <v-label for="maximumReplicaNumber">최대 레플리카</v-label>
+        <v-label for="maximumReplicaNumber">
+          최대 레플리카
+        </v-label>
         <v-text-field id="maximumReplicaNumber" variant="outlined" />
         <v-label>평균 사용률</v-label>
         <CpuMemoryInputComponent />
       </AccordionMenuComponent>
       <div>
         <div class="inline-block float-right mt-2">
-          <v-btn flat color="#7E8299" class="mr-1">취소</v-btn>
+          <v-btn flat color="#7E8299" class="mr-1">
+            취소
+          </v-btn>
           <DefaultButtonComponent title="저장" />
         </div>
       </div>

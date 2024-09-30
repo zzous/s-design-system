@@ -3,10 +3,42 @@
     <ListViewHeaderComponent title="파일" :show-cnt="false" />
     <div class="contents">
       <div class="mt-2">
-        <v-btn class="mr-1" :active-color="btnActiveColor" base-color="#E4E6EF" variant="flat" to="file">파일</v-btn>
-        <v-btn class="mr-1" :active-color="btnActiveColor" base-color="#E4E6EF" variant="flat" to="commit">커밋</v-btn>
-        <v-btn class="mr-1" :active-color="btnActiveColor" base-color="#E4E6EF" variant="flat" to="branch">브랜치</v-btn>
-        <v-btn class="mr-1" :active-color="btnActiveColor" base-color="#E4E6EF" variant="flat" to="merge-request">병합 요청</v-btn>
+        <v-btn
+          class="mr-1"
+          :active-color="btnActiveColor"
+          base-color="#E4E6EF"
+          variant="flat"
+          to="file"
+        >
+          파일
+        </v-btn>
+        <v-btn
+          class="mr-1"
+          :active-color="btnActiveColor"
+          base-color="#E4E6EF"
+          variant="flat"
+          to="commit"
+        >
+          커밋
+        </v-btn>
+        <v-btn
+          class="mr-1"
+          :active-color="btnActiveColor"
+          base-color="#E4E6EF"
+          variant="flat"
+          to="branch"
+        >
+          브랜치
+        </v-btn>
+        <v-btn
+          class="mr-1"
+          :active-color="btnActiveColor"
+          base-color="#E4E6EF"
+          variant="flat"
+          to="merge-request"
+        >
+          병합 요청
+        </v-btn>
       </div>
       <router-view />
     </div>

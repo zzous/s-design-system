@@ -3,7 +3,7 @@
 .portal_layout .v-application{letter-spacing: -.5px;font-family: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif !important;} */
 .portal_layout .material-icons{font-family: 'Material Icons' !important;}
 .portal_layout .material-icons-outlined, .portal_layout .material-icons{font-family:"Material Icons Outlined" !important;}
-.portal_layout .nav-right .button-wrapper .sp-global-select .v-field{padding:0}
+.portal_layout .nav-right .button-wrapper .s-global-select .v-field{padding:0}
 .portal_layout .nav-right  .sp-select{border-radius: 0; margin-right:10px;}
 .portal_layout .nav-right .v-field__append-inner i{display: none;}
 .portal_layout .nav-right .v-field__input{border-radius: 0; padding:0; }
@@ -12,7 +12,7 @@
 .portal_layout .nav-right .user-name-wrapper { background: url('/devops/assets/images/expand_more.svg') no-repeat
   left center;
 padding-left: 25px;}
-.portal_layout .nav-right .button-wrapper .sp-global-select .v-field, .nav-my-row.sp-avater .user-name-wrapper{ background: url('/devops/assets/images/expand_more.svg') no-repeat left center;padding-left: 25px;}
+.portal_layout .nav-right .button-wrapper .s-global-select .v-field, .nav-my-row.sp-avater .user-name-wrapper{ background: url('/devops/assets/images/expand_more.svg') no-repeat left center;padding-left: 25px;}
 .nav-my-row .user-name-wrapper .user-name{font-size:14px;}
 .portal_layout .v-avatar{background: url('/devops/assets/images/profile.svg') no-repeat
   left center; width:32px !important; height:32px !important;
@@ -67,7 +67,7 @@ padding: 2px; border-radius:50%;}
 .portal_layout .sp-button.v-btn.button__line.v-btn--disabled{border-color:#eee; color:#ccc; font-size:14px; opacity: 1; background-color:#fff;}
 .portal_layout .sp-button.v-btn.button__line + .button__line{margin-left:10px;}
 .portal_layout  .v-row{margin:0}
-.portal_layout .search-box-text{padding:0 !important; flex:1}
+.portal_layout .search-box-text{padding:0 !important; flex:1; height: 40px; width: 350px;}
 .portal_layout .v-col{padding:12px 0}
 .portal_layout .v-row + .v-row{margin-top:0}
 .portal_layout .v-row{margin:0;}

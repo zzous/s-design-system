@@ -1,15 +1,15 @@
 <template>
-  <div class="sp-empty">
+  <div class="s-empty">
     <v-card
-      class="empty__card-wrapper"
+      class="s-empty__card"
       :elevation="elevation"
       :outlined="outlined"
       :shadowed="shadowed"
     >
-      <div class="empty__title-wrapper">
+      <div v-if="title" class="s-empty__card-title">
         {{ title }}
       </div>
-      <div class="empty__desc-wrapper">
+      <div class="s-empty__card-content">
         {{ description }}
       </div>
       <slot name="default" />
@@ -48,34 +48,29 @@ defineProps({
 </script>
 
 <style lang="scss">
-@import '@/assets/style/_mixin.scss';
-.sp-empty {
-  $this: 'empty';
+.s-empty {
+  $this: 's-empty';
   display: flex;
   width: 100%;
-  height: 120px;
-  .#{$this}__card-wrapper {
+  height: 80px;
+
+  .#{$this}__card {
     width: 100%;
     height: 100%;
     border: thin dotted $s-text__gray-5;
     display: flex;
-    background-color: $s-text__gray-6;
+    align-items: center;
+    flex-direction: column;
+    justify-content: space-evenly;
 
-    > .v-row .v-col {
-      display: flex;
-      align-items: center;
-      flex-direction: column;
-      justify-content: space-evenly;
-    }
-
-    .#{$this}__title-wrapper {
-      @include set-text(bold, 16, rgba($color: $s-primary, $alpha: 1));
+    .#{$this}__card-title {
+      @include set-text(bold, 14, rgba($color: $s-primary, $alpha: 1));
       margin-bottom: 4px;
       text-align: center;
       display: flex;
     }
-    .#{$this}__desc-wrapper {
-      @include set-text(light, 13, rgba($color: $s-primary, $alpha: 1));
+    .#{$this}__card-content {
+      @include set-text(500, 12, rgba($color: $s-primary, $alpha: 1));
       text-align: center;
     }
   }

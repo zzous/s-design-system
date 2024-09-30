@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
-import axios from '@/_setting/axios/request-user'
+import axios from '@/_setting/axios/request-portal'
 import { UserMenuItems } from '@/assets/data/paths'
 // import { menuNameLang } from '@/_setting/i18n'
 import * as _ from 'lodash-es'

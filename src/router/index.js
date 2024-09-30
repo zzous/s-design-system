@@ -1,8 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import projectRouter from './project'
-import { useTokenStore } from '@/stores/portal/token'
-import { useUserStore } from '@/stores/portal/user'
-import { useMenuStore } from '@/stores/portal/menu'
+import { beforeEach, beforeResolve } from './before-each'
 
 
 const router = createRouter({
@@ -58,29 +56,7 @@ const router = createRouter({
   ]
 })
 
-router.beforeEach((to, from, next) => {
-  // to.query 를 구조분해
-  const { token, ...restQuery } = to.query;
-
-  //token 이 있을경우
-  if(token) {
-    try{
-      //토큰 저장
-      const tokenObj = JSON.parse(atob(token))
-      useTokenStore().setToken(tokenObj)
-      useUserStore().getUserDetail()
-      useMenuStore().getAccessibleMenu()
-      //TODO : 사용자 정보 요청
-      //쿼리스트링에서 토큰 제거하고 원래 시도한 경로로 리다이렉트
-      next({ path: to.path, query: restQuery, replace: true });
-    }catch(e) {
-      console.error(e)
-      next()
-    }
-  }else{
-    //진행
-    next()
-  }
-})
+beforeEach(router)
+beforeResolve(router)
 
 export default router

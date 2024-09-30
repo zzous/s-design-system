@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
-import axios from '@/_setting/axios/request-user'
+import axios from '@/_setting/axios/request-portal'
 import moment from 'moment'
 import cookieHelper from '@/_setting/cookie/cookie-helper'
 

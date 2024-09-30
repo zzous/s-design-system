@@ -1,9 +1,9 @@
 <template>
   <div class="s-avatar">
     <v-menu :offset="[5, 0]">
-      <template #activator="{ props }">
+      <template #activator="{ props: itemProps }">
         <div class="s-user-name">
-          <div v-bind="props">
+          <div v-bind="itemProps">
             <div class="s-user-name__text" :class="{ fontWhite }">
               {{ user.name }}
             </div>

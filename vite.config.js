@@ -36,14 +36,23 @@ export default ({ mode }) => {
     server: {
       port: 3001,
       proxy: {
-        '^/api(/v1|/v2)/portal': {
+        '^/api/(v[0-9])/portal': {
           target: process.env.VITE_USER_API,
           changeOrigin: true,
           secure: false,
           headers: {
             origin: process.env.VITE_USER_API
           }
-        }
+        },
+        '^/api/(v[0-9])/devops': {
+          target: process.env.VITE_DEVOPS_API,
+          rewrite: path => path.replace(/^\/api\/(v[0-9])\/devops/, ''),
+          changeOrigin: true,
+          secure: false,
+          headers: {
+            origin: process.env.VITE_DEVOPS_API
+          }
+        },
       }
     }
   })

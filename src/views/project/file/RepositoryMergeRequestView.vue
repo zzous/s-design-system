@@ -1,11 +1,20 @@
 <template>
   <div class="mt-5 border-sm">
-    <v-tabs v-model="selectedTab" bg-color="#F5F7FA" selected-class="selected-tab" hide-slider :color="activeFontColor" density="compact">
-      <v-tab v-for="tab in tabList" :key="tab" :value="tab">{{ tab }}</v-tab>
+    <v-tabs
+      v-model="selectedTab"
+      bg-color="#F5F7FA"
+      selected-class="selected-tab"
+      hide-slider
+      :color="activeFontColor"
+      density="compact"
+    >
+      <v-tab v-for="tab in tabList" :key="tab" :value="tab">
+        {{ tab }}
+      </v-tab>
     </v-tabs>
     <v-tabs-window v-model="selectedTab">
       <v-tabs-window-item :value="selectedTab" class="tab-contents-wrapper pa-5">
-        <v-data-table :headers="['1', '2']"> </v-data-table>
+        <v-data-table :headers="['1', '2']" />
       </v-tabs-window-item>
     </v-tabs-window>
   </div>

@@ -2,9 +2,19 @@
   <div class="accordion-wrapper">
     <div class="title" :class="{ titleBold: titleBold }">
       {{ title }}
-      <v-icon class="float-right" style="top: 10px" icon="mdi-chevron-down" @click="toggleAccordion" />
+      <v-icon
+        class="float-right"
+        style="top: 10px"
+        icon="mdi-chevron-down"
+        @click="toggleAccordion"
+      />
     </div>
-    <div ref="accordion" class="accordion-contents" :style="{ height: accordionHeight }" @transitionend="onTransitionEnd">
+    <div
+      ref="accordion"
+      class="accordion-contents"
+      :style="{ height: accordionHeight }"
+      @transitionend="onTransitionEnd"
+    >
       <slot />
     </div>
   </div>

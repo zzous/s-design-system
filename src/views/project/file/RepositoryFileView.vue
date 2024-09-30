@@ -24,7 +24,12 @@
           density="compact"
           width="250px"
         />
-        <v-btn variant="flat" base-color="#ecf5ff" class="clone-btn mr-1" :height="40">
+        <v-btn
+          variant="flat"
+          base-color="#ecf5ff"
+          class="clone-btn mr-1"
+          :height="40"
+        >
           복제 또는 다운로드<v-icon icon="mdi-arrow-down-thin" />
         </v-btn>
         <DefaultButtonComponent title="새파일" :height="40" />
@@ -32,7 +37,12 @@
     </v-row>
   </div>
   <div class="pt-1">
-    <v-data-table :headers="fileTableHeader" :items="fileList" :items-per-page="-1" :hide-default-footer="true">
+    <v-data-table
+      :headers="fileTableHeader"
+      :items="fileList"
+      :items-per-page="-1"
+      :hide-default-footer="true"
+    >
       <template #headers="props">
         <tr>
           <th v-for="header in props.headers[0]" :key="header.value" class="file-table-header">
@@ -41,8 +51,12 @@
         </tr>
       </template>
       <template #[`item.fileName`]="{ item }">
-        <v-icon v-if="item.fileType === 'folder'" class="mr-2">mdi-folder</v-icon>
-        <v-icon v-else class="mr-2">mdi-file</v-icon>
+        <v-icon v-if="item.fileType === 'folder'" class="mr-2">
+          mdi-folder
+        </v-icon>
+        <v-icon v-else class="mr-2">
+          mdi-file
+        </v-icon>
         {{ item.fileName }}
       </template>
     </v-data-table>

@@ -1,5 +1,10 @@
 {
   "로그인": "Login",
   "회원가입": "Sign Up",
+  "나의 정보": "My Info",
+  "기업 정보": "Company",
+  "로그아웃": "Logout",
+  "프로젝트 목록": "Project List",
+  "신규 프로젝트": "New Project",
   "프로젝트명으로 검색": "_N/A"
 }

@@ -7,7 +7,9 @@
             <span :class="type + '-text'">{{ title }}</span>
           </div>
         </div>
-        <div class="center-vertical work-flow-el edit-user text-align-center" :class="type">{{ userName }}<br />{{ updateDate }}</div>
+        <div class="center-vertical work-flow-el edit-user text-align-center" :class="type">
+          {{ userName }}<br>{{ updateDate }}
+        </div>
       </v-col>
     </v-row>
   </v-col>
@@ -15,15 +17,15 @@
     <v-row>
       <v-col>
         <div class="center-vertical direction top">
-          <div class="arrow-head"></div>
+          <div class="arrow-head" />
         </div>
-        <div class="center-vertical direction row"></div>
+        <div class="center-vertical direction row" />
       </v-col>
     </v-row>
     <v-row no-gutters>
       <v-col>
-        <div class="center-vertical direction"></div>
-        <div class="center-vertical direction"></div>
+        <div class="center-vertical direction" />
+        <div class="center-vertical direction" />
       </v-col>
     </v-row>
   </v-col>

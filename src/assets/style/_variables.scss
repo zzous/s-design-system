@@ -61,3 +61,8 @@ $s-text__gray-7: #999999;
 $s-text__gray-8: #6C6C6C;
 $s-text__gray-9: #333333;
 $s-text__gray-10: #000000;
+
+
+.v-theme--light {
+    --v-border-color: $stext__gray-5;
+}

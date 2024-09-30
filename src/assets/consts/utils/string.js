@@ -7,7 +7,7 @@ export const isEmpty = val => {
   }
   const value = val.trim()
   // eslint-disable-next-line consistent-return
-  if (!checkList.includes(value)) return true
+  if (checkList.includes(value)) return true
   // eslint-disable-next-line consistent-return
   return false
 }

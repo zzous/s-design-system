@@ -1,34 +1,33 @@
 <template>
   <div :class="`s-card-table ${props.class}`">
-    <template v-if="datas.length">
-      <div class="s-card-table__wrapper">
-        <div v-if="!hiddenHeader" class="s-card-table__header">
-          <ul
+    <div class="s-card-table__wrapper">
+      <div v-if="!hiddenHeader" class="s-card-table__header">
+        <ul class="s-card-table__header-item">
+          <li
             v-for="(header, index) in filterHeaders"
-            :key="'s-card-table__header--' + index"
+            :key="'header-key--' + index"
+            class="s-card-table__header-item-title"
             :style="{
               width: widthStyleTranslate(header.width),
               justifyContent: header.align,
             }"
           >
-            <li>
-              {{ header.title }}
-            </li>
-          </ul>
-        </div>
+            {{ header.title }}
+          </li>
+        </ul>
+      </div>
 
-        <div
-          v-for="(tableItem, index) in splitDatas"
-          :key="'s-card-table__key--' + index"
-          :outlined="outlined"
-          :shadowed="shadowed"
-          :width="width"
+      <template v-if="splitDatas.length">
+        <ul
+          v-for="(tableItem, rIndex) in splitDatas"
+          :key="'content-row--' + rIndex"
+          class="s-card-table__body"
         >
-          <div
-            :class="`card-body ${showExpand ? 'table-expand_header' : 'table-expand_body'
+          <li
+            :class="`s-card-table__body-item ${showExpand ? 'table-expand_header' : 'table-expand_body'
             }`"
           >
-            <dl v-if="showExpand" class="card-body__icon-expand">
+            <div v-if="showExpand" class="s-card__body-icon--expand">
               <slot
                 name="table-expand"
                 :item="tableItem"
@@ -45,47 +44,48 @@
                   @click.stop.prevent="onClickExpand(tableItem)"
                 />
               </slot>
-            </dl>
-            <dl
-              v-for="(header, index) in filterHeaders"
-              :key="'sp-card-table__col--' + index"
+            </div>
+            <div
+              v-for="(header, cIndex) in filterHeaders"
+              :key="'content-row--' + rIndex + '__col--' + cIndex"
+              class="s-card-table__body-wrapper"
+              :class="{ 'strong-text': options?.strongs?.includes(header.key) }"
               :style="{
                 width: widthStyleTranslate(header.width),
                 justifyContent:
-                  header.align === 'd-none' ? 'center' : header.align,
+                  header.align === 'd-none' ? 'center' : header.align || 'center',
               }"
             >
-              <dd :class="{ strongText: options?.strongs.includes(header.key) }">
-                <slot :name="`${header.key}`" :item="tableItem">
-                  {{
-                    isEmpty(tableItem[header.key])
-                      ? '-'
-                      : tableItem[header.key]
-                  }}
-                </slot>
-              </dd>
-            </dl>
-          </div>
-          <div v-if="tableItem.showExpandRow">
-            <slot name="expanded-row" :item="tableItem" :columns="filterHeaders" />
-          </div>
-        </div>
-      </div>
-      <v-pagination
-        v-if="!scrolled"
-        v-model="lazyPage"
-        size="small"
-        :total-visible="10"
-        :length="pageCnt"
-        rounded="circle"
-        @update:model-value="onChnagePage"
-      />
-    </template>
-    <template v-else>
-      <Empty :description="noDataText">
-        <slot name="empty-content" />
-      </Empty>
-    </template>
+              <slot :name="`${header.key}`" :item="tableItem">
+                {{
+                  isEmpty(tableItem[header.key])
+                    ? '-'
+                    : tableItem[header.key]
+                }}
+              </slot>
+            </div>
+            <div v-if="tableItem.showExpandRow">
+              <slot name="expanded-row" :item="tableItem" :columns="filterHeaders" />
+            </div>
+          </li>
+        </ul>
+      </template>
+      <template v-else>
+        <Empty :description="noDataText">
+          <slot name="empty-content" />
+        </Empty>
+      </template>
+    </div>
+    <v-pagination
+      v-if="!scrolled"
+      v-model="lazyPage"
+      class="s-card-table__pagination"
+      size="small"
+      :total-visible="10"
+      :length="pageCnt"
+      rounded="circle"
+      @update:model-value="onChnagePage"
+    />
   </div>
 </template>
 
@@ -380,42 +380,52 @@ onMounted(() => {
 
 <style lang="scss" scoped>
 @import '@/assets/style/_mixin.scss';
-.sp-vertical-card-table {
+.s-card-table {
   padding: 10px;
+
+  .s-card-table__header-item {
+    display: flex;
+    width: 100%;
+    padding: 5px;
+
+    .s-card-table__header-item-title{
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 56px;
+      padding: 0 10px;
+      @include set-text(600, 12px, $s-text__gray-9);
+    }
+  }
+
+  .s-card-table__body {
+    filter: drop-shadow(0px 3px 4px rgba(0, 0, 0, 0.16));
+    display: flex;
+    width: 100%;
+    height: 60px;
+
+    .s-card-table__body-item {
+      background-color: white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 5px;
+      border-radius: 10px;
+      border: 1px solid $s-text__gray-5;
+    }
+  }
 
   .card-label__checkbox {
     height: 30px;
   }
 
-  .table-wrapper {
-    display: grid;
-    gap: 15px 5px;
-    margin-bottom: 10px;
-  }
-
-  .card-header {
+  .s-card-table__body-item {
     display: flex;
+    width: 100%;
     flex-wrap: nowrap;
+    font-size: 12px;
 
-    dl {
-      display: flex;
-      justify-content: center;
-      padding: 5px 10px;
-
-      dt {
-        padding: 10px;
-        font-size: 14px;
-        color: #333;
-        font-weight: 700;
-      }
-    }
-  }
-
-  .card-body {
-    display: flex;
-    flex-wrap: nowrap;
-
-    dl {
+    .s-card-table__body-wrapper {
       width: 100%;
       padding: 0 10px;
       display: flex;
@@ -423,25 +433,25 @@ onMounted(() => {
       gap: 0 10px;
       min-height: 50px;
 
-      dd {
-        word-break: break-all;
-        @include set-text(normal, 14, null);
-
-        &.strongText {
-          @include set-text(bold, 18, null);
-        }
+      &.strong-text {
+        @include set-text(bold, 18, null);
       }
     }
 
-    .card-body__icon--expand {
+    .s-card__body-icon--expand {
       width: 10%;
       min-width: 56px;
     }
   }
+
+  .s-card-table__pagination {
+    width: 100%;
+    margin-top: 59px;
+  }
 }
 </style>
 <style lang="scss">
-.sp-vertical-card-table {
+.s-card-table {
   .v-checkbox .v-selection-control {
     min-height: fit-content;
   }

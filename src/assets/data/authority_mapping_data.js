@@ -10,7 +10,7 @@ export default {
     // '3': { 'name': 'group_update', 'value': false, 'global':false },
     // '4': { 'name': 'group_delete', 'value': false, 'global':false },
 
-    
+
     '74': { 'name': 'serviceGroup_list', 'value': false, 'global': false },
     // '75': { 'name': 'serviceGroup_create', 'value': false, 'global': false },
     '76': { 'name': 'serviceGroup_update', 'value': false, 'global': false },
@@ -87,7 +87,7 @@ export default {
     '61': { 'name': 'deploy_modeler_update', 'value': false, 'global':false },
     '62': { 'name': 'deploy_modeler_delete', 'value': false, 'global':false },
     '63': { 'name': 'deploy_modeler_run_deploy', 'value': false, 'global':false },
-    
+
     '67': { 'name': 'configuration_statemachine', 'value': false, 'global': true },
     '69': { 'name': 'configuration_message_list', 'value': false, 'global': true },
     '71': { 'name': 'configuration_message_update', 'value': false, 'global': false },
@@ -121,11 +121,11 @@ export default {
     '196': { 'name': 'project_member_create', 'value': false, 'global':false },
 
     /**
-     * 2023-05-30 
+     * 2023-05-30
      * 23년 2분기 솔루션 추가 요구사항 부터는 200번대로 세팅
     */
 
-    // 병합요청 목록 
+    // 병합요청 목록
     '200': { 'name': 'project_mergeRequest_list', 'value': false, 'global':false },
     // 병합요청 생성
     '201': { 'name': 'project_mergeRequest_create', 'value': false, 'global':false },
@@ -145,7 +145,7 @@ export default {
     // 프로젝트 복구 버튼
     '209': { 'name': 'project_restore_btn', 'value': false, 'global':false },
 
-    // 파이프 라인 관리 목록 
+    // 파이프 라인 관리 목록
     '210': { 'name': 'pipeline_config_list', 'value': false, 'global':false },
     // 파이프 라인 관리 생성
     '211': { 'name': 'pipeline_config_create', 'value': false, 'global':false },
@@ -153,8 +153,8 @@ export default {
     '212': { 'name': 'pipeline_config_update', 'value': false, 'global':false },
     // 파이프 라인 관리 삭제
     '213': { 'name': 'pipeline_config_delete', 'value': false, 'global':false },
-    
-    // 소나큐브 룰 관리 목록 
+
+    // 소나큐브 룰 관리 목록
     '215': { 'name': 'sonarqube_rule_config_list', 'value': false, 'global':false },
     // 소나큐브 룰 관리 생성
     '216': { 'name': 'sonarqube_rule_config_create', 'value': false, 'global':false },
@@ -165,7 +165,7 @@ export default {
     // 소나큐브 룰 관리 삭제
     '219': { 'name': 'sonarqube_rule_config_delete', 'value': false, 'global':false },
 
-    // 산출물 관리 목록 
+    // 산출물 관리 목록
     '220': { 'name': 'deliverable_config_list', 'value': false, 'global':false },
     // 산출물 관리 생성
     '221': { 'name': 'deliverable_config_create', 'value': false, 'global':false },
@@ -173,7 +173,7 @@ export default {
     '222': { 'name': 'deliverable_config_update', 'value': false, 'global':false },
     // 산출물 관리 삭제
     '223': { 'name': 'deliverable_config_delete', 'value': false, 'global':false },
-    
+
   },
   temp_mapping_list: [
     {

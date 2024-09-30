@@ -1,5 +1,7 @@
 <template>
-  <v-label v-if="labelTitle">{{ labelTitle }}</v-label>
+  <v-label v-if="labelTitle">
+    {{ labelTitle }}
+  </v-label>
   <div class="shell-script-wrapper">
     <!-- 라인 번호 표시 영역 -->
     <div class="line-numbers">
@@ -15,7 +17,7 @@
       outlined
       class="shell-script-textarea"
       @input="updateLineCnt"
-    ></v-textarea>
+    />
   </div>
 </template>
 <script setup>

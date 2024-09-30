@@ -2,9 +2,19 @@
   <div class="accordion-wrapper">
     <div class="title pl-3 pr-3">
       {{ title }}
-      <v-icon class="float-right" style="top: 10px" icon="mdi-minus-circle" @click="toggleAccordion" />
+      <v-icon
+        class="float-right"
+        style="top: 10px"
+        icon="mdi-minus-circle"
+        @click="toggleAccordion"
+      />
     </div>
-    <div ref="accordion" class="accordion-contents pl-3 pr-3" :style="{ height: accordionHeight }" @transitionend="onTransitionEnd">
+    <div
+      ref="accordion"
+      class="accordion-contents pl-3 pr-3"
+      :style="{ height: accordionHeight }"
+      @transitionend="onTransitionEnd"
+    >
       <slot />
     </div>
   </div>

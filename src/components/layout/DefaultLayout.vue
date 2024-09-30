@@ -11,7 +11,7 @@
     >
       <template #inner-append>
         <v-select
-          class="sp-global-select"
+          class="s-global-select"
           hide-details
           :model-value="globalServiceGroup"
           :items="globalServiceGroupList"
@@ -25,7 +25,7 @@
         />
       </template>
     </HeaderComponent>
-    <div class="show-header mb-10">
+    <div class="show-header">
       <NaviComponent />
       <div class="base-layout">
         <RouterView id="router_view" class="show-navi" />
@@ -36,29 +36,29 @@
 <script setup>
 import { ref, computed } from 'vue'
 import { RouterView, useRouter } from 'vue-router'
+import { storeToRefs } from 'pinia'
 
 import { useTokenStore } from '@/stores/portal/token'
 import { useUserStore } from '@/stores/portal/user'
+import { useServiceGroupStore } from '@/stores/portal/service-group'
 
 import HeaderComponent from '@/components/_common/RootHeaderComponent.vue'
 import NaviComponent from '@/components/_common/NaviComponent.vue'
-import { storeToRefs } from 'pinia'
+import { useI18n } from '@/_setting/i18n'
 
 const router = useRouter()
 const tokenStore = useTokenStore()
 const userStore = useUserStore()
+const sgStore = useServiceGroupStore()
+const { t } = useI18n()
+
 const { isLoggedIn, userInfo } = storeToRefs(userStore)
 const menuItems = ref([
-  { title: '나의 정보', value: 'user-detail', checkAuth: false },
-  { title: '기업 정보', value: 'my-company', checkAuth: true },
-  { title: '로그아웃', value: 'logout', checkAuth: false },
+  { title: t('나의 정보'), value: 'user-detail', checkAuth: false },
+  { title: t('기업 정보'), value: 'my-company', checkAuth: true },
+  { title: t('로그아웃'), value: 'logout', checkAuth: false },
 ])
-const globalServiceGroup = ref(0)
-const globalServiceGroupList = ref([
-  { groupNameTitle: 'Global Service Group 1', uuid: 1 },
-  { groupNameTitle: 'Global Service Group 2', uuid: 2 },
-  { groupNameTitle: 'Global Service Group 3', uuid: 3 }
-])
+const { serviceGroupUuid: globalServiceGroup, serviceGroups: globalServiceGroupList } = storeToRefs(sgStore)
 
 const userInfoTrans = computed(() => {
   return {
@@ -103,6 +103,8 @@ const goToMain = () => {
   window.location.href = import.meta.env.VITE_STRATO_PORTAL
 }
 
-const onUpdateGlobalValue = () => { }
+const onUpdateGlobalValue = uuid => {
+  sgStore.updateServiceGroup(uuid)
+}
 </script>
 <style scoped></style>
