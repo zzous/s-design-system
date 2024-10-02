@@ -1,9 +1,11 @@
 <template>
   <div id="navi" class="float-left">
     <div id="menu_title_wrapper">
-      <div id="menu_title">
-        데브옵스
-      </div>
+      <router-link to="/project/list">
+        <div id="menu_title">
+          데브옵스
+        </div>
+      </router-link>
     </div>
     <div id="project_select_wrapper">
       <div id="project_select">
@@ -88,11 +90,15 @@ const projectList = ref([
   height: 50px;
   line-height: 50px;
 }
+#menu_title_wrapper a{
+  text-decoration: none;
+}
 
 #menu_title {
   padding-left: 20px;
   background: $main-color;
   border-radius: 0 10px 10px 0;
+  color: #fff;
 }
 
 #project_select_wrapper {
