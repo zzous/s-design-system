@@ -98,6 +98,7 @@ module.exports = {
       }
     ],
     'no-multi-spaces': ['error'], // 여러 개의 공백을 에러로 처리
+    'object-curly-spacing': ['error', 'always'], // 중괄호 안에 항상 공백을 넣음
   },
   /*overrides: [
     {

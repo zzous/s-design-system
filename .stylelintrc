@@ -1,0 +1,7 @@
+export default {
+    "extends": "stylelint-config-standard",
+  "rules": {
+    "indentation": 2,  // CSS/SCSS 파일에서 들여쓰기를 2칸으로 설정
+    "max-empty-lines": 1  // 최대 빈 줄 개수 1로 제한
+  }
+}

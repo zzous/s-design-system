@@ -6,29 +6,29 @@ import { storeToRefs } from 'pinia'
 
 export const beforeEach = (router) => {
   router.beforeEach((to, from, next) => {
-      // to.query 를 구조분해
-      const { token, ...restQuery } = to.query
+    // to.query 를 구조분해
+    const { token, ...restQuery } = to.query
 
-      //token 이 있을경우
-      if(token) {
-          try{
-            //토큰 저장
-            const tokenObj = JSON.parse(atob(token))
-            useTokenStore().setToken(tokenObj)
-            //사용자 정보 요청
-            useUserStore().getUserDetail()
-            //메뉴정보 요청
-            useMenuStore().getAccessibleMenu()
-            //쿼리스트링에서 토큰 제거하고 원래 시도한 경로로 리다이렉트
-            next({ path: to.path, query: restQuery, replace: true })
-          }catch(e) {
-            console.error(e)
-            next()
-          }
-      } else{
-          //진행
-          next()
+    //token 이 있을경우
+    if(token) {
+      try{
+        //토큰 저장
+        const tokenObj = JSON.parse(atob(token))
+        useTokenStore().setToken(tokenObj)
+        //사용자 정보 요청
+        useUserStore().getUserDetail()
+        //메뉴정보 요청
+        useMenuStore().getAccessibleMenu()
+        //쿼리스트링에서 토큰 제거하고 원래 시도한 경로로 리다이렉트
+        next({ path: to.path, query: restQuery, replace: true })
+      }catch(e) {
+        console.error(e)
+        next()
       }
+    } else{
+      //진행
+      next()
+    }
   })
   return router
 }

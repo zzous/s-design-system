@@ -9,5 +9,11 @@
   },
   "[json]": {
     "editor.defaultFormatter": "vscode.json-language-features"
+  },
+  "[css]": {
+    "editor.defaultFormatter": "stylelint.vscode-stylelint"
+  },
+  "[scss]": {
+    "editor.defaultFormatter": "stylelint.vscode-stylelint"
   }
 }
