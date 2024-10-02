@@ -71,6 +71,7 @@ import { storeToRefs } from 'pinia'
 
 import { useProjectStore } from '@/stores/devops/project'
 import { useI18n } from '@/_setting/i18n'
+import { useAlertStore } from '@/stores/components/alert'
 
 import SSubHeader from '@/components/_common/ListViewHeaderComponent.vue'
 import SConfirm from '@/components/_common/modal/CustomConfirmComponent.vue'
@@ -83,6 +84,7 @@ const { t } = useI18n()
 
 const projectStore = useProjectStore()
 const { projects } = storeToRefs(projectStore)
+const alertStore = useAlertStore()
 
 const search = ref('')
 const selected = ref([])
@@ -111,6 +113,15 @@ const goto = (type, item) => {
   return '/console/project/build'
 }
 
+
+const getProjects = async () => {
+  await projectStore.getProjects()
+}
+
+const onRefresh = () => {
+  getProjects()
+}
+
 const onClickDelete = () => {
   confirm.show = true
 }
@@ -122,17 +133,22 @@ const onConfirm = async () => {
       projectId: selected.value.at(0)
     })
     confirm.show = false
+    alertStore.openAlert({
+      titleName: t('삭제되었습니다.'),
+      type: 'success',
+    })
+    onRefresh()
   } catch (e) {
     console.log(e)
+    alertStore.openAlert({
+      titleName: t('삭제하지 못했습니다.'),
+      type: 'error',
+    })
   }
 }
 
 const onCancel = () => {
   confirm.show = false
-}
-
-const getProjects = async () => {
-  await projectStore.getProjects()
 }
 
 onMounted(() => {

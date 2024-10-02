@@ -32,6 +32,18 @@
       </div>
     </div>
     <footer-component />
+    <teleport to="#destination">
+      <template v-for="(alert, index) in alertItemStack" :key="alert.uuid">
+        <Alert
+          v-bind="alert"
+          :alert-style="{
+            marginTop: `${30 * index}px`,
+            opacity: 1 / (alertItemStack.length - index),
+          }"
+          @close-alert="closeAlert(index)"
+        />
+      </template>
+    </teleport>
   </v-app>
 </template>
 <script setup>
@@ -42,10 +54,12 @@ import { storeToRefs } from 'pinia'
 import { useTokenStore } from '@/stores/portal/token'
 import { useUserStore } from '@/stores/portal/user'
 import { useServiceGroupStore } from '@/stores/portal/service-group'
+import { useAlertStore } from '@/stores/components/alert'
 
 import HeaderComponent from '@/components/_common/RootHeaderComponent.vue'
 import FooterComponent from '@/components/_common/FooterComponent.vue'
 import NaviComponent from '@/components/_common/NaviComponent.vue'
+import Alert from '@/components/_common/alert/CustomAlertComponent.vue'
 import { useI18n } from '@/_setting/i18n'
 
 const router = useRouter()
@@ -62,12 +76,19 @@ const menuItems = ref([
 ])
 const { serviceGroupUuid: globalServiceGroup, serviceGroups: globalServiceGroupList } = storeToRefs(sgStore)
 
+const alertStore = useAlertStore()
+const { alertItemStack } = storeToRefs(alertStore)
+
 const userInfoTrans = computed(() => {
   return {
     ...userInfo.value,
     name: userInfo.value?.usernameKr
   }
 })
+
+const closeAlert = index => {
+  alertStore.closeAlert(index)
+}
 
 
 const onClickLogin = () => {
@@ -108,5 +129,7 @@ const goToMain = () => {
 const onUpdateGlobalValue = uuid => {
   sgStore.updateServiceGroup(uuid)
 }
+
+
 </script>
 <style scoped></style>
