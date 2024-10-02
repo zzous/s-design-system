@@ -4,7 +4,7 @@ import axios from '@/_setting/axios/request-portal'
 import { UserMenuItems } from '@/assets/data/paths'
 // import { menuNameLang } from '@/_setting/i18n'
 import * as _ from 'lodash-es'
-import { GET_ACCESSIBLE_MENU } from '@/assets/consts/api/portal/menu'
+import { GET_ACCESSIBLE_TREE_MENU } from '@/assets/consts/api/portal/menu'
 
 //const GET_ACCESSIBLE_MENU = '/api/v2/portal/tree-menus/accessible'
 
@@ -88,7 +88,7 @@ export const useMenuStore = defineStore('menu', () => {
 
   // 권한 정보 및 tree 구조를 가진 메뉴 목록 호출
   const getAccessibleMenu = async () => {
-    const { data } = await axios.get(GET_ACCESSIBLE_MENU)
+    const { data } = await axios.get(GET_ACCESSIBLE_TREE_MENU)
     const datas = _.cloneDeep([...data])
     setAccessibleMenu(data)
     setFlatMenuWithAccessible(datas)

@@ -172,7 +172,7 @@ const publicPath = computed(() => {
     @param
     - event: EventTarget(이벤트 값)
 */
-const onError = (event)  => {
+const onError = (event) => {
     console.log(tag, 'onError')
     emits('error', event)
 }

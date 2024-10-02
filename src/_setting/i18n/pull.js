@@ -7,13 +7,13 @@ const SPREADSHEET_ID = SHEET_INFO.ID // 스프레드시트 ID
 
 const saveTranslations = (data) => {
   // 한국어와 영어 데이터를 저장할 객체
-  const koTranslations = {};
-  const enTranslations = {};
+  const koTranslations = {}
+  const enTranslations = {}
 
   for (let i = 1; i < data.length; i++) {
-    const [key, koValue, enValue] = data[i];
-    koTranslations[key] = koValue;
-    enTranslations[key] = enValue;
+    const [key, koValue, enValue] = data[i]
+    koTranslations[key] = koValue
+    enTranslations[key] = enValue
   }
 
   // console.log(koTranslations)
@@ -21,7 +21,7 @@ const saveTranslations = (data) => {
   fs.writeFileSync(`./src/_setting/i18n/ko/translation.json`, JSON.stringify(koTranslations, null, 2))
   fs.writeFileSync(`./src/_setting/i18n/en/translation.json`, JSON.stringify(enTranslations, null, 2))
 
-  console.log('한국어와 영어 번역 파일이 업데이트되었습니다.');
+  console.log('한국어와 영어 번역 파일이 업데이트되었습니다.')
 }
 
 async function fetchTranslations(sheets, sheetNames) {
@@ -38,7 +38,7 @@ async function fetchTranslations(sheets, sheetNames) {
 }
 
 // 메인 실행 함수
-const __main__ = async() =>  {
+const __main__ = async() => {
   const sheets = await authenticate()
 
   const { data } = await sheets.spreadsheets.get({

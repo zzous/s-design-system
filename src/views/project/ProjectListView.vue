@@ -1,26 +1,44 @@
 <template>
-  <div class="layout__list">
+  <div class="view-wrapper">
     <s-sub-header :title="$t('프로젝트 목록')" :list-cnt="projects.length">
-      <s-btn color="blue" :title="$t('신규 프로젝트')" />
+      <s-btn
+        variant="outlined"
+        color="red"
+        :title="$t('삭제')"
+        :disabled="selected.length === 0"
+        @click="onClickDelete"
+      />
+      <s-btn color="blue" :title="$t('신규 프로젝트 생성')" />
+      <s-btn color="blue" :title="$t('프로젝트 가져오기')" />
     </s-sub-header>
     <div class="layout__list-contents">
-      <v-text-field
-        v-model="search"
-        class="search-box-text"
-        variant="outlined"
-        density="compact"
-        hide-details
-        :placeholder="$t('프로젝트 명으로 검색')"
-        prepend-inner-icon="mdi-magnify"
-      />
+      <div class="search">
+        <v-text-field
+          v-model="search"
+          class="search__text-field"
+          variant="outlined"
+          density="compact"
+          hide-details
+          :placeholder="$t('프로젝트 명으로 검색')"
+          prepend-inner-icon="mdi-magnify"
+        />
+      </div>
       <div>
-        <v-data-table
+        <s-data-table
+          v-model="selected"
           :headers="headers"
           :items="projects"
           :page="page"
           :search="search"
-          :options="{ pageCnt: pageCnt }"
+          select-strategy="single"
+          item-value="projectId"
+          show-select
+          hide-default-footer
+          :options="{ pageCnt: pageCnt, showSelect: true }"
         >
+          <template #[`item.projectType`]="{ item }">
+            {{ item.projectCd }} - {{ item.buildCd }}
+          </template>
           <template #[`item.buildCount`]="{ item }">
             <a :href="goto('build', item)" class="table-link">{{ item.buildCount }}</a>
           </template>
@@ -33,23 +51,15 @@
           <template #[`item.repo`]="{ item }">
             <a :href="goto('repo', item)" class="table-link">Repo</a>
           </template>
-          <template #[`item.setting`]="{ item }">
-            <s-btn variant="outlined" color="blue" @click="onClickRow('detail', item)">
-              {{ $t('상세') }}
-            </s-btn>
-            <s-btn variant="outlined" color="red" @click="onClickRow('detail', item)">
-              {{ $t('삭제') }}
-            </s-btn>
-          </template>
-        </v-data-table>
+        </s-data-table>
       </div>
     </div>
     <teleport to="#destination">
       <s-confirm
-        :dialog="confirm.show"
+        v-model="confirm.show"
         :contents="confirm.contents"
-        @confirm="onConfirm"
-        @cancel="onCancel"
+        @click:confirm="onConfirm"
+        @click:cancel="onCancel"
       />
     </teleport>
   </div>
@@ -62,62 +72,21 @@ import { storeToRefs } from 'pinia'
 import { useProjectStore } from '@/stores/devops/project'
 import { useI18n } from '@/_setting/i18n'
 
-// import SCardTable from '@/components/_common/table/CustomCardTableComponent.vue'
 import SSubHeader from '@/components/_common/ListViewHeaderComponent.vue'
 import SConfirm from '@/components/_common/modal/CustomConfirmComponent.vue'
 
+import { headers } from './table-header'
+
 const itemsPerPage = ref(10)
 const page = ref(1)
-const { t, tt } = useI18n()
+const { t } = useI18n()
 
 const projectStore = useProjectStore()
 const { projects } = storeToRefs(projectStore)
 
 const search = ref('')
+const selected = ref([])
 const confirm = reactive({ show: false, contents: t('프로젝트를 삭제하시겠습니까?') })
-
-const headers = [
-  {
-    title: tt('프로젝트 명'),
-    key: 'projectName',
-    width: 150
-  },
-  {
-    title: tt('설명'),
-    key: 'projectAlias',
-    width: 250
-  },
-  {
-    title: tt('빌드'),
-    key: 'buildCount',
-    width: 80
-  },
-  {
-    title: tt('배포'),
-    key: 'deployCount',
-    width: 80
-  },
-  {
-    title: tt('회원'),
-    key: 'userCount',
-    width: 80
-  },
-  {
-    title: tt('저장소'),
-    key: 'repo',
-    width: 80
-  },
-  {
-    title: tt('생성 일시'),
-    key: 'regDate',
-    width: 120
-  },
-  {
-    title: '',
-    key: 'setting',
-    width: 160
-  },
-]
 
 const pageCnt = computed(() => Math.ceil(projects.value.length / itemsPerPage.value))
 
@@ -128,29 +97,38 @@ const setProjectId = (projectId) => {
 const goto = (type, item) => {
   setProjectId(item.projectId)
   if (type === 'build') {
-    return '/project/build'
+    return '/console/project/build'
   }
   if (type === 'deploy') {
-    return '/project/deploy'
+    return '/console/project/deploy'
   }
   if (type === 'user') {
-    return '/project/user'
+    return '/console/project/user'
   }
   if (type === 'repo') {
-    return '/project/repo'
+    return '/console/project/repo'
   }
-  return '/project/build'
+  return '/console/project/build'
 }
 
-const onClickRow = (type, item) => {
-  if (type === 'detail') {
-    // open detail modal
-    return
+const onClickDelete = () => {
+  confirm.show = true
+}
+
+const onConfirm = async () => {
+  console.log(selected.value.at(0))
+  try {
+    await projectStore.fetchDeleteProject({
+      projectId: selected.value.at(0)
+    })
+    confirm.show = false
+  } catch (e) {
+    console.log(e)
   }
-  if (type === 'delete') {
-    onConfirm()
-    return
-  }
+}
+
+const onCancel = () => {
+  confirm.show = false
 }
 
 const getProjects = async () => {
@@ -163,8 +141,6 @@ onMounted(() => {
 </script>
 
 <style scoped lang="scss">
-@import '@/assets/style/variables';
-
 .table-link {
   color: $s-text__gray-9;
   text-decoration: none;

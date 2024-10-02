@@ -63,3 +63,22 @@
         @include set-text(500, 12, $s-text__gray-6);
     }
 }
+
+.s-title-area__content {
+    .s-title-area__buttons {
+        button {
+            min-width: 110px;
+
+            &:hover {
+                .v-btn__overlay {
+                    background-color: $s-btn--red-1;
+                    opacity: 0.1;
+                }
+            }
+
+            &:not(:first-child) {
+                margin-left: 10px;
+            }
+        }
+    }
+}

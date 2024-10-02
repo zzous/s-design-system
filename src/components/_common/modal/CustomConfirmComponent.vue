@@ -1,88 +1,81 @@
 <template>
   <v-dialog
     class="s-confirm-modal"
-    is-white
-    title-name=""
-    modal-width="446"
-    modal-height="190"
-    hide-header
-    :dialog="showDialog"
-    @close-modal="onCancel"
+    width="446"
+    persistent
+    :model-value="modelValue"
+    @update:model-value="updateModelValue"
   >
-    <template #content>
-      <div class="confirm-modal__title">
+    <v-card modal-height="210">
+      <v-card-text class="s-confirm-modal__text">
         {{ contents }}
-      </div>
-    </template>
-    <template #footer>
-      <div class="button-wrapper">
-        <sp-button
-          class="button__apply"
-          variant="outlined"
-          height="36"
+      </v-card-text>
+      <v-card-actions class="button-wrapper">
+        <s-btn
+          variant="elevated"
+          color="blue"
           @click.stop="onConfirm"
         >
           {{ $t('확인') }}
-        </sp-button>
-        <sp-button
-          class="button__line mr-2"
+        </s-btn>
+        <s-btn
           variant="outlined"
-          height="36"
+          color="blue"
           @click="onCancel"
         >
           {{ $t('취소') }}
-        </sp-button>
-      </div>
-    </template>
+        </s-btn>
+      </v-card-actions>
+    </v-card>
   </v-dialog>
 </template>
 
 <script setup>
-import { computed } from 'vue'
+const emits = defineEmits(['update:model-value', 'click:confirm', 'click:cancel'])
 
-const props = defineProps({
+defineProps({
   contents: {
     type: String,
     default: '',
     description: '컨펌창 내용',
   },
-  dialog: {
+  modelValue: {
     type: Boolean,
     default: false,
     description: '컨펌창 오픈 여부',
   },
 })
 
-const emits = defineEmits(['confirm', 'cancel'])
+const updateModelValue = (value) => {
+  emits('update:model-value', value)
+}
 
-const showDialog = computed({
-  get: () => props.dialog,
-  set: (value) => {
-    if (!value) {
-      onCancel()
-    }
-  },
-})
-
-const onConfirm = () => emits('confirm')
-const onCancel = () => emits('cancel')
+const onConfirm = () => emits('click:confirm')
+const onCancel = () => emits('click:cancel')
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .s-confirm-modal {
-  .confirm-modal__title {
+  margin: 0 auto;
+  .s-confirm-modal__text {
     text-align: center;
-    white-space-collapse: preserve;
-    margin-bottom: 20px;
-    min-height: max-content;
     display: flex;
     align-items: center;
     justify-content: center;
     min-height: 130px;
   }
 
-  .v-row {
-    margin: 0;
+  .button-wrapper {
+    width: 100%;
+    display: flex;
+    justify-content: center !important;
+    align-items: center;
+    padding: 0 0 27px;
+
+    > button {
+      min-width: 110px;
+      height: 36px;
+    }
   }
 }
 </style>

@@ -2,7 +2,7 @@ import { defineStore } from 'pinia'
 import { ref } from 'vue'
 
 import axios from '@/_setting/axios/request-devops'
-import { GET_PROJECT_LIST } from '@/assets/consts/api/devops/project'
+import { GET_PROJECT_LIST, DELETE_PROJECT } from '@/assets/consts/api/devops/project'
 
 export const useProjectStore = defineStore('project', () => {
     const projects = ref([])
@@ -19,5 +19,9 @@ export const useProjectStore = defineStore('project', () => {
         return projects.value
     }
 
-    return { projects, getProjects }
+    const fetchDeleteProject = async ({ projectId }) => {
+        await axios.delete(DELETE_PROJECT.replace('{projectId}', projectId))
+    }
+
+    return { projects, getProjects, fetchDeleteProject }
 })

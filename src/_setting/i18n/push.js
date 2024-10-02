@@ -3,8 +3,8 @@ import fs from 'node:fs'
 
 import authenticate from './authenticate.js'
 import { SHEET_INFO } from './.credentials/sheet-info.js'
-const ko_KR_PATH =  './src/_setting/i18n/ko/translation.json'
-const en_US_PATH =  './src/_setting/i18n/en/translation.json'
+const ko_KR_PATH = './src/_setting/i18n/ko/translation.json'
+const en_US_PATH = './src/_setting/i18n/en/translation.json'
 
 const SPREADSHEET_ID = SHEET_INFO.ID // 스프레드시트 ID
 
@@ -13,15 +13,15 @@ const dataSet = () => {
   const enJsonData = JSON.parse(fs.readFileSync(en_US_PATH, 'utf-8'))
 
     // 병합된 결과를 담을 배열 초기화
-  const mergedData = [['key', '한국어', '영어']];
+  const mergedData = [['key', '한국어', '영어']]
 
   // 모든 키에 대해 ko와 en의 값을 병합
-  const keys = new Set([...Object.keys(koJsonData), ...Object.keys(enJsonData)]);
+  const keys = new Set([...Object.keys(koJsonData), ...Object.keys(enJsonData)])
 
   keys.forEach((key) => {
-    const koValue = koJsonData[key] || '_N/A'; // ko에 값이 없으면 _N/A 문자열
-    const enValue = enJsonData[key] || '_N/A'; // en에 값이 없으면 _N/A 문자열
-    mergedData.push([key, koValue, enValue]);
+    const koValue = koJsonData[key] || '_N/A' // ko에 값이 없으면 _N/A 문자열
+    const enValue = enJsonData[key] || '_N/A' // en에 값이 없으면 _N/A 문자열
+    mergedData.push([key, koValue, enValue])
   })
 
   return mergedData
@@ -34,13 +34,13 @@ const clearSpreadsheetData = async (sheets, sheetName) => {
   const request = {
     spreadsheetId: SPREADSHEET_ID,
     range: sheetName, // 비우려는 시트 이름을 설정 (예: '시트1')
-  };
+  }
 
   try {
-    await sheets.spreadsheets.values.clear(request);
-    console.log('스프레드시트의 모든 데이터를 서식은 남긱고 지웠습니다.');
+    await sheets.spreadsheets.values.clear(request)
+    console.log('스프레드시트의 모든 데이터를 서식은 남긱고 지웠습니다.')
   } catch (err) {
-    console.error('데이터 삭제 중 오류 발생:', err);
+    console.error('데이터 삭제 중 오류 발생:', err)
   }
 }
 
@@ -67,7 +67,7 @@ const uploadTranslations = async (sheets, sheetName) => {
 }
 
 // 메인 실행 함수
-const __main__ = async() =>  {
+const __main__ = async() => {
   const sheets = await authenticate()
 
   const { data } = await sheets.spreadsheets.get({

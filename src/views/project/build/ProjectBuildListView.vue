@@ -34,7 +34,7 @@
         </template>
         <template #bottom>
           <div class="text-center pt-2">
-            <v-pagination v-model="page" :length="pageCnt" />
+            <v-pagination v-model="page" :length="pageCnt" rounded />
           </div>
         </template>
       </v-data-table>

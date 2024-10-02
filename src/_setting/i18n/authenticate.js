@@ -10,7 +10,7 @@ export default async () => {
     scopes: SCOPES
   })
 
-  const sheets = google.sheets({ version: 'v4', auth });
-  return sheets;
+  const sheets = google.sheets({ version: 'v4', auth })
+  return sheets
   // return auth.getClient()
 }
