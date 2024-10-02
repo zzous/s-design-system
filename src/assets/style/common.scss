@@ -1,5 +1,4 @@
 @import './_variables.scss';
-
 .portal_layout * {
     font-family: $s-base-font;
 }
@@ -15,6 +14,7 @@
 }
 .show-header {
     margin-top: 68px;
+    height: 100%;
 }
 .show-navi {
     margin-left: 300px;

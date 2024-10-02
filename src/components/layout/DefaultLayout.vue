@@ -31,6 +31,7 @@
         <RouterView id="router_view" class="show-navi" />
       </div>
     </div>
+    <footer-component />
   </v-app>
 </template>
 <script setup>
@@ -43,6 +44,7 @@ import { useUserStore } from '@/stores/portal/user'
 import { useServiceGroupStore } from '@/stores/portal/service-group'
 
 import HeaderComponent from '@/components/_common/RootHeaderComponent.vue'
+import FooterComponent from '@/components/_common/FooterComponent.vue'
 import NaviComponent from '@/components/_common/NaviComponent.vue'
 import { useI18n } from '@/_setting/i18n'
 

@@ -77,7 +77,10 @@ const projectList = ref([
 <style scoped lang="scss">
 //@import "@/assets/_variables.scss";
 @import '@/assets/style/variables';
-
+#navi {
+  height: 100%;
+  border-right: 1px solid #ddd;
+}
 #menu_title_wrapper {
   color: #ffffff;
   margin-top: 20px;
