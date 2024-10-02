@@ -69,6 +69,10 @@ defineProps({
       border-color: $s-btn--red-1;
       color: $s-btn--red-1;
     }
+    &:disabled {
+      border-color: $s-text__gray-8;
+      color: $s-text--gray-8;
+    }
   }
 }
 </style>
