@@ -28,7 +28,6 @@ export const useMenuStore = defineStore('menu', () => {
     const setMenu = (menuItem) => {
       const findMenuItem = UserMenuItems.find((flatMenu) => {
         if (flatMenu.menuCode === menuItem.menuCode) {
-          console.error(flatMenu)
           return flatMenu
         }
         return false
@@ -50,10 +49,8 @@ export const useMenuStore = defineStore('menu', () => {
 
     if (data.length && UserMenuItems.length) {
       if (!import.meta.env.DEV) {
-        console.error(1)
         menuPaths.value = data.filter((menu) => menu.viewable !== 'N').map((menu) => setMenu(menu))
       } else {
-        console.error(2)
         menuPaths.value = data.map((menu) => setMenu(menu))
       }
     }
