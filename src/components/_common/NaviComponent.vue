@@ -25,7 +25,7 @@
       </div>
     </div>
     <div v-if="filteredMenu && filteredMenu.subMenus && filteredMenu.subMenus.length" id="menu_wrapper">
-      <v-list v-model:opened="open">
+      <v-list v-model:opened="open" class="navi-menu">
         <v-list-group v-for="menu in filteredMenu.subMenus" :key="menu.idx" :value="menu.idx">
           <template #activator="{ props }">
             <v-list-item
