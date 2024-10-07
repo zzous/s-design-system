@@ -14,13 +14,14 @@
           class="h-30"
           variant="outlined"
           density="compact"
-          :items="projectList"
-          item-title="name"
-          item-value="value"
+          :items="totalProjectList"
+          item-title="projectName"
+          item-value="projectId"
           label="Select"
           persistent-hint
           return-object
           single-line
+          @change="onChangeProject"
         />
       </div>
     </div>
@@ -42,6 +43,7 @@
             v-for="(subMenu, i) in menu.subMenus"
             :key="i"
             class="navi-inner-menu"
+            :class="{disabled : selectedProject.projectId <= 0, active: selectedProject.projectId > 0}"
             active-class="menu-active"
             prepend-icon="mdi-circle-small"
           >
@@ -59,6 +61,7 @@
 
 <script setup>
 //import { NAVI_MENU } from '@/assets/consts/consts'
+import { useProjectStore } from '@/stores/devops/project'
 import { useMenuStore } from '@/stores/portal/menu'
 import { storeToRefs } from 'pinia'
 import { ref, computed } from 'vue'
@@ -67,20 +70,27 @@ const onClickMenuItem = () => {
   open.value = !open.value.length ? open.value : open.value.splice(open.value.length - 1, 1)
 }
 const menuStore = useMenuStore()
+const projectStore = useProjectStore()
+const projectList = storeToRefs(projectStore).projects
 const { menuPaths } = storeToRefs(menuStore)
 const filteredMenu = computed(() => menuPaths.value.find(({ clientId }) => {
   return clientId === 'strato-devops'
 }))
 const open = ref([]) //활성화할 메뉴의 value
 
-const selectedProject = ref({ name: '전체', value: 'total' })
+const selectedProject = ref({ projectName: '전체', projectId: 0 })
 //TODO pinia 처리
-const projectList = ref([
-  { name: '전체', value: 'total' },
-  { name: '프로젝트1', value: 'projcet-1' },
-  { name: '프로젝트2', value: 'projcet-2' },
-  { name: '프로젝트3', value: 'projcet-3' }
-])
+// const projectList = ref([
+//   { name: '전체', value: 'total' },
+//   { name: '프로젝트1', value: 'projcet-1' },
+//   { name: '프로젝트2', value: 'projcet-2' },
+//   { name: '프로젝트3', value: 'projcet-3' }
+// ])
+const totalProjectList = computed(() => [{ projectName: '전체', projectId: 0 }, ...projectList.value])
+
+const onChangeProject = (e) => {
+  console.error(e)
+}
 </script>
 
 <style scoped lang="scss">
@@ -115,6 +125,12 @@ const projectList = ref([
 .navi-inner-menu {
   padding-inline: 15px !important;
 }
+.navi-inner-menu.disabled .navi-inner-menu-title{
+  pointer-events: none;
+  color: grey;
+  cursor: not-allowed;
+}
+
 .navi-inner-menu-title {
   text-decoration: none;
   color: black;
@@ -122,11 +138,11 @@ const projectList = ref([
 .navi-inner-menu-title.router-link-exact-active {
   color: $active-font-color;
 }
-.navi-inner-menu:hover {
+.navi-inner-menu.active:hover {
   background: #e7f4fd;
   border-radius:99px !important;
 }
-.navi-inner-menu:hover .navi-inner-menu-title{
+.navi-inner-menu.active:hover .navi-inner-menu-title{
   color: $active-font-color;
 }
 .menu-active {
