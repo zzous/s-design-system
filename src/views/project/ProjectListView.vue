@@ -69,6 +69,7 @@
 import { computed, ref, reactive, onMounted } from 'vue'
 import { storeToRefs } from 'pinia'
 
+import { useDevOpsServiceGroupStore } from '@/stores/devops/service-group'
 import { useProjectStore } from '@/stores/devops/project'
 import { useI18n } from '@/_setting/i18n'
 import { useAlertStore } from '@/stores/components/alert'
@@ -82,6 +83,8 @@ const itemsPerPage = ref(10)
 const page = ref(1)
 const { t } = useI18n()
 
+const devSgStore = useDevOpsServiceGroupStore()
+const { serviceGroupId } = storeToRefs(devSgStore)
 const projectStore = useProjectStore()
 const { projects } = storeToRefs(projectStore)
 const alertStore = useAlertStore()
@@ -116,7 +119,7 @@ const goto = (type, item) => {
 
 const getProjects = async () => {
   await projectStore.getProjects({
-    // serviceGroupId: localStorage.getItem('serviceGroupId'),
+    serviceGroupId: serviceGroupId.value,
   })
 }
 

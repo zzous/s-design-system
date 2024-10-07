@@ -48,7 +48,7 @@
           :user="userInfo"
           :menu-items="menuItems"
           :class-name="{ fontWhite: true }"
-          @click-item="onClickMenuItem"
+          @click:menu-item="onClickMenuItem"
         >
           <template #badge>
             <v-avatar size="35">

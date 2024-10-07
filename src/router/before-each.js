@@ -2,6 +2,7 @@ import { useTokenStore } from '@/stores/portal/token'
 import { useUserStore } from '@/stores/portal/user'
 import { useMenuStore } from '@/stores/portal/menu'
 import { useServiceGroupStore } from '@/stores/portal/service-group'
+import { useDevOpsServiceGroupStore } from '@/stores/devops/service-group'
 import { storeToRefs } from 'pinia'
 
 export const beforeEach = (router) => {
@@ -46,6 +47,8 @@ export const beforeEach = (router) => {
 export const beforeResolve = (router) => {
   router.beforeResolve(async () => {
     const sgStore = useServiceGroupStore()
+    const devOpsSgStore = useDevOpsServiceGroupStore()
+    const { serviceGroupUuid } = storeToRefs(sgStore)
     const userStore = useUserStore()
     const { isLoggedIn } = storeToRefs(userStore)
     if (!isLoggedIn.value) {
@@ -57,6 +60,8 @@ export const beforeResolve = (router) => {
       await sgStore.getServiceGroups({
         clientId: 'strato-devops',
       })
+
+      await devOpsSgStore.getServiceGroupDetail(serviceGroupUuid.value)
     }
   })
   return router

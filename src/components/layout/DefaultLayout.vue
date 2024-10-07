@@ -29,7 +29,14 @@
     <div class="show-header">
       <NaviComponent />
       <div class="base-layout">
-        <RouterView id="router_view" ref="routerView" class="show-navi" />
+        <RouterView v-slot="{ Component }">
+          <component
+            :is="Component"
+            id="router_view"
+            ref="viewRef"
+            class="show-navi"
+          />
+        </RouterView>
       </div>
     </div>
     <footer-component />
@@ -55,6 +62,7 @@ import { storeToRefs } from 'pinia'
 import { useTokenStore } from '@/stores/portal/token'
 import { useUserStore } from '@/stores/portal/user'
 import { useServiceGroupStore } from '@/stores/portal/service-group'
+import { useDevOpsServiceGroupStore } from '@/stores/devops/service-group'
 import { useAlertStore } from '@/stores/components/alert'
 
 import HeaderComponent from '@/components/_common/RootHeaderComponent.vue'
@@ -63,10 +71,12 @@ import NaviComponent from '@/components/_common/NaviComponent.vue'
 import Alert from '@/components/_common/alert/CustomAlertComponent.vue'
 import { useI18n } from '@/_setting/i18n'
 
+
 const router = useRouter()
 const tokenStore = useTokenStore()
 const userStore = useUserStore()
 const sgStore = useServiceGroupStore()
+const devOpsSgStore = useDevOpsServiceGroupStore()
 const { t } = useI18n()
 
 const { isLoggedIn, userInfo } = storeToRefs(userStore)
@@ -129,13 +139,14 @@ const goToMain = () => {
   window.location.href = import.meta.env.VITE_STRATO_PORTAL
 }
 
-const routerView = ref(null)
-const onUpdateGlobalValue = uuid => {
+const viewRef = ref(null)
+const onUpdateGlobalValue = async uuid => {
   sgStore.updateServiceGroup(uuid)
+  await devOpsSgStore.getServiceGroupDetail(globalServiceGroup.value)
 
-  if (routerView.value) {
-    console.log(routerView.value)
-    routerView.value.onRefresh()
+  if (viewRef.value) {
+    console.log(viewRef.value, 'routerView')
+    viewRef.value?.onRefresh()
   }
 }
 

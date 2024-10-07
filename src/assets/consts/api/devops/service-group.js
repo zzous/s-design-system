@@ -1,0 +1,1 @@
+export const GET_SERVICE_GROUP_DETAIL = '/api/v1/devops/service-group'
