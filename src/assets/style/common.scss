@@ -58,9 +58,24 @@
     }
 }
 
+// 헤더 영역 
 .s-global-select {
     .v-select__selection .v-select__selection-text {
         @include set-text(500, 12, $s-text__gray-6);
+    }
+}
+
+// Side 영역
+#project_select .v-select__selection-text {
+    @include set-text(400, 14, null);
+}
+
+#menu_wrapper {
+    padding-right: 20px;
+    padding-left: 20px;
+
+    .v-list-item .v-list-item__prepend .v-list-item__spacer {
+        width: 0;
     }
 }
 

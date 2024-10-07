@@ -36,7 +36,7 @@ export default ({ mode }) => {
     server: {
       port: 3001,
       proxy: {
-        '^/api/(v[0-9])/portal': {
+        '^/(api/(v[0-9])/portal|auth)': {
           target: process.env.VITE_USER_API,
           changeOrigin: true,
           secure: false,
