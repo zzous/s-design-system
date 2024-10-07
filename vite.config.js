@@ -46,7 +46,6 @@ export default ({ mode }) => {
         },
         '^/api/(v[0-9])/devops': {
           target: process.env.VITE_DEVOPS_API,
-          rewrite: path => path.replace(/^\/api\/(v[0-9])\/devops/, ''),
           changeOrigin: true,
           secure: false,
           headers: {
