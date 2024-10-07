@@ -8,8 +8,8 @@
         :disabled="selected.length === 0"
         @click="onClickDelete"
       />
-      <s-btn color="blue" :title="$t('신규 프로젝트 생성')" />
-      <s-btn color="blue" :title="$t('프로젝트 가져오기')" />
+      <s-btn variant="outlined" color="blue" :title="$t('신규 프로젝트 생성')" />
+      <s-btn variant="outlined" color="blue" :title="$t('프로젝트 가져오기')" />
     </s-sub-header>
     <div class="layout__list-contents">
       <div class="search">
@@ -115,7 +115,9 @@ const goto = (type, item) => {
 
 
 const getProjects = async () => {
-  await projectStore.getProjects()
+  await projectStore.getProjects({
+    serviceGroupId: localStorage.getItem('serviceGroupId'),
+  })
 }
 
 const onRefresh = () => {
