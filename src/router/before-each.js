@@ -28,7 +28,7 @@ export const beforeEach = (router) => {
     } else{
       //메뉴 정보 가져온 다음 메뉴 없으면 세션 스토리지에 메뉴 있는지 확인 하고 가져올것
       const isThereMenu = useMenuStore().menuPaths.length
-      if(isThereMenu) {
+      if(!isThereMenu) {
         //세션 스토리지에서 메뉴 가져오기
         const menuStr = sessionStorage.getItem('STRATO_PORTAL_MENU')
         const flatMenuStr = sessionStorage.getItem('STRATO_PORTAL_MENU_FLAT')
