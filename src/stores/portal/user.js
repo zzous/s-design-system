@@ -44,7 +44,8 @@ export const useUserStore = defineStore('user', () => {
     try {
       return await axios.get(GET_LOGIN_USER_DETAIL)
     } catch (e) {
-      console.log(e)
+      console.error('getLoginUser catch')
+      console.error(e)
     }
   }
 
