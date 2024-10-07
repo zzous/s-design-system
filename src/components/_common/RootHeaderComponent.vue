@@ -13,7 +13,12 @@
         size="small"
         background-color="white"
       >
-        <v-btn class="s-btn__menu" text="서비스" @click="toggleMenu">
+        <v-btn
+          v-if="showMenuBtn"
+          class="s-btn__menu"
+          text="서비스"
+          @click="toggleMenu"
+        >
           <template #prepend>
             <v-icon
               class="s-btn__menu__icon"
@@ -68,17 +73,11 @@
 
   <!-- 서비스 메뉴 -->
   <div class="menu-back-ground" :class="{ show: showMenu, hide: !showMenu }">
-    <!-- <v-navigation-drawer
-      v-model="showMenu"
-      temporary
-    >
-      <v-list :items="items" />
-    </v-navigation-drawer> -->
     <div id="side_menu_background">
+      <div class="text-align-right">
+        <v-icon icon="mdi-close" @click="closeMenu" />
+      </div>
       <div id="side_menu_wrapper">
-        <v-list-item class="text-align-right side-menu">
-          <v-icon icon="mdi-close" @click="closeMenu" />
-        </v-list-item>
         <v-list-item
           v-for="item in items"
           :key="item.title"
@@ -112,6 +111,10 @@ defineProps({
   menuItems: {
     type: Array,
     default: () => []
+  },
+  showMenuBtn: {
+    type: Boolean,
+    default: false
   }
 })
 
@@ -140,7 +143,13 @@ const onClickMenuItem = (value) => {
 }
 #side_menu_wrapper {
   position: relative;
-  top: 90px;
+  height: calc(100vh - 150px);
+  overflow-y: auto;
+  @include scroll();
+
+  > .v-list-item {
+    margin-top: 0 !important;
+  }
 }
 #side_menu_background {
   width: 420px;
@@ -152,10 +161,11 @@ const onClickMenuItem = (value) => {
   padding-left: 30px;
   padding-right: 30px;
   overflow: hidden;
+  padding: 10px 30px 29px;
 }
 
 .s-logo {
-  width: 300px;
+  width: 288px;
   height: 68px;
 
   .s-logo__img {
@@ -199,17 +209,23 @@ const onClickMenuItem = (value) => {
   width: 100%;
   z-index: 100;
   background: rgba(0, 0, 0, 0.2);
+  margin-top: 68px;
 }
 .menu-back-ground.hide {
   height: 0;
-  transition: linear 0.5s;
+  margin: 0;
+  transition: linear 0.2s;
 }
 .menu-back-ground.show {
   height: 100%;
-  transition: linear 0.5s;
+  transition: linear 0.2s;
 }
 </style>
 <style lang="scss">
+.v-app-bar .v-toolbar__prepend {
+  margin-inline: 0;
+}
+
 .s-btn__menu {
   &:hover > .v-btn__overlay,
   &:focus-visible > .v-btn__overlay {

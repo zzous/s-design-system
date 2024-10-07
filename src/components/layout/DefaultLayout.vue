@@ -4,6 +4,7 @@
       :is-logged-in="isLoggedIn"
       :user-info="userInfoTrans"
       :menu-items="menuItems"
+      :show-menu-btn="showMenuBtn"
       @click:logo="goToMain"
       @click:menu-item="onClickMenuItem"
       @click:log-in="onClickLogin"
@@ -47,7 +48,7 @@
   </v-app>
 </template>
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, computed, watch } from 'vue'
 import { RouterView, useRouter } from 'vue-router'
 import { storeToRefs } from 'pinia'
 
@@ -106,6 +107,8 @@ const onLogOut = () => {
 
 const onClickSignUp = () => { }
 
+const showMenuBtn = ref(false)
+
 const onClickMenuItem = (value) => {
   if (value === 'my-company') {
     router.push(`/company/detail/${userInfo.value.company.uuid}`)
@@ -130,6 +133,16 @@ const onUpdateGlobalValue = uuid => {
   sgStore.updateServiceGroup(uuid)
 }
 
+watch(
+  () => isLoggedIn.value,
+  () => {
+    if (!isLoggedIn.value) {
+      showMenuBtn.value = false
+    } else {
+      showMenuBtn.value = true
+    }
+  }
+)
 
 </script>
 <style scoped></style>

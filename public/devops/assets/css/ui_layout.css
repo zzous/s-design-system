@@ -3,25 +3,23 @@
 .portal_layout .v-application{letter-spacing: -.5px;font-family: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif !important;} */
 .portal_layout .material-icons{font-family: 'Material Icons' !important;}
 .portal_layout .material-icons-outlined, .portal_layout .material-icons{font-family:"Material Icons Outlined" !important;}
-.portal_layout .nav-right .button-wrapper .s-global-select .v-field{padding:0}
-.portal_layout .nav-right  .sp-select{border-radius: 0; margin-right:10px;}
-.portal_layout .nav-right .v-field__append-inner i{display: none;}
-.portal_layout .nav-right .v-field__input{border-radius: 0; padding:0; }
-.portal_layout .nav-right  .v-select__selection-text{font-size:12px}
-.portal_layout .nav-right .user-name-wrapper i{display:none;}
-.portal_layout .nav-right .user-name-wrapper { background: url('/devops/assets/images/expand_more.svg') no-repeat
-  left center;
-padding-left: 25px;}
-.portal_layout .nav-right .button-wrapper .s-global-select .v-field, .nav-my-row.sp-avater .user-name-wrapper{ background: url('/devops/assets/images/expand_more.svg') no-repeat left center;padding-left: 25px;}
-.nav-my-row .user-name-wrapper .user-name{font-size:14px;}
+.portal_layout .s-item-group .button-wrapper .s-global-select .v-field{padding:0}
+.portal_layout .s-item-group  .sp-select{border-radius: 0; margin-right:10px;}
+.portal_layout .s-item-group .v-field__append-inner i{display: none;}
+.portal_layout .s-item-group .v-field__input{border-radius: 0; padding:0; }
+.portal_layout .s-item-group  .v-select__selection-text{font-size:12px}
+.portal_layout .s-item-group .s-user-name i{display:none;}
+.portal_layout .s-item-group .s-user-name { background: url('/devops/assets/images/expand_more.svg') no-repeat right center; padding-right: 25px;}
+.portal_layout .s-item-group .s-global-select .v-field, .s-avater .s-user-name{ background: url('/devops/assets/images/expand_more.svg') no-repeat right center; padding-right: 25px;}
+.nav-my-row .s-user-name .s-user-name__text{font-size:14px;}
 .portal_layout .v-avatar{background: url('/devops/assets/images/profile.svg') no-repeat
   left center; width:32px !important; height:32px !important;
 padding: 2px; border-radius:50%;}
 .portal_layout .base-layout{padding-top:0; width: 100%; padding: 0px 30px 0 30px;}
 .portal_layout .v-avatar > .v-responsive{ border-radius:50%;}
-.portal_layout .nav-right .v-select__selection{margin:0}
-.portal_layout .nav-right .topMenulist{width:100px}
-.portal_layout .nav-right .v-menu .v-overlay__content{border-radius:5px;}
+.portal_layout .s-item-group .v-select__selection{margin:0}
+.portal_layout .s-item-group .topMenulist{width:100px}
+.portal_layout .s-item-group .v-menu .v-overlay__content{border-radius:5px;}
 .portal_layout .v-list-item {margin:0 5px;}
 .portal_layout .v-list-item > .v-list-item__overlay { background: #1297f2; border-radius:99px;}
 .portal_layout .v-list-item--active > .v-list-item__overlay,
