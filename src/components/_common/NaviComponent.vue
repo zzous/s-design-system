@@ -134,6 +134,10 @@ const projectList = ref([
   color: $active-font-color;
 }
 .navi-inner-menu:hover {
+  background: #e7f4fd;
+  border-radius:99px !important;
+}
+.navi-inner-menu:hover .navi-inner-menu-title{
   color: $active-font-color;
 }
 .menu-active {

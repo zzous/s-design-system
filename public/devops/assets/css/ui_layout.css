@@ -21,9 +21,9 @@ padding: 2px; border-radius:50%;}
 .portal_layout .s-item-group .topMenulist{width:100px}
 .portal_layout .s-item-group .v-menu .v-overlay__content{border-radius:5px;}
 .portal_layout .v-list-item {margin:0 5px;}
-.portal_layout .v-list-item > .v-list-item__overlay { background: #1297f2; border-radius:99px;}
+/* .portal_layout .v-list-item > .v-list-item__overlay { background: #1297f2; border-radius:99px;}
 .portal_layout .v-list-item--active > .v-list-item__overlay,
-.portal_layout .v-list-item:hover > .v-list-item__overlay{opacity: .3;}
+.portal_layout .v-list-item:hover > .v-list-item__overlay{opacity: .3;} */
 .portal_layout .sp-select__item .v-list-item--density-default.v-list-item--one-line{min-height:30px}
 .v-list-item--density-default.v-list-item--one-line{padding:0;padding-top: 0;padding-bottom: 0;}
 /* 서브메뉴 */
