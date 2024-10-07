@@ -8,8 +8,18 @@
         :disabled="selected.length === 0"
         @click="onClickDelete"
       />
-      <s-btn variant="outlined" color="blue" :title="$t('신규 프로젝트 생성')" />
-      <s-btn variant="outlined" color="blue" :title="$t('프로젝트 가져오기')" />
+      <s-btn
+        variant="outlined"
+        color="blue"
+        :title="$t('신규 프로젝트 생성')"
+        @click="onClickNewProject"
+      />
+      <s-btn
+        variant="outlined"
+        color="blue"
+        :title="$t('프로젝트 가져오기')"
+        @click="onClickImportProject"
+      />
     </s-sub-header>
     <div class="layout__list-contents">
       <div class="search">
@@ -61,12 +71,20 @@
         @click:confirm="onConfirm"
         @click:cancel="onCancel"
       />
+      <s-modal
+        v-model="modal.show"
+        :class="modal.size"
+        :title="modal.title"
+        @click:close="onClickCloseModal"
+      >
+        <component :is="modal.component" />
+      </s-modal>
     </teleport>
   </div>
 </template>
 
 <script setup>
-import { computed, ref, reactive, onMounted } from 'vue'
+import { computed, ref, reactive, onMounted, markRaw } from 'vue'
 import { storeToRefs } from 'pinia'
 
 import { useDevOpsServiceGroupStore } from '@/stores/devops/service-group'
@@ -76,6 +94,9 @@ import { useAlertStore } from '@/stores/components/alert'
 
 import SSubHeader from '@/components/_common/ListViewHeaderComponent.vue'
 import SConfirm from '@/components/_common/modal/CustomConfirmComponent.vue'
+import SModal from '@/components/_common/modal/CustomModalComponent.vue'
+
+import ProjectNewView from './ProjectNewView.vue'
 
 import { headers } from './table-header'
 
@@ -153,6 +174,28 @@ const onConfirm = async () => {
 
 const onCancel = () => {
   confirm.show = false
+}
+
+const modal = reactive({
+  show: false,
+  component: null,
+  size: 'lg',
+  title: ''
+})
+
+const onClickNewProject = () => {
+  modal.component = markRaw(ProjectNewView)
+  modal.show = true
+  modal.title = t('신규 프로젝트 생성')
+}
+const onClickImportProject = () => {
+
+}
+
+const onClickCloseModal = () => {
+  modal.component = null
+  modal.show = false
+  modal.title = ''
 }
 
 onMounted(() => {
