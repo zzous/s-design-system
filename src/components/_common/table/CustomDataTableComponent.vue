@@ -102,15 +102,9 @@
       />
     </template>
     <template #no-data>
-      <tr>
-        <td
-          :colspan="showSelect ? headers.length + 1 : headers.length
-          "
-          class="text-center no-data"
-        >
-          {{ noDataText }}
-        </td>
-      </tr>
+      <div class="text-center no-data">
+        {{ noDataText }}
+      </div>
     </template>
     <template v-if="footers && Object.keys(footers).length" #[`tfoot`]>
       <tr>
