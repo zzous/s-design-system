@@ -112,14 +112,6 @@ const projectList = ref([
   padding: 15px 25px 5px 25px;
 }
 
-#project_select {
-
-}
-
-#menu_wrapper {
-  padding-right: 20px;
-  padding-left: 20px;
-}
 .navi-inner-menu {
   padding-inline: 15px !important;
 }
