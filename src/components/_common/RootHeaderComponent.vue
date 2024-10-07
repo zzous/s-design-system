@@ -68,12 +68,12 @@
 
   <!-- 서비스 메뉴 -->
   <div class="menu-back-ground" :class="{ show: showMenu, hide: !showMenu }">
-    <v-navigation-drawer
+    <!-- <v-navigation-drawer
       v-model="showMenu"
       temporary
     >
       <v-list :items="items" />
-    </v-navigation-drawer>
+    </v-navigation-drawer> -->
     <div id="side_menu_background">
       <div id="side_menu_wrapper">
         <v-list-item class="text-align-right side-menu">
