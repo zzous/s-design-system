@@ -390,7 +390,6 @@ const updateModelValue = (item) => {
 }
 
 const pageCnt = computed(() => {
-  console.log(filterDatas.value)
   if (filterDatas.value.length > 0) {
     if (!props.options?.pageCnt) {
       // eslint-disable-next-line vue/no-side-effects-in-computed-properties

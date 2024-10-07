@@ -116,7 +116,7 @@ const goto = (type, item) => {
 
 const getProjects = async () => {
   await projectStore.getProjects({
-    serviceGroupId: localStorage.getItem('serviceGroupId'),
+    // serviceGroupId: localStorage.getItem('serviceGroupId'),
   })
 }
 
@@ -129,7 +129,6 @@ const onClickDelete = () => {
 }
 
 const onConfirm = async () => {
-  console.log(selected.value.at(0))
   try {
     await projectStore.fetchDeleteProject({
       projectId: selected.value.at(0)
