@@ -29,7 +29,7 @@
     <div class="show-header">
       <NaviComponent />
       <div class="base-layout">
-        <RouterView id="router_view" class="show-navi" />
+        <RouterView id="router_view" ref="routerView" class="show-navi" />
       </div>
     </div>
     <footer-component />
@@ -129,8 +129,14 @@ const goToMain = () => {
   window.location.href = import.meta.env.VITE_STRATO_PORTAL
 }
 
+const routerView = ref(null)
 const onUpdateGlobalValue = uuid => {
   sgStore.updateServiceGroup(uuid)
+
+  if (routerView.value) {
+    console.log(routerView.value)
+    routerView.value.onRefresh()
+  }
 }
 
 watch(

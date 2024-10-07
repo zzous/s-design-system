@@ -156,6 +156,8 @@ const onCancel = () => {
 onMounted(() => {
   getProjects()
 })
+
+defineExpose({ onRefresh })
 </script>
 
 <style scoped lang="scss">
