@@ -122,9 +122,6 @@ const projectList = ref([
 .navi-inner-menu-title.router-link-exact-active {
   color: $active-font-color;
 }
-.navi-inner-menu-title:hover {
-  color: $active-font-color;
-}
 .navi-inner-menu:hover {
   background: #e7f4fd;
   border-radius:99px !important;
