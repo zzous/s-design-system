@@ -99,18 +99,18 @@ const setProjectId = (projectId) => {
 const goto = (type, item) => {
   setProjectId(item.projectId)
   if (type === 'build') {
-    return '/console/project/build'
+    return '/console/projects/build/list'
   }
   if (type === 'deploy') {
-    return '/console/project/deploy'
+    return '/console/projects/deploy/list'
   }
   if (type === 'user') {
-    return '/console/project/user'
+    return '/console/projects/user/list'
   }
   if (type === 'repo') {
-    return '/console/project/repo'
+    return '/console/projects/repo/list'
   }
-  return '/console/project/build'
+  return '/console/projects/build/list'
 }
 
 

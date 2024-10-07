@@ -473,7 +473,7 @@ export const UserMenuItems = [
   {
     menuCode: 'DEVOPS_PROJECT_MANAGEMENT',
     alt: 'Project Management',
-    menuUrl: 'Project 관리'
+    menuUrl: '/project'
   },
   { menuCode: 'DEVOPS_BUILD', alt: 'Build', menuUrl: '/console/projects/build/list' },
   { menuCode: 'DEVOPS_DEPLOY', alt: 'Deploy', menuUrl: '/console/projects/deploy/list' },
