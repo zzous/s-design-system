@@ -394,7 +394,7 @@ onMounted(() => {
       align-items: center;
       height: 56px;
       padding: 0 10px;
-      @include set-text(600, 12px, $s-text__gray-9);
+      @include set-text(600, 12px, $s-default--gray-9);
     }
   }
 
@@ -411,7 +411,7 @@ onMounted(() => {
       align-items: center;
       padding: 5px;
       border-radius: 10px;
-      border: 1px solid $s-text__gray-5;
+      border: 1px solid $s-default--gray-5;
     }
   }
 

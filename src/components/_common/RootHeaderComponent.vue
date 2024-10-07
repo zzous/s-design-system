@@ -1,5 +1,5 @@
 <template>
-  <v-app-bar :elevation="2" color="#1C2536" :height="68">
+  <v-app-bar class="s-header" color="#1C2536" :height="68">
     <template #prepend>
       <div class="s-logo">
         <a href="#" @click="$emit('click:logo')">
@@ -136,6 +136,10 @@ const onClickMenuItem = (value) => {
 </script>
 
 <style lang="scss" scoped>
+.s-header {
+  box-shadow: 0px 4px 4px 0px #00000040;
+}
+
 .side-menu {
   cursor: pointer;
   height: 50px;

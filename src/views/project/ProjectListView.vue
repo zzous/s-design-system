@@ -158,7 +158,7 @@ onMounted(() => {
 
 <style scoped lang="scss">
 .table-link {
-  color: $s-text__gray-9;
+  color: $s-default--gray-9;
   text-decoration: none;
 }
 

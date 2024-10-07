@@ -61,6 +61,9 @@ defineProps({
   }
 
   &.v-btn--variant-outlined{
+    opacity: 1;
+    background-color: white;
+
     &[s-color="blue"] {
       border-color: $s-btn--blue-1;
       color: $s-btn--blue-1;
@@ -70,8 +73,8 @@ defineProps({
       color: $s-btn--red-1;
     }
     &:disabled {
-      border-color: $s-text__gray-8;
-      color: $s-text--gray-8;
+      border-color: $s-default--gray-5;
+      color: $s-default--gray-5;
     }
   }
 }

@@ -45,7 +45,7 @@
 
         .v-list-item-title {
             text-align: center;
-            @include set-text(500, 12, $s-text__gray-9);
+            @include set-text(500, 12, $s-default--gray-9);
         }
     }
 }
@@ -54,14 +54,14 @@
     min-height: 24px;
 
     .v-list-item-title{
-        @include set-text(500, 12, $s-text__gray-9);
+        @include set-text(500, 12, $s-default--gray-9);
     }
 }
 
 // 헤더 영역 
 .s-global-select {
     .v-select__selection .v-select__selection-text {
-        @include set-text(500, 12, $s-text__gray-6);
+        @include set-text(500, 12, $s-default--gray-6);
     }
 }
 
@@ -97,3 +97,19 @@
         }
     }
 }
+
+.v-application__wrap {
+    background-color: $s-base-background;
+
+    #navi {
+        background-color: white;
+    }
+
+    .layout__list-contents {
+        border: 1px solid $s-default--gray-5;
+        border-radius: 10px;
+        background-color: white;
+        padding: 16px;
+    }
+}
+

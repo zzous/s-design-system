@@ -88,7 +88,7 @@ const projectList = ref([
 @import '@/assets/style/variables';
 #navi {
   height: 100%;
-  border-right: 1px solid #ddd;
+  border-right: 1px solid $s-default--gray-5;
 }
 #menu_title_wrapper {
   color: #ffffff;

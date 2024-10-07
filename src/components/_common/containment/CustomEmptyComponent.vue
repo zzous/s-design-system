@@ -57,7 +57,7 @@ defineProps({
   .#{$this}__card {
     width: 100%;
     height: 100%;
-    border: thin dotted $s-text__gray-5;
+    border: thin dotted $s-default--gray-5;
     display: flex;
     align-items: center;
     flex-direction: column;

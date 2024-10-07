@@ -7,6 +7,7 @@ $scroll-border-color: #707070;
 $scroll-border-radius: 10px;
 
 $s-base-font: 'Paperlogy', 'Noto Sans KR', sans-serif;
+$s-base-background: #F7F9FA;
 
 // 주색
 $main-color: #1C2536;
@@ -50,17 +51,17 @@ $s-btn__primary: #1C2536;
 /**
 * TEXT COLOR
 */
-$s-text__gray-0: #FFFFFF;
-$s-text__gray-1: #F7F9FA;
-$s-text__gray-2: #F6F6F6;
-$s-text__gray-3: #F2F2F2;
-$s-text__gray-4: #EEEEEE;
-$s-text__gray-5: #DDDDDD; // border color
-$s-text__gray-6: #CCCCCC;
-$s-text__gray-7: #999999;
-$s-text__gray-8: #6C6C6C;
-$s-text__gray-9: #333333;
-$s-text__gray-10: #000000;
+$s-default--gray-0: #FFFFFF;
+$s-default--gray-1: #F7F9FA;
+$s-default--gray-2: #F6F6F6;
+$s-default--gray-3: #F2F2F2;
+$s-default--gray-4: #EEEEEE;
+$s-default--gray-5: #DDDDDD; // disabled color, border color
+$s-default--gray-6: #CCCCCC;
+$s-default--gray-7: #999999;
+$s-default--gray-8: #6C6C6C;
+$s-default--gray-9: #333333;
+$s-default--gray-10: #000000;
 
 
 .v-theme--light {

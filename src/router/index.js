@@ -9,14 +9,16 @@ const router = createRouter({
   routes: [
     {
       path: '/',
+      name: 'Root',
       redirect: '/project/list'
     },
     {
       path: '/project',
+      name: 'Project',
       redirect: '/project/list',
       children: [
         {
-          path: '/project/list',
+          path: 'list',
           name: 'projectList',
           component: () => import('@/views/project/ProjectListView.vue')
         },
