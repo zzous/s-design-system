@@ -4,15 +4,23 @@ import axios from '@/_setting/axios/request-portal'
 import { UserMenuItems } from '@/assets/data/paths'
 // import { menuNameLang } from '@/_setting/i18n'
 import * as _ from 'lodash-es'
-import { GET_ACCESSIBLE_TREE_MENU } from '@/assets/consts/api/portal/menu'
-
-//const GET_ACCESSIBLE_MENU = '/api/v2/portal/tree-menus/accessible'
+import { ACCESSIBLE_TREE_MENU } from '@/assets/consts/api/portal/menu'
 
 export const useMenuStore = defineStore('menu', () => {
   // flat menu(path 정보를 갖고 있음.)
+  // 모든 프로젝트에 대한 (devops, msa 등등) 메뉴 트리구조 실제 사용시 해당 메뉴를 필터링 하여 사용
   const menuPaths = ref([])
+  // 모든 프로젝트에 대한 (devops, msa 등등) 메뉴 목록
   const flatMenuPaths = ref([])
+  // 햔제 화면의 메뉴
   const currentMenu = ref({})
+
+  const setMenuPaths = (newMenuPaths) => {
+    menuPaths.value = newMenuPaths
+  }
+  const setFlatMenuPaths = (newFlatMenuPaths) => {
+    flatMenuPaths.value = newFlatMenuPaths
+  }
 
   const setAccessibleMenu = (data) => {
     menuPaths.value = []
@@ -20,6 +28,7 @@ export const useMenuStore = defineStore('menu', () => {
     const setMenu = (menuItem) => {
       const findMenuItem = UserMenuItems.find((flatMenu) => {
         if (flatMenu.menuCode === menuItem.menuCode) {
+          console.error(flatMenu)
           return flatMenu
         }
         return false
@@ -41,8 +50,10 @@ export const useMenuStore = defineStore('menu', () => {
 
     if (data.length && UserMenuItems.length) {
       if (!import.meta.env.DEV) {
+        console.error(1)
         menuPaths.value = data.filter((menu) => menu.viewable !== 'N').map((menu) => setMenu(menu))
       } else {
+        console.error(2)
         menuPaths.value = data.map((menu) => setMenu(menu))
       }
     }
@@ -88,7 +99,7 @@ export const useMenuStore = defineStore('menu', () => {
 
   // 권한 정보 및 tree 구조를 가진 메뉴 목록 호출
   const getAccessibleMenu = async () => {
-    const { data } = await axios.get(GET_ACCESSIBLE_TREE_MENU)
+    const { data } = await axios.get(ACCESSIBLE_TREE_MENU)
     const datas = _.cloneDeep([...data])
     setAccessibleMenu(data)
     setFlatMenuWithAccessible(datas)
@@ -101,6 +112,8 @@ export const useMenuStore = defineStore('menu', () => {
     menuPaths,
     flatMenuPaths,
     currentMenu,
+    setMenuPaths,
+    setFlatMenuPaths,
     setAccessibleMenu,
     getAccessibleMenu
   }

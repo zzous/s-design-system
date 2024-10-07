@@ -8,7 +8,7 @@
       </router-link>
     </div>
     <div id="project_select_wrapper">
-      <div id="project_select">
+      <div id="project_select" class="border-b-sm">
         <v-select
           v-model="selectedProject"
           class="h-30"
@@ -24,30 +24,30 @@
         />
       </div>
     </div>
-    <div id="menu_wrapper">
+    <div v-if="filteredMenu && filteredMenu.subMenus && filteredMenu.subMenus.length" id="menu_wrapper">
       <v-list v-model:opened="open">
-        <v-list-group v-for="menu in naviMenu" :key="menu.value" :value="menu.value">
+        <v-list-group v-for="menu in filteredMenu.subMenus" :key="menu.idx" :value="menu.idx">
           <template #activator="{ props }">
             <v-list-item
               v-bind="props"
               height="50px"
               active-class="menu-active"
-              :title="menu.title"
-              :append-icon="open.includes(menu.value) ? 'mdi-chevron-down' : 'mdi-chevron-right'"
+              :title="menu.menuNameKr"
+              :append-icon="open.includes(menu.idx) ? 'mdi-chevron-down' : 'mdi-chevron-right'"
               @click="onClickMenuItem"
             />
           </template>
 
           <v-list-item
-            v-for="(subMenu, i) in menu.subMenu"
+            v-for="(subMenu, i) in menu.subMenus"
             :key="i"
             class="navi-inner-menu"
             active-class="menu-active"
             prepend-icon="mdi-circle-small"
           >
             <template #title>
-              <RouterLink class="navi-inner-menu-title" :to="subMenu.url">
-                {{ subMenu.title }}
+              <RouterLink class="navi-inner-menu-title" :to="subMenu.menuUrl">
+                {{ subMenu.menuNameKr }}
               </RouterLink>
             </template>
           </v-list-item>
@@ -58,14 +58,21 @@
 </template>
 
 <script setup>
-import { NAVI_MENU } from '@/assets/consts/consts'
-import { ref } from 'vue'
+//import { NAVI_MENU } from '@/assets/consts/consts'
+import { useMenuStore } from '@/stores/portal/menu'
+import { storeToRefs } from 'pinia'
+import { ref, computed } from 'vue'
 
 const onClickMenuItem = () => {
   open.value = !open.value.length ? open.value : open.value.splice(open.value.length - 1, 1)
 }
+const menuStore = useMenuStore()
+const { menuPaths } = storeToRefs(menuStore)
+const filteredMenu = computed(() => menuPaths.value.find(({ clientId }) => {
+  return clientId === 'strato-devops'
+}))
 const open = ref([]) //활성화할 메뉴의 value
-const naviMenu = ref([...NAVI_MENU])
+
 const selectedProject = ref({ name: '전체', value: 'total' })
 //TODO pinia 처리
 const projectList = ref([
@@ -106,6 +113,7 @@ const projectList = ref([
 }
 
 #project_select {
+
 }
 
 #menu_wrapper {
