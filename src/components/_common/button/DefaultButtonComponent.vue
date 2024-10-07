@@ -67,10 +67,16 @@ defineProps({
     &[s-color="blue"] {
       border-color: $s-btn--blue-1;
       color: $s-btn--blue-1;
+      &:hover .v-btn__overlay {
+        background: $s-btn--blue-1;
+      }
     }
     &[s-color="red"] {
       border-color: $s-btn--red-1;
       color: $s-btn--red-1;
+      &:hover .v-btn__overlay {
+        background: $s-btn--red-1;
+      }
     }
     &:disabled {
       border-color: $s-default--gray-5;
