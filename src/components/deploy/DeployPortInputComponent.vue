@@ -76,13 +76,15 @@ const model = defineModel({
 })
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .port-input-wrapper {
   text-align: center;
 }
+
 .port-header {
   background: #e9e9e9;
 }
+
 .port-header-col {
   border-top: 1px solid;
   border-bottom: 1px solid;
@@ -92,16 +94,20 @@ const model = defineModel({
 .port-input-col {
   margin: 4px;
 }
+
 .port-row {
   margin-bottom: 2px;
 }
+
 .port-header .large-col:nth-child(1) {
   border-left: 1px solid;
 }
+
 .large-col {
   flex: 1; /* 남은 공간을 균등하게 나누기 */
   max-width: calc(100% / 4); /* 4개 열을 동일하게 배치 */
 }
+
 .small-col {
   flex: 0 0 4%; /* 작은 칸은 5%로 고정 */
 }

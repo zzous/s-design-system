@@ -29,13 +29,14 @@ const tabList = ref(['Open', 'Merged', 'Closed', 'All'])
 const activeFontColor = ref(DEFAULT_BUTTON_COLOR)
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .selected-tab {
-  background: #ffffff;
+  background: #fff;
   border-left: 1px solid rgba(var(--v-border-color), var(--v-border-opacity));
   border-right: 1px solid rgba(var(--v-border-color), var(--v-border-opacity));
   border-bottom: none;
 }
+
 ::v-deep .v-slide-group__content {
   border-bottom: 1px solid rgba(var(--v-border-color), var(--v-border-opacity));
 }

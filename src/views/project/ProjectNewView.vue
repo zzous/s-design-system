@@ -1,5 +1,7 @@
 <template>
-  <div>Project New</div>
+  <div class="view-wrapper">
+    {{ $t('기본 정보') }}
+  </div>
 </template>
 
 <script setup>

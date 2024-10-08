@@ -4,7 +4,7 @@
       {{ title }}
       <v-icon
         class="float-right"
-        style="top: 10px"
+        :style="{ top: '10px' }"
         icon="mdi-minus-circle"
         @click="toggleAccordion"
       />
@@ -54,11 +54,12 @@ const onTransitionEnd = () => {
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .accordion-wrapper {
   font-size: 18px;
   overflow: hidden;
 }
+
 .accordion-contents {
   height: 0;
   transition: height 0.5s;
@@ -68,7 +69,7 @@ const onTransitionEnd = () => {
 .title {
   line-height: 50px;
   border: 1px #c8ced3 solid;
-  background-color: rgba(0, 0, 0, 0.05);
+  background-color: rgb(0 0 0 / 5%);
   color: #666;
   height: 46px;
   font-size: 14px;

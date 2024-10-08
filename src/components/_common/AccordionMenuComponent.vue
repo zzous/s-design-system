@@ -1,10 +1,10 @@
 <template>
   <div class="accordion-wrapper">
-    <div class="title" :class="{ titleBold: titleBold }">
+    <div class="title" :class="{ 'title-bold': titleBold }">
       {{ title }}
       <v-icon
         class="float-right"
-        style="top: 10px"
+        :style="{ top: '10px' }"
         icon="mdi-chevron-down"
         @click="toggleAccordion"
       />
@@ -58,20 +58,19 @@ const onTransitionEnd = () => {
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .accordion-wrapper {
   font-size: 18px;
   line-height: 50px;
   overflow: hidden;
 }
+
 .accordion-contents {
   height: 0;
   transition: height 0.5s;
 }
 
-.title {
-}
-.titleBold {
+.title-bold {
   font-weight: bold;
 }
 </style>

@@ -16,7 +16,7 @@ import ShellScriptInputComponent from '@/components/_common/input/ShellScriptInp
 const shellScript = ref('') // 쉘 스크립트 내용
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .label-wrapper {
   height: 35px;
   line-height: 35px;

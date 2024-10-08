@@ -51,4 +51,3 @@ import { DEFAULT_BUTTON_COLOR } from '@/assets/consts/consts.js'
 import { ref } from 'vue'
 const btnActiveColor = ref(DEFAULT_BUTTON_COLOR)
 </script>
-<style scoped></style>

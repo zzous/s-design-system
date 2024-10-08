@@ -92,14 +92,16 @@ const fileList = ref([
 const selectedBranch = ref('dev')
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .clone-btn {
   border: 1px solid #b3d8ff;
   color: #409eff !important;
 }
+
 .branch-select {
   border-bottom: 1px solid;
 }
+
 .file-table-header {
   background: #f7f9fa;
   color: #666;

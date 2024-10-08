@@ -59,7 +59,7 @@ const branchList = ref([
 const selectedBranch = ref('dev')
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .table-container {
   font-size: 14px;
   display: flex;
@@ -69,15 +69,18 @@ const selectedBranch = ref('dev')
 .commit-table {
   width: 100%;
 }
+
 .commit-message {
   font-size: 1.1em;
   font-weight: bold;
 }
+
 .commit-repository {
   color: #919191;
   font-size: 13px;
   font-weight: 400;
 }
+
 .commit-date {
   text-align: right;
   color: #666;

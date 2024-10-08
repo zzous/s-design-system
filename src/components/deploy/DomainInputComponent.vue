@@ -37,16 +37,18 @@ defineProps({
 })
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .large-col {
   flex: 1; /* 남은 공간을 균등하게 나누기 */
   max-width: calc(100%); /* 4개 열을 동일하게 배치 */
   padding-left: 0;
 }
+
 .small-col {
   flex: 0 0 8%; /* 작은 칸은 5%로 고정 */
   padding-right: 0;
 }
+
 .domain-input-wrapper {
   position: relative;
 }

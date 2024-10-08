@@ -67,7 +67,7 @@
         density="compact"
         variant="outlined"
       />
-      <div style="position: relative; height: 30px">
+      <div :style="{ position: 'relative', height: '30px' }">
         <default-button-component title="Yaml" class="float-right" size="small" />
       </div>
       <accordion-menu-component class="border-t-md" title="기본">
@@ -195,7 +195,7 @@ const buildList = ref([
 ])
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .deploy-type {
   border: 1px solid gray;
 }

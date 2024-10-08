@@ -43,7 +43,7 @@ const updateLineCnt = () => {
 updateLineCnt()
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .shell-script-wrapper {
   display: flex;
   align-items: flex-start;
@@ -51,8 +51,8 @@ updateLineCnt()
 }
 
 .line-numbers {
-  padding: 15px 20px 14px 20px;
-  border: 1px solid rgba(0, 0, 0, 0.12);
+  padding: 15px 20px 14px;
+  border: 1px solid rgb(0 0 0 / 12%);
   border-right: none;
   background-color: #f5f5f5;
   text-align: right;

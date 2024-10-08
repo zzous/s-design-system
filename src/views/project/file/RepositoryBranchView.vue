@@ -39,11 +39,12 @@ const pageCnt = computed(() => Math.ceil(branchList.value.length / itemsPerPage.
 const page = ref(1)
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .branch-wrapper {
   width: 100%;
   font-size: 13px;
 }
+
 .rotate-90 {
   rotate: 90deg;
 }

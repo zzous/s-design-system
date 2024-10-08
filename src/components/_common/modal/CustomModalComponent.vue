@@ -121,91 +121,91 @@ const onUpdateModalValue = (value) => {
 
 <style lang="scss" scoped>
 .s-modal {
-    &.xl {
-        width: 1450px;
+  &.xl {
+    width: 1450px;
+  }
+
+  &.lg {
+    width: 1200px;
+  }
+
+  &.md {
+    width: 960px;
+  }
+
+  &.sm {
+    width: 600px;
+  }
+
+  &.xs {
+    width: 460px;
+  }
+
+  .title-wrapper {
+    height: 48px;
+    width: 100%;
+    padding: 0 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: 600;
+
+    &.s-modal__title--light {
+      background-color: white;
+      .title-wrapper__title {
+        color: $s-primary;
+      }
+    }
+    &.s-modal__title--dark {
+      background-color: $s-primary;
+      .title-wrapper__title {
+        color: white;
+      }
+    }
+  }
+
+  .button-wrapper {
+    display: flex;
+    flex: 1;
+    justify-content: flex-end;
+    align-items: center;
+
+    .modal--cancel {
+      background: transparent;
+      padding: 0;
+      min-width: 0;
+      opacity: 0.6;
     }
 
-    &.lg {
-        width: 1200px;
+    .modal--template {
+      margin-right: 10px;
     }
+  }
 
-    &.md {
-        width: 960px;
-    }
-
-    &.sm {
-        width: 600px;
-    }
-
-    &.xs {
-        width: 460px;
-    }
-
-    .title-wrapper {
-        height: 48px;
-        width: 100%;
-        padding: 0 20px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        font-weight: 600;
-
-        &.s-modal__title--light {
-            background-color: white;
-            .title-wrapper__title {
-                color: $s-primary;
-            }
-        }
-        &.s-modal__title--dark {
-            background-color: $s-primary;
-            .title-wrapper__title {
-                color: white;
-            }
-        }
-    }
-
-    .button-wrapper {
-        display: flex;
-        flex: 1;
-        justify-content: flex-end;
-        align-items: center;
-
-        .modal--cancel {
-            background: transparent;
-            padding: 0;
-            min-width: 0;
-            opacity: 0.6;
-        }
-
-        .modal--template {
-            margin-right: 10px;
-        }
-    }
-
-    .content-wrapper {
-        padding: 30px;
-        max-height: 700px;
-        @include scroll();
-        overflow-y: auto;
-    }
+  .content-wrapper {
+    padding: 30px;
+    max-height: 700px;
+    @include scroll();
+    overflow-y: auto;
+  }
 }
 </style>
 <style lang="scss">
 .s-modal .v-overlay__content {
-    width: inherit;
-    max-width: inherit;
+  width: inherit;
+  max-width: inherit;
 }
 
 .v-dialog.s-modal .v-card .v-card-item {
-    display: flex;
-    flex-direction: column;
-    padding: 0;
+  display: flex;
+  flex-direction: column;
+  padding: 0;
 
-    .v-card-item__prepend,
-    .v-card-item__append,
-    .v-card-item__content {
-        padding-inline-end: 0;
-        width: 100%;
-    }
+  .v-card-item__prepend,
+  .v-card-item__append,
+  .v-card-item__content {
+    padding-inline-end: 0;
+    width: 100%;
+  }
 }
 </style>

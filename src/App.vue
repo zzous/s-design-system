@@ -4,4 +4,3 @@ import DefaultLayout from '@/components/layout/DefaultLayout.vue'
 <template>
   <default-layout />
 </template>
-<style scoped></style>

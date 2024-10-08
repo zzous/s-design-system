@@ -130,14 +130,16 @@ const branchList = ref(['dev', 'stage', 'master'])
 const approveProcessList = ref(['프로세스1', '프로세스2', '프로세스3'])
 const sonarQunbeRuleList = ref(['rule1', 'rule2', 'rule3'])
 </script>
-<style scoped>
+<style lang="scss" scoped>
 .input-text-btn {
-  margin: 0 5px 23px 5px;
+  margin: 0 5px 23px;
 }
+
 .title-wrapper {
   height: 50px;
   line-height: 50px;
 }
+
 .title-button {
   top: 6px;
 }

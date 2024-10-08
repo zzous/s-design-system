@@ -15,7 +15,7 @@ const onClickTriggerButton = () => {
 }
 const fileInputRef = ref(null)
 </script>
-<style scoped>
+<style lang="scss" scoped>
 .file-input {
   background: red;
 }
