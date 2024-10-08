@@ -2,7 +2,7 @@
   <div class="view-wrapper">
     <s-sub-header :title="$t('기본 정보')" :show-cnt="false" class-name="sub-title" />
     <form>
-      <div class="s-table__form">
+      <div class="table__form">
         <s-form-item :label="$t('템플릿')" required />
         <s-form-item :label="$t('프로젝트 명')" required />
         <s-form-item :label="$t('프로젝트 별칭')" />
@@ -13,12 +13,12 @@
       </div>
 
       <s-sub-header :title="$t('템플릿 속성')" :show-cnt="false" class-name="sub-title" />
-      <div class="s-table__form">
+      <div class="table__form">
         <s-form-item :label="$t('패키지 명')" required />
         <s-form-item :label="$t('JDK 버전')" required />
       </div>
     </form>
-    <div class="btn-group">
+    <div class="form__btn-wrapper">
       <s-btn color="blue">
         {{ $t('저장') }}
       </s-btn>

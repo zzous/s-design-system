@@ -172,9 +172,9 @@ padding: 2px; border-radius:50%;}
 .portal_layout .sub-title + .hiddenlabel > label{display: none !important;}
 .portal_layout .s-title-area.sub-title .s-title-area__title{background: url('/devops/assets/images/popuptitlebg.svg') no-repeat left center ; padding-left:22px; background-size:16px;  font-size:14px;}
 .sp_popup_layout{margin:20px 30px;}
-.s-modal .btn-group{display: flex; justify-content: center; padding: 20px 30px 15px;}
-.s-modal .btn-group .s-btn {min-width: 110px; height: 36px;}
-.s-modal .btn-group .s-btn:not(:first-child){margin-left:10px}
+.form__btn-wrapper{display: flex; justify-content: center; padding: 20px 30px 15px;}
+.form__btn-wrapper .s-btn {min-width: 110px; height: 36px;}
+.form__btn-wrapper .s-btn:not(:first-child){margin-left:10px}
 
 .portal_layout .mdi-checkbox-marked::before{color: #1297f2 ;}
 .sp-popup-table .search-box .v-field__append-inner{padding-top:4px;}
