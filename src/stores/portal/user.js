@@ -3,7 +3,7 @@ import { ref, computed } from 'vue'
 import axios from '@/_setting/axios/request-portal'
 import cookieHelper from '@/_setting/cookie/cookie-helper'
 import { GET_LOGIN_USER_DETAIL, PUT_LOGIN_USER_DETAIL } from '@/assets/consts/api/portal/user.js'
-
+import { COOKIE_KEY } from '@/assets/consts/consts'
 
 export const useUserStore = defineStore('user', () => {
   const userInfo = ref({

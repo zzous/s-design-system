@@ -2,7 +2,7 @@ import { Mutex } from 'async-mutex'
 import { useLoadingStore } from '@/stores/components/loading'
 import { getAuthToken, useTokenStore } from '@/stores/portal/token'
 import cookieHelper from '@/_setting/cookie/cookie-helper'
-import { LOCALSTORAGE_KEY } from '@/assets/consts/consts'
+import { LOCALSTORAGE_KEY, COOKIE_KEY } from '@/assets/consts/consts'
 // import i18n from '@/_setting/i18n'
 
 const mutex = new Mutex()
