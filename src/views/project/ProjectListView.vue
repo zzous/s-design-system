@@ -99,7 +99,7 @@ import { headers } from './table-header'
 
 const itemsPerPage = ref(10)
 const page = ref(1)
-const { t } = useI18n()
+const { tt } = useI18n()
 
 const devSgStore = useDevOpsServiceGroupStore()
 const { serviceGroupId } = storeToRefs(devSgStore)
@@ -109,7 +109,7 @@ const alertStore = useAlertStore()
 
 const search = ref('')
 const selected = ref([])
-const confirm = reactive({ show: false, contents: t('프로젝트를 삭제하시겠습니까?') })
+const confirm = reactive({ show: false, contents: tt('프로젝트를 삭제하시겠습니까?') })
 
 const pageCnt = computed(() => Math.ceil(projects.value.length / itemsPerPage.value))
 
@@ -156,14 +156,14 @@ const onConfirm = async () => {
     })
     confirm.show = false
     alertStore.openAlert({
-      titleName: t('삭제되었습니다.'),
+      titleName: tt('삭제되었습니다.'),
       type: 'success',
     })
     onRefresh()
   } catch (e) {
     console.log(e)
     alertStore.openAlert({
-      titleName: t('삭제하지 못했습니다.'),
+      titleName: tt('삭제하지 못했습니다.'),
       type: 'error',
     })
   }
@@ -183,7 +183,7 @@ const modal = reactive({
 const onClickNewProject = () => {
   modal.component = markRaw(ProjectNewView)
   modal.show = true
-  modal.title = t('신규 프로젝트 생성')
+  modal.title = tt('신규 프로젝트 생성')
 }
 const onClickImportProject = () => {
 

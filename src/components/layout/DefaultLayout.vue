@@ -12,6 +12,7 @@
     >
       <template #inner-append>
         <v-select
+          flat
           class="s-global-select"
           hide-details
           :model-value="globalServiceGroup"

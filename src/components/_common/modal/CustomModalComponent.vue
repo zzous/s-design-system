@@ -126,7 +126,7 @@ const onUpdateModalValue = (value) => {
   }
 
   &.lg {
-    width: 1200px;
+    width: 1300px;
   }
 
   &.md {

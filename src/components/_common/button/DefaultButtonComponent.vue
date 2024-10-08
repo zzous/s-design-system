@@ -1,6 +1,7 @@
 <template>
   <v-btn
     class="s-btn"
+    elevation="0"
     :s-color="color"
     :size="size"
     :to="to"
