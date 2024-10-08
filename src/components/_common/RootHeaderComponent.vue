@@ -91,7 +91,6 @@
 
 <script setup>
 import { ref } from 'vue'
-import { HEADER_MENU } from '@/assets/consts/consts'
 
 defineProps({
   isLoggedIn: {
@@ -121,7 +120,7 @@ defineProps({
 const emits = defineEmits(['click:log-in', 'click:sign-up', 'click:menu-item', 'click:logo'])
 
 const showMenu = ref(false)
-const items = ref(HEADER_MENU)
+const items = ref([])
 
 const toggleMenu = () => {
   showMenu.value = !showMenu.value

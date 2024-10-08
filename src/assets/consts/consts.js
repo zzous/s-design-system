@@ -10,6 +10,6 @@ export const SESSIONSTORAGE_KEY = {
 }
 
 export const COOKIE_KEY = {
-  REFRESH: COOKIE_KEY.REFRESH,
-  ACCESS: COOKIE_KEY.ACCESS,
+  REFRESH: 'refresh',
+  ACCESS: 'access',
 }
