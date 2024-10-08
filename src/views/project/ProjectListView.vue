@@ -91,6 +91,7 @@ import { useDevOpsServiceGroupStore } from '@/stores/devops/service-group'
 import { useProjectStore } from '@/stores/devops/project'
 import { useI18n } from '@/_setting/i18n'
 import { useAlertStore } from '@/stores/components/alert'
+import { LOCALSTORAGE_KEY } from '@/assets/consts/consts'
 
 import ProjectNewView from './ProjectNewView.vue'
 
@@ -113,7 +114,7 @@ const confirm = reactive({ show: false, contents: t('프로젝트를 삭제하�
 const pageCnt = computed(() => Math.ceil(projects.value.length / itemsPerPage.value))
 
 const setProjectId = (projectId) => {
-  localStorage.setItem('projectId', projectId)
+  localStorage.setItem(LOCALSTORAGE_KEY.project, projectId)
 }
 
 const goto = (type, item) => {

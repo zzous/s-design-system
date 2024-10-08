@@ -3,14 +3,15 @@ import { ref } from 'vue'
 import axios from '@/_setting/axios/request-portal'
 import moment from 'moment'
 import cookieHelper from '@/_setting/cookie/cookie-helper'
+import { COOKIE_KEY, SESSIONSTORAGE_KEY } from '@/assets/consts/consts'
 
 const USER_K8S_SERVICE = import.meta.env.VITE_USER_K8S_SERVICE ? `${import.meta.env.VITE_USER_K8S_SERVICE}` : ''
 const POST_REFRESH_TOKEN = `${USER_K8S_SERVICE}/auth/refresh_token`
 
 export const getAuthToken = () => {
   return {
-    accessToken: cookieHelper.getCookie('access'),
-    refreshToken: cookieHelper.getCookie('refresh')
+    accessToken: cookieHelper.getCookie(COOKIE_KEY.ACCESS),
+    refreshToken: cookieHelper.getCookie(COOKIE_KEY.REFRESH)
   }
 }
 
@@ -24,8 +25,8 @@ export const useTokenStore = defineStore('token', () => {
       //토큰 없으면 리턴
       if (!token) return
       const tokenStore = useTokenStore()
-      cookieHelper.setCookie('access', token.access_token, null, token.expires_at)
-      cookieHelper.setCookie('refresh', token.refresh_token, null, token.refresh_expires_at)
+      cookieHelper.setCookie(COOKIE_KEY.ACCESS, token.access_token, null, token.expires_at)
+      cookieHelper.setCookie(COOKIE_KEY.REFRESH, token.refresh_token, null, token.refresh_expires_at)
 
       //토큰 만료 방지를 위한 인터벌 실행
       const diffSecond = moment(token.expires_at * 1000).diff(moment(), 'second')
@@ -42,13 +43,13 @@ export const useTokenStore = defineStore('token', () => {
   }
 
   function removeToken() {
-    cookieHelper.removeCookie('access')
-    cookieHelper.removeCookie('refresh')
+    cookieHelper.removeCookie(COOKIE_KEY.ACCESS)
+    cookieHelper.removeCookie(COOKIE_KEY.REFRESH)
   }
 
   function removeStorage() {
-    sessionStorage.removeItem('STRATO_PORTAL_MENU')
-    sessionStorage.removeItem('STRATO_PORTAL_MENU_FLAT')
+    sessionStorage.removeItem(SESSIONSTORAGE_KEY.STRATO_PORTAL_MENU)
+    sessionStorage.removeItem(SESSIONSTORAGE_KEY.STRATO_PORTAL_MENU_FLAT)
   }
 
   function onLogIn(toPath) {

@@ -5,6 +5,7 @@ import { UserMenuItems } from '@/assets/data/paths'
 // import { menuNameLang } from '@/_setting/i18n'
 import * as _ from 'lodash-es'
 import { ACCESSIBLE_TREE_MENU } from '@/assets/consts/api/portal/menu'
+import { SESSIONSTORAGE_KEY } from '@/assets/consts/consts'
 
 export const useMenuStore = defineStore('menu', () => {
   // flat menu(path 정보를 갖고 있음.)
@@ -102,8 +103,8 @@ export const useMenuStore = defineStore('menu', () => {
     setFlatMenuWithAccessible(datas)
 
     // Client 저장소에 저장
-    sessionStorage.setItem('STRATO_PORTAL_MENU', JSON.stringify(menuPaths.value))
-    sessionStorage.setItem('STRATO_PORTAL_MENU_FLAT', JSON.stringify(flatMenuPaths.value))
+    sessionStorage.setItem(SESSIONSTORAGE_KEY.STRATO_PORTAL_MENU, JSON.stringify(menuPaths.value))
+    sessionStorage.setItem(SESSIONSTORAGE_KEY.STRATO_PORTAL_MENU_FLAT, JSON.stringify(flatMenuPaths.value))
   }
   return {
     menuPaths,

@@ -34,8 +34,8 @@ export const useUserStore = defineStore('user', () => {
       }
       throw new Error('empty')
     } catch (e) {
-      cookieHelper.removeCookie('access')
-      cookieHelper.removeCookie('refresh')
+      cookieHelper.removeCookie(COOKIE_KEY.ACCESS)
+      cookieHelper.removeCookie(COOKIE_KEY.REFRESH)
       return Promise.reject(e)
     }
   }
@@ -77,9 +77,9 @@ export const useUserStore = defineStore('user', () => {
   }
 
   // async function postLogout() {
-  //   const refreshToken = cookieHelper.getCookie('refresh')
-  //   cookieHelper.removeCookie('access')
-  //   cookieHelper.removeCookie('refresh')
+  //   const refreshToken = cookieHelper.getCookie(COOKIE_KEY.REFRESH)
+  //   cookieHelper.removeCookie(COOKIE_KEY.ACCESS)
+  //   cookieHelper.removeCookie(COOKIE_KEY.REFRESH)
   //   await axios.get(POST_LOGOUT, {
   //     params: {
   //       redirectUrl: window.location.origin,

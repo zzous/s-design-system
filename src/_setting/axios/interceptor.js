@@ -22,8 +22,8 @@ const onRefreshToken = async () => {
 const initializeAccessToken = (config, accessToken) => {
   config.headers.Authorization = `${accessToken}`
 
-  const tenantUuid = localStorage.getItem(LOCALSTORAGE_KEY.serviceGroup)
-  const serviceGroupName = localStorage.getItem(LOCALSTORAGE_KEY.serviceGroupName)
+  const tenantUuid = localStorage.getItem(LOCALSTORAGE_KEY.SERVICE_GROUP_UUID)
+  const serviceGroupName = localStorage.getItem(LOCALSTORAGE_KEY.SERVICE_GROUP_NAME)
   if (tenantUuid) {
     config.headers['STRATO-TENANT-ID'] = encodeURIComponent(tenantUuid)
     config.headers['STRATO-TENANT-NM'] = encodeURIComponent(serviceGroupName.trim())
@@ -35,7 +35,7 @@ export const handleAuthToken = async (config) => {
   if (!accessToken && refreshToken) {
     try {
       await onRefreshToken() // 리프레시 토큰으로 액세스 토큰 재발급
-      const newAccessToken = cookieHelper.getCookie('access')
+      const newAccessToken = cookieHelper.getCookie(COOKIE_KEY.ACCESS)
       if (config) {
         initializeAccessToken(config, newAccessToken)
       }
