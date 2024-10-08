@@ -43,7 +43,7 @@
 </template>
 
 <script setup>
-import ViewHeaderComponent from '@/components/_common/ListViewHeaderComponent.vue'
+import ViewHeaderComponent from '@/components/_common/ViewHeaderComponent.vue'
 import DefaultButtonComponent from '@/components/_common/button/DefaultButtonComponent.vue'
 import { computed, ref } from 'vue'
 import { LOCALSTORAGE_KEY } from '@/assets/consts/consts'

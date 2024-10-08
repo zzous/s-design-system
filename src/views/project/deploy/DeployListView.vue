@@ -44,7 +44,7 @@
 
 <script setup>
 import DefaultButtonComponent from '@/components/_common/button/DefaultButtonComponent.vue'
-import ViewHeaderComponent from '@/components/_common/ListViewHeaderComponent.vue'
+import ViewHeaderComponent from '@/components/_common/ViewHeaderComponent.vue'
 import { computed, ref } from 'vue'
 
 const page = ref(1)

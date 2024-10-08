@@ -92,10 +92,6 @@ import { useProjectStore } from '@/stores/devops/project'
 import { useI18n } from '@/_setting/i18n'
 import { useAlertStore } from '@/stores/components/alert'
 
-import SSubHeader from '@/components/_common/ListViewHeaderComponent.vue'
-import SConfirm from '@/components/_common/modal/CustomConfirmComponent.vue'
-import SModal from '@/components/_common/modal/CustomModalComponent.vue'
-
 import ProjectNewView from './ProjectNewView.vue'
 
 import { headers } from './table-header'

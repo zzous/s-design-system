@@ -46,7 +46,7 @@
 </template>
 
 <script setup>
-import ListViewHeaderComponent from '@/components/_common/ListViewHeaderComponent.vue'
+import ListViewHeaderComponent from '@/components/_common/ViewHeaderComponent.vue'
 import { DEFAULT_BUTTON_COLOR } from '@/assets/consts/consts.js'
 import { ref } from 'vue'
 const btnActiveColor = ref(DEFAULT_BUTTON_COLOR)
