@@ -2,6 +2,6 @@
 import DefaultLayout from '@/components/layout/DefaultLayout.vue'
 </script>
 <template>
-  <DefaultLayout />
+  <default-layout />
 </template>
 <style scoped></style>

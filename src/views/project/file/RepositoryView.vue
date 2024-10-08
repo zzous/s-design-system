@@ -1,6 +1,6 @@
 <template>
   <div class="view-wrapper">
-    <ListViewHeaderComponent title="파일" :show-cnt="false" />
+    <list-view-header-component title="파일" :show-cnt="false" />
     <div class="contents">
       <div class="mt-2">
         <v-btn

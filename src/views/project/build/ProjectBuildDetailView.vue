@@ -1,17 +1,17 @@
 <template>
   <div class="view-wrapper">
     <div class="pl-15 pr-7">
-      <DetailViewHeaderComponent
+      <detail-view-header-component
         branch-name="test branch"
         build-name="test build name"
         project-name="test project"
       >
-        <DefaultButtonComponent title="수정" />
-        <DefaultButtonComponent
+        <default-button-component title="수정" />
+        <default-button-component
           class="ml-1"
           title="삭제"
         />
-      </DetailViewHeaderComponent>
+      </detail-view-header-component>
       <div class="buildContents">
         <div class="mt-16 mb-16">
           빌드 승인 프로세스
@@ -21,67 +21,67 @@
                 class="scroll-row"
                 no-gutters
               >
-                <WorkFlowComponent
+                <work-flow-component
                   title="Build Request"
                   type="circle"
                   updated-at="2024-09-06 0:48"
                   user-name="demouser1"
                 />
-                <WorkFlowComponent
+                <work-flow-component
                   title="Project Manager"
                   type="decision"
                   updated-at="2024-09-06 0:48"
                   user-name="demouser1"
                 />
-                <WorkFlowComponent
+                <work-flow-component
                   title="Project Manager"
                   type="decision"
                   updated-at="2024-09-06 0:48"
                   user-name="demouser1"
                 />
-                <WorkFlowComponent
+                <work-flow-component
                   title="Project Manager"
                   type="decision"
                   updated-at="2024-09-06 0:48"
                   user-name="demouser1"
                 />
-                <WorkFlowComponent
+                <work-flow-component
                   title="Project Manager"
                   type="decision"
                   updated-at="2024-09-06 0:48"
                   user-name="demouser1"
                 />
-                <WorkFlowComponent
+                <work-flow-component
                   title="Project Manager"
                   type="decision"
                   updated-at="2024-09-06 0:48"
                   user-name="demouser1"
                 />
-                <WorkFlowComponent
+                <work-flow-component
                   title="Project Manager"
                   type="decision"
                   updated-at="2024-09-06 0:48"
                   user-name="demouser1"
                 />
-                <WorkFlowComponent
+                <work-flow-component
                   title="Project Manager"
                   type="decision"
                   updated-at="2024-09-06 0:48"
                   user-name="demouser1"
                 />
-                <WorkFlowComponent
+                <work-flow-component
                   title="Project Manager"
                   type="decision"
                   updated-at="2024-09-06 0:48"
                   user-name="demouser1"
                 />
-                <WorkFlowComponent
+                <work-flow-component
                   title="Project Manager"
                   type="decision"
                   updated-at="2024-09-06 0:48"
                   user-name="demouser1"
                 />
-                <WorkFlowComponent
+                <work-flow-component
                   :show-arrow="false"
                   title="Build Request"
                   type="dot-circle"

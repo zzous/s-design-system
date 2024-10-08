@@ -1,8 +1,8 @@
 <template>
   <div class="view-wrapper">
-    <ViewHeaderComponent title="배포">
-      <DefaultButtonComponent title="새 배포" to="deploy/new" />
-    </ViewHeaderComponent>
+    <view-header-component title="배포">
+      <default-button-component title="새 배포" to="deploy/new" />
+    </view-header-component>
     <div class="contentsWrapper">
       <v-data-table
         :custom-filter="filterOnlyCapsText"
@@ -19,9 +19,9 @@
           </tr>
         </template>
         <template #[`item.action`]>
-          <DefaultButtonComponent title="빌드" />
-          <DefaultButtonComponent title="상세" class="ml-1" />
-          <DefaultButtonComponent title="삭제" class="ml-1" />
+          <default-button-component title="빌드" />
+          <default-button-component title="상세" class="ml-1" />
+          <default-button-component title="삭제" class="ml-1" />
         </template>
         <template #top>
           <v-text-field

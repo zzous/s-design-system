@@ -71,9 +71,9 @@
         </ul>
       </template>
       <template v-else>
-        <Empty :description="noDataText">
+        <empty :description="noDataText">
           <slot name="empty-content" />
-        </Empty>
+        </empty>
       </template>
     </div>
     <v-pagination

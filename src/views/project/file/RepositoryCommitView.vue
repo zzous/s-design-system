@@ -13,7 +13,7 @@
         />
       </v-col>
       <v-col class="text-end" cols="4">
-        <DefaultButtonComponent class="mr-1" title="전체 보기" :height="40" />
+        <default-button-component class="mr-1" title="전체 보기" :height="40" />
         <v-btn variant="flat" base-color="#ecf5ff" :height="40">
           전체 닫기
         </v-btn>
@@ -21,7 +21,7 @@
     </v-row>
   </div>
   <div>
-    <CommitAccordionComponent title="2024.09.12 커밋">
+    <commit-accordion-component title="2024.09.12 커밋">
       <div class="table-container">
         <table class="commit-table">
           <tbody>
@@ -42,7 +42,7 @@
           </tbody>
         </table>
       </div>
-    </CommitAccordionComponent>
+    </commit-accordion-component>
   </div>
 </template>
 

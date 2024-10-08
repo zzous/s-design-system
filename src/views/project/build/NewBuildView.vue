@@ -9,7 +9,7 @@
           <v-label>빌드명</v-label>
           <div class="d-flex align-center">
             <v-text-field variant="outlined" density="compact" error-messages="규칙에 맞게 입력해주세요.(영문자, 숫자, (-)만 가능)" />
-            <DefaultButtonComponent class="input-text-btn" title="중복체크" />
+            <default-button-component class="input-text-btn" title="중복체크" />
           </div>
         </v-col>
         <v-col>
@@ -74,37 +74,37 @@
     </div>
     <div class="title-wrapper border-b-md position-relative">
       <span>파이프라인</span>
-      <DefaultButtonComponent title="스크립트 생성" class="float-right title-button" />
+      <default-button-component title="스크립트 생성" class="float-right title-button" />
     </div>
     <div class="mt-5">
       <v-row>
         <v-col cols="9" class="pl-15">
-          <ShellScriptInputComponent v-model="checkoutScript" label-title="CHECKOUTBUILD" />
-          <ShellScriptInputComponent v-model="fileUploadScript" label-title="FILEUPLOAD" />
+          <shell-script-input-component v-model="checkoutScript" label-title="CHECKOUTBUILD" />
+          <shell-script-input-component v-model="fileUploadScript" label-title="FILEUPLOAD" />
         </v-col>
         <v-col class="pr-15">
-          <AccordionMenuComponent :title-bold="true" title="123">
+          <accordion-menu-component :title-bold="true" title="123">
             <div>test1</div>
-          </AccordionMenuComponent>
-          <AccordionMenuComponent :title-bold="true" title="213">
+          </accordion-menu-component>
+          <accordion-menu-component :title-bold="true" title="213">
             <div>test1</div>
-          </AccordionMenuComponent>
-          <AccordionMenuComponent :title-bold="true" title="432">
+          </accordion-menu-component>
+          <accordion-menu-component :title-bold="true" title="432">
             <div>test1</div>
-          </AccordionMenuComponent>
-          <AccordionMenuComponent :title-bold="true" title="JUNIT">
+          </accordion-menu-component>
+          <accordion-menu-component :title-bold="true" title="JUNIT">
             <div>default_script</div>
-          </AccordionMenuComponent>
-          <AccordionMenuComponent :title-bold="true" title="SONARQUBE">
+          </accordion-menu-component>
+          <accordion-menu-component :title-bold="true" title="SONARQUBE">
             <div>default_script</div>
             <div>sonarqube 선택안함</div>
-          </AccordionMenuComponent>
-          <AccordionMenuComponent :title-bold="true" title="SHELL_SCRIPT">
+          </accordion-menu-component>
+          <accordion-menu-component :title-bold="true" title="SHELL_SCRIPT">
             <div>test1</div>
-          </AccordionMenuComponent>
-          <AccordionMenuComponent :title-bold="true" title="TEST">
+          </accordion-menu-component>
+          <accordion-menu-component :title-bold="true" title="TEST">
             <div>test1</div>
-          </AccordionMenuComponent>
+          </accordion-menu-component>
         </v-col>
       </v-row>
     </div>

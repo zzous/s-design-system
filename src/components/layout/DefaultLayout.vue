@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <HeaderComponent
+    <header-component
       :is-logged-in="isLoggedIn"
       :user-info="userInfoTrans"
       :menu-items="menuItems"
@@ -25,24 +25,24 @@
           @update:model-value="onUpdateGlobalValue"
         />
       </template>
-    </HeaderComponent>
+    </header-component>
     <div class="show-header">
-      <NaviComponent />
+      <navi-component />
       <div class="base-layout">
-        <RouterView v-slot="{ Component }">
+        <router-view v-slot="{ Component }">
           <component
             :is="Component"
             id="router_view"
             ref="viewRef"
             class="show-navi"
           />
-        </RouterView>
+        </router-view>
       </div>
     </div>
     <footer-component />
     <teleport to="#destination">
       <template v-for="(alert, index) in alertItemStack" :key="alert.uuid">
-        <Alert
+        <alert
           v-bind="alert"
           :alert-style="{
             marginTop: `${30 * index}px`,

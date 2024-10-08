@@ -1,6 +1,6 @@
 <template>
   <div class="mt-6 pb-4 border-b text-end">
-    <DefaultButtonComponent> <v-icon icon="mdi-plus" />신규 브랜치 </DefaultButtonComponent>
+    <default-button-component> <v-icon icon="mdi-plus" />신규 브랜치 </default-button-component>
   </div>
   <div>
     <div class="border-b">
@@ -12,7 +12,7 @@
               <v-icon>mdi-monitor</v-icon>&nbsp;master <v-badge color="info" content="Default" inline />
             </td>
             <td rowspan="2" class="branch-extra text-end">
-              <DefaultButtonComponent title="삭제" />
+              <default-button-component title="삭제" />
             </td>
           </tr>
           <tr>

@@ -2,9 +2,9 @@
   <div>
     <div class="label-wrapper">
       <label>스크립트</label>
-      <DefaultButtonComponent title="스크립트 생성" class="float-right" />
+      <default-button-component title="스크립트 생성" class="float-right" />
     </div>
-    <ShellScriptInputComponent v-model="shellScript" />
+    <shell-script-input-component v-model="shellScript" />
   </div>
 </template>
 

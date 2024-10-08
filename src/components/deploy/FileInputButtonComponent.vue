@@ -1,5 +1,5 @@
 <template>
-  <DefaultButtonComponent title="select" @click="onClickTriggerButton" />
+  <default-button-component title="select" @click="onClickTriggerButton" />
   <v-file-input ref="fileInputRef" hide-input class="file-input display-none">
     <template #append />
   </v-file-input>

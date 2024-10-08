@@ -32,7 +32,7 @@
         >
           복제 또는 다운로드<v-icon icon="mdi-arrow-down-thin" />
         </v-btn>
-        <DefaultButtonComponent title="새파일" :height="40" />
+        <default-button-component title="새파일" :height="40" />
       </v-col>
     </v-row>
   </div>

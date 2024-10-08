@@ -53,8 +53,8 @@
       </div>
     </td>
     <td>
-      <DefaultButtonComponent title="상세" class="mr-1" />
-      <DefaultButtonComponent title="삭제" />
+      <default-button-component title="상세" class="mr-1" />
+      <default-button-component title="삭제" />
     </td>
   </tr>
 </template>

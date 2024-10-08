@@ -56,46 +56,46 @@
 // const tag = '[modal]'
 
 defineProps({
-    title: {
-        type: String,
-        default: '',
-        description: '모달 헤더 이름',
-    },
-    modalWidth: {
-        type: String,
-        default: '',
-        description: '모달 넓이',
-    },
-    modalHeight: {
-        type: String,
-        default: '',
-        description: '모달 높이',
-    },
-    modelValue: {
-        type: Boolean,
-        default: false,
-        description: '모달 오픈 여부',
-    },
-    isWhite: {
-        type: Boolean,
-        default: false,
-        description: '모달 헤드 색깔 여부',
-    },
-    bodyStyle: {
-        type: Object,
-        default: () => { },
-        description: 'card-body Div의 스타일 설정',
-    },
-    popupCardClass: {
-        type: String,
-        default: '',
-        description: 'card의 개별 클래스네임',
-    },
-    hideHeader: {
-        type: Boolean,
-        default: false,
-        description: '헤더 유무',
-    }
+  title: {
+    type: String,
+    default: '',
+    description: '모달 헤더 이름',
+  },
+  modalWidth: {
+    type: String,
+    default: '',
+    description: '모달 넓이',
+  },
+  modalHeight: {
+    type: String,
+    default: '',
+    description: '모달 높이',
+  },
+  modelValue: {
+    type: Boolean,
+    default: false,
+    description: '모달 오픈 여부',
+  },
+  isWhite: {
+    type: Boolean,
+    default: false,
+    description: '모달 헤드 색깔 여부',
+  },
+  bodyStyle: {
+    type: Object,
+    default: () => { },
+    description: 'card-body Div의 스타일 설정',
+  },
+  popupCardClass: {
+    type: String,
+    default: '',
+    description: 'card의 개별 클래스네임',
+  },
+  hideHeader: {
+    type: Boolean,
+    default: false,
+    description: '헤더 유무',
+  }
 })
 
 const emits = defineEmits(['click:close', 'update:model-value'])
@@ -107,14 +107,14 @@ const emits = defineEmits(['click:close', 'update:model-value'])
 @param
 */
 const onClickCloseModal = () => {
-    // console.log(tag, 'onClickCloseModal')
-    emits('click:close')
+  // console.log(tag, 'onClickCloseModal')
+  emits('click:close')
 }
 const onUpdateModalValue = (value) => {
-    emits('update:model-value', value)
-    if (!value) {
-        onClickCloseModal()
-    }
+  emits('update:model-value', value)
+  if (!value) {
+    onClickCloseModal()
+  }
 }
 
 </script>

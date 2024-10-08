@@ -15,7 +15,7 @@
         />
       </v-col>
       <v-col cols="auto">
-        <DefaultButtonComponent title="중복 체크" />
+        <default-button-component title="중복 체크" />
       </v-col>
     </v-row>
     <label for="select_deploy_approve_process">배포 승인 프로세스</label>
@@ -51,7 +51,7 @@
         {{ deployType.name }}
       </v-btn>
     </v-btn-toggle>
-    <DeployShellScriptComponent v-if="selectedDeployType === 'SHELL'" />
+    <deploy-shell-script-component v-if="selectedDeployType === 'SHELL'" />
     <div v-if="selectedDeployType === 'K8S'">
       <label>프로바이더</label>
       <v-select
@@ -68,9 +68,9 @@
         variant="outlined"
       />
       <div style="position: relative; height: 30px">
-        <DefaultButtonComponent title="Yaml" class="float-right" size="small" />
+        <default-button-component title="Yaml" class="float-right" size="small" />
       </div>
-      <AccordionMenuComponent class="border-t-md" title="기본">
+      <accordion-menu-component class="border-t-md" title="기본">
         <label>배포 복사</label>
         <v-text-field density="compact" variant="outlined" />
         <label>네임스페이스</label>
@@ -87,17 +87,17 @@
         <label>서비스타입</label>
         <v-text-field density="compact" variant="outlined" />
         <label>포트</label>
-        <DeployPortInputComponent v-model="inputPortList" />
+        <deploy-port-input-component v-model="inputPortList" />
         <br>
         <label>도메인</label>
         <v-text-field density="compact" variant="outlined" />
-        <DomainInputComponent :disabled="false" />
+        <domain-input-component :disabled="false" />
         <v-row>
-          <v-col><label>KEY 파일</label><FileInputButtonComponent /></v-col>
-          <v-col><label>CRT 파일</label><FileInputButtonComponent /></v-col>
+          <v-col><label>KEY 파일</label><file-input-button-component /></v-col>
+          <v-col><label>CRT 파일</label><file-input-button-component /></v-col>
         </v-row>
-      </AccordionMenuComponent>
-      <AccordionMenuComponent class="border-t-md" title="Advance">
+      </accordion-menu-component>
+      <accordion-menu-component class="border-t-md" title="Advance">
         <label>imagePullSecrets</label>
         <v-text-field density="compact" variant="outlined" placeholder="Secret을 입력하세요." />
         <label>명령</label>
@@ -105,29 +105,29 @@
         <label>Args</label>
         <v-text-field density="compact" variant="outlined" placeholder="선택항목" />
         <label>환경변수</label>
-        <EnvInputComponent v-model="envList" />
+        <env-input-component v-model="envList" />
         <label>ConfigMap</label>
-        <TextCheckBoxInputComponent />
+        <text-check-box-input-component />
         <label>SecretKey</label>
-        <TextCheckBoxInputComponent />
+        <text-check-box-input-component />
         <label>호스트이름</label>
         <v-text-field density="compact" variant="outlined" />
         <label>노드선택</label>
         <v-text-field density="compact" variant="outlined" />
         <label>HostAliases</label>
-        <HostAliasesInputComponent v-model="hostAliaseList" />
-      </AccordionMenuComponent>
-      <AccordionMenuComponent class="border-t-md" title="Storage">
+        <host-aliases-input-component v-model="hostAliaseList" />
+      </accordion-menu-component>
+      <accordion-menu-component class="border-t-md" title="Storage">
         <label>볼륨 - PersistentVolumeClaim</label>
-        <PersistentVolumeClaimInputComponent v-model="pvcList" />
+        <persistent-volume-claim-input-component v-model="pvcList" />
         <label>볼륨 - HostPath</label>
-        <HostPathInputComponent v-model="hostPathList" />
-      </AccordionMenuComponent>
-      <AccordionMenuComponent title="Resource" class="border-b-md border-t-md">
+        <host-path-input-component v-model="hostPathList" />
+      </accordion-menu-component>
+      <accordion-menu-component title="Resource" class="border-b-md border-t-md">
         <label>Requests</label>
-        <CpuMemoryInputComponent />
+        <cpu-memory-input-component />
         <label>Limits</label>
-        <CpuMemoryInputComponent class="border-b-md" />
+        <cpu-memory-input-component class="border-b-md" />
         <div>
           <span>HPA (Horizontal Pod Autoscaling)</span>
         </div>
@@ -136,14 +136,14 @@
         </v-label>
         <v-text-field id="maximumReplicaNumber" variant="outlined" />
         <v-label>평균 사용률</v-label>
-        <CpuMemoryInputComponent />
-      </AccordionMenuComponent>
+        <cpu-memory-input-component />
+      </accordion-menu-component>
       <div>
         <div class="inline-block float-right mt-2">
           <v-btn flat color="#7E8299" class="mr-1">
             취소
           </v-btn>
-          <DefaultButtonComponent title="저장" />
+          <default-button-component title="저장" />
         </div>
       </div>
     </div>
