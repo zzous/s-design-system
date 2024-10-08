@@ -46,6 +46,21 @@
 import ViewHeaderComponent from '@/components/_common/ListViewHeaderComponent.vue'
 import DefaultButtonComponent from '@/components/_common/button/DefaultButtonComponent.vue'
 import { computed, ref } from 'vue'
+import { LOCALSTORAGE_KEY } from '@/assets/consts/consts'
+import { useDevOpsServiceGroupStore } from '@/stores/devops/service-group'
+import { storeToRefs } from 'pinia'
+import { useBuildStore } from '@/stores/devops/build'
+
+const devOpsServiceGroupStore = useDevOpsServiceGroupStore()
+const devOpsServiceGroupId = storeToRefs(devOpsServiceGroupStore).serviceGroupId
+const buildStore = useBuildStore()
+const buildList = storeToRefs(buildStore).builds
+
+//빌드 목록을 가져온다
+const getBuildList = async () => {
+  const projectObj = JSON.parse(localStorage.getItem(LOCALSTORAGE_KEY.selectedProject))
+  await buildStore.getBuildsWithHistory({ serviceGroupId: devOpsServiceGroupId.value, projectId: projectObj.projectId })
+}
 
 const page = ref(1)
 const itemsPerPage = ref(5)
@@ -54,7 +69,7 @@ const headers = ref([
   {
     title: '빌드명',
     align: 'start',
-    key: 'name'
+    key: 'projectName'
   },
   {
     title: '브랜치',
@@ -64,7 +79,7 @@ const headers = ref([
   {
     title: '빌드 수',
     align: 'center',
-    key: 'buildCnt'
+    key: 'buildCount'
   },
   {
     title: '마지막 빌드 시간',
@@ -95,6 +110,11 @@ const pageCnt = computed(() => Math.ceil(items.value.length / itemsPerPage.value
 const filterOnlyCapsText = (value, query) => {
   return value != null && query != null && typeof value === 'string' && value.toString().toLocaleUpperCase().indexOf(query) !== -1
 }
+
+const init = () => {
+  getBuildList()
+}
+init()
 </script>
 
 <style scoped lang="scss">
