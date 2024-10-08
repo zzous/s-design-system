@@ -21,7 +21,7 @@
           persistent-hint
           return-object
           single-line
-          @change="onChangeProject"
+          @update:model-value="onChangeProject"
         />
       </div>
     </div>
@@ -65,6 +65,7 @@ import { useProjectStore } from '@/stores/devops/project'
 import { useMenuStore } from '@/stores/portal/menu'
 import { storeToRefs } from 'pinia'
 import { ref, computed } from 'vue'
+import { LOCALSTORAGE_KEY } from '@/assets/consts/consts'
 
 const onClickMenuItem = () => {
   open.value = !open.value.length ? open.value : open.value.splice(open.value.length - 1, 1)
@@ -77,8 +78,8 @@ const filteredMenu = computed(() => menuPaths.value.find(({ clientId }) => {
   return clientId === 'strato-devops'
 }))
 const open = ref([]) //활성화할 메뉴의 value
-
-const selectedProject = ref({ projectName: '전체', projectId: 0 })
+//프로젝트가 있으면 가져오고 없으면 전체로
+const selectedProject = ref(localStorage.getItem(LOCALSTORAGE_KEY.selectedProject) ? JSON.parse(localStorage.getItem(LOCALSTORAGE_KEY.selectedProject)) : { projectName: '전체', projectId: 0 })
 //TODO pinia 처리
 // const projectList = ref([
 //   { name: '전체', value: 'total' },
@@ -88,8 +89,10 @@ const selectedProject = ref({ projectName: '전체', projectId: 0 })
 // ])
 const totalProjectList = computed(() => [{ projectName: '전체', projectId: 0 }, ...projectList.value])
 
-const onChangeProject = (e) => {
-  console.error(e)
+const onChangeProject = () => {
+  //console.error(selectedProject.value)
+  //프로젝트가 바뀔 때 로컬 스토리지에 저장
+  localStorage.setItem(LOCALSTORAGE_KEY.selectedProject, JSON.stringify(selectedProject.value))
 }
 </script>
 

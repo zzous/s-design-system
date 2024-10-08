@@ -185,5 +185,6 @@ export const DEFAULT_FILE_UPLOAD_SCRIPT = `stage('docker build') {
 
 export const LOCALSTORAGE_KEY = {
   serviceGroup: 'STRATO_SG_UUID',
-  serviceGroupName: 'STRATO_SG_NAME'
+  serviceGroupName: 'STRATO_SG_NAME',
+  selectedProject: 'STRATO_SELECTED_PROJECT'
 }
