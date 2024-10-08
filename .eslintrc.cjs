@@ -53,11 +53,18 @@ module.exports = {
     // HTML 들여쓰기 설정
     'vue/html-indent': ['error', 2], // 들여쓰기는 2칸으로
 
+    // HTML 컴포넌트 kebab-case 설정
+    'vue/component-name-in-template-casing': ['error', 'kebab-case'],
+
     // HTML 인용구 설정
     'vue/html-quotes': 'error', // HTML 속성 값은 따옴표로 묶음
 
     // HTML 셀프 클로징 태그 설정
     'vue/html-self-closing': 'error', // 셀프 클로징 태그 강제 사용
+    // vue script 영역에 인덴트 2칸 적용
+    'vue/script-indent': ['error', 2, {
+      'baseIndent': 0
+    }],
 
     // 최대 줄 길이 설정
     'vue/max-len': ['error', {
