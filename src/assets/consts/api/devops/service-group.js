@@ -1,1 +1,1 @@
-export const GET_SERVICE_GROUP_DETAIL = '/api/v1/devops/service-group'
+export const SERVICE_GROUP = '/api/v1/devops/service-group' // 서비스그룹 상세

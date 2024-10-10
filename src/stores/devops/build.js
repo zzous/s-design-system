@@ -2,7 +2,7 @@ import { defineStore } from 'pinia'
 import { ref } from 'vue'
 
 import axios from '@/_setting/axios/request-devops'
-import { BUILD_LIST, BUILD_HISTORY_LIST } from '@/assets/consts/api/devops/build'
+import { BUILD_LIST, BUILD_$BUILDID_HISTORY } from '@/assets/consts/api/devops/build'
 import { resolvePathVariable } from '@/assets/consts/utils/string'
 
 export const useBuildStore = defineStore('build', () => {
@@ -21,7 +21,7 @@ export const useBuildStore = defineStore('build', () => {
     }
 
     const getBuildHistory = async buildId => {
-        const reqUrl = resolvePathVariable(BUILD_HISTORY_LIST, { buildId })
+        const reqUrl = resolvePathVariable(BUILD_$BUILDID_HISTORY, { buildId })
         // const { data } = await axios.get(reqUrl)
         // console.error(data)
 

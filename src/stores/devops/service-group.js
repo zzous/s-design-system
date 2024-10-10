@@ -5,14 +5,14 @@ import { defineStore } from 'pinia'
 import { ref } from 'vue'
 import axios from '@/_setting/axios/request-devops'
 
-import { GET_SERVICE_GROUP_DETAIL } from '@/assets/consts/api/devops/service-group'
+import { SERVICE_GROUP } from '@/assets/consts/api/devops/service-group'
 
 export const useDevOpsServiceGroupStore = defineStore('devops-service-group', () => {
     const serviceGroupId = ref(0)
 
     const getServiceGroupDetail = async uuid => {
         serviceGroupId.value = 0
-        const { data } = await axios.get(GET_SERVICE_GROUP_DETAIL, { params: {
+        const { data } = await axios.get(SERVICE_GROUP, { params: {
             serviceGroupUuid: uuid
         } })
         serviceGroupId.value = data.data?.serviceGroupId || 0

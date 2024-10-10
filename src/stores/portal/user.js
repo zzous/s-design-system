@@ -2,7 +2,7 @@ import { defineStore } from 'pinia'
 import { ref, computed } from 'vue'
 import axios from '@/_setting/axios/request-portal'
 import cookieHelper from '@/_setting/cookie/cookie-helper'
-import { GET_LOGIN_USER_DETAIL, PUT_LOGIN_USER_DETAIL } from '@/assets/consts/api/portal/user.js'
+import { LOGIN_USER, USER } from '@/assets/consts/api/portal/user.js'
 import { COOKIE_KEY } from '@/assets/consts/consts'
 
 export const useUserStore = defineStore('user', () => {
@@ -42,7 +42,7 @@ export const useUserStore = defineStore('user', () => {
 
   async function getLoginUser() {
     try {
-      return await axios.get(GET_LOGIN_USER_DETAIL)
+      return await axios.get(LOGIN_USER)
     } catch (e) {
       console.error('getLoginUser catch')
       console.error(e)
@@ -67,7 +67,7 @@ export const useUserStore = defineStore('user', () => {
 
   // 나의 정보 수정
   async function editUser(params) {
-    const { data } = await axios.put(PUT_LOGIN_USER_DETAIL, params, {
+    const { data } = await axios.put(USER, params, {
       headers: {
         'Content-Type': 'multipart/form-data'
       }

@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
 import axios from '@/_setting/axios/request-portal'
-import { GET_PORTAL_ROLE_GROUPS } from '@/assets/consts/api/portal/service-group'
+import { ROLE_GROUPS } from '@/assets/consts/api/portal/service-group'
 import { LOCALSTORAGE_KEY } from '@/assets/consts/consts'
 
 export const useServiceGroupStore = defineStore('service-group', () => {
@@ -56,7 +56,7 @@ export const useServiceGroupStore = defineStore('service-group', () => {
 
 
     const getServiceGroups = async (params) => {
-        const { data } = await axios.get(GET_PORTAL_ROLE_GROUPS, { params })
+        const { data } = await axios.get(ROLE_GROUPS, { params })
         serviceGroups.value = data
         setServiceGroup(data)
     }
