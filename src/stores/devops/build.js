@@ -22,16 +22,22 @@ export const useBuildStore = defineStore('build', () => {
 
     const getBuildHistory = async buildId => {
         const reqUrl = resolvePathVariable(BUILD_HISTORY_LIST, { buildId })
-        // const { data } = await axios.get(reqUrl)
-        // console.error(data)
+        const { data } = await axios.get(reqUrl)
+        return data?.data || []
 
     }
 
     const getBuildsWithHistory = async parmas => {
         await getBuilds(parmas)
         if(builds.value && builds.value.length) {
-            builds.value.forEach(build => {
-                getBuildHistory(build.buildId)
+            builds.value.forEach(async build => {
+                const historyList = await getBuildHistory(build.buildId)
+                const lastHistory = historyList?.[historyList.length - 1] ?? null
+                build.historyList = historyList
+                if(lastHistory) {
+                    build.lastBuildDate = lastHistory.buildDate
+                    build.lastBuildResult = lastHistory.buildResult
+                }
             })
         }
     }
