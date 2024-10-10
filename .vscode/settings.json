@@ -1,7 +1,6 @@
 {
   "editor.codeActionsOnSave": {
     "source.fixAll": "always",
-    "source.fixAll.stylelint": "always"
   },
   "editor.formatOnSave": true,
   "editor.defaultFormatter": "dbaeumer.vscode-eslint",
@@ -11,21 +10,9 @@
   "[json]": {
     "editor.defaultFormatter": "vscode.json-language-features"
   },
-  "[css]": {
-    "editor.defaultFormatter": "stylelint.vscode-stylelint"
-  },
-  "[scss]": {
-    "editor.defaultFormatter": "stylelint.vscode-stylelint"
-  },
   "eslint.validate": [
     "javascript",
     "javascriptreact",
     "vue"
-  ],
-  "stylelint.validate": [
-    "css",
-    "scss",
-    "vue",
-    "postcss"
   ],
 }

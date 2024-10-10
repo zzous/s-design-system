@@ -105,3 +105,12 @@
     }
 }
 
+.v-input.v-input--density-compact {
+    &.v-text-field,
+    &.v-select {
+        .v-field__input,
+        .v-select__selection {
+            font-size: 12px;
+        }
+    }
+}

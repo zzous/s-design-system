@@ -1,11 +1,8 @@
 <template>
-  <form class="s-table__form">
+  <div class="s-table__form">
     <slot name="default" />
-  </form>
+  </div>
 </template>
 
 <script setup>
-/**
- * TODO validate 로직 추가
- */
 </script>

@@ -30,7 +30,7 @@ defineProps({
     default: null
   },
   height: {
-    type: Number,
+    type: [String, Number],
     required: false,
     default: null
   },

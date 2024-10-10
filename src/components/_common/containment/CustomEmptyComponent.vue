@@ -1,9 +1,10 @@
 <template>
   <div class="s-empty">
-    <v-card
+    <v-sheet
       class="s-empty__card"
       :elevation="elevation"
-      :outlined="outlined"
+      border
+      rounded
       :shadowed="shadowed"
     >
       <div v-if="title" class="s-empty__card-title">
@@ -13,7 +14,7 @@
         {{ description }}
       </div>
       <slot name="default" />
-    </v-card>
+    </v-sheet>
   </div>
 </template>
 

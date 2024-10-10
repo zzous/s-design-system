@@ -53,14 +53,16 @@ padding: 2px; border-radius:50%;}
 .portal_layout .s-select .v-list-item:hover .v-list-item-title,
 .portal_layout .v-list-item--active .v-list-item-title{color:#1297f2; font-weight:500; }
 .portal_layout .v-navigation-drawer{box-shadow: 0 0 0 !important; border-right:solid 1px #DCDCDC !important;}
-.portal_layout .sp-full-menu__menu{padding-top:10px !important}
+
+/* .portal_layout .sp-full-menu__menu{padding-top:10px !important} */
 
 .portal_layout .search-box .v-field__outline__start,
 .portal_layout .search-box .v-field__outline__end{border-color:#fff}
-.portal_layout .sp-text-field .v-input__control{height:30px !important; min-height:30px !important;  border:solid 1px #ddd; border-radius:5px;}
+.portal_layout .s-form__item-content .v-text-field .v-input__control input {height:30px !important; min-height:30px !important;  border-radius:5px;}
+.portal_layout .s-form__item-content .v-text-field .v-input__control {border:solid 1px #ddd; border-radius:5px;}
 .portal_layout .v-label.v-field-label{top: 7px; font-size: 12px; padding-left: 0;left: 0;margin: 0;}
 .portal_layout .v-select .v-label.v-field-label{top: 11px;}
-.portal_layout .sp-text-field .v-input__control .v-field .v-icon{opacity: 1; color:#000}
+.portal_layout .s-form__item-content .v-text-field .v-input__control .v-field .v-icon{opacity: 1; color:#000}
 
 /* .portal_layout  .v-field__append-inner{position: absolute;left:-260px;top:-2px; width:20px; margin-right:20px;}
 .portal_layout .v-field__clearable .v-icon{top:-4px;right:6px;} */
@@ -70,10 +72,11 @@ padding: 2px; border-radius:50%;}
 .s-title-area.sub-title:not(:first-child) {margin-top: 30px;}
 .s-title-area .s-title-area__title{background: url('/devops/assets/images/title_bg.svg') no-repeat left center; padding-left:34px; font-size:18px; color:#1C2536; font-weight: 700;}
 .s-title-area__content{display:flex; justify-content: space-between; align-items: center;}
-.portal_layout .sp-button.v-btn.button__line{border:solid 1px#1297f2;border-radius:5px !important; color:#1297f2; font-size:14px;min-width:110px; font-weight:700 !important}
+
+/* .portal_layout .sp-button.v-btn.button__line{border:solid 1px#1297f2;border-radius:5px !important; color:#1297f2; font-size:14px;min-width:110px; font-weight:700 !important}
 .portal_layout .sp-button.v-btn.button__line:hover{background:#F0F7FF}
 .portal_layout .sp-button.v-btn.button__line.v-btn--disabled{border-color:#eee; color:#ccc; font-size:14px; opacity: 1; background-color:#fff;}
-.portal_layout .sp-button.v-btn.button__line + .button__line{margin-left:10px;}
+.portal_layout .sp-button.v-btn.button__line + .button__line{margin-left:10px;} */
 .portal_layout .v-row{margin:0}
 .portal_layout .search-box-text{padding:0 !important; flex:1; height: 40px; width: 350px;}
 .portal_layout .v-col{padding:12px 0}
@@ -82,8 +85,8 @@ padding: 2px; border-radius:50%;}
 
 .portal_layout .search-box .v-field__clearable .v-icon { right: -9px; top: 2px;}
 .portal_layout .search-box .v-label.v-field-label { top: 11px;}
-.portal_layout .userlist .sp-text-field .v-input__control .v-field .v-field__input { min-height: 38px;}
-.portal_layout .userlist .sp-text-field .v-input__control {height: 40px !important; }
+.portal_layout .userlist .s-form__item-content .v-text-field .v-input__control .v-field .v-field__input { min-height: 38px;}
+.portal_layout .userlist .s-form__item-content .v-text-field .v-input__control {height: 40px !important; }
 .portal_layout .userlist .search-box-text .card-top-text{padding:0; font-size:12px; text-align: right; color:#191919;}
 .portal_layout .userlist .search-box-text .card-top-text .resource-number{font-size:12px; }
 .portal_layout .userlist .search-box-text > div:nth-of-type(1){align-items: center;}
@@ -105,28 +108,29 @@ padding: 2px; border-radius:50%;}
 .s-form__item-label{background:#F7F9FA; flex:0 0 170px; display: flex; align-items: center;padding-left:20px;}
 .s-form__item-label .required{color: red; margin-left:3px; position: relative; top:-2px;}
 .s-form__item-label > span{font-size:12px; color:#333; font-weight:700;}
-.s-form__item-content{display: flex; align-items: center; padding:0 20px; font-size:12px; color:#333;}
-.s-form__item-content .sp-text-field .v-input__control .v-field{padding:0 8px !important; min-width:450px;}
+.s-form__item-content{display: flex; align-items: center; padding:8px 20px; font-size:12px; color:#333;}
+.s-form__item-content .v-text-field .v-input__control .v-field .v-field__input{padding:0 8px !important; min-width:450px;}
+.s-form__item-content .v-text-field .v-input__control .v-field:has(.v-field__append-inner) .v-field__input{min-width:410px;}
 
-.half_box .s-form__item-content .sp-text-field .v-input__control .v-field,
-.s-form__item.half_input .s-form__item-content .sp-text-field .v-input__control .v-field,
-.sm .s-form__item-content .sp-text-field .v-input__control .v-field,
+.half_box .s-form__item-content .s-form__item-content .v-text-field .v-input__control .v-field,
+.s-form__item.half_input .s-form__item-content .s-form__item-content .v-text-field .v-input__control .v-field,
+.sm .s-form__item-content .s-form__item-content .v-text-field .v-input__control .v-field,
 .sm .s-form__item-content .v-textarea .v-field--no-label textarea,
 .half_box .s-form__item-content .v-textarea .v-field--no-label textarea{min-width:250px;}
 
-.invite .s-form__item.half_input .s-form__item-content .sp-text-field .v-input__control .v-field,
-.sm .invite .s-form__item-content .sp-text-field .v-input__control .v-field,
+.invite .s-form__item.half_input .s-form__item-content .s-form__item-content .v-text-field .v-input__control .v-field,
+.sm .invite .s-form__item-content .s-form__item-content .v-text-field .v-input__control .v-field,
 .sm .invite .s-form__item-content .v-textarea .v-field--no-label textarea,
 .invite  .half_box .s-form__item-content .v-textarea .v-field--no-label textarea{min-width:320px;}
 
-.s-form__item-content .v-textarea .v-field--no-label textarea{margin: 20px 0; border:solid 1px #ddd;mask-image:none; min-width:450px; border-radius:5px;}
+/* .s-form__item-content .v-textarea .v-field--no-label textarea{margin: 20px 0; border:solid 1px #ddd;mask-image:none; min-width:450px; border-radius:5px;} */
 .s-form__item-content .sp-text-area .v-input__control .v-field{padding-left:0}
 .s-form__item-content .v-input__details{padding:0 !important; top: -2px; position: relative;  font-size: 11px !important;min-height: 20px;}
 .s-form__item-content .white_select .sp__content{margin:0 !important}
 .portal_layout .v-table__wrapper .material-icons{color:#191919; font-size:14px; position: relative; top:-1px}
 .portal_layout .v-table__wrapper .v-data-table__th {background:#F7F9FA;}
 .portal_layout .v-table__wrapper {border-top:solid 1px #000; border-bottom:solid 1px #ddd}
-.s-form__item-content .sp-text-field.v-input--error .v-input__control {border:solid 1px #B80303;}
+.s-form__item-content .s-form__item-content .v-text-field.v-input--error .v-input__control {border:solid 1px #B80303;}
 .s-form__item-content .member-item .v-chip{margin-top:2px;}
 .s-form__item-content .sp-select .v-field{border: solid 1px #ddd;border-radius: 5px;padding: 0 8px; height: 30px;}
 .s-form__item-content .sp-select .v-field .v-field__input{min-height: 30px !important; padding:0; line-height:28px; min-width:250px}
@@ -179,16 +183,16 @@ padding: 2px; border-radius:50%;}
 .portal_layout .mdi-checkbox-marked::before{color: #1297f2 ;}
 .sp-popup-table .search-box .v-field__append-inner{padding-top:4px;}
 .sp-popup-table .search-box .v-label.v-field-label{top:7px;}
-.portal_layout .sp-text-field.v-input--readonly .v-input__control > .v-field{background-color: #F7F9FA !important; }
-.portal_layout .sp-confirm-modal.v-dialog .v-overlay__content > .v-card{border-radius:5px;}
-.portal_layout .sp-confirm-modal.v-dialog  .v-col{padding:0;}
-.portal_layout .sp-confirm-modal .confirm-modal__title{margin-bottom:32px; min-height:1px; color:#333; font-size:14px;}
-.portal_layout .sp-confirm-modal .v-row{align-items: center;}
-.portal_layout .icon.sp-text-field .v-input__control{background: url('/devops/assets/images/searchicon.svg') no-repeat 8px center ; }
-.portal_layout .icon.sp-text-field .v-input__control .v-field {padding-left:30px !important }
+.portal_layout .s-form__item-content .v-text-field.v-input--readonly .v-input__control > .v-field{background-color: #F7F9FA !important; }
+.portal_layout .s-confirm-modal.v-dialog .v-overlay__content > .v-card{border-radius:5px;}
+.portal_layout .s-confirm-modal.v-dialog .v-col{padding:0;}
+.portal_layout .s-confirm-modal .confirm-modal__title{margin-bottom:32px; min-height:1px; color:#333; font-size:14px;}
+.portal_layout .s-confirm-modal .v-row{align-items: center;}
+.portal_layout .icon.s-form__item-content .v-text-field .v-input__control{background: url('/devops/assets/images/searchicon.svg') no-repeat 8px center ; }
+.portal_layout .icon.s-form__item-content .v-text-field .v-input__control .v-field {padding-left:30px !important }
 
-.portal_layout .icon.sp-text-field .v-input__control .v-field__append-inner{display: none;}
-.portal_layout .sp-text-field .v-input__control .v-field .v-field__input{padding:0; min-height:30px}
+.portal_layout .icon.s-form__item-content .v-text-field .v-input__control .v-field__append-inner{display: none;}
+.portal_layout .s-form__item-content .v-text-field .v-input__control .v-field .v-field__input{padding:0; min-height:30px}
 .portal_layout .menuPolicy .s-form__item-content .sp-label-with-text .sp__label{display: none;}
 
 .portal_layout .sp-admin-drawer-menu .dashboard__header{margin-bottom:0; padding-right:10px; background-color:#fff;}
@@ -200,9 +204,9 @@ padding: 2px; border-radius:50%;}
 .portal_layout .sp-recommended-product .s-form__item-content  .help__text{padding:5px 0 8px}
 .portal_layout .ForecastOptions .s-form__item-content .sp-label-with-text .sp__label{display: none;}
 .portal_layout .sp-recommended-product .s-form__item-content{padding-top:8px}
-.portal_layout .sp-recommended-product .s-form__item-content .sp-text-field .v-input__control .v-field .v-field__input {min-height:30px; padding-top:0}
-.portal_layout .sp-recommended-product .s-form__item-content .sp-text-field .v-input__control .v-field{min-width:600px;}
-.portal_layout .sp-recommended-product .s-form__item-content .select-group .sp-text-field .v-input__control .v-field{min-width:294px}
+.portal_layout .sp-recommended-product .s-form__item-content .s-form__item-content .v-text-field .v-input__control .v-field .v-field__input {min-height:30px; padding-top:0}
+.portal_layout .sp-recommended-product .s-form__item-content .s-form__item-content .v-text-field .v-input__control .v-field{min-width:600px;}
+.portal_layout .sp-recommended-product .s-form__item-content .select-group .s-form__item-content .v-text-field .v-input__control .v-field{min-width:294px}
 .portal_layout .sp-recommended-product .s-form__item-content .select-group > div:nth-of-type(1){margin-right: 10px;}
 .portal_layout .sp-recommended-product .s-form__item-content .sp-select .v-field__append-inner{padding-top:3px}
 .portal_layout .btn_refresh{width:16px; height:16px; background: url('/devops/assets/images/change_circle.svg') no-repeat center center ;}
@@ -459,10 +463,11 @@ padding: 2px; border-radius:50%;}
 .portal_layout .tag-search-box {margin-top:10px; }
 
 .portal_layout .tag-search-box  .v-input__control,
-.portal_layout .tag-search-box  .sp-text-field .v-input__control{border:solid 1px #ddd; height:40px !important; border-radius:5px;}
-.portal_layout .tag-search-box  .sp-text-field .v-input__control .v-field .v-field__prepend-inner {padding-top: 6px;}
-.portal_layout .tag-search-box .sp-text-field .v-input__control .v-field .v-field__input {min-height:38px !important;}
-.portal_layout .tag-search-box .sp-text-field .v-input__control .v-field .v-icon{color:#000; top:3px; margin-right: 3px;}
-.portal_layout .tag-search-box .sp-text-field .v-input__control .v-field {padding-left: 8px !important;}
+.portal_layout .tag-search-box  .s-form__item-content .v-text-field .v-input__control .v-field__outline{border:solid 1px #ddd; height:40px !important; border-radius:5px;}
+.portal_layout .tag-search-box  .s-form__item-content .v-text-field .v-input__control .v-field .v-field__prepend-inner {padding-top: 6px;}
+.portal_layout .tag-search-box .s-form__item-content .v-text-field .v-input__control .v-field .v-field__input {min-height:38px !important;}
+.portal_layout .tag-search-box .s-form__item-content .v-text-field .v-input__control .v-field .v-icon{color:#000; top:3px; margin-right: 3px;}
+
+.portal_layout .tag-search-box .s-form__item-content .v-text-field .v-input__control .v-field {padding-left: 8px !important;}
 
 .portal_layout .search__wrapper .search__input .dp__input {font-size: 0.8rem;}

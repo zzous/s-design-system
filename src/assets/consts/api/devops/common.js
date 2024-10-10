@@ -1,0 +1,1 @@
+export const COMMON_PROJECT_TEMPLATE_LIST = '/api/v1/devops/common/project/template/list'
