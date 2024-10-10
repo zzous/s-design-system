@@ -7,7 +7,7 @@
       <v-data-table
         :custom-filter="filterOnlyCapsText"
         :headers="headers"
-        :items="buildList"
+        :items="builds"
         :search="search"
         item-value="name"
       >
@@ -54,7 +54,7 @@ import { useBuildStore } from '@/stores/devops/build'
 const devOpsServiceGroupStore = useDevOpsServiceGroupStore()
 const devOpsServiceGroupId = storeToRefs(devOpsServiceGroupStore).serviceGroupId
 const buildStore = useBuildStore()
-const buildList = storeToRefs(buildStore).builds
+const builds = storeToRefs(buildStore).builds
 
 //빌드 목록을 가져온다
 const getBuildList = async () => {
@@ -98,7 +98,7 @@ const headers = ref([
   }
 ])
 
-const pageCnt = computed(() => Math.ceil(buildList.value.length / itemsPerPage.value))
+const pageCnt = computed(() => Math.ceil(builds.value.length / itemsPerPage.value))
 const filterOnlyCapsText = (value, query) => {
   return value != null && query != null && typeof value === 'string' && value.toString().toLocaleUpperCase().indexOf(query) !== -1
 }
