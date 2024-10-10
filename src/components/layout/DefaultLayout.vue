@@ -30,13 +30,15 @@
     <div class="show-header">
       <navi-component />
       <div class="base-layout">
-        <router-view v-slot="{ Component }" class="show-navi">
-          <component
-            :is="Component"
-            id="router_view"
-            ref="viewRef"
-          />
-        </router-view>
+        <div class="show-navi">
+          <router-view v-slot="{ Component }">
+            <component
+              :is="Component"
+              id="router_view"
+              ref="viewRef"
+            />
+          </router-view>
+        </div>
       </div>
     </div>
     <footer-component />
