@@ -4,6 +4,7 @@ import axios from '@/_setting/axios/request-portal'
 import cookieHelper from '@/_setting/cookie/cookie-helper'
 import { LOGIN_USER, USER } from '@/assets/consts/api/portal/user.js'
 import { COOKIE_KEY } from '@/assets/consts/consts'
+import { useTokenStore } from './token'
 
 export const useUserStore = defineStore('user', () => {
   const userInfo = ref({
@@ -42,7 +43,20 @@ export const useUserStore = defineStore('user', () => {
 
   async function getLoginUser() {
     try {
-      return await axios.get(LOGIN_USER)
+      //access token 존재 여부 확인, 없으면 user refresh
+      let userData = null
+      const accessToken = cookieHelper.getCookie(COOKIE_KEY.ACCESS)
+      const refreshToken = cookieHelper.getCookie(COOKIE_KEY.REFRESH)
+      if(accessToken) {
+        userData = await axios.get(LOGIN_USER)
+      }else if(refreshToken) {
+        await useTokenStore().postRefreshToken()
+        userData = await axios.get(LOGIN_USER)
+      }else{
+        //TODO: 로그인 페이지 이동
+        //useTokenStore().onLogIn('/project/list')
+      }
+      return userData
     } catch (e) {
       console.error('getLoginUser catch')
       console.error(e)
