@@ -18,10 +18,10 @@
             </th>
           </tr>
         </template>
-        <template #[`item.action`]>
+        <template #[`item.action`]="{ item }">
           <default-button-component title="빌드" />
-          <default-button-component title="상세" class="ml-1" to="detail/27" />
-          <default-button-component title="삭제" class="ml-1" />
+          <default-button-component title="상세" class="ml-1" :to="`detail/${item.buildId}`" />
+          <default-button-component title="삭제" class="ml-1" @click="onClickDeleteBuild(item.buildId)" />
         </template>
         <template #top>
           <v-text-field
@@ -39,6 +39,22 @@
         </template>
       </v-data-table>
     </div>
+    <teleport to="#destination">
+      <s-confirm
+        v-model="confirm.show"
+        :contents="confirm.contents"
+        @click:confirm="onConfirm"
+        @click:cancel="onCancel"
+      />
+      <!-- <s-modal
+        v-model="modal.show"
+        :class="modal.size"
+        :title="modal.title"
+        @click:close="onClickCloseModal"
+      >
+        <component :is="modal.component" />
+      </s-modal> -->
+    </teleport>
   </div>
 </template>
 
@@ -52,8 +68,20 @@ import { storeToRefs } from 'pinia'
 import { useBuildStore } from '@/stores/devops/build'
 
 const devOpsServiceGroupStore = useDevOpsServiceGroupStore()
-const devOpsServiceGroupId = storeToRefs(devOpsServiceGroupStore).serviceGroupId
 const buildStore = useBuildStore()
+const confirm = ref({
+  show: false,
+  contents: '삭제하시겠습니까?'
+})
+const onCancel = () => {
+  console.log('onCancel called')
+  confirm.value.show = false
+}
+const onConfirm = () => {
+  console.log('onConfirm called')
+  confirm.value.show = false
+}
+const devOpsServiceGroupId = storeToRefs(devOpsServiceGroupStore).serviceGroupId
 const builds = storeToRefs(buildStore).builds
 
 //빌드 목록을 가져오고 빌드 목록이 있다면 주기적으로 요청 한다.
@@ -68,6 +96,25 @@ const intervalGetBuildListTime = 60 * 1000
 const page = ref(1)
 const itemsPerPage = ref(5)
 const search = ref('')
+const pageCnt = computed(() => Math.ceil(builds.value.length / itemsPerPage.value))
+const filterOnlyCapsText = (value, query) => {
+  return value != null && query != null && typeof value === 'string' && value.toString().toLocaleUpperCase().indexOf(query) !== -1
+}
+const onClickDeleteBuild = (buildId) => {
+  console.log('onClickDeleteBuild : ', buildId)
+  confirm.value.show = true
+}
+const intervalGetBuildList = () => {
+  setTimeout(() => {
+    getBuildList()
+  }, intervalGetBuildListTime)
+}
+
+const init = () => {
+  getBuildList()
+  //intervalGetBuildList()
+}
+init()
 const headers = ref([
   {
     title: '빌드명',
@@ -100,22 +147,6 @@ const headers = ref([
     align: 'center'
   }
 ])
-
-const pageCnt = computed(() => Math.ceil(builds.value.length / itemsPerPage.value))
-const filterOnlyCapsText = (value, query) => {
-  return value != null && query != null && typeof value === 'string' && value.toString().toLocaleUpperCase().indexOf(query) !== -1
-}
-const intervalGetBuildList = () => {
-  setTimeout(() => {
-    getBuildList()
-  }, intervalGetBuildListTime)
-}
-
-const init = () => {
-  getBuildList()
-  //intervalGetBuildList()
-}
-init()
 </script>
 
 <style scoped lang="scss">
