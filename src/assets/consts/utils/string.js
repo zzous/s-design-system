@@ -19,7 +19,7 @@ export const removeKoreanCharacters = stringData => {
   }
   return stringData.replace(REG_ALLOW_KOR, '')
 }
-
+//param 은 object
 export const resolvePathVariable = (urlTemplate, params) => {
   return urlTemplate.replace(/:([a-zA-Z]+)/g, (_, key) => params[key])
 }

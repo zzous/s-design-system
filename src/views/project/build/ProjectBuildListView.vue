@@ -7,7 +7,7 @@
       <v-data-table
         :custom-filter="filterOnlyCapsText"
         :headers="headers"
-        :items="items"
+        :items="buildList"
         :search="search"
         item-value="name"
       >
@@ -69,7 +69,7 @@ const headers = ref([
   {
     title: '빌드명',
     align: 'start',
-    key: 'projectName'
+    key: 'buildName'
   },
   {
     title: '브랜치',
@@ -89,7 +89,7 @@ const headers = ref([
   {
     title: '마지막 빌드 상태',
     align: 'center',
-    key: 'lastBuildState'
+    key: 'lastBuildResult'
   },
   {
     title: '액션',
@@ -97,16 +97,8 @@ const headers = ref([
     align: 'center'
   }
 ])
-const items = ref([
-  {
-    name: 'spring-boot-demo-build-stg',
-    branch: 'stage',
-    buildCnt: 8,
-    lastBuildDate: '2024-09-03 18:26:31',
-    lastBuildState: 'SUCCESS'
-  }
-])
-const pageCnt = computed(() => Math.ceil(items.value.length / itemsPerPage.value))
+
+const pageCnt = computed(() => Math.ceil(buildList.value.length / itemsPerPage.value))
 const filterOnlyCapsText = (value, query) => {
   return value != null && query != null && typeof value === 'string' && value.toString().toLocaleUpperCase().indexOf(query) !== -1
 }
