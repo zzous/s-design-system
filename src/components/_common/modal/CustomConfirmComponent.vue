@@ -1,33 +1,35 @@
 <template>
-  <v-dialog
-    class="s-confirm-modal"
-    width="446"
-    persistent
-    :model-value="modelValue"
-    @update:model-value="updateModelValue"
-  >
-    <v-card modal-height="210">
-      <v-card-text class="s-confirm-modal__text">
-        {{ contents }}
-      </v-card-text>
-      <v-card-actions class="button-wrapper">
-        <s-btn
-          variant="elevated"
-          color="blue"
-          @click.stop="onConfirm"
-        >
-          {{ $t('확인') }}
-        </s-btn>
-        <s-btn
-          variant="outlined"
-          color="blue"
-          @click="onCancel"
-        >
-          {{ $t('취소') }}
-        </s-btn>
-      </v-card-actions>
-    </v-card>
-  </v-dialog>
+  <teleport to="#destination">
+    <v-dialog
+      class="s-confirm-modal"
+      width="446"
+      persistent
+      :model-value="modelValue"
+      @update:model-value="updateModelValue"
+    >
+      <v-card modal-height="210">
+        <v-card-text class="s-confirm-modal__text">
+          {{ contents }}
+        </v-card-text>
+        <v-card-actions class="button-wrapper">
+          <s-btn
+            variant="elevated"
+            color="blue"
+            @click.stop="onConfirm"
+          >
+            {{ $t('확인') }}
+          </s-btn>
+          <s-btn
+            variant="outlined"
+            color="blue"
+            @click="onCancel"
+          >
+            {{ $t('취소') }}
+          </s-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+  </teleport>
 </template>
 
 <script setup>

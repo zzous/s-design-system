@@ -1,6 +1,6 @@
 <template>
   <v-img
-    class="sp-image"
+    class="s-image"
     :class="{ ...className }"
     :alt="alt"
     :aspect-ratio="aspectRatio"
@@ -202,7 +202,7 @@ const onLoadStart = () => {}
 </script>
 
 <style lang="scss">
-.sp-image {
+.s-image {
 &.with-btn {
     .v-responsive__content {
     width: 20px !important;

@@ -1,55 +1,61 @@
 <template>
-  <v-dialog
-    :model-value="modelValue"
-    :width="modalWidth"
-    scroll-strategy="none"
-    class="s-modal"
-    persistent
-    @update:model-value="onUpdateModalValue"
-  >
-    <template #activator="{ props }">
-      <slot name="buttons" v-on="props" />
-    </template>
-    <v-card
-      class="card-box"
-      :class="popupCardClass"
-      :height="modalHeight"
-      :min-height="modalHeight"
-      no-line
+  <teleport to="#destination">
+    <v-dialog
+      :model-value="modelValue"
+      :width="modalWidth"
+      scroll-strategy="none"
+      class="s-modal"
+      :class="className"
+      persistent
+      @update:model-value="onUpdateModalValue"
     >
-      <template v-if="!hideHeader" #prepend>
-        <div class="title-wrapper" :class="{ 's-modal__title--light': isWhite, 's-modal__title--dark': !isWhite }">
-          <div class="title-wrapper__title">
-            {{ title }}
-          </div>
-          <div class="button-wrapper">
-            <slot name="header-btn-append" />
-            <s-btn
-              class="modal--cancel"
-              elevation="0"
-              dense
-              width="24px"
-              height="24px"
-              @click="onClickCloseModal"
-            >
-              <v-icon :color="isWhite ? '#1A3350' : '#fff'" size="x-large">
-                mdi-close
-              </v-icon>
-            </s-btn>
-          </div>
-        </div>
+      <template #activator="{ props }">
+        <slot name="buttons" v-on="props" />
       </template>
+      <v-card
+        class="card-box"
+        :class="popupCardClass"
+        :height="modalHeight"
+        :min-height="modalHeight"
+        no-line
+      >
+        <template v-if="!hideHeader" #prepend>
+          <div class="s-modal__title" :class="{ 's-modal__title--light': isWhite, 's-modal__title--dark': !isWhite }">
+            <span>
+              {{ title }}
+            </span>
+            <div class="button-wrapper">
+              <slot name="header-btn-append" />
+              <s-btn
+                class="modal--cancel"
+                elevation="0"
+                dense
+                variant="text"
+                max-width="24px"
+                height="24px"
+                @click="onClickCloseModal"
+              >
+                <v-icon :color="isWhite ? '#1A3350' : '#fff'" size="x-large">
+                  mdi-close
+                </v-icon>
+              </s-btn>
+            </div>
+          </div>
+        </template>
 
-      <template #item>
-        <div class="content-wrapper">
-          <slot name="default" />
-        </div>
-      </template>
-      <template #append>
-        <slot name="footer" />
-      </template>
-    </v-card>
-  </v-dialog>
+        <template #item>
+          <div class="s-modal__content">
+            <slot name="default" />
+          </div>
+        </template>
+        <template #append>
+          <div class="s-modal__footer">
+            <slot name="footer" />
+          </div>
+        </template>
+      </v-card>
+    </v-dialog>
+  </teleport>
 </template>
 
 <script setup>
@@ -60,6 +66,11 @@ defineProps({
     type: String,
     default: '',
     description: '모달 헤더 이름',
+  },
+  className: {
+    type: [Object, String],
+    default: '',
+    description: '클래스 명'
   },
   modalWidth: {
     type: String,
@@ -141,7 +152,7 @@ const onUpdateModalValue = (value) => {
     width: 460px;
   }
 
-  .title-wrapper {
+  .s-modal__title {
     height: 48px;
     width: 100%;
     padding: 0 20px;
@@ -152,15 +163,11 @@ const onUpdateModalValue = (value) => {
 
     &.s-modal__title--light {
       background-color: white;
-      .title-wrapper__title {
-        color: $s-primary;
-      }
+      color: $s-primary;
     }
     &.s-modal__title--dark {
       background-color: $s-primary;
-      .title-wrapper__title {
-        color: white;
-      }
+      color: white;
     }
   }
 
@@ -176,17 +183,16 @@ const onUpdateModalValue = (value) => {
       min-width: 0;
       opacity: 0.6;
     }
-
-    .modal--template {
-      margin-right: 10px;
-    }
   }
 
-  .content-wrapper {
+  .s-modal__content {
     padding: 30px;
     max-height: 700px;
     @include scroll();
     overflow-y: auto;
+  }
+  .s-modal__footer {
+    width: 100%;
   }
 }
 </style>

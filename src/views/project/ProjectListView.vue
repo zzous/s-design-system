@@ -1,5 +1,12 @@
 <template>
   <div class="view-wrapper">
+    <project-modal v-model="modal.show" :mode="modal.mode" />
+    <s-confirm
+      v-model="confirm.show"
+      :contents="confirm.contents"
+      @click:confirm="onConfirm"
+      @click:cancel="onCancel"
+    />
     <s-sub-header :title="$t('프로젝트 목록')" :list-cnt="projects.length">
       <s-btn
         variant="outlined"
@@ -64,27 +71,11 @@
         </s-data-table>
       </div>
     </div>
-    <teleport to="#destination">
-      <s-confirm
-        v-model="confirm.show"
-        :contents="confirm.contents"
-        @click:confirm="onConfirm"
-        @click:cancel="onCancel"
-      />
-      <s-modal
-        v-model="modal.show"
-        :class="modal.size"
-        :title="modal.title"
-        @click:close="onClickCloseModal"
-      >
-        <component :is="modal.component" />
-      </s-modal>
-    </teleport>
   </div>
 </template>
 
 <script setup>
-import { computed, ref, reactive, onMounted, markRaw } from 'vue'
+import { computed, ref, reactive, onMounted } from 'vue'
 import { storeToRefs } from 'pinia'
 
 import { useDevOpsServiceGroupStore } from '@/stores/devops/service-group'
@@ -93,7 +84,7 @@ import { useI18n } from '@/_setting/i18n'
 import { useAlertStore } from '@/stores/components/alert'
 import { LOCALSTORAGE_KEY } from '@/assets/consts/consts'
 
-import ProjectNewView from './ProjectNewView.vue'
+import ProjectModal from './ProjectModalView.vue'
 
 import { headers } from './table-header'
 
@@ -145,6 +136,15 @@ const onRefresh = () => {
   getProjects()
 }
 
+const modal = reactive({
+  mode: null,
+  show: false
+})
+const onClickNewProject = () => {
+  modal.show = true
+  modal.mode = 'new'
+}
+
 const onClickDelete = () => {
   confirm.show = true
 }
@@ -172,29 +172,6 @@ const onConfirm = async () => {
 const onCancel = () => {
   confirm.show = false
 }
-
-const modal = reactive({
-  show: false,
-  component: null,
-  size: 'lg',
-  title: ''
-})
-
-const onClickNewProject = () => {
-  modal.component = markRaw(ProjectNewView)
-  modal.show = true
-  modal.title = tt('신규 프로젝트 생성')
-}
-const onClickImportProject = () => {
-
-}
-
-const onClickCloseModal = () => {
-  modal.component = null
-  modal.show = false
-  modal.title = ''
-}
-
 onMounted(() => {
   getProjects()
 })

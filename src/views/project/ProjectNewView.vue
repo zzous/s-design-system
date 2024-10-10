@@ -16,14 +16,6 @@
       <s-form-item :label="$t('패키지 명')" required />
       <s-form-item :label="$t('JDK 버전')" required />
     </s-form-table>
-    <div class="form__btn-wrapper">
-      <s-btn color="blue">
-        {{ $t('저장') }}
-      </s-btn>
-      <s-btn variant="outlined" color="blue" @click="$emit('click:cancel')">
-        {{ $t('취소') }}
-      </s-btn>
-    </div>
   </div>
 </template>
 
