@@ -14,7 +14,7 @@ export const useBuildStore = defineStore('build', () => {
      * @returns
      */
     const getBuilds = async params => {
-        builds.value = []
+        //builds.value = []
         const { data } = await axios.post(BUILD_LIST, { params })
         builds.value = data?.data || []
         return builds.value
@@ -38,6 +38,7 @@ export const useBuildStore = defineStore('build', () => {
                 build.lastBuildResult = lastHistory?.buildResult ?? '-'
             })
         }
+        return builds.value
     }
 
     return { builds, getBuilds, getBuildHistory, getBuildsWithHistory }

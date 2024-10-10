@@ -56,12 +56,15 @@ const devOpsServiceGroupId = storeToRefs(devOpsServiceGroupStore).serviceGroupId
 const buildStore = useBuildStore()
 const builds = storeToRefs(buildStore).builds
 
-//빌드 목록을 가져온다
+//빌드 목록을 가져오고 빌드 목록이 있다면 주기적으로 요청 한다.
 const getBuildList = async () => {
   const projectObj = JSON.parse(localStorage.getItem(LOCALSTORAGE_KEY.selectedProject))
-  await buildStore.getBuildsWithHistory({ serviceGroupId: devOpsServiceGroupId.value, projectId: projectObj.projectId })
+  const tempBuilds = await buildStore.getBuildsWithHistory({ serviceGroupId: devOpsServiceGroupId.value, projectId: projectObj.projectId })
+  if(tempBuilds?.length) {
+    intervalGetBuildList()
+  }
 }
-
+const intervalGetBuildListTime = 60 * 1000
 const page = ref(1)
 const itemsPerPage = ref(5)
 const search = ref('')
@@ -102,9 +105,15 @@ const pageCnt = computed(() => Math.ceil(builds.value.length / itemsPerPage.valu
 const filterOnlyCapsText = (value, query) => {
   return value != null && query != null && typeof value === 'string' && value.toString().toLocaleUpperCase().indexOf(query) !== -1
 }
+const intervalGetBuildList = () => {
+  setTimeout(() => {
+    getBuildList()
+  }, intervalGetBuildListTime)
+}
 
 const init = () => {
   getBuildList()
+  //intervalGetBuildList()
 }
 init()
 </script>
