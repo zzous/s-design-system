@@ -19,3 +19,10 @@
 16. 함수 만들경우 이벤트에 의해 호출되는 함수 일 경우 이벤트명 추가 할 것
     1. ex) 클릭에 의한 호출 일 경우 onCLick{{함수명}}
     2. ex) keyup에 의한 호출 일 경우 onKeyUp{{함수명}}
+17. 변수명 목록일 경우 복수형으로 표시하고 list 로 표시하지 않을것
+    1. ex) projects -> O, projectList -> X
+18. API 통신을 위한 URL 상수 지정시 아래 규칙 따를것
+    1. /api/v1/devops/build/{buildId} -> BUILD_$BUILDID
+    2. '/' 는 '-' 으로 치환
+    3. path variable 은 $이름 으로 표현 {buildId} => $BUILDID
+    4. test-name 과 같이 '-'은 붙여서 대문자 표현 -> test-name => TESTNAME
