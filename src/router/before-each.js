@@ -29,25 +29,10 @@ export const beforeEach = (router) => {
         next()
       }
     } else{
-      //메뉴 정보 가져온 다음 메뉴 없으면 세션 스토리지에 메뉴 있는지 확인 하고 가져올것
-      //const isThereMenu = useMenuStore().menuPaths.length
-      //세션 스토리지에서 메뉴 가져오기
-      const menuStr = sessionStorage.getItem(SESSIONSTORAGE_KEY.STRATO_PORTAL_MENU)
-      const flatMenuStr = sessionStorage.getItem(SESSIONSTORAGE_KEY.STRATO_PORTAL_MENU_FLAT)
-      //메뉴가 있다면 store 에 추가
-      if(menuStr) useMenuStore().setMenuPaths(JSON.parse(menuStr))
-      if(flatMenuStr) useMenuStore().setFlatMenuPaths(JSON.parse(flatMenuStr))
-      //메뉴가 없다면 요청
-      if(!menuStr || !flatMenuStr ) {
-        useMenuStore().getAccessibleMenu()
+      if(useUserStore().isLoggedIn){
+        await _getUserMenu()
+        //진행
       }
-
-      //프로젝트 없을경우 프로젝트 가져오기
-      if(!useProjectStore().projects || !useProjectStore().projects.length ) {
-        await useProjectStore().getProjects()
-      }
-
-      //진행
       next()
     }
   })
@@ -72,7 +57,28 @@ export const beforeResolve = (router) => {
       })
 
       await devOpsSgStore.getServiceGroupDetail(serviceGroupUuid.value)
+      await _getUserMenu()
     }
   })
   return router
+}
+
+const _getUserMenu = async () => {
+  //메뉴 정보 가져온 다음 메뉴 없으면 세션 스토리지에 메뉴 있는지 확인 하고 가져올것
+  //const isThereMenu = useMenuStore().menuPaths.length
+  //세션 스토리지에서 메뉴 가져오기
+  const menuStr = sessionStorage.getItem(SESSIONSTORAGE_KEY.STRATO_PORTAL_MENU)
+  const flatMenuStr = sessionStorage.getItem(SESSIONSTORAGE_KEY.STRATO_PORTAL_MENU_FLAT)
+  //메뉴가 있다면 store 에 추가
+  if(menuStr) useMenuStore().setMenuPaths(JSON.parse(menuStr))
+  if(flatMenuStr) useMenuStore().setFlatMenuPaths(JSON.parse(flatMenuStr))
+  //메뉴가 없다면 요청
+  if(!menuStr || !flatMenuStr ) {
+    useMenuStore().getAccessibleMenu()
+  }
+
+  //프로젝트 없을경우 프로젝트 가져오기
+  if(!useProjectStore().projects || !useProjectStore().projects.length ) {
+    await useProjectStore().getProjects()
+  }
 }
