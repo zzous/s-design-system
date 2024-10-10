@@ -30,12 +30,11 @@
     <div class="show-header">
       <navi-component />
       <div class="base-layout">
-        <router-view v-slot="{ Component }">
+        <router-view v-slot="{ Component }" class="show-navi">
           <component
             :is="Component"
             id="router_view"
             ref="viewRef"
-            class="show-navi"
           />
         </router-view>
       </div>
