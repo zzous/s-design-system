@@ -1,6 +1,6 @@
 <template>
+  <project-modal v-model="modal.show" :mode="modal.mode" />
   <div class="view-wrapper">
-    <project-modal v-model="modal.show" :mode="modal.mode" />
     <s-confirm
       v-model="confirm.show"
       :contents="confirm.contents"
