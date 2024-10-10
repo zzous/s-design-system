@@ -21,5 +21,6 @@ export const removeKoreanCharacters = stringData => {
 }
 //param 은 object
 export const resolvePathVariable = (urlTemplate, params) => {
-  return urlTemplate.replace(/:([a-zA-Z]+)/g, (_, key) => params[key])
+  //return urlTemplate.replace(/:([a-zA-Z]+)/g, (_, key) => params[key])
+  return urlTemplate.replace(/{([a-zA-Z]+)}/g, (_, key) => params[key])
 }

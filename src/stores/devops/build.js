@@ -34,10 +34,8 @@ export const useBuildStore = defineStore('build', () => {
                 const historyList = await getBuildHistory(build.buildId)
                 const lastHistory = historyList?.[historyList.length - 1] ?? null
                 build.historyList = historyList
-                if(lastHistory) {
-                    build.lastBuildDate = lastHistory.buildDate
-                    build.lastBuildResult = lastHistory.buildResult
-                }
+                build.lastBuildDate = lastHistory?.buildDate ?? '-'
+                build.lastBuildResult = lastHistory?.buildResult ?? '-'
             })
         }
     }
