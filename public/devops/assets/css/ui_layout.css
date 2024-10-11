@@ -109,7 +109,8 @@ padding: 2px; border-radius:50%;}
 .s-form__item-label .required{color: red; margin-left:3px; position: relative; top:-2px;}
 .s-form__item-label > span{font-size:12px; color:#333; font-weight:700;}
 .s-form__item-content{display: flex; align-items: center; padding:8px 20px; font-size:12px; color:#333;}
-.s-form__item-content .v-text-field .v-input__control .v-field .v-field__input{padding:0 8px !important; min-width:450px;}
+.s-form__item-content .v-text-field .v-input__control .v-field .v-field__input{padding:5px 8px; min-width:450px;}
+.s-form__item-content .v-text-field .v-input__control .v-field .v-field__input:has(input) {padding: 0 8px;}
 .s-form__item-content .v-text-field .v-input__control .v-field:has(.v-field__append-inner) .v-field__input{min-width:410px;}
 
 .half_box .s-form__item-content .s-form__item-content .v-text-field .v-input__control .v-field,
@@ -192,7 +193,7 @@ padding: 2px; border-radius:50%;}
 .portal_layout .icon.s-form__item-content .v-text-field .v-input__control .v-field {padding-left:30px !important }
 
 .portal_layout .icon.s-form__item-content .v-text-field .v-input__control .v-field__append-inner{display: none;}
-.portal_layout .s-form__item-content .v-text-field .v-input__control .v-field .v-field__input{padding:0; min-height:30px}
+.portal_layout .s-form__item-content .v-text-field .v-input__control .v-field .v-field__input{min-height:30px}
 .portal_layout .menuPolicy .s-form__item-content .sp-label-with-text .sp__label{display: none;}
 
 .portal_layout .sp-admin-drawer-menu .dashboard__header{margin-bottom:0; padding-right:10px; background-color:#fff;}
@@ -367,6 +368,7 @@ padding: 2px; border-radius:50%;}
 .select-wrapper .v-select--active-menu .v-input__control::after{background:url('/devops/assets/images/menu_icon_on.svg') no-repeat left top/24px;}
 .select-wrapper .v-select--active-menu .v-input__control{border-color: #1297F2;}
 .no-select-msg{text-align: center;width: 100%;padding: 40px;font-size: 15px;font-weight: 700; color:#B80303}
+.error-msg{color:#B80303}
 .rol_dec{margin-bottom:30px;}
 
 .menu_item_list{display: flex;width: 100%;align-items: flex-start;justify-content: space-between;}

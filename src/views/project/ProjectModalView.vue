@@ -3,7 +3,7 @@
     :model-value="modelValue"
     :class-name="modal.size"
     :title="modal.title"
-    @click:close="onClickCloseModal"
+    @update:model-value="updateModal"
   >
     <!-- 생성, 상세, 수정-->
     <component :is="modal.component" ref="modalCompRef" :props="modal.props" />
@@ -16,7 +16,7 @@
           <!-- 생성, 수정 화면에서 사용 -->
           {{ $t('저장') }}
         </s-btn>
-        <s-btn variant="outlined" @click="emits('update:model-value', false)">
+        <s-btn variant="outlined" @click="updateModal">
           {{ $t('취소') }}
         </s-btn>
       </div>
@@ -62,7 +62,7 @@ const onSubmit = () => {
   modalCompRef.value?.validate()
 }
 
-const onClickCloseModal = () => {
+const updateModal = () => {
   modal.component = null
   modal.show = false
   modal.title = ''

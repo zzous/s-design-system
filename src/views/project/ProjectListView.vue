@@ -1,12 +1,12 @@
 <template>
   <project-modal v-model="modal.show" :mode="modal.mode" />
+  <s-confirm
+    v-model="confirm.show"
+    :contents="confirm.contents"
+    @click:confirm="onConfirm"
+    @click:cancel="onCancel"
+  />
   <div class="view-wrapper">
-    <s-confirm
-      v-model="confirm.show"
-      :contents="confirm.contents"
-      @click:confirm="onConfirm"
-      @click:cancel="onCancel"
-    />
     <s-sub-header :title="$t('프로젝트 목록')" :list-cnt="projects.length">
       <s-btn
         variant="outlined"
@@ -17,13 +17,11 @@
       />
       <s-btn
         variant="outlined"
-        color="blue"
         :title="$t('신규 프로젝트 생성')"
         @click="onClickNewProject"
       />
       <s-btn
         variant="outlined"
-        color="blue"
         :title="$t('프로젝트 가져오기')"
         @click="onClickImportProject"
       />
@@ -50,7 +48,6 @@
           select-strategy="single"
           item-value="projectId"
           show-select
-          hide-default-footer
           :options="{ pageCnt: pageCnt, showSelect: true }"
         >
           <template #[`item.projectType`]="{ item }">

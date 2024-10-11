@@ -8,7 +8,12 @@
         <span v-if="required" class="required">*</span>
       </div>
       <div class="s-form__item-content">
-        <slot name="default" :handle-change="handleChange" :errors="errors" />
+        <div>
+          <slot name="default" :handle-change="handleChange" :errors="errors" />
+        </div>
+        <div class="s-form__item-append">
+          <slot name="outer-append" :errors="errors" />
+        </div>
       </div>
     </vee-field>
   </div>
@@ -27,3 +32,15 @@ const props = defineProps({
   required: { type: Boolean, default: false, description: '필수값' },
 })
 </script>
+
+<style lang="scss" scoped>
+.s-form__item-content {
+  display: grid;
+  grid-template-columns: 1fr;
+
+  .s-form__item-outer-append {
+    font-size: 12px;
+  }
+}
+
+</style>

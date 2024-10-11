@@ -109,7 +109,7 @@ defineProps({
   }
 })
 
-const emits = defineEmits(['click:close', 'update:model-value'])
+const emits = defineEmits(['update:model-value'])
 
 /*
 @brief 모달 close 함수
@@ -119,7 +119,7 @@ const emits = defineEmits(['click:close', 'update:model-value'])
 */
 const onClickCloseModal = () => {
   // console.log(tag, 'onClickCloseModal')
-  emits('click:close')
+  emits('update:model-value', false)
 }
 const onUpdateModalValue = (value) => {
   emits('update:model-value', value)

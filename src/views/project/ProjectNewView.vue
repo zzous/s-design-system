@@ -1,5 +1,8 @@
 <template>
   <div class="view-wrapper">
+    <!-- list modal -->
+    {{ modal.show }}
+    <component :is="modal.component" v-model="modal.show" @update:model-value="updateModal" />
     <vee-form ref="formRef" :validation-schema="schema">
       <s-sub-header :show-cnt="false" :title="$t('기본 정보')" class-name="sub-title" />
       <s-form-table>
@@ -53,31 +56,53 @@
           />
         </s-form-item>
         <s-form-item
-          v-slot="{ errors }"
           :label="$t('빌드 승인 프로세스')"
           name="buildApproveFlow"
           required
         >
-          <span>{{ errors }}</span>
+          <template #default>
+            <s-btn variant="outlined" height="30" @click="openModal('build')">
+              {{ $t('프로세스 선택') }}
+            </s-btn>
+          </template>
+          <template #outer-append="{ errors }">
+            <span v-if="errors.length" class="error-msg">{{ errors.at(0) }}</span>
           <!-- TODO Process -->
+          </template>
         </s-form-item>
         <s-form-item
-          v-slot="{ errors }"
           :label="$t('배포 승인 프로세스')"
           name="deployApproveFlow"
           required
         >
-          <span>{{ errors }}</span>
-          <!-- TODO Process -->
+          <template #default>
+            <s-btn variant="outlined" height="30" @click="openModal('deploy')">
+              {{ $t('프로세스 선택') }}
+            </s-btn>
+            <v-chip-group />
+          </template>
+          <template #outer-append="{ errors }">
+            <span v-if="errors.length" class="error-msg">
+              {{ errors.at(0) }}
+            </span>
+          </template>
         </s-form-item>
+
+        <!-- TODO Process -->
         <s-form-item
-          v-slot="{ errors }"
           :label="$t('프로젝트 관리자')"
           name="projectManagers"
           required
         >
-          <span>{{ errors }}</span>
-          <!-- TODO ProjectManagers -->
+          <template #default>
+            <s-btn variant="outlined" height="30" @click="openModal('project-manager')">
+              {{ $t('관리자 선택') }}
+            </s-btn>
+          </template>
+          <template #outer-append="{ errors }">
+            <span v-if="errors.length" class="error-msg">{{ errors.at(0) }}</span>
+          </template>
+        <!-- TODO ProjectManagers -->
         </s-form-item>
         <s-form-item v-slot="{ handleChange }" :label="$t('설명(250자 이내)')" name="projectDesc">
           <v-textarea
@@ -85,6 +110,7 @@
             density="compact"
             variant="outlined"
             hide-details="auto"
+            :placeholder="$t('설명을 입력하세요')"
             @update:model-value="handleChange"
           />
         </s-form-item>
@@ -130,7 +156,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, reactive, onMounted, markRaw } from 'vue'
 // VeeForm 사용 시 s-form-item 컴포넌트에 name 값 필수
 import { Form as VeeForm } from 'vee-validate'
 import * as yup from 'yup'
@@ -138,6 +164,10 @@ import { storeToRefs } from 'pinia'
 
 import { useI18n } from '@/_setting/i18n'
 import { useDevOpsCommonStore } from '@/stores/devops/common'
+
+import BuildProcessListModal from '@/components/list-modal/BuildProcessListModalComponent.vue'
+import DeployProcessListModal from '@/components/list-modal/DeployProcessListModalComponent.vue'
+import ProjectManagerListModal from '@/components/list-modal/ProjectManagerListModalComponent.vue'
 
 const emits = defineEmits(['validate', 'errors', 'click:cancel'])
 
@@ -157,6 +187,29 @@ const schema = yup.object({
   jdkVersion: yup.string().label(tt('JDK 버전')).required(),
 })
 
+const modal = reactive({
+  show: false,
+  component: null
+})
+
+const openModal = target => {
+  switch (target) {
+  case 'build':
+    modal.component = markRaw(BuildProcessListModal)
+    break
+  case 'deploy':
+    modal.component = markRaw(DeployProcessListModal)
+    break
+  case 'project-manager':
+    modal.component = markRaw(ProjectManagerListModal)
+    break
+  default:
+    modal.component = null
+    break
+  }
+  modal.show = true
+}
+
 const formRef = ref()
 const validate = async () => {
   if (formRef.value) {
@@ -169,6 +222,12 @@ const validate = async () => {
     }
   }
 }
+
+
+const updateModal = value => {
+  modal.show = value
+}
+
 
 defineExpose({ validate })
 
