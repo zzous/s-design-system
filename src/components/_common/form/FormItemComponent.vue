@@ -8,7 +8,7 @@
         <span v-if="required" class="required">*</span>
       </div>
       <div class="s-form__item-content">
-        <div>
+        <div class="s-form__item-content-item">
           <slot name="default" :handle-change="handleChange" :errors="errors" />
         </div>
         <div class="s-form__item-append">
@@ -37,6 +37,10 @@ const props = defineProps({
 .s-form__item-content {
   display: grid;
   grid-template-columns: 1fr;
+  .s-form__item-content-item {
+    display: flex;
+    gap: 10px;
+  }
 
   .s-form__item-outer-append {
     font-size: 12px;

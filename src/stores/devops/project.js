@@ -2,7 +2,7 @@ import { defineStore } from 'pinia'
 import { ref } from 'vue'
 
 import axios from '@/_setting/axios/request-devops'
-import { PROJECT_LIST, PROJECT_$PROJECTID } from '@/assets/consts/api/devops/project'
+import { PROJECT_LIST, PROJECT_$PROJECTID, PROJECT } from '@/assets/consts/api/devops/project'
 
 export const useProjectStore = defineStore('project', () => {
     const projects = ref([])
@@ -19,9 +19,34 @@ export const useProjectStore = defineStore('project', () => {
         return projects.value
     }
 
-    const fetchDeleteProject = async ({ projectId }) => {
+    const fetchDeleteProject = async (projectId) => {
         await axios.delete(PROJECT_$PROJECTID.replace('{projectId}', projectId))
     }
 
-    return { projects, getProjects, fetchDeleteProject }
+    const fetchNewProject = async (params) => {
+        try {
+            const { data } = await axios.post(PROJECT, params, { headers: { 'Content-Type': 'multipart/form-data' } })
+            if (data.code === 200) {
+                return data.data
+            }
+            throw new Error(data.message)
+        } catch(e) {
+            throw new Error(e)
+        }
+
+    }
+    const fetchEditProject = async (projectId, params) => {
+        try {
+            const { data } = await axios.put(PROJECT_$PROJECTID.replace('{projectId}', projectId), params)
+            if (data.code === 200) {
+                return data
+            }
+            throw new Error(data.message)
+        } catch(e) {
+            throw new Error(e)
+        }
+
+    }
+
+    return { projects, getProjects, fetchDeleteProject, fetchNewProject, fetchEditProject }
 })

@@ -111,12 +111,6 @@ defineProps({
 
 const emits = defineEmits(['update:model-value'])
 
-/*
-@brief 모달 close 함수
-@date 2021/11/02
-@return
-@param
-*/
 const onClickCloseModal = () => {
   // console.log(tag, 'onClickCloseModal')
   emits('update:model-value', false)

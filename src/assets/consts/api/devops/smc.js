@@ -1,0 +1,1 @@
+export const SMC_FLOWS = '/api/v1/devops/smc/flows'

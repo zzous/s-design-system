@@ -34,7 +34,6 @@
           <router-view v-slot="{ Component }">
             <component
               :is="Component"
-              id="router_view"
               ref="viewRef"
             />
           </router-view>

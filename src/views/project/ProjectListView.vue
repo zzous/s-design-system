@@ -1,5 +1,5 @@
 <template>
-  <project-modal v-model="modal.show" :mode="modal.mode" />
+  <project-modal v-model="modal.show" :mode="modal.mode" @refresh="onRefresh" />
   <s-confirm
     v-model="confirm.show"
     :contents="confirm.contents"
@@ -148,19 +148,17 @@ const onClickDelete = () => {
 
 const onConfirm = async () => {
   try {
-    await projectStore.fetchDeleteProject({
-      projectId: selected.value.at(0)
-    })
+    await projectStore.fetchDeleteProject(selected.value.at(0))
     confirm.show = false
     alertStore.openAlert({
-      titleName: tt('삭제되었습니다.'),
+      titleName: tt('삭제되었습니다'),
       type: 'success',
     })
     onRefresh()
   } catch (e) {
     console.log(e)
     alertStore.openAlert({
-      titleName: tt('삭제하지 못했습니다.'),
+      titleName: tt('삭제하지 못했습니다'),
       type: 'error',
     })
   }

@@ -33,6 +33,7 @@ const initializeAccessToken = (config, accessToken) => {
 export const handleAuthToken = async (config) => {
   const { accessToken, refreshToken } = getAuthToken()
   if (!accessToken && refreshToken) {
+    console.log('!accessToken && refreshToken')
     try {
       await onRefreshToken() // 리프레시 토큰으로 액세스 토큰 재발급
       const newAccessToken = cookieHelper.getCookie(COOKIE_KEY.ACCESS)

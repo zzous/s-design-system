@@ -26,15 +26,24 @@
 
 <script setup>
 import { ref, watch, reactive, markRaw } from 'vue'
+import { storeToRefs } from 'pinia'
 
 import { useI18n } from '@/_setting/i18n'
-
+import { useDevOpsServiceGroupStore } from '@/stores/devops/service-group'
+import { useProjectStore } from '@/stores/devops/project'
+import { useAlertStore } from '@/stores/components/alert'
 
 import ProjectNew from './ProjectNewView.vue'
 import ProjectDetail from './ProjectDetailView.vue'
 import ProjectEdit from './ProjectDetailView.vue'
 
+
 const { tt } = useI18n()
+const sgStore = useDevOpsServiceGroupStore()
+const { serviceGroupId } = storeToRefs(sgStore)
+
+const alertStore = useAlertStore()
+const projectStore = useProjectStore()
 
 const props = defineProps({
   mode: {
@@ -48,20 +57,17 @@ const props = defineProps({
   }
 })
 
-const emits = defineEmits(['update:model-value'])
+const emits = defineEmits(['update:model-value', 'refresh'])
 
 const modal = reactive({
   show: false,
   size: 'lg',
   title: '',
-  component: null
+  component: null,
+  type: ''
 })
 
 const modalCompRef = ref()
-const onSubmit = () => {
-  modalCompRef.value?.validate()
-}
-
 const updateModal = () => {
   modal.component = null
   modal.show = false
@@ -70,9 +76,80 @@ const updateModal = () => {
   emits('update:model-value', false)
 }
 
+const fetchNewProject = async (values) => {
+  const params = {
+    projectName: values.projectName,
+    projectAlias: values.projectAlias,
+    serviceGroupId: serviceGroupId.value,
+    projectDesc: values.projectDesc,
+    projectCd: values.projectCd,
+    buildCd: values.buildCd,
+    sourceInfo: {
+      templateId: values.templateId,
+      packageName: values.packageName,
+      jdkVersion: values.jdkVersion,
+    },
+    projectManagerList: values.projectManagerList,
+    buildApproveFlow: values.buildApproveFlow.map(item => item.flowId),
+    deployApproveFlow: values.deployApproveFlow.map(item => item.flowId),
+  }
+
+  const formData = new FormData()
+  formData.append('project', new Blob([JSON.stringify(params)], { type: 'application/json' }))
+
+  try {
+    await projectStore.fetchNewProject(formData)
+    alertStore.openAlert({
+      titleName: tt('생성되었습니다'),
+      type: 'success',
+    })
+    updateModal()
+    emits('refresh')
+  } catch(e) {
+    alertStore.openAlert({
+      titleName: tt('생성하지 못했습니다'),
+      type: 'error',
+    })
+  }
+}
+
+const fetchEditProject = async (values) => {
+  const params = {
+    serviceGroupId: serviceGroupId.value,
+    projectAlias: values.projectAlias,
+    projectDesc: values.projectDesc,
+  }
+  try {
+    await projectStore.fetchEditProject(values.projectId, params)
+    alertStore.openAlert({
+      titleName: tt('수정되었습니다'),
+      type: 'success',
+    })
+    updateModal()
+    emits('refresh')
+  } catch(e) {
+    alertStore.openAlert({
+      titleName: tt('수정하지 못했습니다'),
+      type: 'error',
+    })
+  }
+}
+
+const onSubmit = async () => {
+  const result = await modalCompRef.value?.submit()
+  if (!result) return
+
+  if (modal.type === 'edit') {
+    fetchEditProject(result)
+  } {
+    fetchNewProject(result)
+  }
+}
+
 watch(
   () => props.modelValue,
   () => {
+    modal.type = props.mode
     switch (props.mode) {
     case 'new':
       modal.component = markRaw(ProjectNew)

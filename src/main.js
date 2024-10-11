@@ -16,9 +16,9 @@ const app = createApp(App)
 app.use(createPinia())
 app.use(router)
 app.use(vuetify)
-app.use(yup)
 app.use(I18nextVue, { i18next: i18n })
 
 setComponents(app)
+yup()
 
 app.mount('#app')

@@ -383,7 +383,7 @@ const sortBy = ref([])
 const lazyHeaders = ref([])
 
 const updateModelValue = (item) => {
-  console.log('updateModelValue', item)
+  // console.log('updateModelValue', item)
   emit('get-checkedbox-item', item)
   selected.value = item
   emit('update:model-value', selected.value)
@@ -395,7 +395,7 @@ const pageCnt = computed(() => {
       // eslint-disable-next-line vue/no-side-effects-in-computed-properties
       lazyPage.value = tempPage.value
     }
-    return Math.ceil(props.filterDatas.length / props.itemsPerPage)
+    return Math.ceil(filterDatas.value.length / props.itemsPerPage)
   }
   if (!props.options?.pageCnt) {
     // eslint-disable-next-line vue/no-side-effects-in-computed-properties
@@ -406,8 +406,6 @@ const pageCnt = computed(() => {
   return 1
 })
 const filterDatas = computed(() => {
-  if (props.smartSearch.length === 0) return props.items
-
   // TODO Pagination 컴포넌트 사용 시 Search props와 페이지 수가 맞지 않는 오류가 있음 (해결방법: vuetify 업그레이드)
   // vuetify 업그레이드 전 임시코드
   if (props.search) {
@@ -423,51 +421,54 @@ const filterDatas = computed(() => {
     }))
     return filteredList
   }
-  const filteredList = props.items.filter(data => {
-    // 검색 결과는 OR 조건이기 때문에 some 함수 사용
-    // TODO: 동일 key 값에 대해서는 OR 조건일 것
-    // tag는 동일 값 검색
-    // tag 외의 검색은 like 검색
-    const isCorrect = props.smartSearch.some(
-      option => {
-        if (option.key === 'undefinedTag') {
-          if (!data.tagList?.length) return true
+
+  if (props.smartSearch.length){
+    const filteredList = props.items.filter(data => {
+      // 검색 결과는 OR 조건이기 때문에 some 함수 사용
+      // TODO: 동일 key 값에 대해서는 OR 조건일 것
+      // tag는 동일 값 검색
+      // tag 외의 검색은 like 검색
+      const isCorrect = props.smartSearch.some(
+        option => {
+          if (option.key === 'undefinedTag') {
+            if (!data.tagList?.length) return true
+            return false
+          }
+          if (!option.value) {
+            return true
+          }
+
+          // s: 태그 검색 영역
+          if (option.type === 'tag' && data.tagList?.length) {
+            const result = data.tagList.some(tagObj => {
+              // const tagObj = JSON.parse(tagStr)
+              return tagObj.tagKey.toLowerCase() === option.key.toLowerCase()
+                && tagObj.tagValue.toLowerCase() === option.value.toLowerCase()
+            })
+            return result
+          }
+          // e: 태그 검색 영역
+
+          // s: 태그 외 검색
+          if (option.type !== 'tag') {
+            if (typeof data[option.key] === 'object') {
+              const searchData = JSON.stringify(data[option.key])
+              // 검색 결과는 like 검색이기 때문에 indexOf 사용
+              return searchData.toLowerCase().indexOf(option.value.toLowerCase()) > -1
+            }
+            if (typeof data[option.key] === 'number') {
+              return data[option.key].toString().indexOf(option.value) > -1
+            }
+            return data[option.key].toLowerCase().indexOf(option.value.toLowerCase()) > -1
+          }
           return false
-        }
-        if (!option.value) {
-          return true
-        }
-
-        // s: 태그 검색 영역
-        if (option.type === 'tag' && data.tagList?.length) {
-          const result = data.tagList.some(tagObj => {
-            // const tagObj = JSON.parse(tagStr)
-            return tagObj.tagKey.toLowerCase() === option.key.toLowerCase()
-              && tagObj.tagValue.toLowerCase() === option.value.toLowerCase()
-          })
-          return result
-        }
-        // e: 태그 검색 영역
-
-        // s: 태그 외 검색
-        if (option.type !== 'tag') {
-          if (typeof data[option.key] === 'object') {
-            const searchData = JSON.stringify(data[option.key])
-            // 검색 결과는 like 검색이기 때문에 indexOf 사용
-            return searchData.toLowerCase().indexOf(option.value.toLowerCase()) > -1
-          }
-          if (typeof data[option.key] === 'number') {
-            return data[option.key].toString().indexOf(option.value) > -1
-          }
-          return data[option.key].toLowerCase().indexOf(option.value.toLowerCase()) > -1
-        }
-        return false
         // e: 태그 외 검색
-      }
-    )
-    return isCorrect // 전체 조건에 맞는지 여부
-  })
-  return filteredList
+        }
+      )
+      return isCorrect // 전체 조건에 맞는지 여부
+    })
+    return filteredList}
+  return props.items
 })
 
 const sDataTableRef = ref()
