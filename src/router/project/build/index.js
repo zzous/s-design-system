@@ -8,7 +8,7 @@ export default [
   {
     path: 'build/new',
     name: 'projectNewBuild',
-    component: () => import('@/views/project/build/NewBuildView.vue')
+    component: () => import('@/views/project/build/ProjectBuildNewView.vue')
   },
   {
     path: 'build/detail/:buildId',
