@@ -7,6 +7,7 @@ import { resolvePathVariable } from '@/assets/consts/utils/string'
 
 export const useBuildStore = defineStore('build', () => {
     const builds = ref([])
+    const buildDetail = ref(null)
 
     /**
      * 빌드 목록
@@ -18,6 +19,13 @@ export const useBuildStore = defineStore('build', () => {
         const { data } = await axios.post(BUILD_LIST, { params })
         builds.value = data?.data || []
         return builds.value
+    }
+
+    const getBuildDetail = async buildId => {
+        const reqUrl = resolvePathVariable(BUILD_$BUILDID, { buildId })
+        const { data } = await axios.get(reqUrl)
+        buildDetail.value = data?.data || null
+        return buildDetail.value
     }
 
     const getBuildHistory = async buildId => {
@@ -47,5 +55,5 @@ export const useBuildStore = defineStore('build', () => {
         return builds.value
     }
 
-    return { builds, getBuilds, getBuildHistory, getBuildsWithHistory, deleteBuild }
+    return { builds, getBuilds, getBuildHistory, getBuildsWithHistory, deleteBuild, getBuildDetail, buildDetail }
 })
