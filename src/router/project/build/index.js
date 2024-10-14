@@ -10,9 +10,9 @@ export default [
     name: 'projectNewBuild',
     component: () => import('@/views/project/build/ProjectBuildNewView.vue')
   },
-  {
-    path: 'build/detail/:buildId',
-    name: 'projectBuildDetail',
-    component: () => import('@/views/project/build/ProjectBuildDetailView.vue')
-  }
+  // {
+  //   path: 'build/detail/:buildId',
+  //   name: 'projectBuildDetail',
+  //   component: () => import('@/views/project/build/ProjectBuildDetailView.vue')
+  // }
 ]

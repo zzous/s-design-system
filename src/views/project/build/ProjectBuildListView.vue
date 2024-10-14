@@ -1,4 +1,5 @@
 <template>
+  <project-build-detail-popup v-model:model-value="showDetailPopup" />
   <div class="view-wrapper">
     <view-header-component title="빌드">
       <default-button-component title="새 빌드" to="new" />
@@ -19,9 +20,9 @@
           </tr>
         </template>
         <template #[`item.action`]="{ item }">
-          <default-button-component title="빌드" />
-          <default-button-component title="상세" class="ml-1" :to="`detail/${item.buildId}`" />
-          <default-button-component title="삭제" class="ml-1" @click="onClickDeleteBuild(item.buildId)" />
+          <default-button-component :title="$t('빌드')" />
+          <default-button-component :title="$t('상세')" class="ml-1" @click="onClickDetailBuild(item.buildId)" />
+          <default-button-component :title="$t('삭제')" class="ml-1" @click="onClickDeleteBuild(item.buildId)" />
         </template>
         <template #top>
           <v-text-field
@@ -45,6 +46,7 @@
 <script setup>
 import ViewHeaderComponent from '@/components/_common/ViewHeaderComponent.vue'
 import DefaultButtonComponent from '@/components/_common/button/DefaultButtonComponent.vue'
+import ProjectBuildDetailPopup from '@/components/build/ProjectBuildDetailComponent.vue'
 import { computed, ref } from 'vue'
 import { LOCALSTORAGE_KEY } from '@/assets/consts/consts'
 import { useDevOpsServiceGroupStore } from '@/stores/devops/service-group'
@@ -54,15 +56,19 @@ import { useConfirmStore } from '@/stores/components/confirm'
 
 const devOpsServiceGroupStore = useDevOpsServiceGroupStore()
 const buildStore = useBuildStore()
-
+const showDetailPopup = ref(false)
 const intervalGetBuildListTime = 60 * 1000
 const page = ref(1)
 const itemsPerPage = ref(5)
 const search = ref('')
 const pageCnt = computed(() => Math.ceil(builds.value.length / itemsPerPage.value))
 const confirmStore = useConfirmStore()
+const selectedBuildId = ref(null)
 
-
+const onClickDetailBuild = buildId => {
+  showDetailPopup.value = true
+  selectedBuildId.value = buildId
+}
 const devOpsServiceGroupId = storeToRefs(devOpsServiceGroupStore).serviceGroupId
 const builds = storeToRefs(buildStore).builds
 

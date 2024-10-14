@@ -19,6 +19,7 @@
   * 컨트롤러 단위로 store를 나누되 파일 명 기준은 API의 URI를 참고하고 단수형으로 작성한다.
   * 예: /api/v1/devops/projects -> /stores/devops/project.js
   * 예: /api/v2/portal/users -> /stores/portal/user.js
+* v-dialog나 s-modal로 감싸져있으면 파일 명에 Modal로 표시
 
 ## 코드 규칙
 
