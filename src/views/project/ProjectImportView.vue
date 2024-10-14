@@ -13,25 +13,6 @@
       <s-form-table>
         <s-form-item
           v-slot="{ errors, handleChange }"
-          :label="$t('템플릿')"
-          name="templateId"
-          required
-        >
-          <v-select
-            v-model="schema.templateId"
-            variant="outlined"
-            density="compact"
-            hide-details="auto"
-            item-value="templateId"
-            item-title="templateName"
-            :placeholder="$t('템플릿을 선택해주세요')"
-            :items="projectTemplates"
-            :error-messages="errors"
-            @update:model-value="handleChange"
-          />
-        </s-form-item>
-        <s-form-item
-          v-slot="{ errors, handleChange }"
           :label="$t('프로젝트 명')"
           name="projectName"
           required
@@ -45,9 +26,6 @@
             :error-messages="errors"
             @update:model-value="handleChange"
           />
-          <!-- <s-btn height="30" @cklick="checkDuplicate">
-            {{ $t('중복 체크') }}
-          </s-btn> -->
         </s-form-item>
         <s-form-item
           v-slot="{ handleChange }"
@@ -60,6 +38,22 @@
             density="compact"
             hide-details="auto"
             :placeholder="$t('프로젝트 별칭을 입력해주세요')"
+            @update:model-value="handleChange"
+          />
+        </s-form-item>
+        <s-form-item
+          v-slot="{ handleChange }"
+          :label="$t('파일 가져오기')"
+          name="projectAlias"
+          required
+        >
+          <v-file-input
+            v-model="schema.projectFile"
+            variant="outlined"
+            density="compact"
+            hide-details="auto"
+            prepend-icon=""
+            :placeholder="$t('projectImportPlaceholder')"
             @update:model-value="handleChange"
           />
         </s-form-item>
@@ -142,6 +136,7 @@
           <template #outer-append="{ errors }">
             <span v-if="errors.length" class="error-msg">{{ errors.at(0) }}</span>
           </template>
+          <!-- TODO ProjectManagers -->
         </s-form-item>
         <s-form-item v-slot="{ handleChange }" :label="$t('설명(250자 이내)')" name="projectDesc">
           <v-textarea
@@ -154,58 +149,18 @@
           />
         </s-form-item>
       </s-form-table>
-
-      <s-sub-header :title="$t('템플릿 속성')" :show-cnt="false" class-name="sub-title" />
-      <s-form-table class="s-table__form">
-        <s-form-item
-          v-slot="{ errors, handleChange }"
-          :label="$t('패키지 명')"
-          name="packageName"
-          required
-        >
-          <v-text-field
-            v-model="schema.packageName"
-            variant="outlined"
-            density="compact"
-            hide-details="auto"
-            :placeholder="$t('패키지 명을 입력해주세요')"
-            :error-messages="errors"
-            @update:model-value="handleChange"
-          />
-        </s-form-item>
-        <s-form-item
-          v-slot="{ errors, handleChange }"
-          :label="$t('JDK 버전')"
-          name="jdkVersion"
-          required
-        >
-          <v-select
-            v-model="schema.jdkVersion"
-            variant="outlined"
-            density="compact"
-            hide-details="auto"
-            item-title="commonCd"
-            item-value="commonCd"
-            :items="groupJdkVersions"
-            :placeholder="$t('JDK 버전을 선택해주세요')"
-            :error-messages="errors"
-            @update:model-value="handleChange"
-          />
-        </s-form-item>
-      </s-form-table>
     </vee-form>
   </div>
 </template>
 
-<script setup>
-import { ref, reactive, onMounted, markRaw } from 'vue'
+  <script setup>
+import { ref, reactive, markRaw } from 'vue'
 // VeeForm 사용 시 s-form-item 컴포넌트에 name 값 필수
 import { Form as VeeForm } from 'vee-validate'
 import * as yup from 'yup'
 import { storeToRefs } from 'pinia'
 
 import { useI18n } from '@/_setting/i18n'
-import { useDevOpsCommonStore } from '@/stores/devops/common'
 import { useAlertStore } from '@/stores/components/alert'
 import { useDevOpsServiceGroupStore } from '@/stores/devops/service-group'
 import { useProjectStore } from '@/stores/devops/project'
@@ -217,23 +172,20 @@ import ProjectManagerListModal from '@/components/list-modal/ProjectManagerListM
 const emits = defineEmits(['validate', 'errors', 'click:cancel', 'submit'])
 
 const { tt } = useI18n()
-const commonStore = useDevOpsCommonStore()
-const { projectTemplates, groupJdkVersions } = storeToRefs(commonStore)
 const sgStore = useDevOpsServiceGroupStore()
 const { serviceGroupId } = storeToRefs(sgStore)
 const projectStore = useProjectStore()
 const alertStore = useAlertStore()
 
 const schema = yup.object({
-  templateId: yup.string().label(tt('템플릿')).required(),
   projectName: yup.string().trim().onlyEngNumHyphen().label(tt('프로젝트 명')).max(50).required(),
-  projectAlias: yup.string().trim().label(tt('프로젝트 별칭')).max(50),
+  projectAlias: yup.string().trim().label(tt('프로젝트 별칭')).max(50).required(),
+  projectFile: yup.string().label(tt('프로젝트 파일')).required(),
+  projectFileName: yup.string().label(tt('프로젝트 파일 명')).required(),
   buildApproveFlow: yup.array().min(1).label(tt('빌드 승인 프로세스')).required(),
   deployApproveFlow: yup.array().min(1).label(tt('배포 승인 프로세스')).required(),
   projectManagerList: yup.array().min(1).label(tt('프로젝트 관리자')).required(),
   projectDesc: yup.string().label(tt('설명')).max(250),
-  packageName: yup.string().trim().lowercase().onlyEng().label(tt('패키지 명')).max(50).required(),
-  jdkVersion: yup.string().label(tt('JDK 버전')).required(),
 })
 
 const formRef = ref()
@@ -285,14 +237,11 @@ const validate = async () => {
 }
 
 const makeParameters = (values) => {
-  const { projectCd, buildCd } = projectTemplates.value.find(item => item.templateId === values.templateId)
   return {
     projectName: values.projectName,
     projectAlias: values.projectAlias,
     serviceGroupId: serviceGroupId.value,
     projectDesc: values.projectDesc,
-    projectCd: projectCd,
-    buildCd: buildCd,
     sourceInfo: {
       templateId: values.templateId,
       packageName: values.packageName,
@@ -302,36 +251,33 @@ const makeParameters = (values) => {
     buildApproveFlow: values.buildApproveFlow.map(item => item.flowId),
     deployApproveFlow: values.deployApproveFlow.map(item => item.flowId),
   }
+
 }
 
-const fetchNewProject = async (values) => {
+const fetchImportProject = async (values) => {
   const formData = new FormData()
   formData.append('project', new Blob([JSON.stringify(makeParameters(values))], { type: 'application/json' }))
 
   try {
-    console.log(formData)
-    await projectStore.fetchNewProject(formData)
+    await projectStore.fetchImportProject(formData)
     alertStore.openAlert({
-      titleName: tt('생성되었습니다'),
+      titleName: tt('프로젝트를 가져왔습니다'),
       type: 'success',
     })
-    return true
   } catch(e) {
     alertStore.openAlert({
-      titleName: tt('생성하지 못했습니다'),
+      titleName: tt('프로젝트 가져오지 못했습니다'),
       type: 'error',
     })
-    return false
   }
 }
 
 const submit = async () => {
   const result = await validate()
-  console.log('result', result)
   if (result) {
     const { values } = formRef.value
 
-    const result = await fetchNewProject(values)
+    const result = await fetchImportProject(values)
     return result
   }
   return result
@@ -359,11 +305,6 @@ const deleteSelected = (targetKey, index) => {
 }
 
 defineExpose({ validate, submit })
-
-onMounted(async () => {
-  await commonStore.getProjectTemplates()
-  commonStore.getGroupJdkVersions()
-})
 
 </script>
 

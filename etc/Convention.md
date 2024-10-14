@@ -5,6 +5,11 @@
 ### 1. 폴더 명 규칙
 
 * 폴더 명은 kebab-case로 작성한다.
+* Store
+  * 폴더 추가 시 모듈 기준으로 이름을 작성한다.
+    * 통합 포탈 모듈 -> portal
+    * 데브옵스 모듈 -> devops
+    * 컨테이너 모듈 -> comp
 
 ### 2. 파일 명 규칙
 
@@ -12,7 +17,8 @@
 * Vue 파일들은 어떤의용도인지 이름 끝에 붙일것 예를 들어 컴포넌트는 꼭 파일 명 끝에 Component, 뷰는 파일 명 끝에 View 를 붙일 것.
 * Store
   * 컨트롤러 단위로 store를 나누되 파일 명 기준은 API의 URI를 참고하고 단수형으로 작성한다.
-  * 예: /api/v1/devops/projects -> /stores/project.js
+  * 예: /api/v1/devops/projects -> /stores/devops/project.js
+  * 예: /api/v2/portal/users -> /stores/portal/user.js
 * v-dialog나 s-modal로 감싸져있으면 파일 명에 Modal로 표시
 
 ## 코드 규칙
@@ -42,11 +48,6 @@
     2. '/' 는 '-' 으로 치환
     3. path variable 은 $이름 으로 표현 {buildId} => $BUILDID
     4. test-name 과 같이 '-'은 붙여서 대문자 표현 -> test-name => TESTNAME
-* Store
-  * 변수 사용 시 모듈 기준으로 작성한다.
-    * 통합 포탈 모듈 -> portal
-    * 데브옵스 모듈 -> devops
-    * 컨테이너 모듈 -> comp
 
 ### 4. 컴포넌트 사용 규칙
 

@@ -16,7 +16,7 @@ export const headers = [
       width: 150
     },
     {
-      title: tt('설명'),
+      title: tt('프로젝트 별칭'),
       key: 'projectAlias',
       align: 'center',
       width: 250

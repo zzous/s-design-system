@@ -109,9 +109,15 @@ padding: 2px; border-radius:50%;}
 .s-form__item-label .required{color: red; margin-left:3px; position: relative; top:-2px;}
 .s-form__item-label > span{font-size:12px; color:#333; font-weight:700;}
 .s-form__item-content{display: flex; align-items: center; padding:8px 20px; font-size:12px; color:#333;}
+
+.s-form__item-content .v-file-input .v-field--appended { padding-inline-end: 0;}
+
+.s-form__item-content .v-file-input .v-input__control .v-field .v-field__input,
 .s-form__item-content .v-text-field .v-input__control .v-field .v-field__input{padding:5px 8px; min-width:450px;}
 .s-form__item-content .v-text-field .v-input__control .v-field .v-field__input:has(input) {padding: 0 8px;}
 .s-form__item-content .v-text-field .v-input__control .v-field:has(.v-field__append-inner) .v-field__input{min-width:410px;}
+
+.s-form__item-content .v-file-input .v-input__control .v-field .v-field__input
 
 .half_box .s-form__item-content .s-form__item-content .v-text-field .v-input__control .v-field,
 .s-form__item.half_input .s-form__item-content .s-form__item-content .v-text-field .v-input__control .v-field,
@@ -196,7 +202,12 @@ padding: 2px; border-radius:50%;}
 .portal_layout .icon.s-form__item-content .v-text-field .v-input__control .v-field {padding-left:30px !important }
 
 .portal_layout .icon.s-form__item-content .v-text-field .v-input__control .v-field__append-inner{display: none;}
-.portal_layout .s-form__item-content .v-text-field .v-input__control .v-field .v-field__input{min-height:30px}
+
+.portal_layout .s-form__item-content .v-input--density-compact .v-field__input{ --v-input-control-height: 20px; --v-field-input-padding-top: 3px; --v-field-input-padding-bottom: 3px; --v-input-padding-top: 0px;}
+.portal_layout .s-form__item-content .v-input--density-compact .v-field--no-label {--v-field-padding-bottom: 6px;}
+
+/* .portal_layout .s-form__item-content .v-input--density-compact.v-text-field .v-input__control .v-field .v-field__input,
+.portal_layout .s-form__item-content .v-input--density-compact.v-file-input .v-input__control .v-field .v-field__input{min-height:30px} */
 .portal_layout .menuPolicy .s-form__item-content .sp-label-with-text .sp__label{display: none;}
 
 .portal_layout .sp-admin-drawer-menu .dashboard__header{margin-bottom:0; padding-right:10px; background-color:#fff;}
@@ -208,8 +219,10 @@ padding: 2px; border-radius:50%;}
 .portal_layout .sp-recommended-product .s-form__item-content  .help__text{padding:5px 0 8px}
 .portal_layout .ForecastOptions .s-form__item-content .sp-label-with-text .sp__label{display: none;}
 .portal_layout .sp-recommended-product .s-form__item-content{padding-top:8px}
-.portal_layout .sp-recommended-product .s-form__item-content .s-form__item-content .v-text-field .v-input__control .v-field .v-field__input {min-height:30px; padding-top:0}
-.portal_layout .sp-recommended-product .s-form__item-content .s-form__item-content .v-text-field .v-input__control .v-field{min-width:600px;}
+
+.portal_layout .sp-recommended-product .s-form__item-content .s-form__item-content .v-text-field .v-input__control .v-field .v-field__input {padding-top:0}
+
+.portal_layout .sp-recommended-product .s-form__item-content .s-form__item-content .v-text-field .v-input__control .v-field {min-width:600px;}
 .portal_layout .sp-recommended-product .s-form__item-content .select-group .s-form__item-content .v-text-field .v-input__control .v-field{min-width:294px}
 .portal_layout .sp-recommended-product .s-form__item-content .select-group > div:nth-of-type(1){margin-right: 10px;}
 .portal_layout .sp-recommended-product .s-form__item-content .sp-select .v-field__append-inner{padding-top:3px}

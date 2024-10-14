@@ -72,7 +72,7 @@ const onClickMenuItem = () => {
 }
 const menuStore = useMenuStore()
 const projectStore = useProjectStore()
-const projectList = storeToRefs(projectStore).projects
+const { projects: projectList } = storeToRefs(projectStore)
 const { menuPaths } = storeToRefs(menuStore)
 const filteredMenu = computed(() => menuPaths.value.find(({ clientId }) => {
   return clientId === 'strato-devops'

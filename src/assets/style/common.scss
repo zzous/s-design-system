@@ -106,6 +106,7 @@
 }
 
 .v-input.v-input--density-compact {
+    &.v-file-input,
     &.v-text-field,
     &.v-select {
         .v-field__input,

@@ -1,5 +1,10 @@
 <template>
-  <project-modal v-model="modal.show" :mode="modal.mode" @refresh="onRefresh" />
+  <project-modal
+    v-model="modal.show"
+    :mode="modal.mode"
+    @refresh="onRefresh"
+    @update:mode="updateMode"
+  />
   <s-confirm
     v-model="confirm.show"
     :contents="confirm.contents"
@@ -129,8 +134,8 @@ const getProjects = async () => {
   })
 }
 
-const onRefresh = () => {
-  getProjects()
+const onRefresh = res => {
+  if (res) getProjects()
 }
 
 const modal = reactive({
@@ -140,6 +145,14 @@ const modal = reactive({
 const onClickNewProject = () => {
   modal.show = true
   modal.mode = 'new'
+}
+const onClickImportProject = () => {
+  modal.show = true
+  modal.mode = 'import'
+}
+
+const updateMode = value => {
+  modal.mode = value
 }
 
 const onClickDelete = () => {
