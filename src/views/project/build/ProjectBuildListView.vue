@@ -39,22 +39,6 @@
         </template>
       </v-data-table>
     </div>
-    <teleport to="#destination">
-      <s-confirm
-        v-model="confirm.show"
-        :contents="confirm.contents"
-        @click:confirm="onConfirm"
-        @click:cancel="onCancel"
-      />
-      <!-- <s-modal
-        v-model="modal.show"
-        :class="modal.size"
-        :title="modal.title"
-        @click:close="onClickCloseModal"
-      >
-        <component :is="modal.component" />
-      </s-modal> -->
-    </teleport>
   </div>
 </template>
 
@@ -66,21 +50,19 @@ import { LOCALSTORAGE_KEY } from '@/assets/consts/consts'
 import { useDevOpsServiceGroupStore } from '@/stores/devops/service-group'
 import { storeToRefs } from 'pinia'
 import { useBuildStore } from '@/stores/devops/build'
+import { useConfirmStore } from '@/stores/components/confirm'
 
 const devOpsServiceGroupStore = useDevOpsServiceGroupStore()
 const buildStore = useBuildStore()
-const confirm = ref({
-  show: false,
-  contents: '삭제하시겠습니까?'
-})
-const onCancel = () => {
-  console.log('onCancel called')
-  confirm.value.show = false
-}
-const onConfirm = () => {
-  console.log('onConfirm called')
-  confirm.value.show = false
-}
+
+const intervalGetBuildListTime = 60 * 1000
+const page = ref(1)
+const itemsPerPage = ref(5)
+const search = ref('')
+const pageCnt = computed(() => Math.ceil(builds.value.length / itemsPerPage.value))
+const confirmStore = useConfirmStore()
+
+
 const devOpsServiceGroupId = storeToRefs(devOpsServiceGroupStore).serviceGroupId
 const builds = storeToRefs(buildStore).builds
 
@@ -92,21 +74,25 @@ const getBuildList = async () => {
     intervalGetBuildList()
   }
 }
-const intervalGetBuildListTime = 60 * 1000
-const page = ref(1)
-const itemsPerPage = ref(5)
-const search = ref('')
-const pageCnt = computed(() => Math.ceil(builds.value.length / itemsPerPage.value))
 const filterOnlyCapsText = (value, query) => {
   return value != null && query != null && typeof value === 'string' && value.toString().toLocaleUpperCase().indexOf(query) !== -1
 }
-const onClickDeleteBuild = (buildId) => {
-  console.log('onClickDeleteBuild : ', buildId)
-  confirm.value.show = true
+
+//const confirmStore = useConfirmStore()
+const onClickDeleteBuild = async (buildId) => {
+
+  //showConfirm
+  const confirmVal = await confirmStore.showConfirm('빌드를 삭제하시겠습니까?')
+  // confirm true 면
+  if(confirmVal) {
+    await buildStore.deleteBuild(buildId)
+    await getBuildList()
+  }
+
 }
 const intervalGetBuildList = () => {
-  setTimeout(() => {
-    getBuildList()
+  setTimeout(async () => {
+    await getBuildList()
   }, intervalGetBuildListTime)
 }
 

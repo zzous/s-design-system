@@ -70,8 +70,8 @@ $work-flow-arrow-head-size: 15px;
 }
 
 .direction {
-  height: $work-flow-height / 2;
-  width: $work-flow-width / 2;
+  height: calc($work-flow-height / 2);
+  width: calc($work-flow-width / 2);
 }
 
 .top {
@@ -84,8 +84,8 @@ $work-flow-arrow-head-size: 15px;
 }
 
 .arrow-head {
-  left: $work-flow-width / 2 - $work-flow-arrow-head-size - 2;
-  top: $work-flow-height / 2 - $work-flow-arrow-head-size / 2;
+  left: calc($work-flow-width / 2) - $work-flow-arrow-head-size - 2;
+  top: calc($work-flow-height / 2) - calc($work-flow-arrow-head-size / 2);
   rotate: 45deg;
   position: absolute;
   height: 15px;

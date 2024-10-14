@@ -1,4 +1,5 @@
 <template>
+  <store-confirm-component />
   <v-app>
     <header-component
       :is-logged-in="isLoggedIn"
@@ -70,6 +71,7 @@ import HeaderComponent from '@/components/_common/RootHeaderComponent.vue'
 import FooterComponent from '@/components/_common/FooterComponent.vue'
 import NaviComponent from '@/components/_common/NaviComponent.vue'
 import Alert from '@/components/_common/alert/CustomAlertComponent.vue'
+import StoreConfirmComponent from '@/components/_common/modal/StoreConfirmComponent.vue'
 import { useI18n } from '@/_setting/i18n'
 
 
