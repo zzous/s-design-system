@@ -35,8 +35,8 @@ export const useUserStore = defineStore('user', () => {
       }
       throw new Error('empty')
     } catch (e) {
-      cookieHelper.removeCookie(COOKIE_KEY.ACCESS)
-      cookieHelper.removeCookie(COOKIE_KEY.REFRESH)
+      cookieHelper.deleteCookie(COOKIE_KEY.ACCESS)
+      cookieHelper.deleteCookie(COOKIE_KEY.REFRESH)
       return Promise.reject(e)
     }
   }
