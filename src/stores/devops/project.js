@@ -48,5 +48,17 @@ export const useProjectStore = defineStore('project', () => {
 
     }
 
-    return { projects, getProjects, fetchDeleteProject, fetchNewProject, fetchEditProject }
+    const fetchImportProject = async (params) => {
+        try {
+            const { data } = await axios.post(PROJECT, params, { headers: { 'Content-Type': 'multipart/form-data' } })
+            if (data.code === 200) {
+                return data.data
+            }
+            throw new Error(data.message)
+        } catch(e) {
+            throw new Error(e)
+        }
+    }
+
+    return { projects, getProjects, fetchDeleteProject, fetchNewProject, fetchEditProject, fetchImportProject }
 })

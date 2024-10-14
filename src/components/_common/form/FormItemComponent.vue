@@ -11,7 +11,7 @@
         <div class="s-form__item-content-item">
           <slot name="default" :handle-change="handleChange" :errors="errors" />
         </div>
-        <div class="s-form__item-append">
+        <div v-if="$slots['outer-append']" class="s-form__item-append">
           <slot name="outer-append" :errors="errors" />
         </div>
       </div>

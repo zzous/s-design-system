@@ -9,7 +9,7 @@
     <component :is="modal.component" ref="modalCompRef" :props="modal.props" />
     <template #footer>
       <div class="form__btn-wrapper">
-        <s-btn v-if="mode === 'detail'">
+        <s-btn v-if="mode === 'detail'" @click="updateMode('edit')">
           {{ $t('수정') }}
         </s-btn>
         <s-btn v-else @click="onSubmit">
@@ -26,30 +26,22 @@
 
 <script setup>
 import { ref, watch, reactive, markRaw } from 'vue'
-import { storeToRefs } from 'pinia'
 
 import { useI18n } from '@/_setting/i18n'
-import { useDevOpsServiceGroupStore } from '@/stores/devops/service-group'
-import { useProjectStore } from '@/stores/devops/project'
-import { useAlertStore } from '@/stores/components/alert'
 
 import ProjectNew from './ProjectNewView.vue'
 import ProjectDetail from './ProjectDetailView.vue'
 import ProjectEdit from './ProjectDetailView.vue'
+import ProjectImport from './ProjectImportView.vue'
 
 
 const { tt } = useI18n()
-const sgStore = useDevOpsServiceGroupStore()
-const { serviceGroupId } = storeToRefs(sgStore)
-
-const alertStore = useAlertStore()
-const projectStore = useProjectStore()
 
 const props = defineProps({
   mode: {
     type: String,
     default: null,
-    description: '[new|detail|edit]'
+    description: '[new|detail|edit|import]'
   },
   modelValue: {
     type: Boolean,
@@ -57,7 +49,7 @@ const props = defineProps({
   }
 })
 
-const emits = defineEmits(['update:model-value', 'refresh'])
+const emits = defineEmits(['update:model-value', 'update:mode', 'refresh'])
 
 const modal = reactive({
   show: false,
@@ -76,73 +68,17 @@ const updateModal = () => {
   emits('update:model-value', false)
 }
 
-const fetchNewProject = async (values) => {
-  const params = {
-    projectName: values.projectName,
-    projectAlias: values.projectAlias,
-    serviceGroupId: serviceGroupId.value,
-    projectDesc: values.projectDesc,
-    projectCd: values.projectCd,
-    buildCd: values.buildCd,
-    sourceInfo: {
-      templateId: values.templateId,
-      packageName: values.packageName,
-      jdkVersion: values.jdkVersion,
-    },
-    projectManagerList: values.projectManagerList,
-    buildApproveFlow: values.buildApproveFlow.map(item => item.flowId),
-    deployApproveFlow: values.deployApproveFlow.map(item => item.flowId),
-  }
-
-  const formData = new FormData()
-  formData.append('project', new Blob([JSON.stringify(params)], { type: 'application/json' }))
-
-  try {
-    await projectStore.fetchNewProject(formData)
-    alertStore.openAlert({
-      titleName: tt('생성되었습니다'),
-      type: 'success',
-    })
-    updateModal()
-    emits('refresh')
-  } catch(e) {
-    alertStore.openAlert({
-      titleName: tt('생성하지 못했습니다'),
-      type: 'error',
-    })
-  }
-}
-
-const fetchEditProject = async (values) => {
-  const params = {
-    serviceGroupId: serviceGroupId.value,
-    projectAlias: values.projectAlias,
-    projectDesc: values.projectDesc,
-  }
-  try {
-    await projectStore.fetchEditProject(values.projectId, params)
-    alertStore.openAlert({
-      titleName: tt('수정되었습니다'),
-      type: 'success',
-    })
-    updateModal()
-    emits('refresh')
-  } catch(e) {
-    alertStore.openAlert({
-      titleName: tt('수정하지 못했습니다'),
-      type: 'error',
-    })
-  }
+const updateMode = (type) => {
+  emits('update:mode', type)
 }
 
 const onSubmit = async () => {
   const result = await modalCompRef.value?.submit()
-  if (!result) return
-
-  if (modal.type === 'edit') {
-    fetchEditProject(result)
-  } {
-    fetchNewProject(result)
+  emits('refresh', result)
+  if (props.modelValue === 'edit') {
+    updateMode('detail')
+  } else if (result) {
+    updateModal()
   }
 }
 
@@ -157,9 +93,15 @@ watch(
       break
     case 'detail':
       modal.component = markRaw(ProjectDetail)
+      modal.title= tt('프로젝트 상세')
       break
     case 'edit':
       modal.component = markRaw(ProjectEdit)
+      modal.title= tt('프로젝트 상세')
+      break
+    case 'import':
+      modal.component = markRaw(ProjectImport)
+      modal.title= tt('프로젝트 생성')
       break
     default:
       modal.component = null
