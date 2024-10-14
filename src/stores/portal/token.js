@@ -43,8 +43,8 @@ export const useTokenStore = defineStore('token', () => {
   }
 
   function removeToken() {
-    cookieHelper.removeCookie(COOKIE_KEY.ACCESS)
-    cookieHelper.removeCookie(COOKIE_KEY.REFRESH)
+    cookieHelper.deleteCookie(COOKIE_KEY.ACCESS)
+    cookieHelper.deleteCookie(COOKIE_KEY.REFRESH)
   }
 
   function removeStorage() {

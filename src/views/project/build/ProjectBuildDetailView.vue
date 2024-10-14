@@ -24,68 +24,68 @@
                 <work-flow-component
                   title="Build Request"
                   type="circle"
-                  updated-at="2024-09-06 0:48"
+                  update-date="2024-09-06 0:48"
                   user-name="demouser1"
                 />
                 <work-flow-component
                   title="Project Manager"
                   type="decision"
-                  updated-at="2024-09-06 0:48"
+                  update-date="2024-09-06 0:48"
                   user-name="demouser1"
                 />
                 <work-flow-component
                   title="Project Manager"
                   type="decision"
-                  updated-at="2024-09-06 0:48"
+                  update-date="2024-09-06 0:48"
                   user-name="demouser1"
                 />
                 <work-flow-component
                   title="Project Manager"
                   type="decision"
-                  updated-at="2024-09-06 0:48"
+                  update-date="2024-09-06 0:48"
                   user-name="demouser1"
                 />
                 <work-flow-component
                   title="Project Manager"
                   type="decision"
-                  updated-at="2024-09-06 0:48"
+                  update-date="2024-09-06 0:48"
                   user-name="demouser1"
                 />
                 <work-flow-component
                   title="Project Manager"
                   type="decision"
-                  updated-at="2024-09-06 0:48"
+                  update-date="2024-09-06 0:48"
                   user-name="demouser1"
                 />
                 <work-flow-component
                   title="Project Manager"
                   type="decision"
-                  updated-at="2024-09-06 0:48"
+                  update-date="2024-09-06 0:48"
                   user-name="demouser1"
                 />
                 <work-flow-component
                   title="Project Manager"
                   type="decision"
-                  updated-at="2024-09-06 0:48"
+                  update-date="2024-09-06 0:48"
                   user-name="demouser1"
                 />
                 <work-flow-component
                   title="Project Manager"
                   type="decision"
-                  updated-at="2024-09-06 0:48"
+                  update-date="2024-09-06 0:48"
                   user-name="demouser1"
                 />
                 <work-flow-component
                   title="Project Manager"
                   type="decision"
-                  updated-at="2024-09-06 0:48"
+                  update-date="2024-09-06 0:48"
                   user-name="demouser1"
                 />
                 <work-flow-component
                   :show-arrow="false"
                   title="Build Request"
                   type="dot-circle"
-                  updated-at="2024-09-06 0:48"
+                  update-date="2024-09-06 0:48"
                   user-name="demouser1"
                 />
               </v-row>
@@ -101,7 +101,6 @@
             class="mt-10"
           >
             <v-data-table
-              v-model="page"
               :headers="buildHistoryHeader"
               :items="buildHistoryList"
             >
@@ -155,7 +154,20 @@
 import DefaultButtonComponent from '@/components/_common/button/DefaultButtonComponent.vue'
 import DetailViewHeaderComponent from '@/components/build/DetailViewHeaderComponent.vue'
 import WorkFlowComponent from '@/components/build/WorkFlowComponent.vue'
+import { useBuildStore } from '@/stores/devops/build'
 import { computed, ref } from 'vue'
+import { useRoute } from 'vue-router'
+
+
+const buildStore = useBuildStore()
+const route = useRoute()
+const getBuildDetail = () => {
+  console.error(route.params)
+}
+
+const init = () => {
+  getBuildDetail()
+}
 
 const page = ref(1)
 const pageCnt = computed(() => Math.ceil(buildHistoryList.value.length / buildHistoryList.value))
@@ -207,6 +219,8 @@ const buildHistoryList = ref([
     approveHistoryList: []
   }
 ])
+
+init()
 </script>
 
 <style lang="scss" scoped>

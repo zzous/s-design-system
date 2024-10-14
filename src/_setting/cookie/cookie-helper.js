@@ -18,12 +18,12 @@ const cookieHelper = {
   getCookie: (key) => {
     const value = document.cookie.match(`(^|;) ?${key}=([^;]*)(;|$)`)
     if ([null, undefined, 'undefined', ''].includes(value)) {
-      cookieHelper.removeCookie(key)
+      cookieHelper.deleteCookie(key)
       return null
     }
     return value ? value[2] : null
   },
-  removeCookie: (key) => {
+  deleteCookie: (key) => {
     const date = new Date()
     document.cookie = `${key}= ; expires=${date.toUTCString()}; path=/`
   }
