@@ -86,7 +86,7 @@ import { useI18n } from '@/_setting/i18n'
 import { useAlertStore } from '@/stores/components/alert'
 import { LOCALSTORAGE_KEY } from '@/assets/consts/consts'
 
-import ProjectModal from './ProjectModalView.vue'
+import ProjectModal from '../../components/project/ProjectModalLayout.vue'
 
 import { headers } from './table-header'
 

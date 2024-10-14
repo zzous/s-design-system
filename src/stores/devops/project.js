@@ -2,7 +2,7 @@ import { defineStore } from 'pinia'
 import { ref } from 'vue'
 
 import axios from '@/_setting/axios/request-devops'
-import { PROJECT_LIST, PROJECT_$PROJECTID, PROJECT } from '@/assets/consts/api/devops/project'
+import { PROJECT_LIST, PROJECT_$PROJECTID, PROJECT, PROJECT_NAME_DUPLICATE } from '@/assets/consts/api/devops/project'
 
 export const useProjectStore = defineStore('project', () => {
     const projects = ref([])
@@ -60,5 +60,25 @@ export const useProjectStore = defineStore('project', () => {
         }
     }
 
-    return { projects, getProjects, fetchDeleteProject, fetchNewProject, fetchEditProject, fetchImportProject }
+    const fetchProjectNameDuplicate = async (projectName) => {
+        try {
+            const { data } = await axios.get(PROJECT_NAME_DUPLICATE, { params : { projectName : projectName } })
+            if (data.code === 200) {
+                return data.data
+            }
+            throw new Error(data.message)
+        } catch(e) {
+            throw new Error(e)
+        }
+    }
+
+    return {
+        projects,
+        getProjects,
+        fetchDeleteProject,
+        fetchNewProject,
+        fetchEditProject,
+        fetchImportProject,
+        fetchProjectNameDuplicate
+    }
 })

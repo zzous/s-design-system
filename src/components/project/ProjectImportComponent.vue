@@ -25,7 +25,11 @@
             :placeholder="$t('프로젝트 명을 입력해주세요')"
             :error-messages="errors"
             @update:model-value="handleChange"
+            @input="isDuplicateProjectName = true"
           />
+          <s-btn height="30" :disabled="!isDuplicateProjectName" @click="checkDuplicate">
+            {{ $t('중복 체크') }}
+          </s-btn>
         </s-form-item>
         <s-form-item
           v-slot="{ handleChange }"
@@ -42,20 +46,29 @@
           />
         </s-form-item>
         <s-form-item
-          v-slot="{ handleChange }"
+          v-slot="{ errors, handleChange }"
           :label="$t('파일 가져오기')"
-          name="projectAlias"
+          name="projectFile"
           required
         >
           <v-file-input
+            ref="projectFile"
             v-model="schema.projectFile"
+            class="d-none"
+            @update:model-value="handleChange"
+          />
+          <v-text-field
+            :model-value="schema.projectFile?.name"
             variant="outlined"
             density="compact"
             hide-details="auto"
-            prepend-icon=""
+            readonly
+            :error-messages="errors"
             :placeholder="$t('projectImportPlaceholder')"
-            @update:model-value="handleChange"
           />
+          <s-btn height="30" @click="$refs.projectFile.click()">
+            {{ $t('파일 찾기') }}
+          </s-btn>
         </s-form-item>
         <s-form-item
           :label="$t('빌드 승인 프로세스')"
@@ -153,7 +166,7 @@
   </div>
 </template>
 
-  <script setup>
+<script setup>
 import { ref, reactive, markRaw } from 'vue'
 // VeeForm 사용 시 s-form-item 컴포넌트에 name 값 필수
 import { Form as VeeForm } from 'vee-validate'
@@ -165,11 +178,13 @@ import { useAlertStore } from '@/stores/components/alert'
 import { useDevOpsServiceGroupStore } from '@/stores/devops/service-group'
 import { useProjectStore } from '@/stores/devops/project'
 
-import BuildProcessListModal from '@/components/list-modal/BuildProcessListModalComponent.vue'
-import DeployProcessListModal from '@/components/list-modal/DeployProcessListModalComponent.vue'
-import ProjectManagerListModal from '@/components/list-modal/ProjectManagerListModalComponent.vue'
+import BuildProcessListModal from '@/components/project/smc/BuildProcessListModalComponent.vue'
+import DeployProcessListModal from '@/components/project/smc/DeployProcessListModalComponent.vue'
+import ProjectManagerListModal from '@/components/project/smc/ProjectManagerListModalComponent.vue'
 
 const emits = defineEmits(['validate', 'errors', 'click:cancel', 'submit'])
+
+const isDuplicateProjectName = ref(false)
 
 const { tt } = useI18n()
 const sgStore = useDevOpsServiceGroupStore()
@@ -179,9 +194,8 @@ const alertStore = useAlertStore()
 
 const schema = yup.object({
   projectName: yup.string().trim().onlyEngNumHyphen().label(tt('프로젝트 명')).max(50).required(),
-  projectAlias: yup.string().trim().label(tt('프로젝트 별칭')).max(50).required(),
-  projectFile: yup.string().label(tt('프로젝트 파일')).required(),
-  projectFileName: yup.string().label(tt('프로젝트 파일 명')).required(),
+  projectAlias: yup.string().trim().label(tt('프로젝트 별칭')).max(50),
+  projectFile: yup.mixed().label(tt('프로젝트 파일')).required(),
   buildApproveFlow: yup.array().min(1).label(tt('빌드 승인 프로세스')).required(),
   deployApproveFlow: yup.array().min(1).label(tt('배포 승인 프로세스')).required(),
   projectManagerList: yup.array().min(1).label(tt('프로젝트 관리자')).required(),
@@ -226,13 +240,36 @@ const openModal = target => {
 
 const validate = async () => {
   if (formRef.value) {
+    console.log(formRef.value.values)
     const { valid, errors } = await formRef.value.validate()
+    console.log(valid, errors)
     if (valid) {
       emits('validate', valid)
     } else {
       emits('errors', errors)
     }
     return valid
+  }
+}
+const checkDuplicate = async () => {
+  try {
+    const result = await projectStore.fetchProjectNameDuplicate(formRef.value.values.projectName)
+    // result 의 값이 true일 경우 중복된 프로젝트 명이 있다.
+    if (!result) {
+      alertStore.openAlert({
+        titleName: tt('사용할 수 있는 프로젝트명입니다'),
+        type: 'success',
+      })
+    } else {
+      alertStore.openAlert({
+        titleName: tt('중복된 프로젝트명입니다'),
+        type: 'error',
+      })
+    }
+    isDuplicateProjectName.value = result
+    await schema.validateAt('projectName', formRef.value.values)
+  } catch(e) {
+    console.log(e)
   }
 }
 
@@ -242,11 +279,6 @@ const makeParameters = (values) => {
     projectAlias: values.projectAlias,
     serviceGroupId: serviceGroupId.value,
     projectDesc: values.projectDesc,
-    sourceInfo: {
-      templateId: values.templateId,
-      packageName: values.packageName,
-      jdkVersion: values.jdkVersion,
-    },
     projectManagerList: values.projectManagerList,
     buildApproveFlow: values.buildApproveFlow.map(item => item.flowId),
     deployApproveFlow: values.deployApproveFlow.map(item => item.flowId),
@@ -257,23 +289,26 @@ const makeParameters = (values) => {
 const fetchImportProject = async (values) => {
   const formData = new FormData()
   formData.append('project', new Blob([JSON.stringify(makeParameters(values))], { type: 'application/json' }))
-
+  formData.append('sourceFile', values.projectFile)
   try {
     await projectStore.fetchImportProject(formData)
     alertStore.openAlert({
       titleName: tt('프로젝트를 가져왔습니다'),
       type: 'success',
     })
+    return true
   } catch(e) {
     alertStore.openAlert({
       titleName: tt('프로젝트 가져오지 못했습니다'),
       type: 'error',
     })
+    return false
   }
 }
 
 const submit = async () => {
   const result = await validate()
+  console.log('result', result)
   if (result) {
     const { values } = formRef.value
 

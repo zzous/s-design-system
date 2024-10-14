@@ -44,10 +44,11 @@
             :placeholder="$t('프로젝트 명을 입력해주세요')"
             :error-messages="errors"
             @update:model-value="handleChange"
+            @input="isDuplicateProjectName = true"
           />
-          <!-- <s-btn height="30" @cklick="checkDuplicate">
+          <s-btn height="30" :disabled="!isDuplicateProjectName" @click="checkDuplicate">
             {{ $t('중복 체크') }}
-          </s-btn> -->
+          </s-btn>
         </s-form-item>
         <s-form-item
           v-slot="{ handleChange }"
@@ -210,11 +211,13 @@ import { useAlertStore } from '@/stores/components/alert'
 import { useDevOpsServiceGroupStore } from '@/stores/devops/service-group'
 import { useProjectStore } from '@/stores/devops/project'
 
-import BuildProcessListModal from '@/components/list-modal/BuildProcessListModalComponent.vue'
-import DeployProcessListModal from '@/components/list-modal/DeployProcessListModalComponent.vue'
-import ProjectManagerListModal from '@/components/list-modal/ProjectManagerListModalComponent.vue'
+import BuildProcessListModal from '@/components/project/smc/BuildProcessListModalComponent.vue'
+import DeployProcessListModal from '@/components/project/smc/DeployProcessListModalComponent.vue'
+import ProjectManagerListModal from '@/components/project/smc/ProjectManagerListModalComponent.vue'
 
 const emits = defineEmits(['validate', 'errors', 'click:cancel', 'submit'])
+
+const isDuplicateProjectName = ref(false)
 
 const { tt } = useI18n()
 const commonStore = useDevOpsCommonStore()
@@ -273,6 +276,13 @@ const openModal = target => {
 }
 
 const validate = async () => {
+  if (isDuplicateProjectName.value) {
+    alertStore.openAlert({
+      titleName: tt('중복 체크를 실행해주세요'),
+      type: 'warn',
+    })
+    return
+  }
   if (formRef.value) {
     const { valid, errors } = await formRef.value.validate()
     if (valid) {
@@ -281,6 +291,28 @@ const validate = async () => {
       emits('errors', errors)
     }
     return valid
+  }
+}
+
+const checkDuplicate = async () => {
+  try {
+    const result = await projectStore.fetchProjectNameDuplicate(formRef.value.values.projectName)
+    // result 의 값이 true일 경우 중복된 프로젝트 명이 있다.
+    if (!result) {
+      alertStore.openAlert({
+        titleName: tt('사용할 수 있는 프로젝트명입니다'),
+        type: 'success',
+      })
+    } else {
+      alertStore.openAlert({
+        titleName: tt('중복된 프로젝트명입니다'),
+        type: 'error',
+      })
+    }
+    isDuplicateProjectName.value = result
+    await schema.validateAt('projectName', formRef.value.values)
+  } catch(e) {
+    console.log(e)
   }
 }
 

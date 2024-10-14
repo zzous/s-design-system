@@ -29,10 +29,10 @@ import { ref, watch, reactive, markRaw } from 'vue'
 
 import { useI18n } from '@/_setting/i18n'
 
-import ProjectNew from './ProjectNewView.vue'
-import ProjectDetail from './ProjectDetailView.vue'
-import ProjectEdit from './ProjectDetailView.vue'
-import ProjectImport from './ProjectImportView.vue'
+import ProjectNew from './ProjectNewComponent.vue'
+import ProjectDetail from './ProjectDetailComponent.vue'
+import ProjectEdit from './ProjectDetailComponent.vue'
+import ProjectImport from './ProjectImportComponent.vue'
 
 
 const { tt } = useI18n()
