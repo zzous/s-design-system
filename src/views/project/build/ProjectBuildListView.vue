@@ -85,13 +85,14 @@ const onClickDeleteBuild = async (buildId) => {
   const confirmVal = await confirmStore.showConfirm('빌드를 삭제하시겠습니까?')
   // confirm true 면
   if(confirmVal) {
-    console.log('빌드 삭제 ',buildId)
+    await buildStore.deleteBuild(buildId)
+    await getBuildList()
   }
 
 }
 const intervalGetBuildList = () => {
-  setTimeout(() => {
-    getBuildList()
+  setTimeout(async () => {
+    await getBuildList()
   }, intervalGetBuildListTime)
 }
 

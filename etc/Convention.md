@@ -26,3 +26,4 @@
     2. '/' 는 '-' 으로 치환
     3. path variable 은 $이름 으로 표현 {buildId} => $BUILDID
     4. test-name 과 같이 '-'은 붙여서 대문자 표현 -> test-name => TESTNAME
+19. remove 사용 금지, delete  허용
