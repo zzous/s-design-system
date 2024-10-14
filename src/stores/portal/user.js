@@ -53,13 +53,13 @@ export const useUserStore = defineStore('user', () => {
         await useTokenStore().postRefreshToken()
         userData = await axios.get(LOGIN_USER)
       }else{
-        //TODO: 로그인 페이지 이동
-        //useTokenStore().onLogIn('/project/list')
+        //로그인 페이지 이동
+        useTokenStore().onLogIn()
       }
       return userData
     } catch (e) {
-      console.error('getLoginUser catch')
       console.error(e)
+      throw e
     }
   }
 
