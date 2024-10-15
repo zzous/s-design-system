@@ -84,11 +84,12 @@
           {{ item[el.key] || '-' }}
         </span>
       </v-tooltip>
-      <span v-else>
+
+      <div v-else class="d-flex justify-center align-center">
         <slot :name="`item.${el.key}`" :item="item">
           {{ item[el.key] || '-' }}
         </slot>
-      </span>
+      </div>
     </template>
     <template v-if="hasCheckedColumnSlot" #[`column.data-table-select`]="{ column, selectAll }">
       <slot name="column.data-table-select" :column="column" :select-all="selectAll" />
@@ -551,13 +552,13 @@ onMounted(() => {
 
 <style lang="scss" scoped>
 .s-data-table {
-  ::v-deep(.v-data-table__th) {
+  ::v-deep(th.v-data-table__th) {
     --v-table-header-height: 36px;
     font-weight: 600;
     font-size: toRem(14);
   }
 
-  ::v-deep(.v-data-table__td) {
+  ::v-deep(td.v-data-table__td) {
     --v-border-color: 0,0,0;
     --v-table-row-height: 42px;
     font-size: toRem(14);
@@ -609,9 +610,9 @@ onMounted(() => {
         color: white;
 
         &.v-btn--variant-flat .v-btn__content {
-          font-size: 15px;
+          font-size: 12px;
           font-weight: 700;
-          color: #333;
+          color: #fff;
         }
       }
     }
