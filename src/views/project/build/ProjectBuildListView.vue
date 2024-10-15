@@ -1,5 +1,6 @@
 <template>
-  <project-build-detail-popup v-if="showDetailPopup" v-model:model-value="showDetailPopup" :build-id="selectedBuildId" />
+  <project-build-new-modal-component v-model="showNewModal" />
+  <project-build-detail-modal-component v-model="showDetailPopup" :build-id="selectedBuildId" />
   <div class="view-wrapper">
     <view-header-component :title="$t('빌드')">
       <s-btn
@@ -17,8 +18,8 @@
       />
       <s-btn
         variant="outlined"
-        to="new"
         :title="$t('생성')"
+        @click="onClickNewBuild"
       />
     </view-header-component>
     <div class="contentsWrapper">
@@ -45,7 +46,18 @@
           item-value="buildId"
           show-select
           :options="{ pageCnt: pageCnt, showSelect: true }"
-        />
+        >
+          <template #[`item.buildName`]="{ item }">
+            <span>{{ item.buildName }}</span>
+            <v-icon
+              class="ml-1"
+              size="small"
+              @click="onClickDetail(item)"
+            >
+              mdi-open-in-new
+            </v-icon>
+          </template>
+        </s-data-table>
       </div>
     </div>
   </div>
@@ -53,7 +65,8 @@
 
 <script setup>
 import ViewHeaderComponent from '@/components/_common/ViewHeaderComponent.vue'
-import ProjectBuildDetailPopup from '@/components/build/ProjectBuildDetailComponent.vue'
+import ProjectBuildNewModalComponent from '@/components/build/new/ProjectBuildNewModalComponent.vue'
+import ProjectBuildDetailModalComponent from '@/components/build/detail/ProjectBuildDetailModalComponent.vue'
 import { computed, onMounted, ref } from 'vue'
 import { LOCALSTORAGE_KEY } from '@/assets/consts/consts'
 import { useDevOpsServiceGroupStore } from '@/stores/devops/service-group'
@@ -70,7 +83,7 @@ import { useAlertStore } from '@/stores/components/alert'
 //new table
 const selected = ref([])
 
-
+const showNewModal = ref(false)
 const devOpsServiceGroupStore = useDevOpsServiceGroupStore()
 const buildStore = useBuildStore()
 const { userInfo } = storeToRefs(useUserStore())
@@ -86,6 +99,7 @@ const alertStore = useAlertStore()
 const { tt } = useI18n()
 const devOpsServiceGroupId = storeToRefs(devOpsServiceGroupStore).serviceGroupId
 const builds = storeToRefs(buildStore).builds
+
 
 const onClickExcuteBuild = async () => {
   const buildId = selected.value.at(-1)
@@ -109,10 +123,6 @@ const onClickExcuteBuild = async () => {
   }
 }
 
-// const onClickDetailBuild = buildId => {
-//   showDetailPopup.value = true
-//   selectedBuildId.value = buildId
-// }
 
 //빌드 목록을 가져오고 빌드 목록이 있다면 주기적으로 요청 한다.
 const getBuildList = async () => {
@@ -122,11 +132,15 @@ const getBuildList = async () => {
     intervalGetBuildList()
   }
 }
-// const filterOnlyCapsText = (value, query) => {
-//   return value != null && query != null && typeof value === 'string' && value.toString().toLocaleUpperCase().indexOf(query) !== -1
-// }
 
-//const confirmStore = useConfirmStore()
+const onClickNewBuild = () => {
+  showNewModal.value = true
+}
+
+const onClickDetail = (build) => {
+  selectedBuildId.value = build.buildId
+  showDetailPopup.value = true
+}
 const onClickDeleteBuild = async () => {
   const buildId = selected.value.at(-1)
   if(!buildId) return alertStore.openAlert({
@@ -148,17 +162,11 @@ const intervalGetBuildList = () => {
   }, intervalGetBuildListTime)
 }
 
-// const onClickNewBuild = () => {
-//   alertStore.openAlert({
-//     titleName: tt('onClickNewBuild called'),
-//     type: 'success',
-//   })
-// }
 
 
 onMounted(() => {
   getBuildList()
-  //intervalGetBuildList()
+  intervalGetBuildList()
 })
 const headers = ref([
   {
