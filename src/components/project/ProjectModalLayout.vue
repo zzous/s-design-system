@@ -31,7 +31,7 @@ import { useI18n } from '@/_setting/i18n'
 
 import ProjectNew from './ProjectNewComponent.vue'
 import ProjectDetail from './ProjectDetailComponent.vue'
-import ProjectEdit from './ProjectDetailComponent.vue'
+import ProjectEdit from './ProjectEditComponent.vue'
 import ProjectImport from './ProjectImportComponent.vue'
 
 
@@ -91,9 +91,8 @@ const onSubmit = async () => {
 }
 
 watch(
-  () => props.modelValue,
+  () => props.mode,
   () => {
-    console.log(props)
     modal.type = props.mode
     switch (props.mode) {
     case 'new':

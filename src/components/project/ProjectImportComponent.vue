@@ -240,9 +240,7 @@ const openModal = target => {
 
 const validate = async () => {
   if (formRef.value) {
-    console.log(formRef.value.values)
     const { valid, errors } = await formRef.value.validate()
-    console.log(valid, errors)
     if (valid) {
       emits('validate', valid)
     } else {
@@ -308,7 +306,6 @@ const fetchImportProject = async (values) => {
 
 const submit = async () => {
   const result = await validate()
-  console.log('result', result)
   if (result) {
     const { values } = formRef.value
 

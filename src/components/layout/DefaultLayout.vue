@@ -160,7 +160,6 @@ const onUpdateGlobalValue = async uuid => {
   await devOpsSgStore.getServiceGroupDetail(globalServiceGroup.value)
 
   if (viewRef.value) {
-    console.log(viewRef.value, 'routerView')
     viewRef.value?.onRefresh()
   }
 }
