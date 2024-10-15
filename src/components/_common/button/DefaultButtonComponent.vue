@@ -49,6 +49,12 @@ defineProps({
 </script>
 
 <style lang="scss">
+a.s-btn {
+  min-width: 110px;
+}
+.s-title-area__content .s-title-area__buttons a:not(:first-child) {
+  margin-left: 10px;
+}
 .s-btn{
   &.v-btn--variant-elevated {
     &[s-color="blue"] {

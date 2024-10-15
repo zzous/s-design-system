@@ -11,16 +11,14 @@
       />
       <s-btn
         variant="outlined"
-
         :title="$t('빌드')"
         :disabled="selected.length !== 1"
         @click="onClickExcuteBuild"
       />
       <s-btn
         variant="outlined"
-
+        to="new"
         :title="$t('생성')"
-        @click="onClickNewBuild"
       />
     </view-header-component>
     <div class="contentsWrapper">
@@ -91,6 +89,10 @@ const builds = storeToRefs(buildStore).builds
 
 const onClickExcuteBuild = async () => {
   const buildId = selected.value.at(-1)
+  if(!buildId) return alertStore.openAlert({
+    titleName: tt('선택된 빌드가 없습니다'),
+    type: 'error',
+  })
   //showConfirm
   const confirmVal = await confirmStore.showConfirm(tt('빌드를 실행하시겠습니까?'))
   if(confirmVal) {
@@ -127,6 +129,10 @@ const getBuildList = async () => {
 //const confirmStore = useConfirmStore()
 const onClickDeleteBuild = async () => {
   const buildId = selected.value.at(-1)
+  if(!buildId) return alertStore.openAlert({
+    titleName: tt('선택된 빌드가 없습니다'),
+    type: 'error',
+  })
   //showConfirm
   const confirmVal = await confirmStore.showConfirm(tt('빌드를 삭제하시겠습니까?'))
   // confirm true 면
@@ -142,12 +148,12 @@ const intervalGetBuildList = () => {
   }, intervalGetBuildListTime)
 }
 
-const onClickNewBuild = () => {
-  alertStore.openAlert({
-    titleName: tt('onClickNewBuild called'),
-    type: 'success',
-  })
-}
+// const onClickNewBuild = () => {
+//   alertStore.openAlert({
+//     titleName: tt('onClickNewBuild called'),
+//     type: 'success',
+//   })
+// }
 
 
 onMounted(() => {
