@@ -6,6 +6,15 @@ import { PROJECT_LIST, PROJECT_$PROJECTID, PROJECT, PROJECT_NAME_DUPLICATE } fro
 
 export const useProjectStore = defineStore('project', () => {
     const projects = ref([])
+    const project = ref({
+        sourceInfo: {}
+    })
+
+    const initProject = () => {
+        project.value = {
+            sourceInfo: {}
+        }
+    }
 
     /**
      * 프로젝트 목록
@@ -17,6 +26,16 @@ export const useProjectStore = defineStore('project', () => {
         const { data } = await axios.get(PROJECT_LIST, { params })
         projects.value = data?.data || []
         return projects.value
+    }
+
+    const getProject = async (projectId) => {
+        initProject()
+        const { data } = await axios.get(PROJECT_$PROJECTID.replace('{projectId}', projectId))
+        if (data.code === 200 && data.data) {
+            project.value = data.data
+        }
+
+        return data
     }
 
     const fetchDeleteProject = async (projectId) => {
@@ -74,7 +93,9 @@ export const useProjectStore = defineStore('project', () => {
 
     return {
         projects,
+        project,
         getProjects,
+        getProject,
         fetchDeleteProject,
         fetchNewProject,
         fetchEditProject,

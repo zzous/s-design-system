@@ -6,7 +6,7 @@
     @update:model-value="updateModal"
   >
     <!-- 생성, 상세, 수정-->
-    <component :is="modal.component" ref="modalCompRef" :props="modal.props" />
+    <component :is="modal.component" ref="modalCompRef" v-bind="modal.props" />
     <template #footer>
       <div class="form__btn-wrapper">
         <s-btn v-if="mode === 'detail'" @click="updateMode('edit')">
@@ -46,6 +46,10 @@ const props = defineProps({
   modelValue: {
     type: Boolean,
     default: false
+  },
+  projectId: {
+    type: [String, Number],
+    default: null
   }
 })
 
@@ -61,11 +65,15 @@ const modal = reactive({
 
 const modalCompRef = ref()
 const updateModal = () => {
-  modal.component = null
-  modal.show = false
-  modal.title = ''
+  if (props.mode === 'edit') {
+    emits('update:mode', 'detail')
+  } else {
+    modal.component = null
+    modal.show = false
+    modal.title = ''
 
-  emits('update:model-value', false)
+    emits('update:model-value', false)
+  }
 }
 
 const updateMode = (type) => {
@@ -85,23 +93,30 @@ const onSubmit = async () => {
 watch(
   () => props.modelValue,
   () => {
+    console.log(props)
     modal.type = props.mode
     switch (props.mode) {
     case 'new':
       modal.component = markRaw(ProjectNew)
-      modal.title= tt('프로젝트 생성')
+      modal.title = tt('프로젝트 생성')
       break
     case 'detail':
       modal.component = markRaw(ProjectDetail)
-      modal.title= tt('프로젝트 상세')
+      modal.title = tt('프로젝트 상세')
+      modal.props = {
+        projectId: props.projectId
+      }
       break
     case 'edit':
       modal.component = markRaw(ProjectEdit)
-      modal.title= tt('프로젝트 상세')
+      modal.title = tt('프로젝트 상세')
+      modal.props = {
+        projectId: props.projectId
+      }
       break
     case 'import':
       modal.component = markRaw(ProjectImport)
-      modal.title= tt('프로젝트 생성')
+      modal.title = tt('프로젝트 생성')
       break
     default:
       modal.component = null

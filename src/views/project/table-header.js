@@ -49,6 +49,6 @@ export const headers = [
       title: tt('생성 일시'),
       key: 'regDate',
       align: 'center',
-      width: 140
+      width: 180
     },
   ]

@@ -1,6 +1,7 @@
 <template>
   <project-modal
     v-model="modal.show"
+    v-bind="modal.props"
     :mode="modal.mode"
     @refresh="onRefresh"
     @update:mode="updateMode"
@@ -63,7 +64,7 @@
             <v-icon
               class="ml-1"
               size="small"
-              @click="onClickDetail(item.raw)"
+              @click="onClickDetail(item)"
             >
               mdi-open-in-new
             </v-icon>
@@ -149,7 +150,10 @@ const onRefresh = res => {
 
 const modal = reactive({
   mode: null,
-  show: false
+  show: false,
+  props: {
+    projectId: null
+  }
 })
 const onClickNewProject = () => {
   modal.show = true
@@ -161,9 +165,10 @@ const onClickImportProject = () => {
 }
 
 const onClickDetail = item => {
-  modal.show = true
+  console.log(item)
   modal.mode = 'detail'
   modal.props.projectId = item.projectId
+  modal.show = true
 }
 
 const updateMode = value => {
