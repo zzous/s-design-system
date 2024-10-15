@@ -165,7 +165,6 @@
 </template>
 
 <script setup>
-import { getLastItem } from '@/assets/consts/utils/array'
 import DefaultButtonComponent from '@/components/_common/button/DefaultButtonComponent.vue'
 import DetailViewHeaderComponent from '@/components/build/DetailViewHeaderComponent.vue'
 import WorkFlowComponent from '@/components/build/WorkFlowComponent.vue'
@@ -199,7 +198,7 @@ const getBuildDetail = async () => {
     buildStore.getBuildDetail(props.buildId)
     //2. 빌드 history 조회
     await buildStore.getBuildHistory(props.buildId)
-    const lastBuild = getLastItem(buildHistories.value)
+    const lastBuild = buildHistories.value.at(-1)
     //3. 가장 최근 history 기준 승인 조회 /smc/flow | POST
     smcStore.getPostSmcFlows({ key1:'build', key2:props.buildId })
     if(lastBuild) {

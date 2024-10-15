@@ -2,7 +2,26 @@
   <project-build-detail-popup v-if="showDetailPopup" v-model:model-value="showDetailPopup" :build-id="selectedBuildId" />
   <div class="view-wrapper">
     <view-header-component :title="$t('빌드')">
-      <default-button-component :title="$t('새 빌드')" to="new" />
+      <s-btn
+        variant="outlined"
+        color="red"
+        :title="$t('삭제')"
+        :disabled="selected.length !== 1"
+        @click="onClickDeleteBuild"
+      />
+      <s-btn
+        variant="outlined"
+
+        :title="$t('빌드')"
+        :disabled="selected.length !== 1"
+        @click="onClickExcuteBuild"
+      />
+      <s-btn
+        variant="outlined"
+
+        :title="$t('생성')"
+        @click="onClickNewBuild"
+      />
     </view-header-component>
     <div class="contentsWrapper">
       <div class="layout__list-contents">
@@ -25,52 +44,17 @@
           :page="page"
           :search="search"
           select-strategy="single"
-          item-value="projectId"
+          item-value="buildId"
           show-select
           :options="{ pageCnt: pageCnt, showSelect: true }"
         />
       </div>
-      <!-- <v-data-table
-        :custom-filter="filterOnlyCapsText"
-        :headers="headers"
-        :items="builds"
-        :search="search"
-        item-value="name"
-      >
-        <template #headers="{ columns }">
-          <tr class="tableHeader">
-            <th v-for="(header, idx) in columns" :key="idx" :style="{ textAlign: header.align }">
-              {{ header.title }}
-            </th>
-          </tr>
-        </template>
-        <template #[`item.action`]="{ item }">
-          <default-button-component :title="$t('빌드')" @click="onClickExcuteBuild(item.buildId)" />
-          <default-button-component :title="$t('상세')" class="ml-1" @click="onClickDetailBuild(item.buildId)" />
-          <default-button-component :title="$t('삭제')" class="ml-1" @click="onClickDeleteBuild(item.buildId)" />
-        </template>
-        <template #top>
-          <v-text-field
-            v-model="search"
-            variant="outlined"
-            class="pa-2"
-            :placeholder="$t('빌드명으로 검색')"
-            prepend-inner-icon="mdi-magnify"
-          />
-        </template>
-        <template #bottom>
-          <div class="text-center pt-2">
-            <v-pagination v-model="page" :length="pageCnt" rounded />
-          </div>
-        </template>
-      </v-data-table> -->
     </div>
   </div>
 </template>
 
 <script setup>
 import ViewHeaderComponent from '@/components/_common/ViewHeaderComponent.vue'
-import DefaultButtonComponent from '@/components/_common/button/DefaultButtonComponent.vue'
 import ProjectBuildDetailPopup from '@/components/build/ProjectBuildDetailComponent.vue'
 import { computed, onMounted, ref } from 'vue'
 import { LOCALSTORAGE_KEY } from '@/assets/consts/consts'
@@ -105,7 +89,8 @@ const { tt } = useI18n()
 const devOpsServiceGroupId = storeToRefs(devOpsServiceGroupStore).serviceGroupId
 const builds = storeToRefs(buildStore).builds
 
-const onClickExcuteBuild = async buildId => {
+const onClickExcuteBuild = async () => {
+  const buildId = selected.value.at(-1)
   //showConfirm
   const confirmVal = await confirmStore.showConfirm(tt('빌드를 실행하시겠습니까?'))
   if(confirmVal) {
@@ -122,10 +107,10 @@ const onClickExcuteBuild = async buildId => {
   }
 }
 
-const onClickDetailBuild = buildId => {
-  showDetailPopup.value = true
-  selectedBuildId.value = buildId
-}
+// const onClickDetailBuild = buildId => {
+//   showDetailPopup.value = true
+//   selectedBuildId.value = buildId
+// }
 
 //빌드 목록을 가져오고 빌드 목록이 있다면 주기적으로 요청 한다.
 const getBuildList = async () => {
@@ -135,13 +120,13 @@ const getBuildList = async () => {
     intervalGetBuildList()
   }
 }
-const filterOnlyCapsText = (value, query) => {
-  return value != null && query != null && typeof value === 'string' && value.toString().toLocaleUpperCase().indexOf(query) !== -1
-}
+// const filterOnlyCapsText = (value, query) => {
+//   return value != null && query != null && typeof value === 'string' && value.toString().toLocaleUpperCase().indexOf(query) !== -1
+// }
 
 //const confirmStore = useConfirmStore()
-const onClickDeleteBuild = async (buildId) => {
-
+const onClickDeleteBuild = async () => {
+  const buildId = selected.value.at(-1)
   //showConfirm
   const confirmVal = await confirmStore.showConfirm(tt('빌드를 삭제하시겠습니까?'))
   // confirm true 면
@@ -155,6 +140,13 @@ const intervalGetBuildList = () => {
   setTimeout(async () => {
     await getBuildList()
   }, intervalGetBuildListTime)
+}
+
+const onClickNewBuild = () => {
+  alertStore.openAlert({
+    titleName: tt('onClickNewBuild called'),
+    type: 'success',
+  })
 }
 
 
