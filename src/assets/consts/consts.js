@@ -1,18 +1,18 @@
-export const LOCALSTORAGE_KEY = {
+export const LOCALSTORAGE_KEY = Object.freeze({
   SERVICE_GROUP_UUID: 'STRATO_SG_UUID',
   SERVICE_GROUP_NAME: 'STRATO_SG_NAME',
   PROJECT_ID: 'STRATO_DEVOPS_PROJECT', // projectId
-}
+})
 
-export const SESSIONSTORAGE_KEY = {
+export const SESSIONSTORAGE_KEY = Object.freeze({
   STRATO_PORTAL_MENU: 'STRATO_PORTAL_MENU',
   STRATO_PORTAL_MENU_FLAT: 'STRATO_PORTAL_MENU_FLAT',
-}
+})
 
-export const COOKIE_KEY = {
+export const COOKIE_KEY = Object.freeze({
   REFRESH: 'refresh',
   ACCESS: 'access',
-}
+})
 
 export const DEFAULT_BUTTON_COLOR = '#017BE5'
 export const DEFAULT_CHECKOUT_SCRIPT = `//It was created by the Devops portal.
