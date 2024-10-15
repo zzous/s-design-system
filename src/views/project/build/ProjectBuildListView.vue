@@ -1,8 +1,8 @@
 <template>
   <project-build-detail-popup v-if="showDetailPopup" v-model:model-value="showDetailPopup" :build-id="selectedBuildId" />
   <div class="view-wrapper">
-    <view-header-component title="빌드">
-      <default-button-component title="새 빌드" to="new" />
+    <view-header-component :title="$t('빌드')">
+      <default-button-component :title="$t('새 빌드')" to="new" />
     </view-header-component>
     <div class="contentsWrapper">
       <v-data-table
@@ -29,7 +29,7 @@
             v-model="search"
             variant="outlined"
             class="pa-2"
-            placeholder="빌드명으로 검색"
+            :placeholder="$t('빌드명으로 검색')"
             prepend-inner-icon="mdi-magnify"
           />
         </template>
@@ -53,10 +53,14 @@ import { useDevOpsServiceGroupStore } from '@/stores/devops/service-group'
 import { storeToRefs } from 'pinia'
 import { useBuildStore } from '@/stores/devops/build'
 import { useConfirmStore } from '@/stores/components/confirm'
+import { useUserStore } from '@/stores/portal/user'
+import { useI18n } from '@/_setting/i18n'
+import { useAlertStore } from '@/stores/components/alert'
 //import build from '@/router/project/build'
 
 const devOpsServiceGroupStore = useDevOpsServiceGroupStore()
 const buildStore = useBuildStore()
+const { userInfo } = storeToRefs(useUserStore())
 const showDetailPopup = ref(false)
 const intervalGetBuildListTime = 60 * 1000
 const page = ref(1)
@@ -65,12 +69,23 @@ const search = ref('')
 const pageCnt = computed(() => Math.ceil(builds.value.length / itemsPerPage.value))
 const confirmStore = useConfirmStore()
 const selectedBuildId = ref(null)
+const alertStore = useAlertStore()
+const { tt } = useI18n()
 
 const onClickExcuteBuild = async buildId => {
   //showConfirm
-  const confirmVal = await confirmStore.showConfirm('빌드를 실행하시겠습니까?')
+  const confirmVal = await confirmStore.showConfirm(tt('빌드를 실행하시겠습니까?'))
   if(confirmVal) {
-    console.error('빌드실행 : ', buildId)
+    //빌드 실행
+    let reqBody = {
+      buildDesc: '',
+      buildUserId: userInfo.value.userId,
+      buildUsername: userInfo.value.usernameKr
+    }
+    await buildStore.executeBuild(buildId, reqBody)
+    alertStore.openAlert({
+      titleName: tt('빌드를 실행하였습니다.')
+    })
   }
 }
 
@@ -97,7 +112,7 @@ const filterOnlyCapsText = (value, query) => {
 const onClickDeleteBuild = async (buildId) => {
 
   //showConfirm
-  const confirmVal = await confirmStore.showConfirm('빌드를 삭제하시겠습니까?')
+  const confirmVal = await confirmStore.showConfirm(tt('빌드를 삭제하시겠습니까?'))
   // confirm true 면
   if(confirmVal) {
     await buildStore.deleteBuild(buildId)

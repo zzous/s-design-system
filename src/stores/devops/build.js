@@ -2,7 +2,7 @@ import { defineStore } from 'pinia'
 import { ref } from 'vue'
 
 import axios from '@/_setting/axios/request-devops'
-import { BUILD_LIST, BUILD_$BUILDID_HISTORY, BUILD_$BUILDID } from '@/assets/consts/api/devops/build'
+import { BUILD_LIST, BUILD_$BUILDID_HISTORY, BUILD_$BUILDID, BUILD_$BUILDID_RUN } from '@/assets/consts/api/devops/build'
 import { resolvePathVariable } from '@/assets/consts/utils/string'
 
 export const useBuildStore = defineStore('build', () => {
@@ -57,5 +57,11 @@ export const useBuildStore = defineStore('build', () => {
         return builds.value
     }
 
-    return { builds, getBuilds, getBuildHistory, getBuildsWithHistory, deleteBuild, getBuildDetail, buildDetail, buildHistories }
+    const executeBuild = async (buildId, reqBody) => {
+        const reqUrl = resolvePathVariable(BUILD_$BUILDID_RUN, { buildId })
+        const { data } = await axios.post(reqUrl, reqBody)
+        return data?.data || null
+    }
+
+    return { builds, getBuilds, getBuildHistory, getBuildsWithHistory, deleteBuild, getBuildDetail, buildDetail, buildHistories, executeBuild }
 })
