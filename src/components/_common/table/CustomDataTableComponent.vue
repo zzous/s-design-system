@@ -610,9 +610,9 @@ onMounted(() => {
         color: white;
 
         &.v-btn--variant-flat .v-btn__content {
-          font-size: 15px;
+          font-size: 12px;
           font-weight: 700;
-          color: #333;
+          color: #fff;
         }
       }
     }
