@@ -6,12 +6,6 @@
     @refresh="onRefresh"
     @update:mode="updateMode"
   />
-  <!-- <s-confirm
-    v-model="confirm.show"
-    :contents="confirm.contents"
-    @click:confirm="onConfirm"
-    @click:cancel="onCancel"
-  /> -->
   <div class="view-wrapper">
     <s-sub-header :title="$t('프로젝트 목록')" :list-cnt="projects.length">
       <s-btn
@@ -97,7 +91,7 @@ import { useI18n } from '@/_setting/i18n'
 import { LOCALSTORAGE_KEY } from '@/assets/consts/consts'
 import { useConfirmStore } from '@/stores/components/confirm'
 
-import ProjectModal from '../../components/project/ProjectModalLayout.vue'
+import ProjectModal from '@/components/project/ProjectModalLayout.vue'
 
 import { headers } from './table-header'
 
@@ -165,7 +159,6 @@ const onClickImportProject = () => {
 }
 
 const onClickDetail = item => {
-  console.log(item)
   modal.mode = 'detail'
   modal.props.projectId = item.projectId
   modal.show = true

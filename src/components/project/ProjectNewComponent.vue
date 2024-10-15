@@ -341,7 +341,7 @@ const fetchNewProject = async (values) => {
   formData.append('project', new Blob([JSON.stringify(makeParameters(values))], { type: 'application/json' }))
 
   try {
-    console.log(formData)
+    // console.log(formData)
     await projectStore.fetchNewProject(formData)
     alertStore.openAlert({
       titleName: tt('생성되었습니다'),
