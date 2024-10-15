@@ -551,13 +551,13 @@ onMounted(() => {
 
 <style lang="scss" scoped>
 .s-data-table {
-  ::v-deep(.v-data-table__th) {
+  ::v-deep(th.v-data-table__th) {
     --v-table-header-height: 36px;
     font-weight: 600;
     font-size: toRem(14);
   }
 
-  ::v-deep(.v-data-table__td) {
+  ::v-deep(td.v-data-table__td) {
     --v-border-color: 0,0,0;
     --v-table-row-height: 42px;
     font-size: toRem(14);
