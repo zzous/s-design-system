@@ -1,5 +1,5 @@
 <template>
-  <project-build-detail-popup v-model:model-value="showDetailPopup" />
+  <project-build-detail-popup v-if="showDetailPopup" v-model:model-value="showDetailPopup" :build-id="selectedBuildId" />
   <div class="view-wrapper">
     <view-header-component title="빌드">
       <default-button-component title="새 빌드" to="new" />
@@ -20,7 +20,7 @@
           </tr>
         </template>
         <template #[`item.action`]="{ item }">
-          <default-button-component :title="$t('빌드')" />
+          <default-button-component :title="$t('빌드')" @click="onClickExcuteBuild(item.buildId)" />
           <default-button-component :title="$t('상세')" class="ml-1" @click="onClickDetailBuild(item.buildId)" />
           <default-button-component :title="$t('삭제')" class="ml-1" @click="onClickDeleteBuild(item.buildId)" />
         </template>
@@ -53,6 +53,7 @@ import { useDevOpsServiceGroupStore } from '@/stores/devops/service-group'
 import { storeToRefs } from 'pinia'
 import { useBuildStore } from '@/stores/devops/build'
 import { useConfirmStore } from '@/stores/components/confirm'
+//import build from '@/router/project/build'
 
 const devOpsServiceGroupStore = useDevOpsServiceGroupStore()
 const buildStore = useBuildStore()
@@ -64,6 +65,14 @@ const search = ref('')
 const pageCnt = computed(() => Math.ceil(builds.value.length / itemsPerPage.value))
 const confirmStore = useConfirmStore()
 const selectedBuildId = ref(null)
+
+const onClickExcuteBuild = async buildId => {
+  //showConfirm
+  const confirmVal = await confirmStore.showConfirm('빌드를 실행하시겠습니까?')
+  if(confirmVal) {
+    console.error('빌드실행 : ', buildId)
+  }
+}
 
 const onClickDetailBuild = buildId => {
   showDetailPopup.value = true

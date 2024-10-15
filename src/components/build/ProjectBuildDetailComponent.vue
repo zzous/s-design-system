@@ -4,12 +4,12 @@
     :title="$t('빌드 상세')"
     @update:model-value="updateModal"
   >
-    <div class="contents-wrapper">
+    <div v-if="buildDetail" class="contents-wrapper">
       <div class="pl-15 pr-7">
         <detail-view-header-component
-          branch-name="test branch"
-          build-name="buildDetail.buildName"
-          project-name="buildDetail.projectName"
+          :branch-name="buildDetail.branch"
+          :build-name="buildDetail.buildName"
+          :project-name="buildDetail.projectName"
         >
           <default-button-component title="수정" />
           <default-button-component
@@ -27,6 +27,14 @@
                   no-gutters
                 >
                   <work-flow-component
+                    v-for="state in smcFlowStates"
+                    :key="state.stateId"
+                    :title="state.stateName"
+                    type="circle"
+                    :update-date="state.regDate"
+                    :user-name="state.regId"
+                  />
+                  <!-- <work-flow-component
                     title="Build Request"
                     type="circle"
                     update-date="2024-09-06 0:48"
@@ -92,7 +100,7 @@
                     type="dot-circle"
                     update-date="2024-09-06 0:48"
                     user-name="demouser1"
-                  />
+                  /> -->
                 </v-row>
               </div>
             </div>
@@ -107,7 +115,7 @@
             >
               <v-data-table
                 :headers="buildHistoryHeader"
-                :items="buildHistoryList"
+                :items="buildHistories"
               >
                 <template #headers="{ columns }">
                   <tr class="tableHeader">
@@ -157,29 +165,50 @@
 </template>
 
 <script setup>
+import { getLastItem } from '@/assets/consts/utils/array'
 import DefaultButtonComponent from '@/components/_common/button/DefaultButtonComponent.vue'
 import DetailViewHeaderComponent from '@/components/build/DetailViewHeaderComponent.vue'
 import WorkFlowComponent from '@/components/build/WorkFlowComponent.vue'
 import { useBuildStore } from '@/stores/devops/build'
+import { useSmcStore } from '@/stores/devops/smc'
 import { storeToRefs } from 'pinia'
 import { computed, ref } from 'vue'
 //import { useRoute } from 'vue-router'
-defineProps({
+const props = defineProps({
   modelValue: {
     type: Boolean,
     default: false
+  },
+  buildId: {
+    type: Number,
+    default: 0
   }
 })
 const emits = defineEmits(['update:model-value'])
 const buildStore = useBuildStore()
-//const route = useRoute()
-const { buildDetail } = storeToRefs(buildStore)
+const smcStore = useSmcStore()
 
-const getBuildDetail = () => {
-  // if(route.params.buildId){
-  //   buildStore.getBuildDetail(route.params.buildId)
-  // }
-  console.error('getBuildDetail')
+//const route = useRoute()
+const { buildDetail, buildHistories } = storeToRefs(buildStore)
+const { smcFlowStates } = storeToRefs(smcStore)
+
+const getBuildDetail = async () => {
+  if(props.buildId){
+    //1. 빌드 상세 조회
+    buildStore.getBuildDetail(props.buildId)
+    //2. 빌드 history 조회
+    await buildStore.getBuildHistory(props.buildId)
+    const lastBuild = getLastItem(buildHistories.value)
+    //3. 가장 최근 history 기준 승인 조회 /smc/flow | POST
+    smcStore.getPostSmcFlows({ key1:'build', key2:props.buildId })
+    if(lastBuild) {
+      //4. 가장 최근 history 기준 flow 조회 /smc/flow/state | POST
+      smcStore.getPostSmcFlowState({ key1:'build', key2:props.buildId, key3: lastBuild.buildHistoryId })
+      //5. 가장 최근 history 기준 flow 조회 /smc/flow/states | POST
+      smcStore.getPostSmcFlowStates({ key1:'build', key2:props.buildId, key3: lastBuild.buildHistoryId })
+    }
+  }
+  //console.error('getBuildDetail ', props.buildId)
 }
 
 const updateModal = () => {
@@ -191,55 +220,18 @@ const init = () => {
 }
 
 const page = ref(1)
-const pageCnt = computed(() => Math.ceil(buildHistoryList.value.length / buildHistoryList.value.length))
+const pageCnt = computed(() => Math.ceil(buildHistories.value.length / buildHistories.value.length))
 //const itemPerPage = ref(5)
 const buildHistoryHeader = ref([
-  { title: '상태', key: 'state', align: 'center', sortable: false },
+  { title: '상태', key: 'buildResult', align: 'center', sortable: false },
   { title: '빌드 아이디', key: 'buildId', align: 'center', sortable: false },
   { title: '브랜치', key: 'branch', align: 'center', sortable: false },
-  { title: '설명', key: 'desc', align: 'center', sortable: false },
+  { title: '설명', key: 'buildDesc', align: 'center', sortable: false },
   { title: '빌드 사용자', key: 'buildUserName', align: 'center', sortable: false },
   { title: '빌드 날짜', key: 'buildDate', align: 'center', sortable: false },
   { title: '승인이력', key: 'approveHistory', align: 'center', sortable: false }
 ])
-const buildHistoryList = ref([
-  {
-    state: 'SUCCESS',
-    buildId: '#1',
-    branch: '#master',
-    desc: 'test',
-    buildUserName: 'test@strato.co.kr',
-    buildDate: '2024-07-13 16:20:06',
-    approveHistoryList: []
-  },
-  {
-    state: 'SUCCESS',
-    buildId: '#1',
-    branch: '#master',
-    desc: 'test',
-    buildUserName: 'test@strato.co.kr',
-    buildDate: '2024-07-13 16:20:06',
-    approveHistoryList: []
-  },
-  {
-    state: 'SUCCESS',
-    buildId: '#1',
-    branch: '#master',
-    desc: 'test',
-    buildUserName: 'test@strato.co.kr',
-    buildDate: '2024-07-13 16:20:06',
-    approveHistoryList: []
-  },
-  {
-    state: 'SUCCESS',
-    buildId: '#1',
-    branch: '#master',
-    desc: 'test',
-    buildUserName: 'test@strato.co.kr',
-    buildDate: '2024-07-13 16:20:06',
-    approveHistoryList: []
-  }
-])
+
 
 init()
 </script>
