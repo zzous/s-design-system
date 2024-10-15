@@ -13,13 +13,13 @@ export const headers = [
       title: tt('프로젝트 명'),
       key: 'projectName',
       align: 'center',
-      width: 150
+      width: 200
     },
     {
       title: tt('프로젝트 별칭'),
       key: 'projectAlias',
       align: 'center',
-      width: 250
+      width: 150
     },
     {
       title: tt('빌드'),

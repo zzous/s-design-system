@@ -92,6 +92,7 @@
 }
 
 .v-application__wrap {
+    min-width: 1400px;
     background-color: $s-base-background;
 
     #navi {
@@ -113,6 +114,17 @@
         .v-field__input,
         .v-select__selection {
             font-size: 12px;
+        }
+    }
+}
+
+.v-input.v-input--density-comfortable {
+    &.v-file-input,
+    &.v-text-field,
+    &.v-select {
+        .v-field__input,
+        .v-select__selection {
+            font-size: 16px;
         }
     }
 }

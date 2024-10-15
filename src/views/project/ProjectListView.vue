@@ -32,7 +32,7 @@
           v-model="search"
           class="search__text-field"
           variant="outlined"
-          density="compact"
+          density="comfortable"
           hide-details
           :placeholder="$t('프로젝트 명으로 검색')"
           prepend-inner-icon="mdi-magnify"

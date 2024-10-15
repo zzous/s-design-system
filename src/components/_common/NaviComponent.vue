@@ -11,9 +11,8 @@
       <div id="project_select" class="border-b-sm">
         <v-select
           v-model="selectedProject"
-          class="h-30"
           variant="outlined"
-          density="compact"
+          density="comfortable"
           :items="totalProjectList"
           item-title="projectName"
           item-value="projectId"
