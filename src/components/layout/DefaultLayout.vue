@@ -7,10 +7,12 @@
       :service-menus="serviceMenus"
       :user-menus="menuItems"
       :show-menu-btn="showMenuBtn"
+      :show-menu="showMenu"
       @click:logo="goToMain"
       @click:menu-item="onClickMenuItem"
       @click:log-in="onClickLogin"
       @click:sign-up="onClickSignUp"
+      @click:menu="onClickMenu"
     >
       <template #inner-append>
         <v-select
@@ -126,6 +128,11 @@ const onLogOut = () => {
 const onClickSignUp = () => { }
 
 const showMenuBtn = ref(false)
+const showMenu = ref(false)
+
+const onClickMenu = (value) => {
+  showMenu.value = value
+}
 
 const onClickMenuItem = (value) => {
   if (value === 'my-company') {

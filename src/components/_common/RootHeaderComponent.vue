@@ -92,9 +92,10 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { defineModel } from 'vue'
 
-defineProps({
+
+const props = defineProps({
   isLoggedIn: {
     type: Boolean
   },
@@ -122,18 +123,24 @@ defineProps({
   showMenuBtn: {
     type: Boolean,
     default: false
+  },
+  showMenu: {
+    type: Boolean,
+    default: false
   }
 })
 
-const emits = defineEmits(['click:log-in', 'click:sign-up', 'click:menu-item', 'click:logo'])
+const emits = defineEmits(['click:menu','click:log-in', 'click:sign-up', 'click:menu-item', 'click:logo'])
 
-const showMenu = ref(false)
+//const showMenu = ref(false)
 
 const toggleMenu = () => {
-  showMenu.value = !showMenu.value
+  //showMenu.value = !showMenu.value
+  emits('click:menu', !props.showMenu)
 }
 const closeMenu = () => {
-  showMenu.value = false
+  //showMenu.value = false
+  emits('click:menu', false)
 }
 
 const onClickMenuItem = (value) => {
@@ -243,7 +250,7 @@ const onClickMenuItem = (value) => {
   font-size: 15px;
 }
 .menu-back-ground {
-  position: absolute;
+  position: fixed;
   width: 100%;
   z-index: 100;
   background: rgba(0, 0, 0, 0.2);
