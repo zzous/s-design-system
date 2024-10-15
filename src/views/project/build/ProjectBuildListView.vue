@@ -5,7 +5,32 @@
       <default-button-component :title="$t('새 빌드')" to="new" />
     </view-header-component>
     <div class="contentsWrapper">
-      <v-data-table
+      <div class="layout__list-contents">
+        <div class="search">
+          <v-text-field
+            v-model="search"
+            class="search__text-field"
+            variant="outlined"
+            density="compact"
+            hide-details
+            :placeholder="$t('프로젝트 명으로 검색')"
+            prepend-inner-icon="mdi-magnify"
+          />
+        </div>
+        <s-data-table
+          v-model="selected"
+          class="rounded-0"
+          :headers="headers"
+          :items="builds"
+          :page="page"
+          :search="search"
+          select-strategy="single"
+          item-value="projectId"
+          show-select
+          :options="{ pageCnt: pageCnt, showSelect: true }"
+        />
+      </div>
+      <!-- <v-data-table
         :custom-filter="filterOnlyCapsText"
         :headers="headers"
         :items="builds"
@@ -38,7 +63,7 @@
             <v-pagination v-model="page" :length="pageCnt" rounded />
           </div>
         </template>
-      </v-data-table>
+      </v-data-table> -->
     </div>
   </div>
 </template>
@@ -58,6 +83,12 @@ import { useI18n } from '@/_setting/i18n'
 import { useAlertStore } from '@/stores/components/alert'
 //import build from '@/router/project/build'
 
+
+
+//new table
+const selected = ref([])
+
+
 const devOpsServiceGroupStore = useDevOpsServiceGroupStore()
 const buildStore = useBuildStore()
 const { userInfo } = storeToRefs(useUserStore())
@@ -71,6 +102,8 @@ const confirmStore = useConfirmStore()
 const selectedBuildId = ref(null)
 const alertStore = useAlertStore()
 const { tt } = useI18n()
+const devOpsServiceGroupId = storeToRefs(devOpsServiceGroupStore).serviceGroupId
+const builds = storeToRefs(buildStore).builds
 
 const onClickExcuteBuild = async buildId => {
   //showConfirm
@@ -93,8 +126,6 @@ const onClickDetailBuild = buildId => {
   showDetailPopup.value = true
   selectedBuildId.value = buildId
 }
-const devOpsServiceGroupId = storeToRefs(devOpsServiceGroupStore).serviceGroupId
-const builds = storeToRefs(buildStore).builds
 
 //빌드 목록을 가져오고 빌드 목록이 있다면 주기적으로 요청 한다.
 const getBuildList = async () => {
@@ -134,7 +165,7 @@ onMounted(() => {
 const headers = ref([
   {
     title: tt('빌드명'),
-    align: 'start',
+    align: 'center',
     key: 'buildName'
   },
   {
@@ -159,8 +190,8 @@ const headers = ref([
   },
   {
     title: tt('액션'),
+    align: 'center',
     key: 'action',
-    align: 'center'
   }
 ])
 </script>
