@@ -58,6 +58,16 @@
           <template #[`item.projectType`]="{ item }">
             {{ item.projectCd }} - {{ item.buildCd }}
           </template>
+          <template #[`item.projectName`]="{ item }">
+            <span>{{ item.projectName }}</span>
+            <v-icon
+              class="ml-1"
+              size="small"
+              @click="onClickDetail(item.raw)"
+            >
+              mdi-open-in-new
+            </v-icon>
+          </template>
           <template #[`item.buildCount`]="{ item }">
             <a :href="goto('build', item)" class="table-link">{{ item.buildCount }}</a>
           </template>
@@ -148,6 +158,12 @@ const onClickNewProject = () => {
 const onClickImportProject = () => {
   modal.show = true
   modal.mode = 'import'
+}
+
+const onClickDetail = item => {
+  modal.show = true
+  modal.mode = 'detail'
+  modal.props.projectId = item.projectId
 }
 
 const updateMode = value => {

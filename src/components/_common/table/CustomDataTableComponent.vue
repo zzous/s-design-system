@@ -84,11 +84,12 @@
           {{ item[el.key] || '-' }}
         </span>
       </v-tooltip>
-      <span v-else>
+
+      <div v-else class="d-flex justify-center align-center">
         <slot :name="`item.${el.key}`" :item="item">
           {{ item[el.key] || '-' }}
         </slot>
-      </span>
+      </div>
     </template>
     <template v-if="hasCheckedColumnSlot" #[`column.data-table-select`]="{ column, selectAll }">
       <slot name="column.data-table-select" :column="column" :select-all="selectAll" />
