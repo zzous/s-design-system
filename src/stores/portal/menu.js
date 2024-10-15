@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 import axios from '@/_setting/axios/request-portal'
 import { UserMenuItems } from '@/assets/data/paths'
 // import { menuNameLang } from '@/_setting/i18n'
@@ -15,6 +15,18 @@ export const useMenuStore = defineStore('menu', () => {
   const flatMenuPaths = ref([])
   // 햔제 화면의 메뉴
   const currentMenu = ref({})
+
+  const serviceMenus = computed(() => {
+    return menuPaths.value.map((menu) => {
+      return {
+        menuName: menu.menuNameKr,
+        menuCode: menu.menuCode,
+        menuUrl: menu.menuUrl,
+        accessible: menu.accessible,
+        viewable: menu.viewable
+      }
+    })
+  })
 
   const setMenuPaths = (newMenuPaths) => {
     menuPaths.value = newMenuPaths
@@ -108,6 +120,7 @@ export const useMenuStore = defineStore('menu', () => {
   }
   return {
     menuPaths,
+    serviceMenus,
     flatMenuPaths,
     currentMenu,
     setMenuPaths,

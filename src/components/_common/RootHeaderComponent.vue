@@ -46,7 +46,7 @@
         <slot name="inner-append" />
         <s-user
           :user="userInfo"
-          :menu-items="menuItems"
+          :menu-items="userMenus"
           :class-name="{ fontWhite: true }"
           @click:menu-item="onClickMenuItem"
         >
@@ -78,12 +78,14 @@
         <v-icon icon="mdi-close" @click="closeMenu" />
       </div>
       <div id="side_menu_wrapper">
-        <v-list-item
-          v-for="item in items"
-          :key="item.title"
-          class="side-menu"
-          :title="item.title"
-        />
+        <template v-for="(item, index) in serviceMenus">
+          <v-list-item
+            v-if="item.accessible"
+            :key="index"
+            class="side-menu"
+            :title="item.menuName"
+          />
+        </template>
       </div>
     </div>
   </div>
@@ -107,9 +109,15 @@ defineProps({
       }
     }
   },
-  menuItems: {
+  serviceMenus: {
     type: Array,
-    default: () => []
+    default: () => [],
+    description: '서비스 메뉴의 items'
+  },
+  userMenus: {
+    type: Array,
+    default: () => [],
+    description: '사용자 메뉴의 items (예: 나의 정보, 기업 정보, 로그아웃)'
   },
   showMenuBtn: {
     type: Boolean,
@@ -120,7 +128,6 @@ defineProps({
 const emits = defineEmits(['click:log-in', 'click:sign-up', 'click:menu-item', 'click:logo'])
 
 const showMenu = ref(false)
-const items = ref([])
 
 const toggleMenu = () => {
   showMenu.value = !showMenu.value
@@ -137,6 +144,34 @@ const onClickMenuItem = (value) => {
 <style lang="scss" scoped>
 .s-header {
   box-shadow: 0px 4px 4px 0px #00000040;
+
+  ::v-deep(.v-toolbar__prepend) {
+    margin-inline: 0;
+
+    .s-btn__menu {
+      &:hover > .v-btn__overlay,
+      &:focus-visible > .v-btn__overlay {
+        opacity: 0;
+      }
+
+      > .v-ripple__container {
+        display: none;
+      }
+
+      &:focus-visible::after {
+        opacity: 0;
+      }
+
+      .s-btn__menu__icon {
+        color: #000;
+        background-color: #fff;
+        border-radius: 50%;
+        font-size: 1rem;
+        width: 18px;
+        height: 18px;
+      }
+    }
+  }
 }
 
 .side-menu {
@@ -212,7 +247,7 @@ const onClickMenuItem = (value) => {
   width: 100%;
   z-index: 100;
   background: rgba(0, 0, 0, 0.2);
-  margin-top: 68px;
+  margin-top: var(--global-nav-header-height);
 }
 .menu-back-ground.hide {
   height: 0;
@@ -220,36 +255,7 @@ const onClickMenuItem = (value) => {
   transition: linear 0.2s;
 }
 .menu-back-ground.show {
-  height: 100%;
+  height: calc(100% - var(--global-nav-header-height));
   transition: linear 0.2s;
-}
-</style>
-<style lang="scss">
-.v-app-bar .v-toolbar__prepend {
-  margin-inline: 0;
-}
-
-.s-btn__menu {
-  &:hover > .v-btn__overlay,
-  &:focus-visible > .v-btn__overlay {
-    opacity: 0;
-  }
-
-  > .v-ripple__container {
-    display: none;
-  }
-
-  &:focus-visible::after {
-    opacity: 0;
-  }
-
-  .s-btn__menu__icon {
-    color: #000;
-    background-color: #fff;
-    border-radius: 50%;
-    font-size: 1rem;
-    width: 18px;
-    height: 18px;
-  }
 }
 </style>

@@ -1,5 +1,5 @@
 <template>
-  <div class="fotter-wrapper">
+  <div class="footer-wrapper">
     <v-footer class="footer-contents">
       Powered by STRATO Cloud Management Platform
     </v-footer>
@@ -11,7 +11,7 @@
 </script>
 
 <style lang="scss" scoped>
-.fotter-wrapper {
+.footer-wrapper {
     position: absolute;
     height: 50px;
     width: 100%;

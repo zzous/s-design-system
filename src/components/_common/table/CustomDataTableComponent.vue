@@ -549,63 +549,19 @@ onMounted(() => {
 
 </script>
 
-<style lang="scss">
-.s-data-table-pagination {
-  position: relative;
-  height: 40px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 12px;
-  color: #333;
-  margin-top: 60px;
-
-  .v-pagination__item--is-active {
-    color: white;
-
-    .v-btn--disabled {
-      color: white;
-    }
-  }
-}
-
-.v-btn:hover>.v-btn__overlay {
-  opacity: 0.1;
-  background: #1297f2;
-}
-
-.v-btn--disabled.v-btn--variant-flat .v-btn__overlay {
-  opacity: 1;
-  background: transparent;
-}
-
-.v-pagination__item--is-active .v-btn--disabled.v-btn--variant-flat .v-btn__content {
-  font-size: 12px;
-  font-weight: 700;
-  color: #fff;
-}
-
-.v-btn--disabled.v-btn--variant-flat .v-btn__content {
-  font-size: 15px;
-  font-weight: 700;
-  color: #333;
-}
-
-/* 테이블 기본 설정 */
-.v-table--density-default{
-  --v-table-header-height: 36px;
-  --v-table-row-height: 42px;
-}
-
+<style lang="scss" scoped>
 .s-data-table {
-  .v-data-table-header__content {
-    font-weight: bold;
+  ::v-deep(.v-data-table__th) {
+    --v-table-header-height: 36px;
+    font-weight: 600;
     font-size: toRem(14);
   }
 
-  td {
+  ::v-deep(.v-data-table__td) {
     --v-border-color: 0,0,0;
+    --v-table-row-height: 42px;
     font-size: toRem(14);
+    font-weight: 300;
   }
 
   .status-chip {
@@ -622,47 +578,67 @@ onMounted(() => {
   }
 
   &.hide-footer {
-    >.v-data-table-footer {
+    >::v-deep(.v-data-table-footer) {
       display: none !important;
     }
   }
-}
+  ::v-deep(.v-btn:hover)>.v-btn__overlay {
+    opacity: 0.1;
+    background: #1297f2;
+  }
 
-/** 테이블 말 줄임표 */
-.s-data-table.fixed-table table {
-  table-layout: fixed;
+  ::v-deep(.v-btn--disabled).v-btn--variant-flat .v-btn__overlay {
+    opacity: 1;
+    background: transparent;
+  }
 
-  td {
-    span {
-      max-width: 100%;
-      display: inline-block;
-      word-break: break-all;
-    }
+  .s-data-table-pagination {
+    position: relative;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    color: #333;
+    margin-top: 60px;
 
-    &:has(span + i) {
-      span {
-        max-width: calc(100% - 30px);
+    ::v-deep(.v-pagination__item--is-active) {
+      color: white;
+
+      .v-btn--disabled {
+        color: white;
+
+        &.v-btn--variant-flat .v-btn__content {
+          font-size: 15px;
+          font-weight: 700;
+          color: #333;
+        }
       }
     }
   }
-}
 
-.right-move {
-  position: absolute;
-  right: 0;
-}
+  /* 테이블 말 줄임표 */
+  &::v-deep(.v-table__wrapper).fixed-table table {
+    table-layout: fixed;
 
-// theme
-.sp-data-table.dark {
-  .v-table__wrapper {
-    >table {
-      border-top: 1px solid #000;
+    .v-data-table__td {
+      span {
+        max-width: 100%;
+        display: inline-block;
+        word-break: break-all;
+      }
 
-      >thead>tr>th {
-        color: #fff;
-        background: #152647;
+      &:has(span + i) {
+        span {
+          max-width: calc(100% - 30px);
+        }
       }
     }
+  }
+
+  .right-move {
+    position: absolute;
+    right: 0;
   }
 }
 </style>

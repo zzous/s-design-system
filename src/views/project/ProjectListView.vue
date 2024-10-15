@@ -5,12 +5,12 @@
     @refresh="onRefresh"
     @update:mode="updateMode"
   />
-  <s-confirm
+  <!-- <s-confirm
     v-model="confirm.show"
     :contents="confirm.contents"
     @click:confirm="onConfirm"
     @click:cancel="onCancel"
-  />
+  /> -->
   <div class="view-wrapper">
     <s-sub-header :title="$t('프로젝트 목록')" :list-cnt="projects.length">
       <s-btn
@@ -83,8 +83,8 @@ import { storeToRefs } from 'pinia'
 import { useDevOpsServiceGroupStore } from '@/stores/devops/service-group'
 import { useProjectStore } from '@/stores/devops/project'
 import { useI18n } from '@/_setting/i18n'
-import { useAlertStore } from '@/stores/components/alert'
 import { LOCALSTORAGE_KEY } from '@/assets/consts/consts'
+import { useConfirmStore } from '@/stores/components/confirm'
 
 import ProjectModal from '../../components/project/ProjectModalLayout.vue'
 
@@ -98,11 +98,10 @@ const devSgStore = useDevOpsServiceGroupStore()
 const { serviceGroupId } = storeToRefs(devSgStore)
 const projectStore = useProjectStore()
 const { projects } = storeToRefs(projectStore)
-const alertStore = useAlertStore()
+const confirmStore = useConfirmStore()
 
 const search = ref('')
 const selected = ref([])
-const confirm = reactive({ show: false, contents: tt('프로젝트를 삭제하시겠습니까?') })
 
 const pageCnt = computed(() => Math.ceil(projects.value.length / itemsPerPage.value))
 
@@ -155,31 +154,15 @@ const updateMode = value => {
   modal.mode = value
 }
 
-const onClickDelete = () => {
-  confirm.show = true
-}
+const onClickDelete = async () => {
+  const confirmVal = await confirmStore.showConfirm(tt('프로젝트를 삭제하시겠습니까?'))
 
-const onConfirm = async () => {
-  try {
+  if (confirmVal) {
     await projectStore.fetchDeleteProject(selected.value.at(0))
-    confirm.show = false
-    alertStore.openAlert({
-      titleName: tt('삭제되었습니다'),
-      type: 'success',
-    })
-    onRefresh()
-  } catch (e) {
-    console.log(e)
-    alertStore.openAlert({
-      titleName: tt('삭제하지 못했습니다'),
-      type: 'error',
-    })
+    getProjects()
   }
 }
 
-const onCancel = () => {
-  confirm.show = false
-}
 onMounted(() => {
   getProjects()
 })

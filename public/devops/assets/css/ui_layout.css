@@ -228,8 +228,9 @@ padding: 2px; border-radius:50%;}
 .portal_layout .sp-recommended-product .s-form__item-content .sp-select .v-field__append-inner{padding-top:3px}
 .portal_layout .btn_refresh{width:16px; height:16px; background: url('/devops/assets/images/change_circle.svg') no-repeat center center ;}
 
-.search{display: flex; justify-content: space-between; align-items: center; margin-bottom:12px;}
-.search .search__text-field{max-width: 600px;}
+.search{display: flex; justify-content: space-between; align-items: center; margin-bottom:10px;}
+.search .search__text-field{max-width: 350px;}
+.search .search__text-field.v-input.v-input--density-compact.v-text-field .v-field__input {font-size: 16px; font-weight: 400;}
 .v-input__control:has(.v-field--variant-outlined){border: 1px solid #DDD; border-radius: 5px;}
 .v-input__control:has(.v-field--variant-outlined) .v-field__outline {display: none;}
 

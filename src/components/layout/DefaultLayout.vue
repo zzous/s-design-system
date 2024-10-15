@@ -4,7 +4,8 @@
     <header-component
       :is-logged-in="isLoggedIn"
       :user-info="userInfoTrans"
-      :menu-items="menuItems"
+      :service-menus="serviceMenus"
+      :user-menus="menuItems"
       :show-menu-btn="showMenuBtn"
       @click:logo="goToMain"
       @click:menu-item="onClickMenuItem"
@@ -39,9 +40,9 @@
             />
           </router-view>
         </div>
+        <footer-component />
       </div>
     </div>
-    <footer-component />
     <teleport to="#destination">
       <template v-for="(alert, index) in alertItemStack" :key="alert.uuid">
         <alert
@@ -66,6 +67,7 @@ import { useUserStore } from '@/stores/portal/user'
 import { useServiceGroupStore } from '@/stores/portal/service-group'
 import { useDevOpsServiceGroupStore } from '@/stores/devops/service-group'
 import { useAlertStore } from '@/stores/components/alert'
+import { useMenuStore } from '@/stores/portal/menu'
 
 import HeaderComponent from '@/components/_common/RootHeaderComponent.vue'
 import FooterComponent from '@/components/_common/FooterComponent.vue'
@@ -80,6 +82,9 @@ const tokenStore = useTokenStore()
 const userStore = useUserStore()
 const sgStore = useServiceGroupStore()
 const devOpsSgStore = useDevOpsServiceGroupStore()
+const menuStore = useMenuStore()
+
+const { serviceMenus } = storeToRefs(menuStore)
 const { t } = useI18n()
 
 const { isLoggedIn, userInfo } = storeToRefs(userStore)
