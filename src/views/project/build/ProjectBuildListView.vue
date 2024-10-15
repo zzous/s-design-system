@@ -47,7 +47,7 @@
 import ViewHeaderComponent from '@/components/_common/ViewHeaderComponent.vue'
 import DefaultButtonComponent from '@/components/_common/button/DefaultButtonComponent.vue'
 import ProjectBuildDetailPopup from '@/components/build/ProjectBuildDetailComponent.vue'
-import { computed, ref } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import { LOCALSTORAGE_KEY } from '@/assets/consts/consts'
 import { useDevOpsServiceGroupStore } from '@/stores/devops/service-group'
 import { storeToRefs } from 'pinia'
@@ -126,39 +126,39 @@ const intervalGetBuildList = () => {
   }, intervalGetBuildListTime)
 }
 
-const init = () => {
+
+onMounted(() => {
   getBuildList()
   //intervalGetBuildList()
-}
-init()
+})
 const headers = ref([
   {
-    title: '빌드명',
+    title: tt('빌드명'),
     align: 'start',
     key: 'buildName'
   },
   {
-    title: '브랜치',
+    title: tt('브랜치'),
     align: 'center',
     key: 'branch'
   },
   {
-    title: '빌드 수',
+    title: tt('빌드 수'),
     align: 'center',
     key: 'buildCount'
   },
   {
-    title: '마지막 빌드 시간',
+    title: tt('마지막 빌드 시간'),
     align: 'center',
     key: 'lastBuildDate'
   },
   {
-    title: '마지막 빌드 상태',
+    title: tt('마지막 빌드 상태'),
     align: 'center',
     key: 'lastBuildResult'
   },
   {
-    title: '액션',
+    title: tt('액션'),
     key: 'action',
     align: 'center'
   }

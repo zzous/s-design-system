@@ -6,7 +6,7 @@
           {{ buildName }}
         </div>
         <div class="sub-title titleText">
-          <span>프로젝트명 <strong>{{ projectName }}</strong></span>
+          <span>` <strong>{{ projectName }}</strong></span>
           <span class="ml-10">기본 브랜치<strong>{{ branchName }}</strong></span>
         </div>
       </div>

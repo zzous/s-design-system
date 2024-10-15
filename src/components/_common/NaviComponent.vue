@@ -3,7 +3,7 @@
     <div id="menu_title_wrapper">
       <router-link to="/project/list">
         <div id="menu_title">
-          데브옵스
+          {{ $t('데브옵스') }}
         </div>
       </router-link>
     </div>

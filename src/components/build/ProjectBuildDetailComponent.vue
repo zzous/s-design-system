@@ -172,6 +172,7 @@ import WorkFlowComponent from '@/components/build/WorkFlowComponent.vue'
 import { useBuildStore } from '@/stores/devops/build'
 import { useSmcStore } from '@/stores/devops/smc'
 import { storeToRefs } from 'pinia'
+import { onMounted } from 'vue'
 import { computed, ref } from 'vue'
 //import { useRoute } from 'vue-router'
 const props = defineProps({
@@ -215,9 +216,7 @@ const updateModal = () => {
   emits('update:model-value', false)
 }
 
-const init = () => {
-  getBuildDetail()
-}
+
 
 const page = ref(1)
 const pageCnt = computed(() => Math.ceil(buildHistories.value.length / buildHistories.value.length))
@@ -233,7 +232,9 @@ const buildHistoryHeader = ref([
 ])
 
 
-init()
+onMounted(() => {
+  getBuildDetail()
+})
 </script>
 
 <style lang="scss" scoped>
