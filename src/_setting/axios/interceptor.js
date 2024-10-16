@@ -37,6 +37,7 @@ export const handleAuthToken = async (config) => {
     try {
       await onRefreshToken() // 리프레시 토큰으로 액세스 토큰 재발급
       const newAccessToken = cookieHelper.getCookie(COOKIE_KEY.ACCESS)
+      console.log('newAccessToken', newAccessToken.substring(newAccessToken.length - 20, newAccessToken.length))
       if (config) {
         initializeAccessToken(config, newAccessToken)
       }
@@ -81,6 +82,7 @@ function setInterceptor(service) {
       }
 
       //config.headers.locale = i18n.global.locale.value
+      console.log('setInterceptor', config.headers.Authorization.substring(config.headers.Authorization.length - 20, config.headers.Authorization.length))
       return config
     },
     (error) => {
@@ -100,13 +102,14 @@ function setInterceptor(service) {
       return response
     },
     async (error) => {
+      console.log('setInterceptor error', error)
       numberOfCallPending -= 1
       if (numberOfCallPending === 0) {
         closeLoading()
       }
       if (!error?.response) {
         // console.log(error.config)
-        await handleAuthToken(error.config, null)
+        // await handleAuthToken(error.config, null)
       }
 
       if (error?.response?.status === 401) {
