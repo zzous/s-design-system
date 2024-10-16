@@ -2,9 +2,10 @@
   <s-modal
     :model-value="showModal"
     :title="$t('빌드 상세')"
+    class-name="lg"
     @update:model-value="updateModal"
   >
-    <project-build-detail-component v-if="buildId" :build-id="buildId" />
+    <project-build-detail-component v-if="showModal" :build-id="buildId" />
   </s-modal>
 </template>
 

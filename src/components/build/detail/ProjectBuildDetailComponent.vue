@@ -1,185 +1,60 @@
 <template>
-  <div v-if="buildDetail" class="contents-wrapper">
-    <div class="pl-15 pr-7">
-      <detail-view-header-component
-        :branch-name="buildDetail.branch"
-        :build-name="buildDetail.buildName"
-        :project-name="buildDetail.projectName"
-      >
-        <default-button-component title="수정" />
-        <default-button-component
-          class="ml-1"
-          title="삭제"
-        />
-      </detail-view-header-component>
-      <div class="buildContents">
-        <div class="mt-16 mb-16">
-          빌드 승인 프로세스
-          <div class="pl-10 pr-10">
-            <div id="work_flow_contents">
-              <v-row
-                class="scroll-row"
-                no-gutters
-              >
-                <work-flow-component
-                  v-for="state in smcFlowStates"
-                  :key="state.stateId"
-                  :title="state.stateName"
-                  type="circle"
-                  :update-date="state.regDate"
-                  :user-name="state.regId"
-                />
-                <!-- <work-flow-component
-                  title="Build Request"
-                  type="circle"
-                  update-date="2024-09-06 0:48"
-                  user-name="demouser1"
-                />
-                <work-flow-component
-                  title="Project Manager"
-                  type="decision"
-                  update-date="2024-09-06 0:48"
-                  user-name="demouser1"
-                />
-                <work-flow-component
-                  title="Project Manager"
-                  type="decision"
-                  update-date="2024-09-06 0:48"
-                  user-name="demouser1"
-                />
-                <work-flow-component
-                  title="Project Manager"
-                  type="decision"
-                  update-date="2024-09-06 0:48"
-                  user-name="demouser1"
-                />
-                <work-flow-component
-                  title="Project Manager"
-                  type="decision"
-                  update-date="2024-09-06 0:48"
-                  user-name="demouser1"
-                />
-                <work-flow-component
-                  title="Project Manager"
-                  type="decision"
-                  update-date="2024-09-06 0:48"
-                  user-name="demouser1"
-                />
-                <work-flow-component
-                  title="Project Manager"
-                  type="decision"
-                  update-date="2024-09-06 0:48"
-                  user-name="demouser1"
-                />
-                <work-flow-component
-                  title="Project Manager"
-                  type="decision"
-                  update-date="2024-09-06 0:48"
-                  user-name="demouser1"
-                />
-                <work-flow-component
-                  title="Project Manager"
-                  type="decision"
-                  update-date="2024-09-06 0:48"
-                  user-name="demouser1"
-                />
-                <work-flow-component
-                  title="Project Manager"
-                  type="decision"
-                  update-date="2024-09-06 0:48"
-                  user-name="demouser1"
-                />
-                <work-flow-component
-                  :show-arrow="false"
-                  title="Build Request"
-                  type="dot-circle"
-                  update-date="2024-09-06 0:48"
-                  user-name="demouser1"
-                /> -->
-              </v-row>
-            </div>
-          </div>
-        </div>
-        <div id="build_history_list_wrapper">
-          <div id="build_history_list_table_title">
-            빌드 내역 (0)
-          </div>
-          <div
-            id="build_history_list_table_wrapper"
-            class="mt-10"
-          >
-            <v-data-table
-              :headers="buildHistoryHeader"
-              :items="buildHistories"
-            >
-              <template #headers="{ columns }">
-                <tr class="tableHeader">
-                  <template
-                    v-for="(header, idx) in columns"
-                    :key="idx"
-                  >
-                    <th :style="{ textAlign: header.align ? header.align : 'center' }">
-                      {{ header.title }}
-                    </th>
-                  </template>
-                </tr>
-              </template>
-              <template #[`item.state`]="{ item }">
-                <img
-                  v-show="item.state === 'FAIL'"
-                  :alt="item.state"
-                  src="/devops/assets/images/icon_f.gif"
-                >
-                <img
-                  v-show="item.state === 'SUCCESS'"
-                  :alt="item.state"
-                  src="/devops/assets/images/icon_s.gif"
-                >
-              </template>
-              <template #[`item.approveHistory`]>
-                <v-icon
-                  class="historyButton"
-                  icon="mdi-clipboard-outline"
-                />
-              </template>
-              <template #bottom>
-                <div class="text-center pt-2">
-                  <v-pagination
-                    v-model="page"
-                    :length="pageCnt"
-                  />
-                </div>
-              </template>
-            </v-data-table>
-          </div>
-        </div>
-      </div>
-    </div>
+  <div v-if="buildDetail" class="view-wrapper">
+    <s-sub-header :show-cnt="false" :title="$t('기본 정보')" class-name="sub-title" />
+    <s-form-table>
+      <s-form-item :label="$t('빌드명')" name="buildName">
+        {{ buildDetail.buildName }}
+      </s-form-item>
+      <s-form-item :label="$t('브랜치')" name="buildBranch">
+        {{ buildDetail.branch }}
+      </s-form-item>
+      <s-form-item :label="$t('빌드 승인 프로세스')" name="buildApproveProcess">
+        ??
+      </s-form-item>
+      <s-form-item :label="$t('패키지 유형')" name="packageType">
+        {{ buildDetail.packageCdName }}
+      </s-form-item>
+    </s-form-table>
+    <template v-if="showContainerBuildInfo">
+      <s-sub-header :show-cnt="false" :title="$t('컨테이너 빌드 정보')" class-name="sub-title" />
+      <s-form-table>
+        <s-form-item :label="$t('Application 포트')" name="appPort">
+          {{ buildDetail.buildName }}
+        </s-form-item>
+        <s-form-item :label="$t('Application 설치 경로')" name="appPath">
+          {{ buildDetail.buildName }}
+        </s-form-item>
+      </s-form-table>
+    </template>
+    <shell-script-input-component v-model="buildDetail.pipelineScript" />
+    <build-history-table-component :build-histories="buildHistories" />
   </div>
 </template>
 
 <script setup>
-import DefaultButtonComponent from '@/components/_common/button/DefaultButtonComponent.vue'
-import DetailViewHeaderComponent from '@/components/build/DetailViewHeaderComponent.vue'
-import WorkFlowComponent from '@/components/build/WorkFlowComponent.vue'
+import { onMounted } from 'vue'
+import { storeToRefs } from 'pinia'
 import { useBuildStore } from '@/stores/devops/build'
 import { useSmcStore } from '@/stores/devops/smc'
-import { storeToRefs } from 'pinia'
-import { onMounted } from 'vue'
-import { computed, ref } from 'vue'
-//import { useRoute } from 'vue-router'
+import { computed } from 'vue'
+import ShellScriptInputComponent from '@/components/_common/input/ShellScriptInputComponent.vue'
+import BuildHistoryTableComponent from './BuildHistoryTableComponent.vue'
+
 const props = defineProps({
   buildId: {
     type: Number,
     default: 0
   }
 })
+
+
 const buildStore = useBuildStore()
 const smcStore = useSmcStore()
-
-//const route = useRoute()
 const { buildDetail, buildHistories } = storeToRefs(buildStore)
 const { smcFlowStates } = storeToRefs(smcStore)
+const showContainerBuildInfo = computed(() => {
+  return buildDetail.value.packageCdName && buildDetail.value.packageCdName.toLowerCase().includes('container') && buildDetail.value.packageCdName.toLowerCase().includes('image')
+})
 
 const getBuildDetail = async () => {
   if(props.buildId){
@@ -201,53 +76,12 @@ const getBuildDetail = async () => {
 }
 
 
-
-
-
-const page = ref(1)
-const pageCnt = computed(() => Math.ceil(buildHistories.value.length / buildHistories.value.length))
-//const itemPerPage = ref(5)
-const buildHistoryHeader = ref([
-  { title: '상태', key: 'buildResult', align: 'center', sortable: false },
-  { title: '빌드 아이디', key: 'buildId', align: 'center', sortable: false },
-  { title: '브랜치', key: 'branch', align: 'center', sortable: false },
-  { title: '설명', key: 'buildDesc', align: 'center', sortable: false },
-  { title: '빌드 사용자', key: 'buildUserName', align: 'center', sortable: false },
-  { title: '빌드 날짜', key: 'buildDate', align: 'center', sortable: false },
-  { title: '승인이력', key: 'approveHistory', align: 'center', sortable: false }
-])
-
-
 onMounted(() => {
   getBuildDetail()
 })
+
 </script>
 
 <style lang="scss" scoped>
-@import '@/assets/style/variables';
 
-#work_flow_contents {
-  overflow-x: auto; /* 가로 스크롤 활성화 */
-  white-space: nowrap; /* 줄 바꿈 방지 */
-  height: 300px;
-  padding-top: 20px;
-}
-
-.contents-wrapper {
-  width: 1700px;
-  background: #fff;
-}
-
-.tableHeader {
-  background: $data-table-header-color;
-}
-
-.scroll-row {
-  display: flex;
-  flex-wrap: nowrap; /* 줄 바꿈 방지 */
-}
-
-.historyButton {
-  cursor: pointer;
-}
 </style>

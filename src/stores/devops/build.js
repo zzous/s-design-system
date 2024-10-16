@@ -16,13 +16,14 @@ export const useBuildStore = defineStore('build', () => {
      * @returns
      */
     const getBuilds = async params => {
-        //builds.value = []
+        builds.value = []
         const { data } = await axios.post(BUILD_LIST, { params })
         builds.value = data?.data || []
         return builds.value
     }
 
     const getBuildDetail = async buildId => {
+        buildDetail.value = null
         const reqUrl = resolvePathVariable(BUILD_$BUILDID, { buildId })
         const { data } = await axios.get(reqUrl)
         buildDetail.value = data?.data || null
@@ -30,6 +31,7 @@ export const useBuildStore = defineStore('build', () => {
     }
 
     const getBuildHistory = async buildId => {
+        buildHistories.value = []
         const reqUrl = resolvePathVariable(BUILD_$BUILDID_HISTORY, { buildId })
         const { data } = await axios.get(reqUrl)
         buildHistories.value = data?.data || []
