@@ -26,8 +26,17 @@
         </s-form-item>
       </s-form-table>
     </template>
-    <shell-script-input-component v-model="buildDetail.pipelineScript" />
-    <build-history-table-component :build-histories="buildHistories" />
+    <!-- <shell-script-input-component v-model="buildDetail.pipelineScript" /> -->
+    <monaco-editor
+      v-model:value="buildDetail.pipelineScript"
+      theme="vs"
+      language="groovy"
+      :height="400"
+      :options="editorOptions"
+    />
+    <div id="build_editor">
+      <build-history-table-component :build-histories="buildHistories" />
+    </div>
   </div>
 </template>
 
@@ -37,8 +46,8 @@ import { storeToRefs } from 'pinia'
 import { useBuildStore } from '@/stores/devops/build'
 import { useSmcStore } from '@/stores/devops/smc'
 import { computed } from 'vue'
-import ShellScriptInputComponent from '@/components/_common/input/ShellScriptInputComponent.vue'
 import BuildHistoryTableComponent from './BuildHistoryTableComponent.vue'
+import MonacoEditor from 'monaco-editor-vue3'
 
 const props = defineProps({
   buildId: {
@@ -47,11 +56,16 @@ const props = defineProps({
   }
 })
 
+const editorOptions = {
+  readOnly: true, // 에디터를 읽기 전용으로 설정
+  automaticLayout: true // 자동 레이아웃
+}
+
 
 const buildStore = useBuildStore()
 const smcStore = useSmcStore()
 const { buildDetail, buildHistories } = storeToRefs(buildStore)
-const { smcFlowStates } = storeToRefs(smcStore)
+//const { smcFlowStates } = storeToRefs(smcStore)
 const showContainerBuildInfo = computed(() => {
   return buildDetail.value.packageCdName && buildDetail.value.packageCdName.toLowerCase().includes('container') && buildDetail.value.packageCdName.toLowerCase().includes('image')
 })
@@ -78,6 +92,7 @@ const getBuildDetail = async () => {
 
 onMounted(() => {
   getBuildDetail()
+
 })
 
 </script>

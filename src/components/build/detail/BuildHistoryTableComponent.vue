@@ -4,6 +4,7 @@
     :headers="buildHistoryHeader"
     :items="buildHistories"
     :items-per-page="itemsPerPage"
+    :page="page"
   >
     <template #headers="{ columns }">
       <tr class="tableHeader">
