@@ -71,6 +71,7 @@ const updateModal = () => {
     modal.component = null
     modal.show = false
     modal.title = ''
+    modal.mode = null
 
     emits('update:model-value', false)
   }
@@ -93,6 +94,7 @@ const onSubmit = async () => {
 watch(
   () => props.mode,
   () => {
+    // console.log('changeMode')
     modal.type = props.mode
     switch (props.mode) {
     case 'new':
@@ -120,6 +122,15 @@ watch(
     default:
       modal.component = null
       break
+    }
+  }
+)
+
+watch(
+  () => props.modelValue,
+  () => {
+    if (!props.modelValue) {
+      emits('update:mode', null)
     }
   }
 )

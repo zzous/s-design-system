@@ -18,7 +18,7 @@
           required
         >
           <v-select
-            v-model="schema.templateId"
+            v-model="values.templateId"
             variant="outlined"
             density="compact"
             hide-details="auto"
@@ -37,7 +37,7 @@
           required
         >
           <v-text-field
-            v-model="schema.projectName"
+            v-model="values.projectName"
             variant="outlined"
             density="compact"
             hide-details="auto"
@@ -56,7 +56,7 @@
           name="projectAlias"
         >
           <v-text-field
-            v-model="schema.projectAlias"
+            v-model="values.projectAlias"
             variant="outlined"
             density="compact"
             hide-details="auto"
@@ -146,7 +146,7 @@
         </s-form-item>
         <s-form-item v-slot="{ handleChange }" :label="$t('설명(250자 이내)')" name="projectDesc">
           <v-textarea
-            v-model="schema.projectDesc"
+            v-model="values.projectDesc"
             density="compact"
             variant="outlined"
             hide-details="auto"
@@ -165,7 +165,7 @@
           required
         >
           <v-text-field
-            v-model="schema.packageName"
+            v-model="values.packageName"
             variant="outlined"
             density="compact"
             hide-details="auto"
@@ -181,7 +181,7 @@
           required
         >
           <v-select
-            v-model="schema.jdkVersion"
+            v-model="values.jdkVersion"
             variant="outlined"
             density="compact"
             hide-details="auto"
@@ -215,7 +215,7 @@ import BuildProcessListModal from '@/components/project/smc/BuildProcessListModa
 import DeployProcessListModal from '@/components/project/smc/DeployProcessListModalComponent.vue'
 import ProjectManagerListModal from '@/components/project/smc/ProjectManagerListModalComponent.vue'
 
-const emits = defineEmits(['validate', 'errors', 'click:cancel', 'submit'])
+const emits = defineEmits(['validate', 'errors', 'submit'])
 
 const isDuplicateProjectName = ref(false)
 
