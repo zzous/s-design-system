@@ -43,7 +43,7 @@
           </div>
         </template>
 
-        <template #item>
+        <template v-if="modelValue" #item>
           <div class="s-modal__content">
             <slot name="default" />
           </div>

@@ -18,7 +18,7 @@
           required
         >
           <v-select
-            v-model="values.templateId"
+            :model-value="values.templateId"
             variant="outlined"
             density="compact"
             hide-details="auto"
@@ -37,7 +37,7 @@
           required
         >
           <v-text-field
-            v-model="values.projectName"
+            :model-value="values.projectName"
             variant="outlined"
             density="compact"
             hide-details="auto"
@@ -56,7 +56,7 @@
           name="projectAlias"
         >
           <v-text-field
-            v-model="values.projectAlias"
+            :model-value="values.projectAlias"
             variant="outlined"
             density="compact"
             hide-details="auto"
@@ -146,7 +146,7 @@
         </s-form-item>
         <s-form-item v-slot="{ handleChange }" :label="$t('설명(250자 이내)')" name="projectDesc">
           <v-textarea
-            v-model="values.projectDesc"
+            :model-value="values.projectDesc"
             density="compact"
             variant="outlined"
             hide-details="auto"
@@ -165,7 +165,7 @@
           required
         >
           <v-text-field
-            v-model="values.packageName"
+            :model-value="values.packageName"
             variant="outlined"
             density="compact"
             hide-details="auto"
@@ -181,7 +181,7 @@
           required
         >
           <v-select
-            v-model="values.jdkVersion"
+            :model-value="values.jdkVersion"
             variant="outlined"
             density="compact"
             hide-details="auto"

@@ -30,7 +30,7 @@
           name="projectAlias"
         >
           <v-text-field
-            v-model="values.projectAlias"
+            :model-value="values.projectAlias"
             variant="outlined"
             density="compact"
             hide-details="auto"
@@ -40,7 +40,7 @@
         </s-form-item>
         <s-form-item v-slot="{ handleChange }" :label="$t('설명(250자 이내)')" name="projectDesc">
           <v-textarea
-            v-model="values.projectDesc"
+            :model-value="values.projectDesc"
             density="compact"
             variant="outlined"
             hide-details="auto"
@@ -124,7 +124,7 @@ const fetchEditProject = async (values) => {
 
 const submit = async () => {
   const result = await validate()
-  console.log('result', result)
+  // console.log('result', result)
   if (result) {
     const { values } = formRef.value
 
@@ -137,7 +137,6 @@ const submit = async () => {
 const initProject = async () => {
   await projectStore.getProject(props.projectId)
   const { projectAlias, projectDesc } = dataInfo.value
-  console.log(projectAlias, projectDesc)
   formRef.value.setValues({
     projectAlias,
     projectDesc,
