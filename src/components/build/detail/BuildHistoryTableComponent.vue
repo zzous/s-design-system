@@ -25,7 +25,7 @@
         src="/devops/assets/images/icon_f.gif"
       >
       <img
-        v-else-if="item.buildResult === 'SUCCESS'"
+        v-else-if="item.buildResult === 'APPROVE'"
         :alt="item.state"
         src="/devops/assets/images/icon_s.gif"
       >
@@ -33,7 +33,7 @@
         {{ item.buildResult }}
       </template>
     </template>
-    <template #[`item.approveHistory`]>
+    <template #[`item.approveHistory`]="{ item }">
       <!-- <v-icon
         class="historyButton"
         icon="mdi-clipboard-outline"
@@ -41,6 +41,7 @@
       <s-btn
         variant="outlined"
         :title="$t('상세보기')"
+        @click="onClickHistoryDetail(item)"
       />
     </template>
     <template #bottom>
@@ -63,10 +64,12 @@ const props = defineProps({
   }
 })
 const page = ref(1)
-const itemsPerPage = ref(3)
-//const pageCnt = computed(() => Math.ceil(props.buildHistories.length / props.buildHistories.length))
+const itemsPerPage = ref(10)
 const pageCnt = computed(() => Math.ceil((props.buildHistories ? props.buildHistories.length : 0) / itemsPerPage.value))
-//const itemPerPage = ref(5)
+const onClickHistoryDetail = (history) => {
+  console.error('onClickHistoryDetail : ',history)
+}
+
 const buildHistoryHeader = ref([
   { title: '상태', key: 'buildResult', align: 'center', sortable: false },
   { title: '빌드 아이디', key: 'buildId', align: 'center', sortable: false },

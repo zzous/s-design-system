@@ -2,7 +2,7 @@
   <s-modal
     :model-value="showModal"
     :title="$t('빌드 생성')"
-    modal-width="1800px"
+    class-name="lg"
     @update:model-value="updateModal"
   >
     <project-build-new-component />
