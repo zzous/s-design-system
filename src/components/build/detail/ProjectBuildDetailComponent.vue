@@ -27,13 +27,13 @@
       </s-form-table>
     </template>
     <!-- <shell-script-input-component v-model="buildDetail.pipelineScript" /> -->
-    <monaco-editor
+    <!-- <monaco-editor
       v-model:value="buildDetail.pipelineScript"
       theme="vs"
       language="groovy"
       :height="400"
       :options="editorOptions"
-    />
+    /> -->
     <div id="build_editor">
       <build-history-table-component :build-histories="buildHistories" />
     </div>
@@ -47,7 +47,6 @@ import { useBuildStore } from '@/stores/devops/build'
 import { useSmcStore } from '@/stores/devops/smc'
 import { computed } from 'vue'
 import BuildHistoryTableComponent from './BuildHistoryTableComponent.vue'
-import MonacoEditor from 'monaco-editor-vue3'
 
 const props = defineProps({
   buildId: {
@@ -55,11 +54,6 @@ const props = defineProps({
     default: 0
   }
 })
-
-const editorOptions = {
-  readOnly: true, // 에디터를 읽기 전용으로 설정
-  automaticLayout: true // 자동 레이아웃
-}
 
 
 const buildStore = useBuildStore()
