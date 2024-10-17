@@ -117,7 +117,7 @@ watchEffect(() => {
   color: #ffffff;
   margin-top: 20px;
   padding-right: 10px;
-  height: 50px;
+  height: 52px;
   line-height: 50px;
 }
 #menu_title_wrapper a{
@@ -151,14 +151,53 @@ watchEffect(() => {
 .navi-inner-menu-title.router-link-exact-active {
   color: $active-font-color;
 }
-.navi-inner-menu.active:hover {
-  background: #e7f4fd;
-  border-radius:99px !important;
-}
 .navi-inner-menu.active:hover .navi-inner-menu-title{
   color: $active-font-color;
 }
-.menu-active {
-  color: $active-font-color;
+
+.navi-menu{
+  &.v-list {
+    padding: 0;
+    ::v-deep(.v-list-group) {
+      margin-bottom: 10px;
+
+      .v-list-item--density-default:not(.v-list-item--nav).v-list-group__header {
+        --v-hover-opacity: 0;
+        --v-activated-opacity: 0;
+        --v-focus-opacity: 0;
+        --v-theme-overlay-multiplier: 0;
+
+        min-height: 64px;
+        padding-inline: 0;
+        padding-top: 24px;
+        padding-bottom: 16px;
+        margin: 0;
+
+        .v-list-item__content .v-list-item-title {
+          font-weight: 400;
+          font-size: 18px;
+        }
+      }
+    }
+
+    ::v-deep(.v-list-group .v-list-group__items) .v-list-item {
+      padding-inline: 5px !important;
+      margin: 0;
+      min-height: 40px;
+      font-weight: 400;
+
+      &:hover {
+        border-radius: 100px !important;
+        background-color: rgba($s-btn--blue-1, 0.1);
+      }
+
+      &:has(.router-link-active){
+        .router-link-active {
+          color: $active-font-color;
+          font-weight: 700;
+        }
+      }
+    }
+  }
 }
 </style>

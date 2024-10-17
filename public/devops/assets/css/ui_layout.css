@@ -51,7 +51,7 @@ padding: 2px; border-radius:50%;}
 .portal_layout .s-select .v-list-item-title{font-size:12px; color:#333; font-weight: 500 !important;}
 
 .portal_layout .s-select .v-list-item:hover .v-list-item-title,
-.portal_layout .v-list-item--active .v-list-item-title{color:#1297f2; font-weight:500; }
+.portal_layout .v-list-item--active .v-list-item-title{/* color:#1297f2; */ font-weight:400; }
 .portal_layout .v-navigation-drawer{box-shadow: 0 0 0 !important; border-right:solid 1px #DCDCDC !important;}
 
 /* .portal_layout .sp-full-menu__menu{padding-top:10px !important} */
