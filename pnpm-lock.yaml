@@ -35,9 +35,6 @@ importers:
       moment:
         specifier: ^2.30.1
         version: 2.30.1
-      monaco-editor-vue3:
-        specifier: ^0.1.10
-        version: 0.1.10
       pinia:
         specifier: ^2.1.7
         version: 2.2.2(vue@3.5.8)
@@ -1906,12 +1903,6 @@ packages:
   moment@2.30.1:
     resolution: {integrity: sha512-uEmtNhbDOrWPFS+hdjFCBfy9f2YoyzRpwcl+DqpC6taX21FzsTLQVbMV/W7PzNSX6x/bhC1zA3c2UQ5NzH6how==}
 
-  monaco-editor-vue3@0.1.10:
-    resolution: {integrity: sha512-C1jhyx+KHQyW1AbjuA8DhIZSqkVquV7MnuWXG9jESd0e+CkzEFzuk1RvNqlN2eJ2fRkvF32yEPHYfvz9quOhHQ==}
-
-  monaco-editor@0.33.0:
-    resolution: {integrity: sha512-VcRWPSLIUEgQJQIE0pVT8FcGBIgFoxz7jtqctE+IiCxWugD0DwgyQBcZBhdSrdMC84eumoqMZsGl2GTreOzwqw==}
-
   mrmime@2.0.0:
     resolution: {integrity: sha512-eu38+hdgojoyq63s+yTpN4XMBdt5l8HhMhc4VKLO9KM5caLIBvUm4thi7fFaxyTmCKeNnXZ5pAlBwCUnhA09uw==}
     engines: {node: '>=10'}
@@ -2673,11 +2664,6 @@ packages:
     peerDependenciesMeta:
       '@nuxt/kit':
         optional: true
-
-  vite-plugin-monaco-editor@1.1.0:
-    resolution: {integrity: sha512-IvtUqZotrRoVqwT0PBBDIZPNraya3BxN/bfcNfnxZ5rkJiGcNtO5eAOWWSgT7zullIAEqQwxMU83yL9J5k7gww==}
-    peerDependencies:
-      monaco-editor: '>=0.33.0'
 
   vite-plugin-vue-devtools@7.4.6:
     resolution: {integrity: sha512-lOKur3qovCB3BQStL0qfHEoIusqya1ngfxfWuqn9DTa6h9rlw6+S3PV4geOP5YBGYQ4NW1hRX70OD8I+sYr1dA==}
@@ -4787,16 +4773,6 @@ snapshots:
 
   moment@2.30.1: {}
 
-  monaco-editor-vue3@0.1.10:
-    dependencies:
-      monaco-editor: 0.33.0
-      vite-plugin-monaco-editor: 1.1.0(monaco-editor@0.33.0)
-      vue: 3.5.8
-    transitivePeerDependencies:
-      - typescript
-
-  monaco-editor@0.33.0: {}
-
   mrmime@2.0.0: {}
 
   ms@2.1.3: {}
@@ -5587,10 +5563,6 @@ snapshots:
     transitivePeerDependencies:
       - rollup
       - supports-color
-
-  vite-plugin-monaco-editor@1.1.0(monaco-editor@0.33.0):
-    dependencies:
-      monaco-editor: 0.33.0
 
   vite-plugin-vue-devtools@7.4.6(rollup@4.22.4)(vite@5.4.7(sass@1.79.3)(terser@5.34.1))(vue@3.5.8):
     dependencies:
