@@ -78,9 +78,9 @@ const filteredMenu = computed(() => menuPaths.value.find(({ clientId }) => {
 }))
 const open = ref([]) //활성화할 메뉴의 value
 //프로젝트가 있으면 가져오고 없으면 전체로
-const selectedProject = ref(localStorage.getItem(LOCALSTORAGE_KEY.selectedProject) ?
-  JSON.parse(localStorage.getItem(LOCALSTORAGE_KEY.selectedProject)) : { ...defaultProject })
-//TODO pinia 처리
+const selectedProject = ref(localStorage.getItem(LOCALSTORAGE_KEY.PROJECT_ID) ?
+  JSON.parse(localStorage.getItem(LOCALSTORAGE_KEY.PROJECT_ID)) : { ...defaultProject })
+
 // const projectList = ref([
 //   { name: '전체', value: 'total' },
 //   { name: '프로젝트1', value: 'projcet-1' },
@@ -90,15 +90,14 @@ const selectedProject = ref(localStorage.getItem(LOCALSTORAGE_KEY.selectedProjec
 const totalProjectList = computed(() => [{ ...defaultProject }, ...projectList.value])
 
 const onChangeProject = () => {
-  //console.error(selectedProject.value)
   //프로젝트가 바뀔 때 로컬 스토리지에 저장
-  localStorage.setItem(LOCALSTORAGE_KEY.selectedProject, JSON.stringify(selectedProject.value))
+  localStorage.setItem(LOCALSTORAGE_KEY.PROJECT_ID, JSON.stringify(selectedProject.value))
 }
 
 watchEffect(() => {
   try{
-    const savedProject = localStorage.getItem(LOCALSTORAGE_KEY.selectedProject) ?
-      JSON.parse(localStorage.getItem(LOCALSTORAGE_KEY.selectedProject)) :null
+    const savedProject = localStorage.getItem(LOCALSTORAGE_KEY.PROJECT_ID) ?
+      JSON.parse(localStorage.getItem(LOCALSTORAGE_KEY.PROJECT_ID)) :null
     const idx = projectList.value.findIndex(project => project.projectId === savedProject?.projectId)
     idx < 0 ? selectedProject.value = { ...defaultProject } : selectedProject.value = { ...savedProject }
   }catch(e){

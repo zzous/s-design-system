@@ -125,7 +125,7 @@ const onClickExcuteBuild = async () => {
 
 //빌드 목록을 가져오고 빌드 목록이 있다면 주기적으로 요청 한다.
 const getBuildList = async () => {
-  const projectObj = JSON.parse(localStorage.getItem(LOCALSTORAGE_KEY.selectedProject))
+  const projectObj = JSON.parse(localStorage.getItem(LOCALSTORAGE_KEY.PROJECT_ID))
   const tempBuilds = await buildStore.getBuildsWithHistory({ serviceGroupId: devOpsServiceGroupId.value, projectId: projectObj.projectId })
   if(tempBuilds?.length) {
     intervalGetBuildList()
