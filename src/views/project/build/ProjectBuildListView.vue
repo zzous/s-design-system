@@ -2,7 +2,7 @@
   <project-build-new-modal-component v-model="showNewModal" />
   <project-build-detail-modal-component v-model="showDetailPopup" :build-id="selectedBuildId" />
   <div class="view-wrapper">
-    <view-header-component :title="$t('빌드')">
+    <view-header-component :title="$t('빌드 목록')">
       <s-btn
         variant="outlined"
         color="red"

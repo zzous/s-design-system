@@ -13,6 +13,7 @@
       @click:log-in="onClickLogin"
       @click:sign-up="onClickSignUp"
       @click:menu="onClickMenu"
+      @click:service-item="onClickServiceItem"
     >
       <template #inner-append>
         <v-select
@@ -153,6 +154,12 @@ const onClickMenuItem = (value) => {
     router.push('/signup/request/sign-up-request')
   } else if (value === 'logout') {
     onLogOut()
+  }
+}
+
+const onClickServiceItem = (value) => {
+  if (value.menuUrl && value.accessible) {
+    window.location.href = value.menuUrl
   }
 }
 
