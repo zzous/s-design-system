@@ -193,11 +193,6 @@ const headers = ref([
     align: 'center',
     key: 'lastBuildResult'
   },
-  {
-    title: tt('액션'),
-    align: 'center',
-    key: 'action',
-  }
 ])
 </script>
 
