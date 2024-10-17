@@ -47,15 +47,15 @@ export const useBuildStore = defineStore('build', () => {
 
     const getBuildsWithHistory = async parmas => {
         await getBuilds(parmas)
-        if(builds.value && builds.value.length) {
-            builds.value.forEach(async build => {
-                const historyList = await getBuildHistory(build.buildId)
-                const lastHistory = historyList?.[historyList.length - 1] ?? null
-                build.historyList = historyList
-                build.lastBuildDate = lastHistory?.buildDate ?? '-'
-                build.lastBuildResult = lastHistory?.buildResult ?? '-'
-            })
-        }
+        // if(builds.value && builds.value.length) {
+        //     builds.value.forEach(async build => {
+        //         const historyList = await getBuildHistory(build.buildId)
+        //         const lastHistory = historyList?.[historyList.length - 1] ?? null
+        //         build.historyList = historyList
+        //         build.lastBuildDate = lastHistory?.buildDate ?? '-'
+        //         build.lastBuildResult = lastHistory?.buildResult ?? '-'
+        //     })
+        // }
         return builds.value
     }
 

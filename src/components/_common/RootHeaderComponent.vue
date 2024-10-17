@@ -83,7 +83,9 @@
             v-if="item.accessible"
             :key="index"
             class="side-menu"
+            :active="item.menuCode === 'DEVOPS'"
             :title="item.menuName"
+            @click="onClickServiceItem(item)"
           />
         </template>
       </div>
@@ -92,9 +94,6 @@
 </template>
 
 <script setup>
-import { defineModel } from 'vue'
-
-
 const props = defineProps({
   isLoggedIn: {
     type: Boolean
@@ -130,7 +129,7 @@ const props = defineProps({
   }
 })
 
-const emits = defineEmits(['click:menu','click:log-in', 'click:sign-up', 'click:menu-item', 'click:logo'])
+const emits = defineEmits(['click:menu','click:log-in', 'click:sign-up', 'click:menu-item', 'click:logo', 'click:service-item'])
 
 //const showMenu = ref(false)
 
@@ -145,6 +144,10 @@ const closeMenu = () => {
 
 const onClickMenuItem = (value) => {
   emits('click:menu-item', value)
+}
+
+const onClickServiceItem = (value) => {
+  emits('click:service-item', value)
 }
 </script>
 
@@ -187,13 +190,33 @@ const onClickMenuItem = (value) => {
   padding: 0;
 }
 #side_menu_wrapper {
+  --v-hover-opacity: 0;
+  --v-activated-opacity: 0;
+  --v-focus-opacity: 0;
+  --v-theme-overlay-multiplier: 0;
+
   position: relative;
   height: calc(100vh - 150px);
   overflow-y: auto;
   @include scroll();
 
-  > .v-list-item {
+  &::v-deep(.v-list-item) {
     margin-top: 0 !important;
+    font-weight: 300;
+
+    .v-list-item-title {
+      font-size: 18px;
+      font-weight: 300;
+    }
+
+    &.v-list-item--active {
+      color: $active-font-color;
+
+      .v-list-item-title {
+        font-size: 18px;
+        font-weight: 700;
+      }
+    }
   }
 }
 #side_menu_background {

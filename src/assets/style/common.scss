@@ -18,8 +18,10 @@
     text-align: center;
 }
 .show-header {
-    margin-top: 68px;
+    position: fixed;
+    top: 68px;
     height: 100%;
+    width: 100%;
 }
 .show-navi {
     margin-left: 300px;
@@ -96,7 +98,6 @@
 }
 
 .v-application__wrap {
-    min-width: 1400px;
     background-color: $s-base-background;
 
     #navi {

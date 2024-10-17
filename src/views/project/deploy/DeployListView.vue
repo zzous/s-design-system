@@ -1,7 +1,9 @@
 <template>
   <div class="view-wrapper">
     <s-sub-header :title="$t('배포 목록')" :list-cnt="items.length">
-      <s-btn title="새 배포" to="deploy/new" />
+      <s-btn variant="outlined" color="red" :title="$t('삭제')" />
+      <s-btn variant="outlined" :title="$t('배포')" />
+      <s-btn variant="outlined" :title="$t('생성')" />
     </s-sub-header>
     <div class="layout__list-contents">
       <div class="search">
@@ -18,7 +20,6 @@
       <div>
         <s-data-table
           v-model="selected"
-          :custom-filter="filterOnlyCapsText"
           :headers="headers"
           :items="items"
           :page="page"
@@ -27,33 +28,30 @@
           item-value="name"
           show-select
           :options="{ pageCnt, showSelect: true }"
-        >
-          <template #headers="{ columns }">
-            <tr class="tableHeader">
-              <th v-for="(header, idx) in columns" :key="idx" :style="{ textAlign: header.align }">
-                {{ header.title }}
-              </th>
-            </tr>
-          </template>
-        </s-data-table>
+        />
       </div>
     </div>
   </div>
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, computed, onMounted } from 'vue'
+import { storeToRefs } from 'pinia'
+
 import { useI18n } from '@/_setting/i18n'
+import { useDeployStore } from '@/stores/devops/deploy'
+import { useProjectStore } from '@/stores/devops/project'
 
 const page = ref(1)
 const search = ref('')
+const selected = ref([])
 
 const { tt } = useI18n()
 
 const headers = ref([
   {
     title: tt('배포명'),
-    align: 'start',
+    align: 'center',
     key: 'deployName'
   },
   {
@@ -82,19 +80,22 @@ const headers = ref([
     key: 'lastDeployState'
   },
 ])
-const items = ref([
-  {
-    deployName: 'spring-boot-demo-build-stg',
-    buildName: 'test build',
-    stage: 'PROD',
-    provider: 'SHELL',
-    lastDeployDate: '2024-09-03 18:26:31',
-    lastDeployState: 'SUCCESS'
-  }
-])
+
+const deployStore = useDeployStore()
+const { deploies: items } = storeToRefs(deployStore)
+const { selectedProject } = storeToRefs(useProjectStore())
 
 const pageCnt = computed(() => Math.ceil(items.value.length / items.value))
 
+const getDeployList = () => {
+  deployStore.getDeployList({
+    projectId: selectedProject.value.projectId
+  })
+}
+
+onMounted(() => {
+  getDeployList()
+})
 </script>
 
 <style scoped lang="scss">

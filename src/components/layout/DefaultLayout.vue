@@ -13,6 +13,7 @@
       @click:log-in="onClickLogin"
       @click:sign-up="onClickSignUp"
       @click:menu="onClickMenu"
+      @click:service-item="onClickServiceItem"
     >
       <template #inner-append>
         <v-select
@@ -44,6 +45,7 @@
         </div>
         <footer-component />
       </div>
+      <global-progress v-model="loading" />
     </div>
     <teleport to="#destination">
       <template v-for="(alert, index) in alertItemStack" :key="alert.uuid">
@@ -56,7 +58,6 @@
           @close-alert="closeAlert(index)"
         />
       </template>
-      <global-progress v-model="loading" />
     </teleport>
   </v-app>
 </template>
@@ -85,7 +86,8 @@ import { useI18n } from '@/_setting/i18n'
 const router = useRouter()
 const tokenStore = useTokenStore()
 const userStore = useUserStore()
-const sgStore = useServiceGroupStore()
+const sgStore
+  = useServiceGroupStore()
 const devOpsSgStore = useDevOpsServiceGroupStore()
 const menuStore = useMenuStore()
 
@@ -152,6 +154,12 @@ const onClickMenuItem = (value) => {
     router.push('/signup/request/sign-up-request')
   } else if (value === 'logout') {
     onLogOut()
+  }
+}
+
+const onClickServiceItem = (value) => {
+  if (value.menuUrl && value.accessible) {
+    window.location.href = value.menuUrl
   }
 }
 

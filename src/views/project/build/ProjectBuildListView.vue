@@ -2,7 +2,7 @@
   <project-build-new-modal-component v-model="showNewModal" />
   <project-build-detail-modal-component v-model="showDetailPopup" :build-id="selectedBuildId" />
   <div class="view-wrapper">
-    <view-header-component :title="$t('빌드')" :list-cnt="builds.length">
+    <view-header-component :title="$t('빌드 목록')" :list-cnt="builds.length">
       <s-btn
         variant="outlined"
         color="red"
@@ -193,11 +193,6 @@ const headers = ref([
     align: 'center',
     key: 'lastBuildResult'
   },
-  {
-    title: tt('액션'),
-    align: 'center',
-    key: 'action',
-  }
 ])
 </script>
 
