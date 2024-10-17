@@ -38,7 +38,7 @@
             @update:model-value="handleChange"
           />
         </s-form-item>
-        <s-form-item v-slot="{ handleChange }" :label="$t('설명(250자 이내)')" name="projectDesc">
+        <s-form-item v-slot="{ handleChange }" :label="$t('설명({{length}}자 이내)', {length: 250})" name="projectDesc">
           <v-textarea
             :model-value="values.projectDesc"
             density="compact"

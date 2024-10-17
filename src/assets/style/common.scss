@@ -4,6 +4,10 @@
     --global-nav-header-height: 68px;
 }
 
+.v-theme--light {
+    --v-border-color: $stext__gray-5;
+}
+
 .active-text-color {
     color: $active-font-color;
 }
