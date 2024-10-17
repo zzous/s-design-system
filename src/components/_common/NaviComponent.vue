@@ -71,16 +71,13 @@ const onClickMenuItem = () => {
 }
 const menuStore = useMenuStore()
 const projectStore = useProjectStore()
-const { projects: projectList } = storeToRefs(projectStore)
+const { projects: projectList, selectedProject } = storeToRefs(projectStore)
 const { menuPaths } = storeToRefs(menuStore)
 const filteredMenu = computed(() => menuPaths.value.find(({ clientId }) => {
   return clientId === 'strato-devops'
 }))
 const open = ref([]) //활성화할 메뉴의 value
 //프로젝트가 있으면 가져오고 없으면 전체로
-const selectedProject = ref(localStorage.getItem(LOCALSTORAGE_KEY.PROJECT_ID) ?
-  JSON.parse(localStorage.getItem(LOCALSTORAGE_KEY.PROJECT_ID)) : { ...defaultProject })
-
 // const projectList = ref([
 //   { name: '전체', value: 'total' },
 //   { name: '프로젝트1', value: 'projcet-1' },
@@ -94,16 +91,7 @@ const onChangeProject = () => {
   localStorage.setItem(LOCALSTORAGE_KEY.PROJECT_ID, JSON.stringify(selectedProject.value))
 }
 
-watchEffect(() => {
-  try{
-    const savedProject = localStorage.getItem(LOCALSTORAGE_KEY.PROJECT_ID) ?
-      JSON.parse(localStorage.getItem(LOCALSTORAGE_KEY.PROJECT_ID)) :null
-    const idx = projectList.value.findIndex(project => project.projectId === savedProject?.projectId)
-    idx < 0 ? selectedProject.value = { ...defaultProject } : selectedProject.value = { ...savedProject }
-  }catch(e){
-    selectedProject.value = { ...defaultProject }
-  }
-})
+
 </script>
 
 <style scoped lang="scss">

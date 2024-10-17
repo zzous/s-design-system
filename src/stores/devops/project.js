@@ -3,12 +3,29 @@ import { ref } from 'vue'
 
 import axios from '@/_setting/axios/request-devops'
 import { PROJECT_LIST, PROJECT_$PROJECTID, PROJECT, PROJECT_NAME_DUPLICATE } from '@/assets/consts/api/devops/project'
+import { LOCALSTORAGE_KEY } from '@/assets/consts/consts'
+
+const defaultProject = { projectName: '전체', projectId: 0 }
+const initSelectedProject = (projects) => {
+    try{
+        let returnProject = null
+        const savedProject = localStorage.getItem(LOCALSTORAGE_KEY.PROJECT_ID) ?
+            JSON.parse(localStorage.getItem(LOCALSTORAGE_KEY.PROJECT_ID)) : { ...defaultProject }
+        const idx = projects.findIndex(tempProject => tempProject.projectId === savedProject.projectId)
+        returnProject = idx >= 0 ? { ...projects[idx] } : { ...defaultProject }
+        return returnProject
+    }catch(e) {
+        return { ...defaultProject }
+    }
+}
 
 export const useProjectStore = defineStore('project', () => {
     const projects = ref([])
     const project = ref({
         sourceInfo: {}
     })
+    //GNB 프로젝트
+    const selectedProject = ref({ ...defaultProject })
 
     const initProject = () => {
         project.value = {
@@ -25,6 +42,7 @@ export const useProjectStore = defineStore('project', () => {
         projects.value = []
         const { data } = await axios.get(PROJECT_LIST, { params })
         projects.value = data?.data || []
+        selectedProject.value = initSelectedProject(projects.value)
         return projects.value
     }
 
@@ -100,6 +118,7 @@ export const useProjectStore = defineStore('project', () => {
         fetchNewProject,
         fetchEditProject,
         fetchImportProject,
-        fetchProjectNameDuplicate
+        fetchProjectNameDuplicate,
+        selectedProject
     }
 })

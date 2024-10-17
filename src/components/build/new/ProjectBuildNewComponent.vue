@@ -3,7 +3,7 @@
     <s-sub-header :show-cnt="false" :title="$t('기본 정보')" class-name="sub-title" />
     <s-form-table>
       <s-form-item
-        :label="$t('템플릿')"
+        :label="$t('빌드명')"
         name="templateId"
         required
       />
@@ -113,7 +113,7 @@ import { ref } from 'vue'
 
 // const checkoutScript = ref(DEFAULT_CHECKOUT_SCRIPT)
 // const fileUploadScript = ref(DEFAULT_FILE_UPLOAD_SCRIPT)
-const branchList = ref(['dev', 'stage', 'master'])
+//const branchList = ref(['dev', 'stage', 'master'])
 // const approveProcessList = ref(['프로세스1', '프로세스2', '프로세스3'])
 // const sonarQunbeRuleList = ref(['rule1', 'rule2', 'rule3'])
 </script>
