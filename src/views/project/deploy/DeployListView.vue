@@ -40,7 +40,7 @@ import { storeToRefs } from 'pinia'
 
 import { useI18n } from '@/_setting/i18n'
 import { useDeployStore } from '@/stores/devops/deploy'
-import { LOCALSTORAGE_KEY } from '@/assets/consts/consts'
+import { useProjectStore } from '@/stores/devops/project'
 
 const page = ref(1)
 const search = ref('')
@@ -83,12 +83,13 @@ const headers = ref([
 
 const deployStore = useDeployStore()
 const { deploies: items } = storeToRefs(deployStore)
+const { selectedProject } = storeToRefs(useProjectStore())
 
 const pageCnt = computed(() => Math.ceil(items.value.length / items.value))
 
 const getDeployList = () => {
   deployStore.getDeployList({
-    projectId: JSON.parse(localStorage.getItem(LOCALSTORAGE_KEY.PROJECT_ID)).projectId
+    projectId: selectedProject.value.projectId
   })
 }
 
