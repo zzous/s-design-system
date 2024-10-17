@@ -26,7 +26,7 @@
       <s-form-item :label="$t('프로젝트 별칭')" name="projectAlias">
         {{ dataInfo.projectAlias || '-' }}
       </s-form-item>
-      <s-form-item :label="$t('설명(250자 이내)')" name="projectDesc">
+      <s-form-item :label="$t('설명({{length}}자 이내)', {length: 250})" name="projectDesc">
         <span style="white-space: pre;">{{ dataInfo.projectDesc || '-' }}</span>
       </s-form-item>
     </s-form-table>

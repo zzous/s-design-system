@@ -56,6 +56,7 @@
           @close-alert="closeAlert(index)"
         />
       </template>
+      <global-progress v-model="loading" />
     </teleport>
   </v-app>
 </template>
@@ -70,12 +71,14 @@ import { useServiceGroupStore } from '@/stores/portal/service-group'
 import { useDevOpsServiceGroupStore } from '@/stores/devops/service-group'
 import { useAlertStore } from '@/stores/components/alert'
 import { useMenuStore } from '@/stores/portal/menu'
+import { useLoadingStore } from '@/stores/components/loading'
 
 import HeaderComponent from '@/components/_common/RootHeaderComponent.vue'
 import FooterComponent from '@/components/_common/FooterComponent.vue'
 import NaviComponent from '@/components/_common/NaviComponent.vue'
 import Alert from '@/components/_common/alert/CustomAlertComponent.vue'
 import StoreConfirmComponent from '@/components/_common/modal/StoreConfirmComponent.vue'
+import GlobalProgress from '../_common/progress/GlobalProgressComponent.vue'
 import { useI18n } from '@/_setting/i18n'
 
 
@@ -86,6 +89,8 @@ const sgStore = useServiceGroupStore()
 const devOpsSgStore = useDevOpsServiceGroupStore()
 const menuStore = useMenuStore()
 
+const loadingStore = useLoadingStore()
+const { loading } = storeToRefs(loadingStore)
 const { serviceMenus } = storeToRefs(menuStore)
 const { t } = useI18n()
 

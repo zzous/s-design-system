@@ -33,7 +33,6 @@ const initializeAccessToken = (config, accessToken) => {
 export const handleAuthToken = async (config) => {
   const { accessToken, refreshToken } = getAuthToken()
   if (!accessToken && refreshToken) {
-    console.log('!accessToken && refreshToken')
     try {
       await onRefreshToken() // 리프레시 토큰으로 액세스 토큰 재발급
       const newAccessToken = cookieHelper.getCookie(COOKIE_KEY.ACCESS)
@@ -42,7 +41,6 @@ export const handleAuthToken = async (config) => {
         initializeAccessToken(config, newAccessToken)
       }
     } catch (e) {
-      console.log(e)
       useTokenStore().onLogOut() // refresh 토큰으로 액세스 토큰 갱신 실패 시 로그아웃 처리
       return Promise.reject(e)
     }
@@ -87,7 +85,9 @@ function setInterceptor(service) {
     },
     (error) => {
       numberOfCallPending += 1
-      closeLoading()
+      if (numberOfCallPending === 0) {
+        closeLoading()
+      }
       return Promise.reject(error)
     }
   )

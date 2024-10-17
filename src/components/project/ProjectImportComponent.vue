@@ -13,7 +13,7 @@
       <s-form-table>
         <s-form-item
           v-slot="{ errors, handleChange }"
-          :label="$t('프로젝트 명')"
+          :label="$t('프로젝트명')"
           name="projectName"
           required
         >
@@ -22,7 +22,7 @@
             variant="outlined"
             density="compact"
             hide-details="auto"
-            :placeholder="$t('프로젝트 명을 입력해주세요')"
+            :placeholder="$t('프로젝트명을 입력해주세요')"
             :error-messages="errors"
             @update:model-value="handleChange"
             @input="isDuplicateProjectName = true"
@@ -151,7 +151,7 @@
           </template>
           <!-- TODO ProjectManagers -->
         </s-form-item>
-        <s-form-item v-slot="{ handleChange }" :label="$t('설명(250자 이내)')" name="projectDesc">
+        <s-form-item v-slot="{ handleChange }" :label="$t('설명({{length}}자 이내)', {length: 250})" name="projectDesc">
           <v-textarea
             v-model="schema.projectDesc"
             density="compact"
@@ -193,7 +193,7 @@ const projectStore = useProjectStore()
 const alertStore = useAlertStore()
 
 const schema = yup.object({
-  projectName: yup.string().trim().onlyEngNumHyphen().label(tt('프로젝트 명')).max(50).required(),
+  projectName: yup.string().trim().onlyEngNumHyphen().label(tt('프로젝트명')).max(50).required(),
   projectAlias: yup.string().trim().label(tt('프로젝트 별칭')).max(50),
   projectFile: yup.mixed().label(tt('프로젝트 파일')).required(),
   buildApproveFlow: yup.array().min(1).label(tt('빌드 승인 프로세스')).required(),
@@ -252,7 +252,7 @@ const validate = async () => {
 const checkDuplicate = async () => {
   try {
     const result = await projectStore.fetchProjectNameDuplicate(formRef.value.values.projectName)
-    // result 의 값이 true일 경우 중복된 프로젝트 명이 있다.
+    // result 의 값이 true일 경우 중복된 프로젝트명이 있다.
     if (!result) {
       alertStore.openAlert({
         titleName: tt('사용할 수 있는 프로젝트명입니다'),
