@@ -38,7 +38,7 @@ const clearSpreadsheetData = async (sheets, sheetName) => {
 
   try {
     await sheets.spreadsheets.values.clear(request)
-    console.log('스프레드시트의 모든 데이터를 서식은 남긱고 지웠습니다.')
+    console.log('스프레드시트의 모든 데이터를 서식은 남기고 지웠습니다.')
   } catch (err) {
     console.error('데이터 삭제 중 오류 발생:', err)
   }

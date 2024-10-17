@@ -9,14 +9,32 @@
 
   ```
   {
-    "key": "{{what}} is {{how}}"
+    "key": "i18next is great"
   }
   ```
 
 <strong>sample</strong>
 
   ```
-  $t('key', { what: 'i18next', how: 'great' })
+  <template>
+    <span>$t('key')</span>
+  </template>
+  // -> i18next is great
+  ```
+
+<strong>❗️ 중요 ❗️</strong>
+영문으로 바꾸면 문법상 단어의 순서 바꾸기 어려워지기 때문에 key를 세분화하여 나누는건 지양합니다.
+
+<strong>Keys</strong>
+
+  ```
+  {
+    "key1": "{{what}} is {{how}}" ✅
+  }
+  {
+    "what": "i18next",
+    "is how": "is great" ❌
+  }
   ```
 
 ## 데이터 매핑

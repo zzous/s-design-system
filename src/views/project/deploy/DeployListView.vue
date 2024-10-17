@@ -1,91 +1,86 @@
 <template>
   <div class="view-wrapper">
-    <view-header-component title="배포">
-      <default-button-component title="새 배포" to="deploy/new" />
-    </view-header-component>
-    <div class="contentsWrapper">
-      <v-data-table
-        :custom-filter="filterOnlyCapsText"
-        :headers="headers"
-        :items="items"
-        :search="search"
-        item-value="name"
-      >
-        <template #headers="{ columns }">
-          <tr class="tableHeader">
-            <th v-for="(header, idx) in columns" :key="idx" :style="{ textAlign: header.align }">
-              {{ header.title }}
-            </th>
-          </tr>
-        </template>
-        <template #[`item.action`]>
-          <default-button-component title="빌드" />
-          <default-button-component title="상세" class="ml-1" />
-          <default-button-component title="삭제" class="ml-1" />
-        </template>
-        <template #top>
-          <v-text-field
-            v-model="search"
-            variant="outlined"
-            class="pa-2"
-            placeholder="배포명으로 검색"
-            prepend-inner-icon="mdi-magnify"
-          />
-        </template>
-        <template #bottom>
-          <div class="text-center pt-2">
-            <v-pagination v-model="page" :length="pageCnt" />
-          </div>
-        </template>
-      </v-data-table>
+    <s-sub-header :title="$t('배포 목록')" :list-cnt="items.length">
+      <s-btn title="새 배포" to="deploy/new" />
+    </s-sub-header>
+    <div class="layout__list-contents">
+      <div class="search">
+        <v-text-field
+          v-model="search"
+          class="search__text-field"
+          variant="outlined"
+          density="comfortable"
+          hide-details
+          :placeholder="$t('배포명으로 검색')"
+          prepend-inner-icon="mdi-magnify"
+        />
+      </div>
+      <div>
+        <s-data-table
+          v-model="selected"
+          :custom-filter="filterOnlyCapsText"
+          :headers="headers"
+          :items="items"
+          :page="page"
+          :search="search"
+          select-strategy="single"
+          item-value="name"
+          show-select
+          :options="{ pageCnt, showSelect: true }"
+        >
+          <template #headers="{ columns }">
+            <tr class="tableHeader">
+              <th v-for="(header, idx) in columns" :key="idx" :style="{ textAlign: header.align }">
+                {{ header.title }}
+              </th>
+            </tr>
+          </template>
+        </s-data-table>
+      </div>
     </div>
   </div>
 </template>
 
 <script setup>
-import DefaultButtonComponent from '@/components/_common/button/DefaultButtonComponent.vue'
-import ViewHeaderComponent from '@/components/_common/ViewHeaderComponent.vue'
-import { computed, ref } from 'vue'
+import { ref, computed } from 'vue'
+import { useI18n } from '@/_setting/i18n'
 
 const page = ref(1)
-const itemsPerPage = ref(5)
 const search = ref('')
+
+const { tt } = useI18n()
+
 const headers = ref([
   {
-    title: '배포명',
+    title: tt('배포명'),
     align: 'start',
     key: 'deployName'
   },
   {
-    title: '빌드명',
+    title: tt('빌드명'),
     align: 'center',
     key: 'buildName'
   },
   {
-    title: '스테이지',
+    title: tt('스테이지'),
     align: 'center',
     key: 'stage'
   },
   {
-    title: '프로바이더',
+    title: tt('프로바이더'),
     align: 'center',
     key: 'provider'
   },
   {
-    title: '마지막 배포 시간',
+    title: tt('마지막 배포 일시'),
     align: 'center',
     key: 'lastDeployDate'
   },
   {
-    title: '마지막 배포 상태',
+    title: tt('마지막 배포 상태'),
     align: 'center',
     key: 'lastDeployState'
   },
-  {
-    title: '액션',
-    key: 'action',
-    align: 'center'
-  }
 ])
 const items = ref([
   {
@@ -98,17 +93,10 @@ const items = ref([
   }
 ])
 
-const pageCnt = computed(() => Math.ceil(items.value.length / itemsPerPage.value))
-const filterOnlyCapsText = (value, query) => {
-  return value != null && query != null && typeof value === 'string' && value.toString().toLocaleUpperCase().indexOf(query) !== -1
-}
+const pageCnt = computed(() => Math.ceil(items.value.length / items.value))
+
 </script>
 
 <style scoped lang="scss">
 @import '@/assets/style/variables';
-.contentsWrapper {
-}
-.tableHeader {
-  background: $data-table-header-color;
-}
 </style>
