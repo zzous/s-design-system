@@ -63,9 +63,9 @@
 import { useProjectStore } from '@/stores/devops/project'
 import { useMenuStore } from '@/stores/portal/menu'
 import { storeToRefs } from 'pinia'
-import { ref, computed } from 'vue'
+import { ref, computed, watchEffect } from 'vue'
 import { LOCALSTORAGE_KEY } from '@/assets/consts/consts'
-
+const defaultProject = { projectName: '전체', projectId: 0 }
 const onClickMenuItem = () => {
   open.value = !open.value.length ? open.value : open.value.splice(open.value.length - 1, 1)
 }
@@ -78,7 +78,8 @@ const filteredMenu = computed(() => menuPaths.value.find(({ clientId }) => {
 }))
 const open = ref([]) //활성화할 메뉴의 value
 //프로젝트가 있으면 가져오고 없으면 전체로
-const selectedProject = ref(localStorage.getItem(LOCALSTORAGE_KEY.selectedProject) ? JSON.parse(localStorage.getItem(LOCALSTORAGE_KEY.selectedProject)) : { projectName: '전체', projectId: 0 })
+const selectedProject = ref(localStorage.getItem(LOCALSTORAGE_KEY.selectedProject) ?
+  JSON.parse(localStorage.getItem(LOCALSTORAGE_KEY.selectedProject)) : { ...defaultProject })
 //TODO pinia 처리
 // const projectList = ref([
 //   { name: '전체', value: 'total' },
@@ -86,13 +87,24 @@ const selectedProject = ref(localStorage.getItem(LOCALSTORAGE_KEY.selectedProjec
 //   { name: '프로젝트2', value: 'projcet-2' },
 //   { name: '프로젝트3', value: 'projcet-3' }
 // ])
-const totalProjectList = computed(() => [{ projectName: '전체', projectId: 0 }, ...projectList.value])
+const totalProjectList = computed(() => [{ ...defaultProject }, ...projectList.value])
 
 const onChangeProject = () => {
   //console.error(selectedProject.value)
   //프로젝트가 바뀔 때 로컬 스토리지에 저장
   localStorage.setItem(LOCALSTORAGE_KEY.selectedProject, JSON.stringify(selectedProject.value))
 }
+
+watchEffect(() => {
+  try{
+    const savedProject = localStorage.getItem(LOCALSTORAGE_KEY.selectedProject) ?
+      JSON.parse(localStorage.getItem(LOCALSTORAGE_KEY.selectedProject)) :null
+    const idx = projectList.value.findIndex(project => project.projectId === savedProject?.projectId)
+    idx < 0 ? selectedProject.value = { ...defaultProject } : selectedProject.value = { ...savedProject }
+  }catch(e){
+    selectedProject.value = { ...defaultProject }
+  }
+})
 </script>
 
 <style scoped lang="scss">
