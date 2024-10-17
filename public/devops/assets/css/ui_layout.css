@@ -17,7 +17,7 @@
 .portal_layout .v-avatar{background: url('/devops/assets/images/profile.svg') no-repeat
   left center; width:32px !important; height:32px !important;
 padding: 2px; border-radius:50%;}
-.portal_layout .base-layout{width: 100%; padding: 0 30px; padding-top:0;}
+.portal_layout .base-layout{width: 100%; padding: 0 30px; padding-top:0;min-width: 1100px;}
 .portal_layout .v-avatar > .v-responsive{ border-radius:50%;}
 .portal_layout .s-item-group .v-select__selection{margin:0}
 .portal_layout .s-item-group .topMenulist{width:100px}

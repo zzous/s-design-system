@@ -44,6 +44,7 @@
         </div>
         <footer-component />
       </div>
+      <global-progress v-model="loading" />
     </div>
     <teleport to="#destination">
       <template v-for="(alert, index) in alertItemStack" :key="alert.uuid">
@@ -56,7 +57,6 @@
           @close-alert="closeAlert(index)"
         />
       </template>
-      <global-progress v-model="loading" />
     </teleport>
   </v-app>
 </template>
@@ -85,7 +85,8 @@ import { useI18n } from '@/_setting/i18n'
 const router = useRouter()
 const tokenStore = useTokenStore()
 const userStore = useUserStore()
-const sgStore = useServiceGroupStore()
+const sgStore
+  = useServiceGroupStore()
 const devOpsSgStore = useDevOpsServiceGroupStore()
 const menuStore = useMenuStore()
 

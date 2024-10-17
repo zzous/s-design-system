@@ -3,9 +3,10 @@
   <v-overlay
     :model-value="modelValue"
     class="align-center justify-center"
-    absolute
+    contained
     persistent
     no-click-animation
+    scrim="transparent"
     z-index="9999"
   >
     <div class="s-loading">
@@ -54,6 +55,7 @@ defineProps({
   align-items: center;
   justify-content: center;
   gap: 15px;
+  top: -50px;
 
 
   .#{$this}__message {
