@@ -34,6 +34,17 @@
       :height="400"
       :options="editorOptions"
     /> -->
+    <div style="max-height: 300px; overflow: scroll;">
+      <code-mirror
+        v-model="buildDetail.pipelineScript"
+        :autofocus="true"
+        :indent-with-tab="true"
+        :tab-size="2"
+        :extensions="extensions"
+        :readonly="true"
+        @ready="handleReady"
+      />
+    </div>
     <div id="build_editor">
       <build-history-table-component :build-histories="buildHistories" />
     </div>
@@ -47,7 +58,15 @@ import { useBuildStore } from '@/stores/devops/build'
 import { useSmcStore } from '@/stores/devops/smc'
 import { computed } from 'vue'
 import BuildHistoryTableComponent from './BuildHistoryTableComponent.vue'
+import CodeMirror from 'vue-codemirror6'
+import { javascript } from '@codemirror/lang-javascript'
+import { oneDark } from '@codemirror/theme-one-dark'
 
+
+const extensions = [javascript(), oneDark]
+const handleReady = (payload) => {
+  console.log('CodeMirror is ready!', payload)
+}
 const props = defineProps({
   buildId: {
     type: Number,
