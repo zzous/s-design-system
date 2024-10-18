@@ -4,6 +4,7 @@ import { defineConfig, loadEnv } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import vueDevTools from 'vite-plugin-vue-devtools'
 
+
 // https://vitejs.dev/config/
 export default ({ mode }) => {
   process.env = { ...process.env, ...loadEnv(mode, process.cwd()) }
@@ -25,6 +26,24 @@ export default ({ mode }) => {
       }
     },
     build: {
+      rollupOptions: {
+        output: {
+          globals: {
+            vuetify: 'Vuetify',
+          },
+          assetFileNames: assetInfo => {
+            let extType = assetInfo.name.split('.').at(1)
+            if (/png|jpe?g|svg|gif|tiff|bmp|ico/i.test(extType)) {
+              extType = 'img'
+            } else if (/ttf|woff|woff2/.test(extType)) {
+              extType = 'css'
+            }
+            return `chunks/${extType}/[name]-[hash][extname]`
+          },
+          chunkFileNames: 'chunks/js/[name]-[hash].js',
+          entryFileNames: 'chunks/js/[name]-[hash].js',
+        },
+      },
       // 빌드 시 console log 제거
       minify: 'terser',
       terserOptions: {

@@ -22,12 +22,12 @@
       <img
         v-if="item.buildResult === 'FAIL'"
         :alt="item.state"
-        src="/devops/assets/images/icon_f.gif"
+        src="/public/devops/assets/images/icon_f.gif"
       >
       <img
         v-else-if="item.buildResult === 'APPROVE'"
         :alt="item.state"
-        src="/devops/assets/images/icon_s.gif"
+        src="/public/devops/assets/images/icon_s.gif"
       >
       <template v-else>
         {{ item.buildResult }}

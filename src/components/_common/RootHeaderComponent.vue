@@ -4,7 +4,7 @@
       <div class="s-logo">
         <a href="#" @click="$emit('click:logo')">
           <span class="d-none">main-logo</span>
-          <img class="s-logo__img" src="/devops/assets/images/logo.svg" alt="">
+          <img class="s-logo__img" src="/public/devops/assets/images/logo.svg" alt="">
         </a>
       </div>
       <v-app-bar-title
@@ -16,7 +16,7 @@
         <v-btn
           v-if="showMenuBtn"
           class="s-btn__menu"
-          text="서비스"
+          :text="$t(서비스)"
           @click="toggleMenu"
         >
           <template #prepend>
