@@ -2,13 +2,14 @@ import { defineStore } from 'pinia'
 import { ref } from 'vue'
 
 import axios from '@/_setting/axios/request-devops'
-import { BUILD_LIST, BUILD_$BUILDID_HISTORY, BUILD_$BUILDID, BUILD_$BUILDID_RUN } from '@/assets/consts/api/devops/build'
+import { BUILD_LIST, BUILD_$BUILDID_HISTORY, BUILD_$BUILDID, BUILD_$BUILDID_RUN, BUILD_JENKINS_PIPELINE_DEFAULT, BUILD_NAME_DUPLICATE } from '@/assets/consts/api/devops/build'
 import { resolvePathVariable } from '@/assets/consts/utils/string'
 
 export const useBuildStore = defineStore('build', () => {
     const builds = ref([])
     const buildDetail = ref(null)
     const buildHistories = ref([])
+    const buildDefaultJenkinsPipelines = ref([])
 
     /**
      * 빌드 목록
@@ -59,11 +60,22 @@ export const useBuildStore = defineStore('build', () => {
         return builds.value
     }
 
+    const getBuildJenkinsPipelineDefault = async (params) => {
+        const { data } = await axios.get(BUILD_JENKINS_PIPELINE_DEFAULT, { params })
+        buildDefaultJenkinsPipelines.value = data?.data || []
+        return buildDefaultJenkinsPipelines.value
+    }
+    //BUILD_NAME_DUPLICATE
+    const getBuildNameDuplicate = async (params) => {
+        const { data } = await axios.get(BUILD_NAME_DUPLICATE, { params })
+        return data?.data
+    }
+
     const executeBuild = async (buildId, reqBody) => {
         const reqUrl = resolvePathVariable(BUILD_$BUILDID_RUN, { buildId })
         const { data } = await axios.post(reqUrl, reqBody)
         return data?.data || null
     }
 
-    return { builds, getBuilds, getBuildHistory, getBuildsWithHistory, deleteBuild, getBuildDetail, buildDetail, buildHistories, executeBuild }
+    return { builds, getBuilds, getBuildHistory, getBuildsWithHistory, deleteBuild, getBuildDetail, buildDetail, buildHistories, executeBuild, getBuildJenkinsPipelineDefault, getBuildNameDuplicate, buildDefaultJenkinsPipelines }
 })

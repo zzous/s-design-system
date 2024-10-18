@@ -1,6 +1,7 @@
 <template>
   <div class="editor-wrapper">
     <code-mirror
+      ref="editor"
       v-model="contents"
       class="script-editor"
       :autofocus="true"
@@ -20,6 +21,7 @@ import { oneDark } from '@codemirror/theme-one-dark'
 import { defaultKeymap } from '@codemirror/commands'
 import { keymap } from '@codemirror/view'
 import { basicSetup } from 'codemirror'
+import { ref } from 'vue'
 const contents = defineModel({
   type: String,
   default: ''
@@ -36,6 +38,9 @@ defineProps({
   }
 })
 const extensions = [basicSetup, javascript(), oneDark, keymap.of(defaultKeymap)]
+const editor = ref(null)
+
+
 </script>
 
 <style>

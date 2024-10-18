@@ -1,0 +1,1 @@
+export const JENKINS_PIPELINE_LIST = '/api/v1/devops/jenkins/pipeline/list'
