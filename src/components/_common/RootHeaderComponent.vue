@@ -16,7 +16,7 @@
         <v-btn
           v-if="showMenuBtn"
           class="s-btn__menu"
-          :text="$t(서비스)"
+          :text="$t('서비스')"
           @click="toggleMenu"
         >
           <template #prepend>
