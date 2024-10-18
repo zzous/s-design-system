@@ -9,6 +9,7 @@ export default ({ mode }) => {
   process.env = { ...process.env, ...loadEnv(mode, process.cwd()) }
   return defineConfig({
     base: `${process.env.VITE_BASE_PUBLIC_URL}/`,
+    publicDir: `public${process.env.VITE_BASE_PUBLIC_URL}`,
     plugins: [vue(), vueDevTools()],
     css: {
       preprocessorOptions: {

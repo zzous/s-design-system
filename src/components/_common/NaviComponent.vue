@@ -63,7 +63,7 @@
 import { useProjectStore } from '@/stores/devops/project'
 import { useMenuStore } from '@/stores/portal/menu'
 import { storeToRefs } from 'pinia'
-import { ref, computed, watchEffect } from 'vue'
+import { ref, computed } from 'vue'
 import { LOCALSTORAGE_KEY } from '@/assets/consts/consts'
 const defaultProject = { projectName: '전체', projectId: 0 }
 const onClickMenuItem = () => {
