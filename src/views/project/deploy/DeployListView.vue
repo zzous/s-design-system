@@ -62,12 +62,12 @@ const headers = ref([
   {
     title: tt('스테이지'),
     align: 'center',
-    key: 'stage'
+    key: 'stageName'
   },
   {
     title: tt('프로바이더'),
     align: 'center',
-    key: 'provider'
+    key: 'deployCd'
   },
   {
     title: tt('마지막 배포 일시'),
@@ -77,7 +77,7 @@ const headers = ref([
   {
     title: tt('마지막 배포 상태'),
     align: 'center',
-    key: 'lastDeployState'
+    key: 'lastDeployStatus'
   },
 ])
 

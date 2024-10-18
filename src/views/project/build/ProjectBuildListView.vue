@@ -191,15 +191,13 @@ const headers = ref([
   {
     title: tt('마지막 빌드 상태'),
     align: 'center',
-    key: 'lastBuildResult'
+    key: 'lastBuildStatus'
   },
 ])
 </script>
 
 <style scoped lang="scss">
 // @import '@/assets/style/variables';
-.contentsWrapper {
-}
 .tableHeader {
   background: $data-table-header-color;
 }
