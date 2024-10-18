@@ -45,7 +45,7 @@
         @ready="handleReady"
       />
     </div> -->
-    <read-only-editor v-model="buildDetail.pipelineScript" :max-height="300" />
+    <script-editor v-model="buildDetail.pipelineScript" :height="300" :read-only="true" />
     <div id="build_editor">
       <build-history-table-component :build-histories="buildHistories" />
     </div>
@@ -59,7 +59,7 @@ import { useBuildStore } from '@/stores/devops/build'
 import { useSmcStore } from '@/stores/devops/smc'
 import { computed } from 'vue'
 import BuildHistoryTableComponent from './BuildHistoryTableComponent.vue'
-import ReadOnlyEditor from '@/components/_common/editor/ReadOnlyEditor.vue'
+import ScriptEditor from '@/components/_common/editor/ScriptEditor.vue'
 
 const props = defineProps({
   buildId: {

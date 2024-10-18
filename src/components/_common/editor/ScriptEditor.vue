@@ -2,12 +2,13 @@
   <div class="editor-wrapper">
     <code-mirror
       v-model="contents"
+      class="script-editor"
       :autofocus="true"
       :indent-with-tab="true"
       :tab-size="2"
       :extensions="extensions"
-      :readonly="true"
-      :style="maxHeight ? {maxHeight: `${maxHeight}px`} : {}"
+      :readonly="readOnly"
+      :style="height ? {height: `${height}px`} : {}"
     />
   </div>
 </template>
@@ -16,22 +17,30 @@
 import CodeMirror from 'vue-codemirror6'
 import { javascript } from '@codemirror/lang-javascript'
 import { oneDark } from '@codemirror/theme-one-dark'
+import { defaultKeymap } from '@codemirror/commands'
+import { keymap } from '@codemirror/view'
+import { basicSetup } from 'codemirror'
 const contents = defineModel({
   type: String,
   default: ''
 })
 
 defineProps({
-  maxHeight: {
+  height: {
     type: Number,
     default: 0
+  },
+  readOnly: {
+    type: Boolean,
+    default: false
   }
 })
-const extensions = [javascript(), oneDark]
+const extensions = [basicSetup, javascript(), oneDark, keymap.of(defaultKeymap)]
 </script>
 
 <style>
 .editor-wrapper {
   overflow: scroll;
+  background: #282C34;
 }
 </style>

@@ -40,11 +40,14 @@
         :label="$t('빌드 승인 프로세스')"
         name="templateId"
       >
-        <v-text-field
+        <v-select
+          v-model="selectedFlow"
+          :items="smcFlows"
           variant="outlined"
           density="compact"
           hide-details="auto"
-          :placeholder="$t('빌드 승인 프로세스 선택 select')"
+          item-title="flowName"
+          item-value="flowId"
         />
       </s-form-item>
       <s-form-item
@@ -59,7 +62,6 @@
       <s-form-item
         :label="$t('Application 포트')"
         name="templateId"
-        required
       >
         <v-text-field
           variant="outlined"
@@ -71,7 +73,6 @@
       <s-form-item
         :label="$t('Application 설치 경로')"
         name="templateId"
-        required
       >
         <v-text-field
           variant="outlined"
@@ -80,6 +81,10 @@
           :placeholder="$t('Application 설치 경로를 입력하세요')"
         />
       </s-form-item>
+    </s-form-table>
+    <s-sub-header :show-cnt="false" :title="$t('파이프라인 정보')" class-name="sub-title" />
+    <s-form-table>
+      <script-editor v-model="script" :height="400" />
     </s-form-table>
     <div class="mt-3 text-align-center">
       <s-btn height="30" class="mr-2">
@@ -93,14 +98,35 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { useProjectStore } from '@/stores/devops/project'
+import { useSmcStore } from '@/stores/devops/smc'
+import { storeToRefs } from 'pinia'
+import { onMounted, ref } from 'vue'
+import ScriptEditor from '@/components/_common/editor/ScriptEditor.vue'
 
+const smcStore = useSmcStore()
+const projectSotre = useProjectStore()
 const branchs = ref(['stage', 'dev', 'master'])
 const selectedBranch = ref('stage')
+const selectedFlow = ref()
+const { smcFlows } = storeToRefs(smcStore)
+const { selectedProject } = storeToRefs(projectSotre)
+const script = ref('')
 
+const getSmcFlows = async () => {
+  if(selectedProject.value && selectedProject.value.projectId){
+    await smcStore.getPostSmcFlows({ key1:'project', key2:selectedProject.value.projectId, key3:'B' })
+    if(smcFlows.value.length) {
+      selectedFlow.value = { ...smcFlows.value[0 ] }
+    }
+  }
+}
 // 빌드승인flow
 // /api/v1/devops/smc/flows | POST
 // {key1:'project', key2:projectId, key3:'B'}
+onMounted(() => {
+  getSmcFlows()
+})
 </script>
 <style lang="scss" scoped>
 .input-text-btn {
