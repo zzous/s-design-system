@@ -278,9 +278,7 @@ export const UserMenuItems = [
   {
     alt: 'Software Catalog',
     menuCode: 'SOFTWARE_CATALOG',
-    menuUrl: `${
-      import.meta.env.VITE_CATALOG_DEPLOY_PORTAL
-    }/#/projects/connection`,
+    menuUrl: `${import.meta.env.VITE_CATALOG_DEPLOY_PORTAL}/#/projects/connection`,
   },
   // --- s: 카탈로그 메뉴 ---
   {
@@ -473,7 +471,7 @@ export const UserMenuItems = [
   {
     menuCode: 'DEVOPS_PROJECT_MANAGEMENT',
     alt: 'Project Management',
-    menuUrl: '/project'
+    menuUrl: '/project',
   },
   { menuCode: 'DEVOPS_BUILD', alt: 'Build', menuUrl: '/console/projects/build/list' },
   { menuCode: 'DEVOPS_DEPLOY', alt: 'Deploy', menuUrl: '/console/projects/deploy/list' },
@@ -482,67 +480,67 @@ export const UserMenuItems = [
   {
     menuCode: 'DEVOPS_SETTINGS',
     alt: 'DevOps Settings',
-    menuUrl: 'DevOps 환경설정'
+    menuUrl: 'DevOps 환경설정',
   },
   {
     menuCode: 'DEVOPS_TOOLCHAIN_CONFIG',
     alt: 'Toolchain Config (Service Group Mgmt)',
-    menuUrl: '툴체인 구성 (서비스 그룹 관리)'
+    menuUrl: '툴체인 구성 (서비스 그룹 관리)',
   },
   {
     menuCode: 'DEVOPS_JENKINS_STAGE_MANAGEMENT',
     alt: 'Jenkins Stage Management',
-    menuUrl: '젠킨스 스테이지 관리'
+    menuUrl: '젠킨스 스테이지 관리',
   },
   {
     menuCode: 'DEVOPS_SONARQUBE_RULE_MANAGEMENT',
     alt: 'SonarQube Rule Management',
-    menuUrl: '소나큐브 룰 관리'
+    menuUrl: '소나큐브 룰 관리',
   },
   {
     menuCode: 'DEVOPS_CLUSTER_MANAGEMENT',
     alt: 'Cluster Management',
-    menuUrl: '클러스터 관리'
+    menuUrl: '클러스터 관리',
   },
   {
     menuCode: 'DEVOPS_ARTFACT_MANAGEMENT',
     alt: 'Artfact Management',
-    menuUrl: '산출물 관리'
+    menuUrl: '산출물 관리',
   },
   {
     menuCode: 'DEVOPS_PROJECT_RECOVERY',
     alt: 'Project Recovery',
-    menuUrl: '프로젝트 복구'
+    menuUrl: '프로젝트 복구',
   },
   {
     menuCode: 'DEVOPS_NOTIFICATION_MANAGEMENT',
     alt: 'Notification Management',
-    menuUrl: '알림 관리'
+    menuUrl: '알림 관리',
   },
   {
     menuCode: 'DEVOPS_NOTIFICATION',
     alt: 'Notification',
-    menuUrl: '알림'
+    menuUrl: '알림',
   },
   {
     menuCode: 'DEVOPS_PORTAL_MANAGEMENT',
     alt: 'Portal Management',
-    menuUrl: '포탈 관리'
+    menuUrl: '포탈 관리',
   },
   {
     menuCode: 'DEVOPS_PERMISSION_MANAGEMENT',
     alt: 'Permission Management',
-    menuUrl: '권한 관리'
+    menuUrl: '권한 관리',
   },
   {
     menuCode: 'DEVOPS_APPROVAL_MANAGEMENT',
     alt: 'Approval Management',
-    menuUrl: '승인 관리'
+    menuUrl: '승인 관리',
   },
   {
     menuCode: 'DEVOPS_TOOLCHAIN_CONFIG',
     alt: 'Toolchain Config',
-    menuUrl: '툴체인 환경 설정'
+    menuUrl: '툴체인 환경 설정',
   },
   {
     alt: 'Integrated Monitor',

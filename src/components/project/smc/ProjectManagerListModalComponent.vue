@@ -1,10 +1,5 @@
 <template>
-  <s-modal
-    :model-value="modelValue"
-    class-name="sm"
-    :title="$t('관리자 설정')"
-    @update:model-value="updateModal"
-  >
+  <s-modal :model-value="modelValue" class-name="sm" :title="$t('관리자 설정')" @update:model-value="updateModal">
     <template #default>
       <s-sub-header :title="$t('사용자 목록')" class-name="sub-title" :list-cnt="datas.length" />
       <div class="layout__list-contents">
@@ -65,30 +60,30 @@ const { serviceGroupId } = storeToRefs(sgStore)
 const props = defineProps({
   modelValue: {
     type: Boolean,
-    default: false
+    default: false,
   },
   selected: {
     type: Array,
-    default: () => []
-  }
+    default: () => [],
+  },
 })
 
 const headers = [
   {
     title: tt('사용자 명(한글)'),
     key: 'username',
-    align: 'center'
+    align: 'center',
   },
   {
     title: tt('이메일'),
     key: 'email',
-    align: 'center'
+    align: 'center',
   },
   {
     title: tt('부서'),
     key: 'deptName',
-    align: 'center'
-  }
+    align: 'center',
+  },
 ]
 
 const lazySelected = ref([])
@@ -113,7 +108,7 @@ watch(
   () => props.selected,
   () => {
     lazySelected.value = props.selected
-  }
+  },
 )
 
 onMounted(() => {
@@ -121,6 +116,4 @@ onMounted(() => {
 })
 </script>
 
-<style lang="scss" scoped>
-
-</style>
+<style lang="scss" scoped></style>

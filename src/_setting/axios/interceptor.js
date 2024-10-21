@@ -30,7 +30,7 @@ const initializeAccessToken = (config, accessToken) => {
   }
 }
 
-export const handleAuthToken = async (config) => {
+export const handleAuthToken = async config => {
   const { accessToken, refreshToken } = getAuthToken()
   if (!accessToken && refreshToken) {
     try {
@@ -59,7 +59,7 @@ function setInterceptor(service) {
   let numberOfCallPending = 0
 
   service.interceptors.request.use(
-    async (config) => {
+    async config => {
       numberOfCallPending += 1
       openLoading()
 
@@ -81,17 +81,17 @@ function setInterceptor(service) {
       //config.headers.locale = i18n.global.locale.value
       return config
     },
-    (error) => {
+    error => {
       numberOfCallPending += 1
       if (numberOfCallPending === 0) {
         closeLoading()
       }
       return Promise.reject(error)
-    }
+    },
   )
 
   service.interceptors.response.use(
-    (response) => {
+    response => {
       numberOfCallPending -= 1
 
       if (numberOfCallPending === 0) {
@@ -99,7 +99,7 @@ function setInterceptor(service) {
       }
       return response
     },
-    async (error) => {
+    async error => {
       console.log('setInterceptor error', error)
       numberOfCallPending -= 1
       if (numberOfCallPending === 0) {
@@ -119,7 +119,7 @@ function setInterceptor(service) {
       }
 
       return Promise.reject(error)
-    }
+    },
   )
 
   return service

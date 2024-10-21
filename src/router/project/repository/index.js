@@ -8,23 +8,23 @@ export default [
       {
         path: 'file',
         name: 'projectRepositoryFile',
-        component: () => import('@/views/project/file/RepositoryFileView.vue')
+        component: () => import('@/views/project/file/RepositoryFileView.vue'),
       },
       {
         path: 'commit',
         name: 'projectRepositoryCommit',
-        component: () => import('@/views/project/file/RepositoryCommitView.vue')
+        component: () => import('@/views/project/file/RepositoryCommitView.vue'),
       },
       {
         path: 'branch',
         name: 'projectRepositoryBranch',
-        component: () => import('@/views/project/file/RepositoryBranchView.vue')
+        component: () => import('@/views/project/file/RepositoryBranchView.vue'),
       },
       {
         path: 'merge-request',
         name: 'projectRepositoryMergeRequest',
-        component: () => import('@/views/project/file/RepositoryMergeRequestView.vue')
-      }
-    ]
-  }
+        component: () => import('@/views/project/file/RepositoryMergeRequestView.vue'),
+      },
+    ],
+  },
 ]

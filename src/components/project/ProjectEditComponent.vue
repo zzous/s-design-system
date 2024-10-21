@@ -24,11 +24,7 @@
         <s-form-item :label="$t('패키지명')" name="packageName">
           {{ dataInfo.sourceInfo?.packageName || '-' }}
         </s-form-item>
-        <s-form-item
-          v-slot="{ handleChange }"
-          :label="$t('프로젝트 별칭')"
-          name="projectAlias"
-        >
+        <s-form-item v-slot="{ handleChange }" :label="$t('프로젝트 별칭')" name="projectAlias">
           <v-text-field
             :model-value="values.projectAlias"
             variant="outlined"
@@ -38,7 +34,11 @@
             @update:model-value="handleChange"
           />
         </s-form-item>
-        <s-form-item v-slot="{ handleChange }" :label="$t('설명({{length}}자 이내)', {length: 250})" name="projectDesc">
+        <s-form-item
+          v-slot="{ handleChange }"
+          :label="$t('설명({{length}}자 이내)', { length: 250 })"
+          name="projectDesc"
+        >
           <v-textarea
             :model-value="values.projectDesc"
             density="compact"
@@ -69,8 +69,8 @@ const emits = defineEmits(['validate', 'errors', 'submit'])
 const props = defineProps({
   projectId: {
     type: [String, Number],
-    required: true
-  }
+    required: true,
+  },
 })
 
 const sgStore = useDevOpsServiceGroupStore()
@@ -99,8 +99,7 @@ const validate = async () => {
   }
 }
 
-
-const fetchEditProject = async (values) => {
+const fetchEditProject = async values => {
   const params = {
     serviceGroupId: serviceGroupId.value,
     projectAlias: values.projectAlias,
@@ -113,7 +112,7 @@ const fetchEditProject = async (values) => {
       type: 'success',
     })
     return true
-  } catch(e) {
+  } catch (e) {
     alertStore.openAlert({
       titleName: tt('수정하지 못했습니다'),
       type: 'error',
@@ -151,6 +150,4 @@ onMounted(() => {
 })
 </script>
 
-<style lang="scss" scoped>
-
-</style>
+<style lang="scss" scoped></style>

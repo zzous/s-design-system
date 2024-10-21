@@ -12,13 +12,7 @@
       <template #activator="{ props }">
         <slot name="buttons" v-on="props" />
       </template>
-      <v-card
-        class="card-box"
-        :class="popupCardClass"
-        :height="modalHeight"
-        :min-height="modalHeight"
-        no-line
-      >
+      <v-card class="card-box" :class="popupCardClass" :height="modalHeight" :min-height="modalHeight" no-line>
         <template v-if="!hideHeader" #prepend>
           <div class="s-modal__title" :class="{ 's-modal__title--light': isWhite, 's-modal__title--dark': !isWhite }">
             <span>
@@ -35,9 +29,7 @@
                 height="24px"
                 @click="onClickCloseModal"
               >
-                <v-icon :color="isWhite ? '#1A3350' : '#fff'" size="x-large">
-                  mdi-close
-                </v-icon>
+                <v-icon :color="isWhite ? '#1A3350' : '#fff'" size="x-large">mdi-close</v-icon>
               </s-btn>
             </div>
           </div>
@@ -70,7 +62,7 @@ defineProps({
   className: {
     type: [Object, String],
     default: '',
-    description: '클래스 명'
+    description: '클래스 명',
   },
   modalWidth: {
     type: String,
@@ -94,7 +86,7 @@ defineProps({
   },
   bodyStyle: {
     type: Object,
-    default: () => { },
+    default: () => {},
     description: 'card-body Div의 스타일 설정',
   },
   popupCardClass: {
@@ -106,7 +98,7 @@ defineProps({
     type: Boolean,
     default: false,
     description: '헤더 유무',
-  }
+  },
 })
 
 const emits = defineEmits(['update:model-value'])
@@ -115,13 +107,12 @@ const onClickCloseModal = () => {
   // console.log(tag, 'onClickCloseModal')
   emits('update:model-value', false)
 }
-const onUpdateModalValue = (value) => {
+const onUpdateModalValue = value => {
   emits('update:model-value', value)
   if (!value) {
     onClickCloseModal()
   }
 }
-
 </script>
 
 <style lang="scss" scoped>

@@ -11,12 +11,7 @@
     <vee-form ref="formRef" v-slot="{ values }" :validation-schema="schema">
       <s-sub-header :show-cnt="false" :title="$t('기본 정보')" class-name="sub-title" />
       <s-form-table>
-        <s-form-item
-          v-slot="{ errors, handleChange }"
-          :label="$t('프로젝트명')"
-          name="projectName"
-          required
-        >
+        <s-form-item v-slot="{ errors, handleChange }" :label="$t('프로젝트명')" name="projectName" required>
           <v-text-field
             v-model="schema.projectName"
             variant="outlined"
@@ -31,11 +26,7 @@
             {{ $t('중복 체크') }}
           </s-btn>
         </s-form-item>
-        <s-form-item
-          v-slot="{ handleChange }"
-          :label="$t('프로젝트 별칭')"
-          name="projectAlias"
-        >
+        <s-form-item v-slot="{ handleChange }" :label="$t('프로젝트 별칭')" name="projectAlias">
           <v-text-field
             v-model="schema.projectAlias"
             variant="outlined"
@@ -45,12 +36,7 @@
             @update:model-value="handleChange"
           />
         </s-form-item>
-        <s-form-item
-          v-slot="{ errors, handleChange }"
-          :label="$t('파일 가져오기')"
-          name="projectFile"
-          required
-        >
+        <s-form-item v-slot="{ errors, handleChange }" :label="$t('파일 가져오기')" name="projectFile" required>
           <v-file-input
             ref="projectFile"
             v-model="schema.projectFile"
@@ -70,11 +56,7 @@
             {{ $t('파일 찾기') }}
           </s-btn>
         </s-form-item>
-        <s-form-item
-          :label="$t('빌드 승인 프로세스')"
-          name="buildApproveFlow"
-          required
-        >
+        <s-form-item :label="$t('빌드 승인 프로세스')" name="buildApproveFlow" required>
           <template #default>
             <s-btn variant="outlined" height="30" @click="openModal('buildApproveFlow')">
               {{ $t('프로세스 선택') }}
@@ -96,11 +78,7 @@
             <span v-if="errors.length" class="error-msg">{{ errors.at(0) }}</span>
           </template>
         </s-form-item>
-        <s-form-item
-          :label="$t('배포 승인 프로세스')"
-          name="deployApproveFlow"
-          required
-        >
+        <s-form-item :label="$t('배포 승인 프로세스')" name="deployApproveFlow" required>
           <template #default>
             <s-btn variant="outlined" height="30" @click="openModal('deployApproveFlow')">
               {{ $t('프로세스 선택') }}
@@ -124,11 +102,7 @@
             </span>
           </template>
         </s-form-item>
-        <s-form-item
-          :label="$t('프로젝트 관리자')"
-          name="projectManagerList"
-          required
-        >
+        <s-form-item :label="$t('프로젝트 관리자')" name="projectManagerList" required>
           <template #default>
             <s-btn variant="outlined" height="30" @click="openModal('projectManagerList')">
               {{ $t('관리자 선택') }}
@@ -151,7 +125,11 @@
           </template>
           <!-- TODO ProjectManagers -->
         </s-form-item>
-        <s-form-item v-slot="{ handleChange }" :label="$t('설명({{length}}자 이내)', {length: 250})" name="projectDesc">
+        <s-form-item
+          v-slot="{ handleChange }"
+          :label="$t('설명({{length}}자 이내)', { length: 250 })"
+          name="projectDesc"
+        >
           <v-textarea
             v-model="schema.projectDesc"
             density="compact"
@@ -207,32 +185,32 @@ const modal = reactive({
   target: null,
   show: false,
   component: null,
-  props: {}
+  props: {},
 })
 
 const openModal = target => {
   switch (target) {
-  case 'buildApproveFlow':
-    modal.component = markRaw(BuildProcessListModal)
-    modal.props = {
-      selected: formRef.value.values[target]?.map(item => item.flowId)
-    }
-    break
-  case 'deployApproveFlow':
-    modal.component = markRaw(DeployProcessListModal)
-    modal.props = {
-      selected: formRef.value.values[target]?.map(item => item.flowId)
-    }
-    break
-  case 'projectManagerList':
-    modal.component = markRaw(ProjectManagerListModal)
-    modal.props = {
-      selected: formRef.value.values[target]?.map(item => item.userId)
-    }
-    break
-  default:
-    modal.component = null
-    break
+    case 'buildApproveFlow':
+      modal.component = markRaw(BuildProcessListModal)
+      modal.props = {
+        selected: formRef.value.values[target]?.map(item => item.flowId),
+      }
+      break
+    case 'deployApproveFlow':
+      modal.component = markRaw(DeployProcessListModal)
+      modal.props = {
+        selected: formRef.value.values[target]?.map(item => item.flowId),
+      }
+      break
+    case 'projectManagerList':
+      modal.component = markRaw(ProjectManagerListModal)
+      modal.props = {
+        selected: formRef.value.values[target]?.map(item => item.userId),
+      }
+      break
+    default:
+      modal.component = null
+      break
   }
   modal.target = target
   modal.show = true
@@ -266,12 +244,12 @@ const checkDuplicate = async () => {
     }
     isDuplicateProjectName.value = result
     await schema.validateAt('projectName', formRef.value.values)
-  } catch(e) {
+  } catch (e) {
     console.log(e)
   }
 }
 
-const makeParameters = (values) => {
+const makeParameters = values => {
   return {
     projectName: values.projectName,
     projectAlias: values.projectAlias,
@@ -281,10 +259,9 @@ const makeParameters = (values) => {
     buildApproveFlow: values.buildApproveFlow.map(item => item.flowId),
     deployApproveFlow: values.deployApproveFlow.map(item => item.flowId),
   }
-
 }
 
-const fetchImportProject = async (values) => {
+const fetchImportProject = async values => {
   const formData = new FormData()
   formData.append('project', new Blob([JSON.stringify(makeParameters(values))], { type: 'application/json' }))
   formData.append('sourceFile', values.projectFile)
@@ -295,7 +272,7 @@ const fetchImportProject = async (values) => {
       type: 'success',
     })
     return true
-  } catch(e) {
+  } catch (e) {
     alertStore.openAlert({
       titleName: tt('프로젝트 가져오지 못했습니다'),
       type: 'error',
@@ -314,7 +291,6 @@ const submit = async () => {
   }
   return result
 }
-
 
 const updateModal = value => {
   modal.show = value
@@ -337,9 +313,6 @@ const deleteSelected = (targetKey, index) => {
 }
 
 defineExpose({ validate, submit })
-
 </script>
 
-<style lang="scss" scoped>
-
-</style>
+<style lang="scss" scoped></style>

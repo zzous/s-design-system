@@ -2,7 +2,6 @@ import { createRouter, createWebHistory } from 'vue-router'
 import projectRouter from './project'
 import { beforeEach, beforeResolve } from './before-each'
 
-
 const router = createRouter({
   //TODO: router 분리
   history: createWebHistory(import.meta.env.VITE_BASE_PUBLIC_URL),
@@ -10,7 +9,7 @@ const router = createRouter({
     {
       path: '/',
       name: 'Root',
-      redirect: '/project/list'
+      redirect: '/project/list',
     },
     {
       path: '/project',
@@ -20,14 +19,14 @@ const router = createRouter({
         {
           path: 'list',
           name: 'projectList',
-          component: () => import('@/views/project/ProjectListView.vue')
+          component: () => import('@/views/project/ProjectListView.vue'),
         },
-      ]
+      ],
     },
     {
       path: '/console',
-      children: [...projectRouter]
-    }
+      children: [...projectRouter],
+    },
     /*//build
     {
       path: '/serviceGroups/:serviceGroupId/console/projects/:projectId/builds',
@@ -55,7 +54,7 @@ const router = createRouter({
       name: 'projectNewDeploy',
       component: () => import('@/views/project/deploy/NewDeployView.vue')
     }*/
-  ]
+  ],
 })
 
 beforeEach(router)

@@ -12,18 +12,10 @@
           {{ contents }}
         </v-card-text>
         <v-card-actions class="button-wrapper">
-          <s-btn
-            variant="elevated"
-            color="blue"
-            @click.stop="onConfirm"
-          >
+          <s-btn variant="elevated" color="blue" @click.stop="onConfirm">
             {{ $t('확인') }}
           </s-btn>
-          <s-btn
-            variant="outlined"
-            color="blue"
-            @click="onCancel"
-          >
+          <s-btn variant="outlined" color="blue" @click="onCancel">
             {{ $t('취소') }}
           </s-btn>
         </v-card-actions>
@@ -48,7 +40,7 @@ defineProps({
   },
 })
 
-const updateModelValue = (value) => {
+const updateModelValue = value => {
   emits('update:model-value', value)
 }
 
@@ -81,4 +73,3 @@ const onCancel = () => emits('click:cancel')
   }
 }
 </style>
-

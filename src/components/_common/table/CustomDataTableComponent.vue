@@ -44,18 +44,13 @@
     <template v-if="single" #headers>
       <tr>
         <th class="v-data-table__td v-data-table__th v-data-table-column--align-center">
-          <div class="v-data-table-header__content">
-            -
-          </div>
+          <div class="v-data-table-header__content">-</div>
         </th>
         <th
           v-for="(el, index) in lazyHeaders"
           :key="index"
           class="v-data-table__td v-data-table__th v-data-table__th--sortable v-data-table__th v-data-table__th--sortable"
-          :class="[
-            `v-data-table-column--align-${el.align || 'center'}`,
-            `${!el.order || 'v-data-table__th--sorted'}`,
-          ]"
+          :class="[`v-data-table-column--align-${el.align || 'center'}`, `${!el.order || 'v-data-table__th--sorted'}`]"
           @click="onClickSortBy(el)"
         >
           <div class="v-data-table-header__content">
@@ -95,12 +90,7 @@
       <slot name="column.data-table-select" :column="column" :select-all="selectAll" />
     </template>
     <template v-if="hasCheckedItemSlot" #[`item.data-table-select`]="{ item, isSelected, toggleSelect }">
-      <slot
-        name="item.data-table-select"
-        :item="item"
-        :is-selected="isSelected"
-        :toggle-select="toggleSelect"
-      />
+      <slot name="item.data-table-select" :item="item" :is-selected="isSelected" :toggle-select="toggleSelect" />
     </template>
     <template #no-data>
       <div class="text-center no-data">
@@ -164,7 +154,7 @@ const props = defineProps({
   // search: String,
   options: {
     type: Object,
-    default: () => { },
+    default: () => {},
   },
   getChipColors: {
     type: Function,
@@ -246,8 +236,7 @@ const props = defineProps({
   items: {
     type: Array,
     default: () => [],
-    description:
-      '자식 구성 요소를 자동으로 생성하는 데 사용되는 문자열 또는 객체의 배열',
+    description: '자식 구성 요소를 자동으로 생성하는 데 사용되는 문자열 또는 객체의 배열',
   },
   itemsPerPage: {
     type: [String, Number],
@@ -263,8 +252,7 @@ const props = defineProps({
   modelValue: {
     type: Array,
     default: () => [],
-    description:
-      '구성 요소의 v-model 값입니다. 구성 요소가 다중 소품을 지원하는 경우 기본값은 빈 배열입니다.',
+    description: '구성 요소의 v-model 값입니다. 구성 요소가 다중 소품을 지원하는 경우 기본값은 빈 배열입니다.',
   },
   multiSort: {
     type: Boolean,
@@ -274,8 +262,7 @@ const props = defineProps({
   mustSort: {
     type: Boolean,
     default: false,
-    description:
-      'true일 경우 정렬을 비활성화할 수 없으면 항상 오름차순과 내림차순 간에 전환됩니다.',
+    description: 'true일 경우 정렬을 비활성화할 수 없으면 항상 오름차순과 내림차순 간에 전환됩니다.',
   },
   noDataText: {
     type: String,
@@ -310,8 +297,7 @@ const props = defineProps({
   showSelect: {
     type: Boolean,
     default: false,
-    description:
-      '머리글과 행 모두에서 선택 확인란을 표시합니다(기본 행을 사용하는 경우).',
+    description: '머리글과 행 모두에서 선택 확인란을 표시합니다(기본 행을 사용하는 경우).',
   },
   // sortBy: {
   //   type: Array,
@@ -321,7 +307,7 @@ const props = defineProps({
   // },
   selectStrategy: {
     type: String,
-    default: 'page'
+    default: 'page',
   },
   width: {
     type: [String, Number],
@@ -341,12 +327,12 @@ const props = defineProps({
   },
   footers: {
     type: Object,
-    default: () => { },
+    default: () => {},
     description: 'tfoot 위치에 그릴 데이터',
   },
   customSlotFooter: {
     type: Object,
-    default: () => { },
+    default: () => {},
     description: 'custom footer',
   },
   smartSearch: {
@@ -354,26 +340,26 @@ const props = defineProps({
     default: () => {
       return []
     },
-    description: 'Smart Search 검색 기능'
+    description: 'Smart Search 검색 기능',
   },
   fixedTable: {
     type: Boolean,
-    default: false
+    default: false,
   },
   setTotal: {
     type: Function,
-    default: () => { },
-    description: '전체 개수 초기화(필터링 적용)'
+    default: () => {},
+    description: '전체 개수 초기화(필터링 적용)',
   },
   density: {
     type: String,
     default: 'default',
-    description: 'default | comfortable | compact 사이즈'
+    description: 'default | comfortable | compact 사이즈',
   },
   tooltip: {
     type: Boolean,
     default: false,
-    description: '툴팁 사용 여부(툴팁을 사용하려면 테이블의 class가 fixed-table을 포함하고 있어야 합니다.)'
+    description: '툴팁 사용 여부(툴팁을 사용하려면 테이블의 class가 fixed-table을 포함하고 있어야 합니다.)',
   },
 })
 
@@ -383,7 +369,7 @@ const tempPage = ref(1)
 const sortBy = ref([])
 const lazyHeaders = ref([])
 
-const updateModelValue = (item) => {
+const updateModelValue = item => {
   // console.log('updateModelValue', item)
   emit('get-checkedbox-item', item)
   selected.value = item
@@ -412,63 +398,67 @@ const filterDatas = computed(() => {
   if (props.search) {
     // 일반 검색 (no smart search)
     const keys = props.headers.map(h => h.key)
-    const filteredList = props.items.filter(data => keys.some(key => {
-      if (data[key]) {
-        if (typeof data[key] === typeof {} || typeof data[key] === typeof []) {
-          return JSON.stringify(data[key]).indexOf(props.search) > -1
+    const filteredList = props.items.filter(data =>
+      keys.some(key => {
+        if (data[key]) {
+          if (typeof data[key] === typeof {} || typeof data[key] === typeof []) {
+            return JSON.stringify(data[key]).indexOf(props.search) > -1
+          }
+          return data[key].toString().indexOf(props.search) > -1
         }
-        return data[key].toString().indexOf(props.search) > -1
-      } return false
-    }))
+        return false
+      }),
+    )
     return filteredList
   }
 
-  if (props.smartSearch.length){
+  if (props.smartSearch.length) {
     const filteredList = props.items.filter(data => {
       // 검색 결과는 OR 조건이기 때문에 some 함수 사용
       // TODO: 동일 key 값에 대해서는 OR 조건일 것
       // tag는 동일 값 검색
       // tag 외의 검색은 like 검색
-      const isCorrect = props.smartSearch.some(
-        option => {
-          if (option.key === 'undefinedTag') {
-            if (!data.tagList?.length) return true
-            return false
-          }
-          if (!option.value) {
-            return true
-          }
-
-          // s: 태그 검색 영역
-          if (option.type === 'tag' && data.tagList?.length) {
-            const result = data.tagList.some(tagObj => {
-              // const tagObj = JSON.parse(tagStr)
-              return tagObj.tagKey.toLowerCase() === option.key.toLowerCase()
-                && tagObj.tagValue.toLowerCase() === option.value.toLowerCase()
-            })
-            return result
-          }
-          // e: 태그 검색 영역
-
-          // s: 태그 외 검색
-          if (option.type !== 'tag') {
-            if (typeof data[option.key] === 'object') {
-              const searchData = JSON.stringify(data[option.key])
-              // 검색 결과는 like 검색이기 때문에 indexOf 사용
-              return searchData.toLowerCase().indexOf(option.value.toLowerCase()) > -1
-            }
-            if (typeof data[option.key] === 'number') {
-              return data[option.key].toString().indexOf(option.value) > -1
-            }
-            return data[option.key].toLowerCase().indexOf(option.value.toLowerCase()) > -1
-          }
+      const isCorrect = props.smartSearch.some(option => {
+        if (option.key === 'undefinedTag') {
+          if (!data.tagList?.length) return true
           return false
-        // e: 태그 외 검색
         }
-      )
+        if (!option.value) {
+          return true
+        }
+
+        // s: 태그 검색 영역
+        if (option.type === 'tag' && data.tagList?.length) {
+          const result = data.tagList.some(tagObj => {
+            // const tagObj = JSON.parse(tagStr)
+            return (
+              tagObj.tagKey.toLowerCase() === option.key.toLowerCase() &&
+              tagObj.tagValue.toLowerCase() === option.value.toLowerCase()
+            )
+          })
+          return result
+        }
+        // e: 태그 검색 영역
+
+        // s: 태그 외 검색
+        if (option.type !== 'tag') {
+          if (typeof data[option.key] === 'object') {
+            const searchData = JSON.stringify(data[option.key])
+            // 검색 결과는 like 검색이기 때문에 indexOf 사용
+            return searchData.toLowerCase().indexOf(option.value.toLowerCase()) > -1
+          }
+          if (typeof data[option.key] === 'number') {
+            return data[option.key].toString().indexOf(option.value) > -1
+          }
+          return data[option.key].toLowerCase().indexOf(option.value.toLowerCase()) > -1
+        }
+        return false
+        // e: 태그 외 검색
+      })
       return isCorrect // 전체 조건에 맞는지 여부
     })
-    return filteredList}
+    return filteredList
+  }
   return props.items
 })
 
@@ -493,15 +483,15 @@ const hasCheckedItemSlot = computed(() => {
 //   }
 //   return text
 // }
-const updatePage = (e) => {
+const updatePage = e => {
   emit('update:page', e)
 }
-const updateSortBy = (e) => {
+const updateSortBy = e => {
   sortBy.value = e
   lazyPage.value = 1
   emit('update:page', 1)
 }
-const onClickSortBy = (el) => {
+const onClickSortBy = el => {
   // DataTable 업데이트 이슈로 인해 아래의 코드 삽입
   if (el.order && el.order === 'asc') {
     el.order = 'desc'
@@ -524,30 +514,29 @@ const onClickSortBy = (el) => {
 
 watch(
   () => props.page,
-  (nv) => {
+  nv => {
     lazyPage.value = nv
-  }
+  },
 )
 
 watch(
   () => lazyPage,
-  (nv) => {
+  nv => {
     updatePage(nv)
-  }
+  },
 )
 
 watch(
   () => props.headers,
-  (nv) => {
+  nv => {
     lazyHeaders.value = nv
-  }
+  },
 )
 onMounted(() => {
   selected.value = props.modelValue
   lazyPage.value = props.page
   lazyHeaders.value = [...props.headers]
 })
-
 </script>
 
 <style lang="scss" scoped>
@@ -559,7 +548,7 @@ onMounted(() => {
   }
 
   ::v-deep(td.v-data-table__td) {
-    --v-border-color: 0,0,0;
+    --v-border-color: 0, 0, 0;
     --v-table-row-height: 42px;
     font-size: toRem(14);
     font-weight: 300;
@@ -579,11 +568,11 @@ onMounted(() => {
   }
 
   &.hide-footer {
-    >::v-deep(.v-data-table-footer) {
+    > ::v-deep(.v-data-table-footer) {
       display: none !important;
     }
   }
-  ::v-deep(.v-btn:hover)>.v-btn__overlay {
+  ::v-deep(.v-btn:hover) > .v-btn__overlay {
     opacity: 0.1;
     background: #1297f2;
   }

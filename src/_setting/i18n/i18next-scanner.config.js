@@ -10,7 +10,7 @@ export default {
     func: {
       list: ['$t', 't', 'i18next.t'],
       // 사용할 함수 목록
-      extensions: ['.js', '.vue'] // 탐색할 파일 확장자
+      extensions: ['.js', '.vue'], // 탐색할 파일 확장자
     },
     fallbackLng: 'ko',
     lngs: ['ko', 'en'],
@@ -26,14 +26,15 @@ export default {
       savePath: './i18n/{{lng}}/{{ns}}.json',
       // JSON 파일로 저장할 때의 형식
       jsonIndent: 2,
-      lineEnding: '\n'
+      lineEnding: '\n',
     },
     // 탐색할 파일 경로
     ns: ['translation'],
     // 사용할 네임스페이스
     // 소스 코드에서 검색할 경로
-    context: ['src/**/*.{js,vue}' // 소스 코드 경로
-    ]
+    context: [
+      'src/**/*.{js,vue}', // 소스 코드 경로
+    ],
   },
   // Custom transform을 사용하여 기존 파일과 병합
   transform: function customTransform(file, enc, done) {
@@ -61,12 +62,12 @@ export default {
 
     const saveFile = (filePath, existingData, newData) => {
       const mergedData = _.merge(newData, existingData)
-        // 병합된 데이터로 파일 덮어쓰기
-        fs.writeFileSync(filePath, JSON.stringify(mergedData, null, 2))
+      // 병합된 데이터로 파일 덮어쓰기
+      fs.writeFileSync(filePath, JSON.stringify(mergedData, null, 2))
     }
 
-    languages.forEach((lng) => {
-      namespaces.forEach((ns) => {
+    languages.forEach(lng => {
+      namespaces.forEach(ns => {
         const filePath = path.resolve(`./src/_setting/i18n/${lng}/${ns}.json`)
 
         // 기존 파일 읽기
@@ -83,5 +84,5 @@ export default {
     })
 
     done()
-  }
+  },
 }

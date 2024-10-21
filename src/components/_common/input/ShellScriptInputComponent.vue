@@ -26,14 +26,14 @@ import { ref } from 'vue'
 const shellScript = defineModel({
   type: String,
   default: '',
-  required: true
+  required: true,
 })
 defineProps({
   labelTitle: {
     type: String,
     default: null,
-    required: false
-  }
+    required: false,
+  },
 })
 const lineCnt = ref(1) // 라인 수
 const updateLineCnt = () => {

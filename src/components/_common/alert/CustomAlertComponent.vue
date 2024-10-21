@@ -16,14 +16,7 @@
       <slot name="alert-icon" />
       {{ titleName }}
       <template #actions>
-        <v-btn
-          v-if="isClose"
-          :color="'#fff'"
-          variant="text"
-          @click="onClickCloseAlert"
-        >
-          Close
-        </v-btn>
+        <v-btn v-if="isClose" :color="'#fff'" variant="text" @click="onClickCloseAlert">Close</v-btn>
       </template>
     </v-snackbar>
   </div>
@@ -78,10 +71,10 @@ defineProps({
     default: () => {
       return {}
     },
-  }
+  },
 })
 
-const updateModelValue = (value) => {
+const updateModelValue = value => {
   emits('update:model-value', value)
 }
 

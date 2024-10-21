@@ -1,6 +1,6 @@
 <template>
   <div class="s-progress-circular" :style="{ height: size + 'px', width: size + 'px', '--stroke-width': width + 'px' }">
-    <svg style="width:0;height:0;position:absolute;" aria-hidden="true" focusable="false">
+    <svg style="width: 0; height: 0; position: absolute" aria-hidden="true" focusable="false">
       <linearGradient id="gradientColor">
         <stop offset="0%" stop-color="#1B75BB" />
         <stop offset="100%" stop-color="#7C0F80" />
@@ -20,7 +20,7 @@
         :style="{
           strokeWidth: strokeWidth,
           strokeDasharray: CIRCUMFERENCE,
-          strokeDashoffset: 0
+          strokeDashoffset: 0,
         }"
       />
       <circle
@@ -32,7 +32,7 @@
         :style="{
           strokeWidth: strokeWidth,
           strokeDasharray: CIRCUMFERENCE,
-          strokeDashoffset: strokeDashOffset
+          strokeDashoffset: strokeDashOffset,
         }"
       />
     </svg>
@@ -42,16 +42,15 @@
 <script setup>
 import { computed, onMounted } from 'vue'
 
-
 const props = defineProps({
   size: {
     type: Number,
-    default: 50
+    default: 50,
   },
   width: {
     type: Number,
-    default: 6
-  }
+    default: 6,
+  },
 })
 
 const normalizedValue = computed(() => Math.max(0, Math.min(100, parseFloat(0))))
@@ -70,14 +69,11 @@ const convertToUnit = (str, unit = 'px') => {
   }
 }
 
-
 const diameter = computed(() => (MAGIC_RADIUS_CONSTANT / (1 - props.width / props.size)) * 2)
-const strokeWidth = computed(() => props.width / props.size * diameter.value)
+const strokeWidth = computed(() => (props.width / props.size) * diameter.value)
 const strokeDashOffset = computed(() => convertToUnit(((100 - normalizedValue.value) / 100) * CIRCUMFERENCE))
 
-onMounted(() => {
-})
-
+onMounted(() => {})
 </script>
 
 <style lang="scss" scoped>
@@ -85,7 +81,9 @@ onMounted(() => {
   $this: 's-progress-circular';
   --stroke-width: 6px;
   $progress-circular-intermediate-svg-transition: all 0.2s ease-in-out !default;
-  $progress-circular-overlay-transition: all 0.2s ease-in-out, --stroke-width 0s !default;
+  $progress-circular-overlay-transition:
+    all 0.2s ease-in-out,
+    --stroke-width 0s !default;
   $progress-circular-overlay-transform: rotate(calc(-90deg)) !default;
   $progress-circular-rotate-animation: progress-circular-rotate 1.4s linear infinite !default;
   $progress-circular-rotate-dash: progress-circular-dash 1.4s ease-in-out infinite !default;
@@ -119,23 +117,23 @@ onMounted(() => {
 }
 
 @keyframes progress-circular-dash {
-  0%{
+  0% {
     stroke-dasharray: 1, 200;
     stroke-dashoffset: 0px;
   }
 
-  50%{
+  50% {
     stroke-dasharray: 100, 200;
     stroke-dashoffset: -15px;
   }
 
-  100%{
+  100% {
     stroke-dasharray: 100, 200;
     stroke-dashoffset: -124px;
   }
 }
 @keyframes progress-circular-rotate {
-  100%{
+  100% {
     transform: rotate(270deg);
   }
 }

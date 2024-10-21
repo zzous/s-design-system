@@ -11,12 +11,7 @@
     <vee-form ref="formRef" v-slot="{ values }" :validation-schema="schema">
       <s-sub-header :show-cnt="false" :title="$t('기본 정보')" class-name="sub-title" />
       <s-form-table>
-        <s-form-item
-          v-slot="{ errors, handleChange }"
-          :label="$t('템플릿')"
-          name="templateId"
-          required
-        >
+        <s-form-item v-slot="{ errors, handleChange }" :label="$t('템플릿')" name="templateId" required>
           <v-select
             :model-value="values.templateId"
             variant="outlined"
@@ -30,12 +25,7 @@
             @update:model-value="handleChange"
           />
         </s-form-item>
-        <s-form-item
-          v-slot="{ errors, handleChange }"
-          :label="$t('프로젝트명')"
-          name="projectName"
-          required
-        >
+        <s-form-item v-slot="{ errors, handleChange }" :label="$t('프로젝트명')" name="projectName" required>
           <v-text-field
             :model-value="values.projectName"
             variant="outlined"
@@ -50,11 +40,7 @@
             {{ $t('중복 체크') }}
           </s-btn>
         </s-form-item>
-        <s-form-item
-          v-slot="{ handleChange }"
-          :label="$t('프로젝트 별칭')"
-          name="projectAlias"
-        >
+        <s-form-item v-slot="{ handleChange }" :label="$t('프로젝트 별칭')" name="projectAlias">
           <v-text-field
             :model-value="values.projectAlias"
             variant="outlined"
@@ -64,11 +50,7 @@
             @update:model-value="handleChange"
           />
         </s-form-item>
-        <s-form-item
-          :label="$t('빌드 승인 프로세스')"
-          name="buildApproveFlow"
-          required
-        >
+        <s-form-item :label="$t('빌드 승인 프로세스')" name="buildApproveFlow" required>
           <template #default>
             <s-btn variant="outlined" height="30" @click="openModal('buildApproveFlow')">
               {{ $t('프로세스 선택') }}
@@ -90,11 +72,7 @@
             <span v-if="errors.length" class="error-msg">{{ errors.at(0) }}</span>
           </template>
         </s-form-item>
-        <s-form-item
-          :label="$t('배포 승인 프로세스')"
-          name="deployApproveFlow"
-          required
-        >
+        <s-form-item :label="$t('배포 승인 프로세스')" name="deployApproveFlow" required>
           <template #default>
             <s-btn variant="outlined" height="30" @click="openModal('deployApproveFlow')">
               {{ $t('프로세스 선택') }}
@@ -118,11 +96,7 @@
             </span>
           </template>
         </s-form-item>
-        <s-form-item
-          :label="$t('프로젝트 관리자')"
-          name="projectManagerList"
-          required
-        >
+        <s-form-item :label="$t('프로젝트 관리자')" name="projectManagerList" required>
           <template #default>
             <s-btn variant="outlined" height="30" @click="openModal('projectManagerList')">
               {{ $t('관리자 선택') }}
@@ -144,7 +118,11 @@
             <span v-if="errors.length" class="error-msg">{{ errors.at(0) }}</span>
           </template>
         </s-form-item>
-        <s-form-item v-slot="{ handleChange }" :label="$t('설명({{length}}자 이내)', {length: 250})" name="projectDesc">
+        <s-form-item
+          v-slot="{ handleChange }"
+          :label="$t('설명({{length}}자 이내)', { length: 250 })"
+          name="projectDesc"
+        >
           <v-textarea
             :model-value="values.projectDesc"
             density="compact"
@@ -158,12 +136,7 @@
 
       <s-sub-header :title="$t('템플릿 속성')" :show-cnt="false" class-name="sub-title" />
       <s-form-table class="s-table__form">
-        <s-form-item
-          v-slot="{ errors, handleChange }"
-          :label="$t('패키지 명')"
-          name="packageName"
-          required
-        >
+        <s-form-item v-slot="{ errors, handleChange }" :label="$t('패키지 명')" name="packageName" required>
           <v-text-field
             :model-value="values.packageName"
             variant="outlined"
@@ -174,12 +147,7 @@
             @update:model-value="handleChange"
           />
         </s-form-item>
-        <s-form-item
-          v-slot="{ errors, handleChange }"
-          :label="$t('JDK 버전')"
-          name="jdkVersion"
-          required
-        >
+        <s-form-item v-slot="{ errors, handleChange }" :label="$t('JDK 버전')" name="jdkVersion" required>
           <v-select
             :model-value="values.jdkVersion"
             variant="outlined"
@@ -244,32 +212,32 @@ const modal = reactive({
   target: null,
   show: false,
   component: null,
-  props: {}
+  props: {},
 })
 
 const openModal = target => {
   switch (target) {
-  case 'buildApproveFlow':
-    modal.component = markRaw(BuildProcessListModal)
-    modal.props = {
-      selected: formRef.value.values[target]?.map(item => item.flowId)
-    }
-    break
-  case 'deployApproveFlow':
-    modal.component = markRaw(DeployProcessListModal)
-    modal.props = {
-      selected: formRef.value.values[target]?.map(item => item.flowId)
-    }
-    break
-  case 'projectManagerList':
-    modal.component = markRaw(ProjectManagerListModal)
-    modal.props = {
-      selected: formRef.value.values[target]?.map(item => item.userId)
-    }
-    break
-  default:
-    modal.component = null
-    break
+    case 'buildApproveFlow':
+      modal.component = markRaw(BuildProcessListModal)
+      modal.props = {
+        selected: formRef.value.values[target]?.map(item => item.flowId),
+      }
+      break
+    case 'deployApproveFlow':
+      modal.component = markRaw(DeployProcessListModal)
+      modal.props = {
+        selected: formRef.value.values[target]?.map(item => item.flowId),
+      }
+      break
+    case 'projectManagerList':
+      modal.component = markRaw(ProjectManagerListModal)
+      modal.props = {
+        selected: formRef.value.values[target]?.map(item => item.userId),
+      }
+      break
+    default:
+      modal.component = null
+      break
   }
   modal.target = target
   modal.show = true
@@ -311,12 +279,12 @@ const checkDuplicate = async () => {
     }
     isDuplicateProjectName.value = result
     await schema.validateAt('projectName', formRef.value.values)
-  } catch(e) {
+  } catch (e) {
     console.log(e)
   }
 }
 
-const makeParameters = (values) => {
+const makeParameters = values => {
   const { projectCd, buildCd } = projectTemplates.value.find(item => item.templateId === values.templateId)
   return {
     projectName: values.projectName,
@@ -336,7 +304,7 @@ const makeParameters = (values) => {
   }
 }
 
-const fetchNewProject = async (values) => {
+const fetchNewProject = async values => {
   const formData = new FormData()
   formData.append('project', new Blob([JSON.stringify(makeParameters(values))], { type: 'application/json' }))
 
@@ -348,7 +316,7 @@ const fetchNewProject = async (values) => {
       type: 'success',
     })
     return true
-  } catch(e) {
+  } catch (e) {
     alertStore.openAlert({
       titleName: tt('생성하지 못했습니다'),
       type: 'error',
@@ -368,7 +336,6 @@ const submit = async () => {
   }
   return result
 }
-
 
 const updateModal = value => {
   modal.show = value
@@ -396,9 +363,6 @@ onMounted(async () => {
   await commonStore.getProjectTemplates()
   commonStore.getGroupJdkVersions()
 })
-
 </script>
 
-<style lang="scss" scoped>
-
-</style>
+<style lang="scss" scoped></style>

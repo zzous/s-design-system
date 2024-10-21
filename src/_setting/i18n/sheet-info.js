@@ -5,7 +5,7 @@
  */
 
 export const SHEET_INFO = {
-  ID: 'your-spreadsheet-id'
+  ID: 'your-spreadsheet-id',
 }
 
 export default { SHEET_INFO }

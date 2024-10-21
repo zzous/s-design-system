@@ -14,9 +14,7 @@
       </v-col>
       <v-col class="text-end" cols="4">
         <default-button-component class="mr-1" title="전체 보기" :height="40" />
-        <v-btn variant="flat" base-color="#ecf5ff" :height="40">
-          전체 닫기
-        </v-btn>
+        <v-btn variant="flat" base-color="#ecf5ff" :height="40">전체 닫기</v-btn>
       </v-col>
     </v-row>
   </div>
@@ -26,18 +24,12 @@
         <table class="commit-table">
           <tbody>
             <tr>
-              <td class="commit-message">
-                [DevOps]add template
-              </td>
+              <td class="commit-message">[DevOps]add template</td>
               <!-- Rowspan을 사용하여 첫 번째 열을 두 행에 걸쳐 병합 -->
-              <td rowspan="2" class="commit-date">
-                2024-09-12 19:07
-              </td>
+              <td rowspan="2" class="commit-date">2024-09-12 19:07</td>
             </tr>
             <tr>
-              <td class="commit-repository">
-                strato-devops
-              </td>
+              <td class="commit-repository">strato-devops</td>
             </tr>
           </tbody>
         </table>
@@ -54,7 +46,7 @@ import CommitAccordionComponent from '@/components/file/CommitAccordionComponent
 const branchList = ref([
   { id: 'dev', name: 'dev' },
   { id: 'stg', name: 'stg' },
-  { id: 'prod', name: 'prod' }
+  { id: 'prod', name: 'prod' },
 ])
 const selectedBranch = ref('dev')
 </script>

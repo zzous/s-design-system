@@ -1,19 +1,92 @@
 {
-  "editor.codeActionsOnSave": {
-    "source.fixAll": "always",
+  // ===
+  // Spacing
+  // ===
+
+  "editor.insertSpaces": true,
+  "editor.tabSize": 2,
+  "editor.trimAutoWhitespace": true,
+  "files.trimTrailingWhitespace": true,
+  "files.eol": "\n",
+  "files.insertFinalNewline": true,
+  "files.trimFinalNewlines": true,
+
+  // ===
+  // Files
+  // ===
+
+  "files.exclude": {
+    "**/*.log": true,
+    "**/*.log*": true,
+    "**/dist": true,
+    "**/coverage": true
   },
+  "files.associations": {
+    ".markdownlintrc": "jsonc"
+  },
+
+  // ===
+  // Event Triggers
+  // ===
+
   "editor.formatOnSave": true,
   "editor.defaultFormatter": "dbaeumer.vscode-eslint",
-  "[vue]": {
-    "editor.defaultFormatter": "dbaeumer.vscode-eslint"
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "explicit",
+    "source.fixAll.stylelint": "explicit",
+    "source.fixAll.markdownlint": "explicit"
   },
+  // "[vue]": {
+  //   "editor.defaultFormatter": "dbaeumer.vscode-eslint"
+  // },
   "[json]": {
     "editor.defaultFormatter": "vscode.json-language-features"
   },
   "eslint.validate": [
     "javascript",
     "javascriptreact",
-    "vue"
+    "vue",
+    "vue-html",
+    "html"
   ],
-  "editor.tabSize": 2,
+
+  // ===
+  // HTML
+  // ===
+
+  "html.format.enable": false,
+  "emmet.triggerExpansionOnTab": true,
+  "emmet.includeLanguages": {
+    "vue-html": "html"
+  },
+
+  // ===
+  // JS(ON)
+  // ===
+
+  "javascript.format.enable": false,
+  "json.format.enable": false,
+
+  // ===
+  // CSS
+  // ===
+
+  "stylelint.enable": true,
+  "css.validate": true,
+  "scss.validate": true,
+
+  // ===
+  // MARKDOWN
+  // ===
+
+  "[markdown]": {
+    "editor.wordWrap": "wordWrapColumn",
+    "editor.wordWrapColumn": 80
+  },
+  "[dotenv]": {
+    "editor.defaultFormatter": "foxundermoon.shell-format"
+  },
+  "[properties]": {
+    "editor.defaultFormatter": "foxundermoon.shell-format"
+  },
 }

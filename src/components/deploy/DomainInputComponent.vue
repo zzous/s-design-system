@@ -2,20 +2,10 @@
   <div class="domain-input-wrapper">
     <v-row>
       <v-col class="small-col">
-        <v-select
-          v-model="selectedProtocol"
-          :items="protocolList"
-          :disabled="disabled"
-          density="compact"
-        />
+        <v-select v-model="selectedProtocol" :items="protocolList" :disabled="disabled" density="compact" />
       </v-col>
       <v-col class="large-col">
-        <v-text-field
-          density="compact"
-          variant="outlined"
-          placeholder="도메인을 입력하세요"
-          :disabled="disabled"
-        />
+        <v-text-field density="compact" variant="outlined" placeholder="도메인을 입력하세요" :disabled="disabled" />
       </v-col>
     </v-row>
     <div class="error-message-wrapper">
@@ -32,8 +22,8 @@ const selectedProtocol = ref('http://')
 defineProps({
   disabled: {
     type: Boolean,
-    default: true
-  }
+    default: true,
+  },
 })
 </script>
 

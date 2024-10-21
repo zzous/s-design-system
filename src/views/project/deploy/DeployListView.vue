@@ -52,32 +52,32 @@ const headers = ref([
   {
     title: tt('배포명'),
     align: 'center',
-    key: 'deployName'
+    key: 'deployName',
   },
   {
     title: tt('빌드명'),
     align: 'center',
-    key: 'buildName'
+    key: 'buildName',
   },
   {
     title: tt('스테이지'),
     align: 'center',
-    key: 'stageName'
+    key: 'stageName',
   },
   {
     title: tt('프로바이더'),
     align: 'center',
-    key: 'deployCd'
+    key: 'deployCd',
   },
   {
     title: tt('마지막 배포 일시'),
     align: 'center',
-    key: 'lastDeployDate'
+    key: 'lastDeployDate',
   },
   {
     title: tt('마지막 배포 상태'),
     align: 'center',
-    key: 'lastDeployStatus'
+    key: 'lastDeployStatus',
   },
 ])
 
@@ -89,7 +89,7 @@ const pageCnt = computed(() => Math.ceil(items.value.length / items.value))
 
 const getDeployList = () => {
   deployStore.getDeployList({
-    projectId: selectedProject.value.projectId
+    projectId: selectedProject.value.projectId,
   })
 }
 

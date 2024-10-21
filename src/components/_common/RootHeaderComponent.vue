@@ -4,28 +4,13 @@
       <div class="s-logo">
         <a href="#" @click="$emit('click:logo')">
           <span class="d-none">main-logo</span>
-          <img class="s-logo__img" src="/public/devops/assets/images/logo.svg" alt="">
+          <img class="s-logo__img" src="/public/devops/assets/images/logo.svg" alt="" />
         </a>
       </div>
-      <v-app-bar-title
-        density="compact"
-        variant="flat"
-        size="small"
-        background-color="white"
-      >
-        <v-btn
-          v-if="showMenuBtn"
-          class="s-btn__menu"
-          :text="$t('서비스')"
-          @click="toggleMenu"
-        >
+      <v-app-bar-title density="compact" variant="flat" size="small" background-color="white">
+        <v-btn v-if="showMenuBtn" class="s-btn__menu" :text="$t('서비스')" @click="toggleMenu">
           <template #prepend>
-            <v-icon
-              class="s-btn__menu__icon"
-              variant="text"
-              density="compact"
-              icon="mdi-menu"
-            />
+            <v-icon class="s-btn__menu__icon" variant="text" density="compact" icon="mdi-menu" />
           </template>
         </v-btn>
       </v-app-bar-title>
@@ -58,12 +43,7 @@
                 :src-url="`data:image/${userInfo.picture.format};base64,${userInfo.picture.data}`"
                 width="100"
               />
-              <s-img
-                v-else
-                lazy-src="user-avatar.png"
-                src="user-avatar.png"
-                width="100"
-              />
+              <s-img v-else lazy-src="user-avatar.png" src="user-avatar.png" width="100" />
             </v-avatar>
           </template>
         </s-user>
@@ -96,7 +76,7 @@
 <script setup>
 const props = defineProps({
   isLoggedIn: {
-    type: Boolean
+    type: Boolean,
   },
   userInfo: {
     type: Object,
@@ -104,32 +84,39 @@ const props = defineProps({
       return {
         name: '-',
         picture: {
-          format: 'png'
-        }
+          format: 'png',
+        },
       }
-    }
+    },
   },
   serviceMenus: {
     type: Array,
     default: () => [],
-    description: '서비스 메뉴의 items'
+    description: '서비스 메뉴의 items',
   },
   userMenus: {
     type: Array,
     default: () => [],
-    description: '사용자 메뉴의 items (예: 나의 정보, 기업 정보, 로그아웃)'
+    description: '사용자 메뉴의 items (예: 나의 정보, 기업 정보, 로그아웃)',
   },
   showMenuBtn: {
     type: Boolean,
-    default: false
+    default: false,
   },
   showMenu: {
     type: Boolean,
-    default: false
-  }
+    default: false,
+  },
 })
 
-const emits = defineEmits(['click:menu','click:log-in', 'click:sign-up', 'click:menu-item', 'click:logo', 'click:service-item'])
+const emits = defineEmits([
+  'click:menu',
+  'click:log-in',
+  'click:sign-up',
+  'click:menu-item',
+  'click:logo',
+  'click:service-item',
+])
 
 //const showMenu = ref(false)
 
@@ -142,11 +129,11 @@ const closeMenu = () => {
   emits('click:menu', false)
 }
 
-const onClickMenuItem = (value) => {
+const onClickMenuItem = value => {
   emits('click:menu-item', value)
 }
 
-const onClickServiceItem = (value) => {
+const onClickServiceItem = value => {
   emits('click:service-item', value)
 }
 </script>

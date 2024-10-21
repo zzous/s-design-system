@@ -17,10 +17,10 @@ export const useUserStore = defineStore('user', () => {
     company: {
       uuid: '',
       companyNameKr: '',
-      companyType: ''
+      companyType: '',
     },
     userRoles: [],
-    deptList: []
+    deptList: [],
   })
 
   const isLoggedIn = computed(() => !!userInfo.value.userId)
@@ -47,12 +47,12 @@ export const useUserStore = defineStore('user', () => {
       let userData = null
       const accessToken = cookieHelper.getCookie(COOKIE_KEY.ACCESS)
       const refreshToken = cookieHelper.getCookie(COOKIE_KEY.REFRESH)
-      if(accessToken) {
+      if (accessToken) {
         userData = await axios.get(LOGIN_USER)
-      }else if(refreshToken) {
+      } else if (refreshToken) {
         await useTokenStore().postRefreshToken()
         userData = await axios.get(LOGIN_USER)
-      }else{
+      } else {
         //로그인 페이지 이동
         useTokenStore().onLogIn()
       }
@@ -73,9 +73,9 @@ export const useUserStore = defineStore('user', () => {
       company: {
         uuid: '',
         companyNameKr: '',
-        companyType: ''
+        companyType: '',
       },
-      userRoles: []
+      userRoles: [],
     }
   }
 
@@ -83,8 +83,8 @@ export const useUserStore = defineStore('user', () => {
   async function editUser(params) {
     const { data } = await axios.put(USER, params, {
       headers: {
-        'Content-Type': 'multipart/form-data'
-      }
+        'Content-Type': 'multipart/form-data',
+      },
     })
     // console.log(data)
     return data
@@ -116,6 +116,6 @@ export const useUserStore = defineStore('user', () => {
     // postLogout,
 
     isManagingComp,
-    ownCompany
+    ownCompany,
   }
 })

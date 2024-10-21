@@ -10,14 +10,14 @@ export const navLang = navigator.language.substring(0, 2) || 'ko'
 
 const resources = {
   ko: { translation: ko_KR },
-  en: { translation: en_US }
+  en: { translation: en_US },
 }
 
 // i18n 인스턴스 생성
 i18next.init({
   lng: navLang,
   fallbackLng: 'ko',
-  resources
+  resources,
 })
 
 export const useI18n = () => {
@@ -29,7 +29,7 @@ export const useI18n = () => {
     return computed(() => i18next.t(key, options)).value
   }
 
-  const changeLanguage = (lng) => {
+  const changeLanguage = lng => {
     i18next.changeLanguage(lng)
   }
 
@@ -39,6 +39,5 @@ export const useI18n = () => {
     changeLanguage,
   }
 }
-
 
 export default i18next

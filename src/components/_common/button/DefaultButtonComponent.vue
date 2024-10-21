@@ -1,12 +1,5 @@
 <template>
-  <v-btn
-    class="s-btn"
-    elevation="0"
-    :s-color="color"
-    :size="size"
-    :to="to"
-    :height="height"
-  >
+  <v-btn class="s-btn" elevation="0" :s-color="color" :size="size" :to="to" :height="height">
     <template v-if="title">
       {{ title }}
     </template>
@@ -22,29 +15,29 @@ defineProps({
   title: {
     type: String,
     required: false,
-    default: ''
+    default: '',
   },
   to: {
     type: String,
     required: false,
-    default: null
+    default: null,
   },
   height: {
     type: [String, Number],
     required: false,
-    default: null
+    default: null,
   },
   size: {
     type: String,
     default: undefined, //기본 medium
-    validator: (value) => {
+    validator: value => {
       return [undefined, 'x-small', 'small', 'large', 'x-large'].includes(value)
-    }
+    },
   },
   color: {
     type: String,
     default: 'blue',
-  }
+  },
 })
 </script>
 
@@ -55,30 +48,30 @@ a.s-btn {
 .s-title-area__content .s-title-area__buttons a:not(:first-child) {
   margin-left: 10px;
 }
-.s-btn{
+.s-btn {
   &.v-btn--variant-elevated {
-    &[s-color="blue"] {
+    &[s-color='blue'] {
       background: $s-btn--blue-1;
       color: white;
     }
-    &[s-color="red"] {
+    &[s-color='red'] {
       background: $s-btn--red-1;
       color: white;
     }
   }
 
-  &.v-btn--variant-outlined{
+  &.v-btn--variant-outlined {
     opacity: 1;
     background-color: white;
 
-    &[s-color="blue"] {
+    &[s-color='blue'] {
       border-color: $s-btn--blue-1;
       color: $s-btn--blue-1;
       &:hover .v-btn__overlay {
         background: $s-btn--blue-1;
       }
     }
-    &[s-color="red"] {
+    &[s-color='red'] {
       border-color: $s-btn--red-1;
       color: $s-btn--red-1;
       &:hover .v-btn__overlay {

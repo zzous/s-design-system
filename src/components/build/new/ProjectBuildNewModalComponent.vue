@@ -1,10 +1,5 @@
 <template>
-  <s-modal
-    :model-value="showModal"
-    :title="$t('빌드 생성')"
-    class-name="lg"
-    @update:model-value="updateModal"
-  >
+  <s-modal :model-value="showModal" :title="$t('빌드 생성')" class-name="lg" @update:model-value="updateModal">
     <project-build-new-component />
   </s-modal>
 </template>
@@ -14,13 +9,11 @@ import ProjectBuildNewComponent from '@/components/build/new/ProjectBuildNewComp
 
 const showModal = defineModel({
   type: Boolean,
-  required: true
+  required: true,
 })
 const emits = defineEmits(['update:model-value'])
 const updateModal = () => {
   emits('update:model-value', false)
 }
 </script>
-<style lang="scss" scoped>
-
-</style>
+<style lang="scss" scoped></style>

@@ -26,8 +26,8 @@
       <s-form-item :label="$t('프로젝트 별칭')" name="projectAlias">
         {{ dataInfo.projectAlias || '-' }}
       </s-form-item>
-      <s-form-item :label="$t('설명({{length}}자 이내)', {length: 250})" name="projectDesc">
-        <span style="white-space: pre;">{{ dataInfo.projectDesc || '-' }}</span>
+      <s-form-item :label="$t('설명({{length}}자 이내)', { length: 250 })" name="projectDesc">
+        <span style="white-space: pre">{{ dataInfo.projectDesc || '-' }}</span>
       </s-form-item>
     </s-form-table>
   </div>
@@ -41,8 +41,8 @@ import { useProjectStore } from '@/stores/devops/project'
 const props = defineProps({
   projectId: {
     type: [String, Number],
-    required: true
-  }
+    required: true,
+  },
 })
 
 const projectStore = useProjectStore()
@@ -51,9 +51,6 @@ const { project: dataInfo } = storeToRefs(projectStore)
 onMounted(() => {
   projectStore.getProject(props.projectId)
 })
-
 </script>
 
-<style lang="scss" scoped>
-
-</style>
+<style lang="scss" scoped></style>

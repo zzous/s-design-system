@@ -1,12 +1,6 @@
 <template>
   <div class="s-empty">
-    <v-sheet
-      class="s-empty__card"
-      :elevation="elevation"
-      border
-      rounded
-      :shadowed="shadowed"
-    >
+    <v-sheet class="s-empty__card" :elevation="elevation" border rounded :shadowed="shadowed">
       <div v-if="title" class="s-empty__card-title">
         {{ title }}
       </div>
@@ -44,7 +38,7 @@ defineProps({
     type: Boolean,
     description: '카드에 그림자 효과 부여 on/off',
     default: true,
-  }
+  },
 })
 </script>
 

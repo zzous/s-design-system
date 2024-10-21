@@ -18,15 +18,8 @@
       </div>
 
       <template v-if="splitDatas.length">
-        <ul
-          v-for="(tableItem, rIndex) in splitDatas"
-          :key="'content-row--' + rIndex"
-          class="s-card-table__body"
-        >
-          <li
-            :class="`s-card-table__body-item ${showExpand ? 'table-expand_header' : 'table-expand_body'
-            }`"
-          >
+        <ul v-for="(tableItem, rIndex) in splitDatas" :key="'content-row--' + rIndex" class="s-card-table__body">
+          <li :class="`s-card-table__body-item ${showExpand ? 'table-expand_header' : 'table-expand_body'}`">
             <div v-if="showExpand" class="s-card__body-icon--expand">
               <slot
                 name="table-expand"
@@ -37,10 +30,7 @@
                 <v-btn
                   density="comfortable"
                   variant="text"
-                  :icon="tableItem.showExpandRow
-                    ? 'mdi-chevron-up'
-                    : 'mdi-chevron-down'
-                  "
+                  :icon="tableItem.showExpandRow ? 'mdi-chevron-up' : 'mdi-chevron-down'"
                   @click.stop.prevent="onClickExpand(tableItem)"
                 />
               </slot>
@@ -52,16 +42,11 @@
               :class="{ 'strong-text': options?.strongs?.includes(header.key) }"
               :style="{
                 width: widthStyleTranslate(header.width),
-                justifyContent:
-                  header.align === 'd-none' ? 'center' : header.align || 'center',
+                justifyContent: header.align === 'd-none' ? 'center' : header.align || 'center',
               }"
             >
               <slot :name="`${header.key}`" :item="tableItem">
-                {{
-                  isEmpty(tableItem[header.key])
-                    ? '-'
-                    : tableItem[header.key]
-                }}
+                {{ isEmpty(tableItem[header.key]) ? '-' : tableItem[header.key] }}
               </slot>
             </div>
             <div v-if="tableItem.showExpandRow">
@@ -156,14 +141,12 @@ const props = defineProps({
   search: {
     type: [String, Array],
     default: undefined,
-    description:
-      '항목 필터링에 사용되는 텍스트 또는 key:value Object를 포함한 텍스트 배열 입력',
+    description: '항목 필터링에 사용되는 텍스트 또는 key:value Object를 포함한 텍스트 배열 입력',
   },
   showSelect: {
     type: Boolean,
     default: false,
-    description:
-      '머리글과 행 모두에서 선택 확인란을 표시합니다(기본 행을 사용하는 경우).',
+    description: '머리글과 행 모두에서 선택 확인란을 표시합니다(기본 행을 사용하는 경우).',
   },
   options: {
     type: Object,
@@ -202,7 +185,7 @@ const props = defineProps({
   },
   setTotal: {
     type: Function,
-    default: () => { },
+    default: () => {},
     description: '전체 개수 초기화(필터링 적용)',
   },
 })
@@ -243,10 +226,8 @@ const filterDatas = computed(() => {
           const result = data.tagList.some(tagObj => {
             // const tagObj = JSON.parse(tagStr)
             return (
-              `${tagObj.tagKey}`.toLowerCase() ===
-              `${option.key}`.toLowerCase() &&
-              `${tagObj.tagValue}`.toLowerCase() ===
-              `${option.value}`.toLowerCase()
+              `${tagObj.tagKey}`.toLowerCase() === `${option.key}`.toLowerCase() &&
+              `${tagObj.tagValue}`.toLowerCase() === `${option.value}`.toLowerCase()
             )
           })
           return result
@@ -255,23 +236,12 @@ const filterDatas = computed(() => {
 
         // s: 태그 외 검색
         if (option.type !== 'tag') {
-          if (
-            typeof data[option.key] === typeof {} ||
-            typeof data[option.key] === typeof []
-          ) {
+          if (typeof data[option.key] === typeof {} || typeof data[option.key] === typeof []) {
             const searchData = JSON.stringify(data[option.key])
             // 검색 결과는 like 검색이기 때문에 indexOf 사용
-            return (
-              `${searchData}`
-                .toLowerCase()
-                .indexOf(`${option.value}`.toLowerCase()) > -1
-            )
+            return `${searchData}`.toLowerCase().indexOf(`${option.value}`.toLowerCase()) > -1
           }
-          return (
-            `${data[option.key]}`
-              .toLowerCase()
-              .indexOf(`${option.value}`.toLowerCase()) > -1
-          )
+          return `${data[option.key]}`.toLowerCase().indexOf(`${option.value}`.toLowerCase()) > -1
         }
         return false
         // e: 태그 외 검색
@@ -288,10 +258,7 @@ const filterDatas = computed(() => {
     const filteredList = props.datas.filter(data =>
       keys.some(key => {
         if (data[key]) {
-          if (
-            typeof data[key] === typeof {} ||
-            typeof data[key] === typeof []
-          ) {
+          if (typeof data[key] === typeof {} || typeof data[key] === typeof []) {
             return JSON.stringify(data[key]).indexOf(props.search) > -1
           }
           return data[key].toString().indexOf(props.search) > -1
@@ -388,7 +355,7 @@ onMounted(() => {
     width: 100%;
     padding: 5px;
 
-    .s-card-table__header-item-title{
+    .s-card-table__header-item-title {
       display: flex;
       justify-content: center;
       align-items: center;

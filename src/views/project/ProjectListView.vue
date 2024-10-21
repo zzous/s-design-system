@@ -15,16 +15,8 @@
         :disabled="selected.length === 0"
         @click="onClickDelete"
       />
-      <s-btn
-        variant="outlined"
-        :title="$t('신규 프로젝트 생성')"
-        @click="onClickNewProject"
-      />
-      <s-btn
-        variant="outlined"
-        :title="$t('프로젝트 가져오기')"
-        @click="onClickImportProject"
-      />
+      <s-btn variant="outlined" :title="$t('신규 프로젝트 생성')" @click="onClickNewProject" />
+      <s-btn variant="outlined" :title="$t('프로젝트 가져오기')" @click="onClickImportProject" />
     </s-sub-header>
     <div class="layout__list-contents">
       <div class="search">
@@ -50,27 +42,25 @@
           show-select
           :options="{ pageCnt: pageCnt, showSelect: true }"
         >
-          <template #[`item.projectType`]="{ item }">
-            {{ item.projectCd }} - {{ item.buildCd }}
-          </template>
+          <template #[`item.projectType`]="{ item }">{{ item.projectCd }} - {{ item.buildCd }}</template>
           <template #[`item.projectName`]="{ item }">
             <span>{{ item.projectName }}</span>
-            <v-icon
-              class="ml-1"
-              size="small"
-              @click="onClickDetail(item)"
-            >
-              mdi-open-in-new
-            </v-icon>
+            <v-icon class="ml-1" size="small" @click="onClickDetail(item)">mdi-open-in-new</v-icon>
           </template>
           <template #[`item.buildCount`]="{ item }">
-            <a :href="goto('build', item)" class="table-link">{{ item.buildCount }}</a>
+            <a :href="goto('build', item)" class="table-link">
+              {{ item.buildCount }}
+            </a>
           </template>
           <template #[`item.deployCount`]="{ item }">
-            <a :href="goto('deploy', item)" class="table-link">{{ item.deployCount }}</a>
+            <a :href="goto('deploy', item)" class="table-link">
+              {{ item.deployCount }}
+            </a>
           </template>
           <template #[`item.userCount`]="{ item }">
-            <a :href="goto('user', item)" class="table-link">{{ item.userCount }}</a>
+            <a :href="goto('user', item)" class="table-link">
+              {{ item.userCount }}
+            </a>
           </template>
           <template #[`item.repo`]="{ item }">
             <a :href="goto('repo', item)" class="table-link">Repo</a>
@@ -110,7 +100,7 @@ const selected = ref([])
 
 const pageCnt = computed(() => Math.ceil(projects.value.length / itemsPerPage.value))
 
-const setProjectId = (projectId) => {
+const setProjectId = projectId => {
   localStorage.setItem(LOCALSTORAGE_KEY.project, projectId)
 }
 
@@ -131,7 +121,6 @@ const goto = (type, item) => {
   return '/console/projects/build/list'
 }
 
-
 const getProjects = async () => {
   await projectStore.getProjects({
     serviceGroupId: serviceGroupId.value,
@@ -146,8 +135,8 @@ const modal = reactive({
   mode: null,
   show: false,
   props: {
-    projectId: null
-  }
+    projectId: null,
+  },
 })
 const onClickNewProject = () => {
   modal.show = true
@@ -189,5 +178,4 @@ defineExpose({ onRefresh })
   color: $s-default--gray-9;
   text-decoration: none;
 }
-
 </style>

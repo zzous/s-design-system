@@ -16,9 +16,7 @@
       <div class="s-loading__spinner">
         <s-progress-circular />
       </div>
-      <div class="s-loading__text">
-        Please wait...
-      </div>
+      <div class="s-loading__text">Please wait...</div>
     </div>
   </v-overlay>
 </template>
@@ -35,7 +33,7 @@ defineProps({
     type: Boolean,
     default: false,
     description: '로딩 오픈 여부',
-  }
+  },
 })
 </script>
 
@@ -56,7 +54,6 @@ defineProps({
   justify-content: center;
   gap: 15px;
   top: -50px;
-
 
   .#{$this}__message {
     font-size: 18px;

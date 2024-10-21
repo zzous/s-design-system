@@ -7,14 +7,14 @@ import { storeToRefs } from 'pinia'
 import { useProjectStore } from '@/stores/devops/project'
 import { SESSIONSTORAGE_KEY } from '@/assets/consts/consts'
 
-export const beforeEach = (router) => {
+export const beforeEach = router => {
   router.beforeEach(async (to, from, next) => {
     // to.query 를 구조분해
     const { token, ...restQuery } = to.query
 
     //token 이 있을경우
-    if(token) {
-      try{
+    if (token) {
+      try {
         //토큰 저장
         const tokenObj = JSON.parse(atob(token))
         useTokenStore().setToken(tokenObj)
@@ -24,12 +24,12 @@ export const beforeEach = (router) => {
         useMenuStore().getAccessibleMenu()
         //쿼리스트링에서 토큰 제거하고 원래 시도한 경로로 리다이렉트
         next({ path: to.path, query: restQuery, replace: true })
-      }catch(e) {
+      } catch (e) {
         console.error(e)
         next()
       }
-    } else{
-      if(useUserStore().isLoggedIn){
+    } else {
+      if (useUserStore().isLoggedIn) {
         await _getUserMenu()
         //진행
       }
@@ -39,7 +39,7 @@ export const beforeEach = (router) => {
   return router
 }
 
-export const beforeResolve = (router) => {
+export const beforeResolve = router => {
   router.beforeResolve(async () => {
     const sgStore = useServiceGroupStore()
     const devOpsSgStore = useDevOpsServiceGroupStore()
@@ -70,15 +70,15 @@ const _getUserMenu = async () => {
   const menuStr = sessionStorage.getItem(SESSIONSTORAGE_KEY.STRATO_PORTAL_MENU)
   const flatMenuStr = sessionStorage.getItem(SESSIONSTORAGE_KEY.STRATO_PORTAL_MENU_FLAT)
   //메뉴가 있다면 store 에 추가
-  if(menuStr) useMenuStore().setMenuPaths(JSON.parse(menuStr))
-  if(flatMenuStr) useMenuStore().setFlatMenuPaths(JSON.parse(flatMenuStr))
+  if (menuStr) useMenuStore().setMenuPaths(JSON.parse(menuStr))
+  if (flatMenuStr) useMenuStore().setFlatMenuPaths(JSON.parse(flatMenuStr))
   //메뉴가 없다면 요청
-  if(!menuStr || !flatMenuStr ) {
+  if (!menuStr || !flatMenuStr) {
     useMenuStore().getAccessibleMenu()
   }
 
   //프로젝트 없을경우 프로젝트 가져오기
-  if(!useProjectStore().projects || !useProjectStore().projects.length ) {
+  if (!useProjectStore().projects || !useProjectStore().projects.length) {
     await useProjectStore().getProjects()
   }
 }

@@ -62,20 +62,20 @@ const { buildFlows: datas } = storeToRefs(smcStore)
 const props = defineProps({
   modelValue: {
     type: Boolean,
-    default: false
+    default: false,
   },
   selected: {
     type: Array,
-    default: () => []
-  }
+    default: () => [],
+  },
 })
 
 const headers = [
   {
     title: tt('빌드 승인 프로세스'),
     key: 'flowName',
-    align: 'center'
-  }
+    align: 'center',
+  },
 ]
 
 const lazySelected = ref([])
@@ -100,7 +100,7 @@ watch(
   () => props.selected,
   () => {
     lazySelected.value = props.selected
-  }
+  },
 )
 
 onMounted(() => {
@@ -108,6 +108,4 @@ onMounted(() => {
 })
 </script>
 
-<style lang="scss" scoped>
-
-</style>
+<style lang="scss" scoped></style>

@@ -6,119 +6,124 @@ import { PROJECT_LIST, PROJECT_$PROJECTID, PROJECT, PROJECT_NAME_DUPLICATE } fro
 import { LOCALSTORAGE_KEY } from '@/assets/consts/consts'
 
 const defaultProject = { projectName: '전체', projectId: 0 }
-const initSelectedProject = (projects) => {
-    try{
-        let returnProject = null
-        const savedProject = localStorage.getItem(LOCALSTORAGE_KEY.PROJECT_ID) ?
-            JSON.parse(localStorage.getItem(LOCALSTORAGE_KEY.PROJECT_ID)) : { ...defaultProject }
-        const idx = projects.findIndex(tempProject => tempProject.projectId === savedProject.projectId)
-        returnProject = idx >= 0 ? { ...projects[idx] } : { ...defaultProject }
-        return returnProject
-    }catch(e) {
-        return { ...defaultProject }
-    }
+const initSelectedProject = projects => {
+  try {
+    let returnProject = null
+    const savedProject = localStorage.getItem(LOCALSTORAGE_KEY.PROJECT_ID)
+      ? JSON.parse(localStorage.getItem(LOCALSTORAGE_KEY.PROJECT_ID))
+      : { ...defaultProject }
+    const idx = projects.findIndex(tempProject => tempProject.projectId === savedProject.projectId)
+    returnProject = idx >= 0 ? { ...projects[idx] } : { ...defaultProject }
+    return returnProject
+  } catch (e) {
+    return { ...defaultProject }
+  }
 }
 
 export const useProjectStore = defineStore('project', () => {
-    const projects = ref([])
-    const project = ref({
-        sourceInfo: {}
-    })
-    //GNB 프로젝트
-    const selectedProject = ref({ ...defaultProject })
+  const projects = ref([])
+  const project = ref({
+    sourceInfo: {},
+  })
+  //GNB 프로젝트
+  const selectedProject = ref({ ...defaultProject })
 
-    const initProject = () => {
-        project.value = {
-            sourceInfo: {}
-        }
+  const initProject = () => {
+    project.value = {
+      sourceInfo: {},
+    }
+  }
+
+  /**
+   * 프로젝트 목록
+   * @param {*} params
+   * @returns
+   */
+  const getProjects = async params => {
+    projects.value = []
+    const { data } = await axios.get(PROJECT_LIST, { params })
+    projects.value = data?.data || []
+    selectedProject.value = initSelectedProject(projects.value)
+    return projects.value
+  }
+
+  const getProject = async projectId => {
+    initProject()
+    const { data } = await axios.get(PROJECT_$PROJECTID.replace('{projectId}', projectId))
+    if (data.code === 200 && data.data) {
+      project.value = data.data
     }
 
-    /**
-     * 프로젝트 목록
-     * @param {*} params
-     * @returns
-     */
-    const getProjects = async params => {
-        projects.value = []
-        const { data } = await axios.get(PROJECT_LIST, { params })
-        projects.value = data?.data || []
-        selectedProject.value = initSelectedProject(projects.value)
-        return projects.value
+    return data
+  }
+
+  const fetchDeleteProject = async projectId => {
+    await axios.delete(PROJECT_$PROJECTID.replace('{projectId}', projectId))
+  }
+
+  const fetchNewProject = async params => {
+    try {
+      const { data } = await axios.post(PROJECT, params, {
+        headers: { 'Content-Type': 'multipart/form-data' },
+      })
+      if (data.code === 200) {
+        return data.data
+      }
+      throw new Error(data.message)
+    } catch (e) {
+      throw new Error(e)
     }
-
-    const getProject = async (projectId) => {
-        initProject()
-        const { data } = await axios.get(PROJECT_$PROJECTID.replace('{projectId}', projectId))
-        if (data.code === 200 && data.data) {
-            project.value = data.data
-        }
-
+  }
+  const fetchEditProject = async (projectId, params) => {
+    try {
+      const { data } = await axios.put(PROJECT_$PROJECTID.replace('{projectId}', projectId), params)
+      if (data.code === 200) {
         return data
+      }
+      throw new Error(data.message)
+    } catch (e) {
+      throw new Error(e)
     }
+  }
 
-    const fetchDeleteProject = async (projectId) => {
-        await axios.delete(PROJECT_$PROJECTID.replace('{projectId}', projectId))
+  const fetchImportProject = async params => {
+    try {
+      const { data } = await axios.post(PROJECT, params, {
+        headers: { 'Content-Type': 'multipart/form-data' },
+      })
+      if (data.code === 200) {
+        return data.data
+      }
+      throw new Error(data.message)
+    } catch (e) {
+      throw new Error(e)
     }
+  }
 
-    const fetchNewProject = async (params) => {
-        try {
-            const { data } = await axios.post(PROJECT, params, { headers: { 'Content-Type': 'multipart/form-data' } })
-            if (data.code === 200) {
-                return data.data
-            }
-            throw new Error(data.message)
-        } catch(e) {
-            throw new Error(e)
-        }
-
+  const fetchProjectNameDuplicate = async projectName => {
+    try {
+      const { data } = await axios.get(PROJECT_NAME_DUPLICATE, {
+        params: { projectName: projectName },
+      })
+      if (data.code === 200) {
+        return data.data
+      }
+      throw new Error(data.message)
+    } catch (e) {
+      throw new Error(e)
     }
-    const fetchEditProject = async (projectId, params) => {
-        try {
-            const { data } = await axios.put(PROJECT_$PROJECTID.replace('{projectId}', projectId), params)
-            if (data.code === 200) {
-                return data
-            }
-            throw new Error(data.message)
-        } catch(e) {
-            throw new Error(e)
-        }
+  }
 
-    }
-
-    const fetchImportProject = async (params) => {
-        try {
-            const { data } = await axios.post(PROJECT, params, { headers: { 'Content-Type': 'multipart/form-data' } })
-            if (data.code === 200) {
-                return data.data
-            }
-            throw new Error(data.message)
-        } catch(e) {
-            throw new Error(e)
-        }
-    }
-
-    const fetchProjectNameDuplicate = async (projectName) => {
-        try {
-            const { data } = await axios.get(PROJECT_NAME_DUPLICATE, { params : { projectName : projectName } })
-            if (data.code === 200) {
-                return data.data
-            }
-            throw new Error(data.message)
-        } catch(e) {
-            throw new Error(e)
-        }
-    }
-
-    return {
-        projects,
-        project,
-        getProjects,
-        getProject,
-        fetchDeleteProject,
-        fetchNewProject,
-        fetchEditProject,
-        fetchImportProject,
-        fetchProjectNameDuplicate,
-        selectedProject
-    }
+  return {
+    projects,
+    project,
+    getProjects,
+    getProject,
+    fetchDeleteProject,
+    fetchNewProject,
+    fetchEditProject,
+    fetchImportProject,
+    fetchProjectNameDuplicate,
+    selectedProject,
+  }
 })

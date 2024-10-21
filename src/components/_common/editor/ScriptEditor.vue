@@ -9,7 +9,7 @@
       :tab-size="2"
       :extensions="extensions"
       :readonly="readOnly"
-      :style="height ? {height: `${height}px`} : {}"
+      :style="height ? { height: `${height}px` } : {}"
     />
   </div>
 </template>
@@ -24,18 +24,18 @@ import { basicSetup } from 'codemirror'
 import { ref } from 'vue'
 const contents = defineModel({
   type: String,
-  default: ''
+  default: '',
 })
 
 defineProps({
   height: {
     type: Number,
-    default: 0
+    default: 0,
   },
   readOnly: {
     type: Boolean,
-    default: false
-  }
+    default: false,
+  },
 })
 const extensions = [basicSetup, javascript(), oneDark, keymap.of(defaultKeymap)]
 const editor = ref(null)
@@ -46,6 +46,6 @@ const editor = ref(null)
 <style>
 .editor-wrapper {
   overflow: scroll;
-  background: #282C34;
+  background: #282c34;
 }
 </style>

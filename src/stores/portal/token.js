@@ -11,7 +11,7 @@ const POST_REFRESH_TOKEN = `${USER_K8S_SERVICE}/auth/refresh_token`
 export const getAuthToken = () => {
   return {
     accessToken: cookieHelper.getCookie(COOKIE_KEY.ACCESS),
-    refreshToken: cookieHelper.getCookie(COOKIE_KEY.REFRESH)
+    refreshToken: cookieHelper.getCookie(COOKIE_KEY.REFRESH),
   }
 }
 
@@ -70,7 +70,7 @@ export const useTokenStore = defineStore('token', () => {
     // 권한 메뉴 정보 삭제
     const redirectUrl = `${window.location.origin}${import.meta.env.VITE_BASE_PUBLIC_URL}`
     window.location.href = `${import.meta.env.VITE_USER_API}/auth/logout?refreshToken=${refreshToken}&redirectUrl=${encodeURIComponent(
-      redirectUrl
+      redirectUrl,
     )}`
   }
 
@@ -84,7 +84,7 @@ export const useTokenStore = defineStore('token', () => {
         return Promise.reject(new Error('Refresh token is null or undefined'))
       }
       const { data } = await axios.post(POST_REFRESH_TOKEN, {
-        refresh_token: refreshToken
+        refresh_token: refreshToken,
       })
       if (Object.keys(data).length) {
         setToken(data)
@@ -116,6 +116,6 @@ export const useTokenStore = defineStore('token', () => {
     removeToken,
     removeStorage,
     requestTime,
-    intervalId
+    intervalId,
   }
 })

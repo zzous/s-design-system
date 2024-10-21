@@ -8,7 +8,11 @@
         <v-col>
           <v-label>빌드명</v-label>
           <div class="d-flex align-center">
-            <v-text-field variant="outlined" density="compact" error-messages="규칙에 맞게 입력해주세요.(영문자, 숫자, (-)만 가능)" />
+            <v-text-field
+              variant="outlined"
+              density="compact"
+              error-messages="규칙에 맞게 입력해주세요.(영문자, 숫자, (-)만 가능)"
+            />
             <default-button-component class="input-text-btn" title="중복체크" />
           </div>
         </v-col>
@@ -33,12 +37,8 @@
       <v-label>패키지 유형</v-label>
       <div>
         <v-btn-toggle>
-          <v-btn variant="outlined">
-            Container Image
-          </v-btn>
-          <v-btn variant="outlined">
-            WAR
-          </v-btn>
+          <v-btn variant="outlined">Container Image</v-btn>
+          <v-btn variant="outlined">WAR</v-btn>
         </v-btn-toggle>
       </div>
     </div>
@@ -49,9 +49,7 @@
     <div class="pt-4 mb-5">
       <v-row>
         <v-col>
-          <v-label class="mb-1">
-            Application 포트
-          </v-label>
+          <v-label class="mb-1">Application 포트</v-label>
           <v-text-field
             variant="outlined"
             density="compact"
@@ -60,9 +58,7 @@
           />
         </v-col>
         <v-col>
-          <v-label class="mb-1">
-            Application 포트
-          </v-label>
+          <v-label class="mb-1">Application 포트</v-label>
           <v-text-field
             variant="outlined"
             density="compact"
@@ -109,7 +105,7 @@
       </v-row>
     </div>
     <div class="title-wrapper border-b-md position-relative">
-      <span>소나큐브 </span>
+      <span>소나큐브</span>
     </div>
     <div class="mt-2">
       <v-select variant="outlined" density="compact" :items="sonarQunbeRuleList" />

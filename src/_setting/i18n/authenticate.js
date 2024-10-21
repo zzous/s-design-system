@@ -7,7 +7,7 @@ const SCOPES = ['https://www.googleapis.com/auth/spreadsheets']
 export default async () => {
   const auth = new google.auth.GoogleAuth({
     keyFile: SERVICE_ACCOUNT_FILE,
-    scopes: SCOPES
+    scopes: SCOPES,
   })
 
   const sheets = google.sheets({ version: 'v4', auth })

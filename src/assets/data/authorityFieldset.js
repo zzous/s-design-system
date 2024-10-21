@@ -14,8 +14,8 @@ export const serviceAuthorityFieldset = {
             group: false,
             service: false,
             project: false,
-            developer: false
-          }
+            developer: false,
+          },
         },
         {
           name: 'Service 조회(목록,상세)',
@@ -25,8 +25,8 @@ export const serviceAuthorityFieldset = {
             group: false,
             service: false,
             project: false,
-            developer: false
-          }
+            developer: false,
+          },
         },
         // {
         //     name: "Service 생성",
@@ -47,8 +47,8 @@ export const serviceAuthorityFieldset = {
             group: false,
             service: false,
             project: false,
-            developer: false
-          }
+            developer: false,
+          },
         },
         // {
         //     name: "Service 삭제",
@@ -61,11 +61,10 @@ export const serviceAuthorityFieldset = {
         //         developer: false
         //     }
         // }
-      ]
-    }
-  ]
+      ],
+    },
+  ],
 }
-
 
 export const connectionAuthorityFieldset = {
   name: 'Connection 관리',
@@ -82,8 +81,8 @@ export const connectionAuthorityFieldset = {
           values: {
             group: false,
             project: false,
-            developer: false
-          }
+            developer: false,
+          },
         },
         {
           name: 'OSS 목록',
@@ -92,8 +91,8 @@ export const connectionAuthorityFieldset = {
           values: {
             group: false,
             project: false,
-            developer: false
-          }
+            developer: false,
+          },
         },
         {
           name: 'OSS 생성',
@@ -102,8 +101,8 @@ export const connectionAuthorityFieldset = {
           values: {
             group: false,
             project: false,
-            developer: false
-          }
+            developer: false,
+          },
         },
         {
           name: 'OSS 수정',
@@ -112,8 +111,8 @@ export const connectionAuthorityFieldset = {
           values: {
             group: false,
             project: false,
-            developer: false
-          }
+            developer: false,
+          },
         },
         {
           name: 'OSS 삭제',
@@ -122,15 +121,13 @@ export const connectionAuthorityFieldset = {
           values: {
             group: false,
             project: false,
-            developer: false
-          }
-        }
-      ]
-    }
-  ]
+            developer: false,
+          },
+        },
+      ],
+    },
+  ],
 }
-
-
 
 export const clusterAuthorityFieldset = {
   name: 'Cluster 관리',
@@ -147,8 +144,8 @@ export const clusterAuthorityFieldset = {
           values: {
             group: false,
             project: false,
-            developer: false
-          }
+            developer: false,
+          },
         },
         {
           name: 'Cluster 목록',
@@ -157,8 +154,8 @@ export const clusterAuthorityFieldset = {
           values: {
             group: false,
             project: false,
-            developer: false
-          }
+            developer: false,
+          },
         },
         {
           name: 'Cluster 생성',
@@ -167,8 +164,8 @@ export const clusterAuthorityFieldset = {
           values: {
             group: false,
             project: false,
-            developer: false
-          }
+            developer: false,
+          },
         },
         {
           name: 'Cluster 수정',
@@ -177,8 +174,8 @@ export const clusterAuthorityFieldset = {
           values: {
             group: false,
             project: false,
-            developer: false
-          }
+            developer: false,
+          },
         },
         {
           name: 'Cluster 삭제',
@@ -187,15 +184,13 @@ export const clusterAuthorityFieldset = {
           values: {
             group: false,
             project: false,
-            developer: false
-          }
-        }
-      ]
-    }
-  ]
+            developer: false,
+          },
+        },
+      ],
+    },
+  ],
 }
-
-
 
 export const projectAuthorityFieldset = {
   name: 'Project 관리',
@@ -213,8 +208,8 @@ export const projectAuthorityFieldset = {
             group: false,
             service: false,
             project: false,
-            developer: false
-          }
+            developer: false,
+          },
         },
         {
           name: 'Project 조회(목록,상세)',
@@ -224,8 +219,8 @@ export const projectAuthorityFieldset = {
             group: false,
             service: false,
             project: false,
-            developer: false
-          }
+            developer: false,
+          },
         },
         {
           name: 'Project 생성',
@@ -235,8 +230,8 @@ export const projectAuthorityFieldset = {
             group: false,
             service: false,
             project: false,
-            developer: false
-          }
+            developer: false,
+          },
         },
         {
           name: 'Project 수정',
@@ -246,8 +241,8 @@ export const projectAuthorityFieldset = {
             group: false,
             service: false,
             project: false,
-            developer: false
-          }
+            developer: false,
+          },
         },
         {
           name: 'Project 삭제',
@@ -257,10 +252,10 @@ export const projectAuthorityFieldset = {
             group: false,
             service: false,
             project: false,
-            developer: false
-          }
-        }
-      ]
+            developer: false,
+          },
+        },
+      ],
     },
     {
       name: 'Repository',
@@ -274,8 +269,8 @@ export const projectAuthorityFieldset = {
             group: false,
             service: false,
             project: false,
-            developer: false
-          }
+            developer: false,
+          },
         },
         {
           name: 'File 폴더/파일 조회',
@@ -285,8 +280,8 @@ export const projectAuthorityFieldset = {
             group: false,
             service: false,
             project: false,
-            developer: false
-          }
+            developer: false,
+          },
         },
         // {
         //     name: "File 폴더/파일 등록",
@@ -307,8 +302,8 @@ export const projectAuthorityFieldset = {
             group: false,
             service: false,
             project: false,
-            developer: false
-          }
+            developer: false,
+          },
         },
         // {
         //     name: "branch 목록조회",
@@ -329,8 +324,8 @@ export const projectAuthorityFieldset = {
             group: false,
             service: false,
             project: false,
-            developer: false
-          }
+            developer: false,
+          },
         },
         // {
         //     name: "branch 삭제",
@@ -343,7 +338,7 @@ export const projectAuthorityFieldset = {
         //         developer: false
         //     }
         // }
-      ]
+      ],
     },
     {
       name: 'MergeRequest',
@@ -356,8 +351,8 @@ export const projectAuthorityFieldset = {
           values: {
             group: false,
             project: false,
-            developer: false
-          }
+            developer: false,
+          },
         },
         {
           name: 'MergeRequest 목록',
@@ -366,8 +361,8 @@ export const projectAuthorityFieldset = {
           values: {
             group: false,
             project: false,
-            developer: false
-          }
+            developer: false,
+          },
         },
         {
           name: 'MergeRequest 생성',
@@ -376,8 +371,8 @@ export const projectAuthorityFieldset = {
           values: {
             group: false,
             project: false,
-            developer: false
-          }
+            developer: false,
+          },
         },
         //   {
         //     name: 'MergeRequest 수정',
@@ -396,8 +391,8 @@ export const projectAuthorityFieldset = {
           values: {
             group: false,
             project: false,
-            developer: false
-          }
+            developer: false,
+          },
         },
         {
           name: 'MergeRequest merge',
@@ -406,8 +401,8 @@ export const projectAuthorityFieldset = {
           values: {
             group: false,
             project: false,
-            developer: false
-          }
+            developer: false,
+          },
         },
         {
           name: 'MergeRequest close',
@@ -416,8 +411,8 @@ export const projectAuthorityFieldset = {
           values: {
             group: false,
             project: false,
-            developer: false
-          }
+            developer: false,
+          },
         },
         {
           name: 'MergeRequest reopen',
@@ -426,10 +421,10 @@ export const projectAuthorityFieldset = {
           values: {
             group: false,
             project: false,
-            developer: false
-          }
-        }
-      ]
+            developer: false,
+          },
+        },
+      ],
     },
     {
       name: 'ProjectRestore',
@@ -442,8 +437,8 @@ export const projectAuthorityFieldset = {
           values: {
             group: false,
             project: false,
-            developer: false
-          }
+            developer: false,
+          },
         },
         {
           name: '프로젝트 복구 목록',
@@ -452,8 +447,8 @@ export const projectAuthorityFieldset = {
           values: {
             group: false,
             project: false,
-            developer: false
-          }
+            developer: false,
+          },
         },
         {
           name: '프로젝트 복구 버튼',
@@ -462,12 +457,12 @@ export const projectAuthorityFieldset = {
           values: {
             group: false,
             project: false,
-            developer: false
-          }
+            developer: false,
+          },
         },
-      ]
-    }
-  ]
+      ],
+    },
+  ],
 }
 export const memberAuthorityFieldset = {
   name: 'Member 관리',
@@ -484,8 +479,8 @@ export const memberAuthorityFieldset = {
           values: {
             group: false,
             project: false,
-            developer: false
-          }
+            developer: false,
+          },
         },
         {
           name: 'Member 조회(목록,상세)',
@@ -494,8 +489,8 @@ export const memberAuthorityFieldset = {
           values: {
             group: false,
             project: false,
-            developer: false
-          }
+            developer: false,
+          },
         },
         {
           name: 'Member 생성',
@@ -504,8 +499,8 @@ export const memberAuthorityFieldset = {
           values: {
             group: false,
             project: false,
-            developer: false
-          }
+            developer: false,
+          },
         },
         // {
         //     name: "Member 수정",
@@ -524,13 +519,12 @@ export const memberAuthorityFieldset = {
           values: {
             group: false,
             project: false,
-            developer: false
-          }
-        }
+            developer: false,
+          },
+        },
       ],
     },
-
-  ]
+  ],
 }
 export const buildDeployAuthorityFieldset = {
   name: 'Build & Deploy',
@@ -548,8 +542,8 @@ export const buildDeployAuthorityFieldset = {
             group: false,
             service: false,
             project: false,
-            developer: false
-          }
+            developer: false,
+          },
         },
         {
           name: 'Build 조회(목록,상세)',
@@ -559,8 +553,8 @@ export const buildDeployAuthorityFieldset = {
             group: false,
             service: false,
             project: false,
-            developer: false
-          }
+            developer: false,
+          },
         },
         {
           name: 'Build 생성',
@@ -570,8 +564,8 @@ export const buildDeployAuthorityFieldset = {
             group: false,
             service: false,
             project: false,
-            developer: false
-          }
+            developer: false,
+          },
         },
         {
           name: 'Build 수정',
@@ -581,8 +575,8 @@ export const buildDeployAuthorityFieldset = {
             group: false,
             service: false,
             project: false,
-            developer: false
-          }
+            developer: false,
+          },
         },
         {
           name: 'Build 삭제',
@@ -592,8 +586,8 @@ export const buildDeployAuthorityFieldset = {
             group: false,
             service: false,
             project: false,
-            developer: false
-          }
+            developer: false,
+          },
         },
         {
           name: 'Build History 내역 조회',
@@ -603,8 +597,8 @@ export const buildDeployAuthorityFieldset = {
             group: false,
             service: false,
             project: false,
-            developer: false
-          }
+            developer: false,
+          },
         },
         {
           name: 'Build 수행',
@@ -614,11 +608,12 @@ export const buildDeployAuthorityFieldset = {
             group: false,
             service: false,
             project: false,
-            developer: false
-          }
-        }
-      ]
-    }, {
+            developer: false,
+          },
+        },
+      ],
+    },
+    {
       name: 'Deploy',
       transCode: 'authority.buildAndDeploy.deploy.title',
       items: [
@@ -630,8 +625,8 @@ export const buildDeployAuthorityFieldset = {
             group: false,
             service: false,
             project: false,
-            developer: false
-          }
+            developer: false,
+          },
         },
         {
           name: 'Deploy 조회(목록,상세)',
@@ -641,8 +636,8 @@ export const buildDeployAuthorityFieldset = {
             group: false,
             service: false,
             project: false,
-            developer: false
-          }
+            developer: false,
+          },
         },
         {
           name: 'Deploy 생성',
@@ -652,8 +647,8 @@ export const buildDeployAuthorityFieldset = {
             group: false,
             service: false,
             project: false,
-            developer: false
-          }
+            developer: false,
+          },
         },
         {
           name: 'Deploy 수정',
@@ -663,8 +658,8 @@ export const buildDeployAuthorityFieldset = {
             group: false,
             service: false,
             project: false,
-            developer: false
-          }
+            developer: false,
+          },
         },
         {
           name: 'Deploy 삭제',
@@ -674,8 +669,8 @@ export const buildDeployAuthorityFieldset = {
             group: false,
             service: false,
             project: false,
-            developer: false
-          }
+            developer: false,
+          },
         },
         {
           name: 'Deploy History 내역 조회',
@@ -685,8 +680,8 @@ export const buildDeployAuthorityFieldset = {
             group: false,
             service: false,
             project: false,
-            developer: false
-          }
+            developer: false,
+          },
         },
         {
           name: 'Deploy 수행',
@@ -696,14 +691,13 @@ export const buildDeployAuthorityFieldset = {
             group: false,
             service: false,
             project: false,
-            developer: false
-          }
-        }
-      ]
+            developer: false,
+          },
+        },
+      ],
     },
-  ]
+  ],
 }
-
 
 export const catalogDeploayAuthorityFieldset = {
   name: 'Catalog Deploy',
@@ -721,8 +715,8 @@ export const catalogDeploayAuthorityFieldset = {
             group: false,
             service: false,
             project: false,
-            developer: false
-          }
+            developer: false,
+          },
         },
         {
           name: 'Catalog Deploy 조회(목록,상세)',
@@ -732,8 +726,8 @@ export const catalogDeploayAuthorityFieldset = {
             group: false,
             service: false,
             project: false,
-            developer: false
-          }
+            developer: false,
+          },
         },
         {
           name: 'Catalog Deploy 생성',
@@ -743,8 +737,8 @@ export const catalogDeploayAuthorityFieldset = {
             group: false,
             service: false,
             project: false,
-            developer: false
-          }
+            developer: false,
+          },
         },
         {
           name: 'Catalog Deploy 수정',
@@ -754,8 +748,8 @@ export const catalogDeploayAuthorityFieldset = {
             group: false,
             service: false,
             project: false,
-            developer: false
-          }
+            developer: false,
+          },
         },
         {
           name: 'Catalog Deploy 삭제',
@@ -765,8 +759,8 @@ export const catalogDeploayAuthorityFieldset = {
             group: false,
             service: false,
             project: false,
-            developer: false
-          }
+            developer: false,
+          },
         },
         {
           name: 'Catalog Deploy History 내역 조회',
@@ -776,8 +770,8 @@ export const catalogDeploayAuthorityFieldset = {
             group: false,
             service: false,
             project: false,
-            developer: false
-          }
+            developer: false,
+          },
         },
         {
           name: 'Catalog Deploy 수행',
@@ -787,12 +781,12 @@ export const catalogDeploayAuthorityFieldset = {
             group: false,
             service: false,
             project: false,
-            developer: false
-          }
-        }
-      ]
+            developer: false,
+          },
+        },
+      ],
     },
-  ]
+  ],
 }
 
 export const authorityFieldset = {
@@ -810,12 +804,12 @@ export const authorityFieldset = {
           values: {
             group: false,
             project: false,
-            developer: false
-          }
-        }
-      ]
-    }
-  ]
+            developer: false,
+          },
+        },
+      ],
+    },
+  ],
 }
 
 export const notificationsFieldset = {
@@ -833,12 +827,12 @@ export const notificationsFieldset = {
           values: {
             group: false,
             project: false,
-            developer: false
-          }
-        }
-      ]
-    }
-  ]
+            developer: false,
+          },
+        },
+      ],
+    },
+  ],
 }
 
 export const statemachineFieldset = {
@@ -856,12 +850,12 @@ export const statemachineFieldset = {
           values: {
             group: false,
             project: false,
-            developer: false
-          }
-        }
-      ]
-    }
-  ]
+            developer: false,
+          },
+        },
+      ],
+    },
+  ],
 }
 
 export const messageFieldset = {
@@ -879,8 +873,8 @@ export const messageFieldset = {
           values: {
             group: false,
             project: false,
-            developer: false
-          }
+            developer: false,
+          },
         },
         {
           name: 'Message 목록',
@@ -889,8 +883,8 @@ export const messageFieldset = {
           values: {
             group: false,
             project: false,
-            developer: false
-          }
+            developer: false,
+          },
         },
         {
           name: 'Message 수정',
@@ -899,18 +893,13 @@ export const messageFieldset = {
           values: {
             group: false,
             project: false,
-            developer: false
-          }
-        }
-      ]
-    }
-  ]
+            developer: false,
+          },
+        },
+      ],
+    },
+  ],
 }
-
-
-
-
-
 
 export const pipelineAuthorityFieldset = {
   name: 'Pipeline 관리',
@@ -927,8 +916,8 @@ export const pipelineAuthorityFieldset = {
           values: {
             group: false,
             project: false,
-            developer: false
-          }
+            developer: false,
+          },
         },
         {
           name: 'Pipeline 목록',
@@ -937,8 +926,8 @@ export const pipelineAuthorityFieldset = {
           values: {
             group: false,
             project: false,
-            developer: false
-          }
+            developer: false,
+          },
         },
         {
           name: 'Pipeline 생성',
@@ -947,8 +936,8 @@ export const pipelineAuthorityFieldset = {
           values: {
             group: false,
             project: false,
-            developer: false
-          }
+            developer: false,
+          },
         },
         {
           name: 'Pipeline 수정',
@@ -957,8 +946,8 @@ export const pipelineAuthorityFieldset = {
           values: {
             group: false,
             project: false,
-            developer: false
-          }
+            developer: false,
+          },
         },
         {
           name: 'Pipeline 삭제',
@@ -967,12 +956,12 @@ export const pipelineAuthorityFieldset = {
           values: {
             group: false,
             project: false,
-            developer: false
-          }
-        }
-      ]
-    }
-  ]
+            developer: false,
+          },
+        },
+      ],
+    },
+  ],
 }
 
 export const sonarQubeAuthorityFieldset = {
@@ -990,8 +979,8 @@ export const sonarQubeAuthorityFieldset = {
           values: {
             group: false,
             project: false,
-            developer: false
-          }
+            developer: false,
+          },
         },
         {
           name: 'SonarQube 목록',
@@ -1000,8 +989,8 @@ export const sonarQubeAuthorityFieldset = {
           values: {
             group: false,
             project: false,
-            developer: false
-          }
+            developer: false,
+          },
         },
         {
           name: 'SonarQube 생성',
@@ -1010,8 +999,8 @@ export const sonarQubeAuthorityFieldset = {
           values: {
             group: false,
             project: false,
-            developer: false
-          }
+            developer: false,
+          },
         },
         {
           name: 'SonarQube 복사',
@@ -1020,8 +1009,8 @@ export const sonarQubeAuthorityFieldset = {
           values: {
             group: false,
             project: false,
-            developer: false
-          }
+            developer: false,
+          },
         },
         {
           name: 'SonarQube 수정',
@@ -1030,8 +1019,8 @@ export const sonarQubeAuthorityFieldset = {
           values: {
             group: false,
             project: false,
-            developer: false
-          }
+            developer: false,
+          },
         },
         {
           name: 'SonarQube 삭제',
@@ -1040,14 +1029,13 @@ export const sonarQubeAuthorityFieldset = {
           values: {
             group: false,
             project: false,
-            developer: false
-          }
-        }
-      ]
-    }
-  ]
+            developer: false,
+          },
+        },
+      ],
+    },
+  ],
 }
-
 
 export const deliverableAuthorityFieldset = {
   name: 'Deliverable 관리',
@@ -1064,8 +1052,8 @@ export const deliverableAuthorityFieldset = {
           values: {
             group: false,
             project: false,
-            developer: false
-          }
+            developer: false,
+          },
         },
         {
           name: '산출물 목록',
@@ -1074,8 +1062,8 @@ export const deliverableAuthorityFieldset = {
           values: {
             group: false,
             project: false,
-            developer: false
-          }
+            developer: false,
+          },
         },
         {
           name: '산출물 생성',
@@ -1084,8 +1072,8 @@ export const deliverableAuthorityFieldset = {
           values: {
             group: false,
             project: false,
-            developer: false
-          }
+            developer: false,
+          },
         },
         {
           name: '산출물 수정',
@@ -1094,8 +1082,8 @@ export const deliverableAuthorityFieldset = {
           values: {
             group: false,
             project: false,
-            developer: false
-          }
+            developer: false,
+          },
         },
         {
           name: '산출물 삭제',
@@ -1104,19 +1092,13 @@ export const deliverableAuthorityFieldset = {
           values: {
             group: false,
             project: false,
-            developer: false
-          }
-        }
-      ]
-    }
-  ]
+            developer: false,
+          },
+        },
+      ],
+    },
+  ],
 }
-
-
-
-
-
-
 
 // // yyr : - add SERVICE_OWNER 메뉴 권한 부여 항목
 // export const groupAuthorityFieldset = {
@@ -2063,7 +2045,6 @@ export const deliverableAuthorityFieldset = {
 //     ]
 // };
 
-
 // export const deployModelerFieldset = {
 //     name: "Deploy modeler",
 //     transCode:"authority.deployModeler.title",
@@ -2135,7 +2116,6 @@ export const deliverableAuthorityFieldset = {
 //         }
 //     ]
 // };
-
 
 // export const notificationsFieldset = {
 //   name: 'Notification 관리',
@@ -2225,5 +2205,3 @@ export const deliverableAuthorityFieldset = {
 //     }
 //   ]
 // }
-
-

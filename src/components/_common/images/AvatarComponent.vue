@@ -27,18 +27,18 @@ const props = defineProps({
   user: {
     type: Object,
     default: () => {},
-    description: '회원정보'
+    description: '회원정보',
   },
   menuItems: {
     type: Array,
     default: () => [],
-    description: '회원정보 메뉴들'
+    description: '회원정보 메뉴들',
   },
   className: {
     type: Object,
     default: () => {},
-    description: 'custom class'
-  }
+    description: 'custom class',
+  },
 })
 
 defineEmits(['click:menu-item'])

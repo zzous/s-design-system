@@ -27,7 +27,7 @@
       :items="deployApproveProcessList"
       item-title="name"
     />
-    <br>
+    <br />
     <label for="select_build">빌드</label>
     <v-select
       id="select_build"
@@ -38,7 +38,7 @@
       item-title="name"
     />
     <label>배포 유형</label>
-    <br>
+    <br />
     <v-btn-toggle v-model="selectedDeployType" mandatory class="deploy-toggle-wrapper">
       <v-btn
         v-for="deployType in deployTypeList"
@@ -54,19 +54,9 @@
     <deploy-shell-script-component v-if="selectedDeployType === 'SHELL'" />
     <div v-if="selectedDeployType === 'K8S'">
       <label>프로바이더</label>
-      <v-select
-        name="provider"
-        placeholder="빌드를 선택하세요."
-        density="compact"
-        variant="outlined"
-      />
+      <v-select name="provider" placeholder="빌드를 선택하세요." density="compact" variant="outlined" />
       <label>클러스터</label>
-      <v-select
-        name="provider"
-        placeholder="구성 항목을 선택하세"
-        density="compact"
-        variant="outlined"
-      />
+      <v-select name="provider" placeholder="구성 항목을 선택하세" density="compact" variant="outlined" />
       <div :style="{ position: 'relative', height: '30px' }">
         <default-button-component title="Yaml" class="float-right" size="small" />
       </div>
@@ -88,13 +78,19 @@
         <v-text-field density="compact" variant="outlined" />
         <label>포트</label>
         <deploy-port-input-component v-model="inputPortList" />
-        <br>
+        <br />
         <label>도메인</label>
         <v-text-field density="compact" variant="outlined" />
         <domain-input-component :disabled="false" />
         <v-row>
-          <v-col><label>KEY 파일</label><file-input-button-component /></v-col>
-          <v-col><label>CRT 파일</label><file-input-button-component /></v-col>
+          <v-col>
+            <label>KEY 파일</label>
+            <file-input-button-component />
+          </v-col>
+          <v-col>
+            <label>CRT 파일</label>
+            <file-input-button-component />
+          </v-col>
         </v-row>
       </accordion-menu-component>
       <accordion-menu-component class="border-t-md" title="Advance">
@@ -131,18 +127,14 @@
         <div>
           <span>HPA (Horizontal Pod Autoscaling)</span>
         </div>
-        <v-label for="maximumReplicaNumber">
-          최대 레플리카
-        </v-label>
+        <v-label for="maximumReplicaNumber">최대 레플리카</v-label>
         <v-text-field id="maximumReplicaNumber" variant="outlined" />
         <v-label>평균 사용률</v-label>
         <cpu-memory-input-component />
       </accordion-menu-component>
       <div>
         <div class="inline-block float-right mt-2">
-          <v-btn flat color="#7E8299" class="mr-1">
-            취소
-          </v-btn>
+          <v-btn flat color="#7E8299" class="mr-1">취소</v-btn>
           <default-button-component title="저장" />
         </div>
       </div>
@@ -176,22 +168,22 @@ const deployTypeBtnColor = ref(DEFAULT_BUTTON_COLOR)
 const selectedDeployType = ref('')
 const deployTypeList = ref([
   { id: 'K8S', name: 'K8S' },
-  { id: 'SHELL', name: 'SHELL' }
+  { id: 'SHELL', name: 'SHELL' },
 ])
 const deployName = ref('')
 const deployNameRule = ref([
-  (v) => !!v || '배포명은 필수 입니다.',
-  (v) => (v && REG_ALLOW_ENG_NUM_HYPHEN.test(v)) || '규칙에 맞게 입력 해 주세요.(영문자, 숫자, (-)만 가능)'
+  v => !!v || '배포명은 필수 입니다.',
+  v => (v && REG_ALLOW_ENG_NUM_HYPHEN.test(v)) || '규칙에 맞게 입력 해 주세요.(영문자, 숫자, (-)만 가능)',
 ])
 const deployApproveProcessList = ref([
   { id: 1, name: '1번 프로세스' },
   { id: 2, name: '2번 프로세스' },
-  { id: 3, name: '3번 프로세스' }
+  { id: 3, name: '3번 프로세스' },
 ])
 const buildList = ref([
   { id: 1, name: '1번 빌드' },
   { id: 2, name: '2번 빌드' },
-  { id: 3, name: '3번 빌드' }
+  { id: 3, name: '3번 빌드' },
 ])
 </script>
 

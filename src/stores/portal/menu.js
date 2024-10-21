@@ -17,29 +17,29 @@ export const useMenuStore = defineStore('menu', () => {
   const currentMenu = ref({})
 
   const serviceMenus = computed(() => {
-    return menuPaths.value.map((menu) => {
+    return menuPaths.value.map(menu => {
       return {
         menuName: menu.menuNameKr,
         menuCode: menu.menuCode,
         menuUrl: menu.menuUrl,
         accessible: menu.accessible,
-        viewable: menu.viewable
+        viewable: menu.viewable,
       }
     })
   })
 
-  const setMenuPaths = (newMenuPaths) => {
+  const setMenuPaths = newMenuPaths => {
     menuPaths.value = newMenuPaths
   }
-  const setFlatMenuPaths = (newFlatMenuPaths) => {
+  const setFlatMenuPaths = newFlatMenuPaths => {
     flatMenuPaths.value = newFlatMenuPaths
   }
 
-  const setAccessibleMenu = (data) => {
+  const setAccessibleMenu = data => {
     menuPaths.value = []
     //동일한 메뉴 코드를 가진 menuItem에 menu 권한(accessible)을 세팅한다.
-    const setMenu = (menuItem) => {
-      const findMenuItem = UserMenuItems.find((flatMenu) => {
+    const setMenu = menuItem => {
+      const findMenuItem = UserMenuItems.find(flatMenu => {
         if (flatMenu.menuCode === menuItem.menuCode) {
           return flatMenu
         }
@@ -48,33 +48,35 @@ export const useMenuStore = defineStore('menu', () => {
 
       if (menuItem.subMenus?.length) {
         if (!import.meta.env.DEV) {
-          menuItem.subMenus = menuItem.subMenus.filter((subMenu) => subMenu.viewable !== 'N').map((subMenu) => setMenu(subMenu))
+          menuItem.subMenus = menuItem.subMenus
+            .filter(subMenu => subMenu.viewable !== 'N')
+            .map(subMenu => setMenu(subMenu))
         } else {
-          menuItem.subMenus = menuItem.subMenus.map((subMenu) => setMenu(subMenu))
+          menuItem.subMenus = menuItem.subMenus.map(subMenu => setMenu(subMenu))
         }
       }
       return {
         ...menuItem,
         menuUrl: findMenuItem?.menuUrl,
-        alt: findMenuItem?.alt
+        alt: findMenuItem?.alt,
       }
     }
 
     if (data.length && UserMenuItems.length) {
       if (!import.meta.env.DEV) {
-        menuPaths.value = data.filter((menu) => menu.viewable !== 'N').map((menu) => setMenu(menu))
+        menuPaths.value = data.filter(menu => menu.viewable !== 'N').map(menu => setMenu(menu))
       } else {
-        menuPaths.value = data.map((menu) => setMenu(menu))
+        menuPaths.value = data.map(menu => setMenu(menu))
       }
     }
   }
 
   // flat menu에 권한 세팅
-  const setFlatMenuWithAccessible = (data) => {
+  const setFlatMenuWithAccessible = data => {
     const findMenu = (menuList, findCode) => {
       let result = null
       if (menuList.length) {
-        menuList.some((item) => {
+        menuList.some(item => {
           if (item.menuCode === findCode) {
             result = item
             return item
@@ -91,7 +93,7 @@ export const useMenuStore = defineStore('menu', () => {
       return result
     }
 
-    flatMenuPaths.value = UserMenuItems.map((menuItem) => {
+    flatMenuPaths.value = UserMenuItems.map(menuItem => {
       if (menuItem.accessible !== undefined) {
         menuItem.viewable = 'Y'
         return menuItem
@@ -102,7 +104,7 @@ export const useMenuStore = defineStore('menu', () => {
         accessible: findMenuItem?.accessible,
         //menuName: findMenuItem?.[menuNameLang.value],
         clientId: findMenuItem?.clientId,
-        viewable: findMenuItem?.viewable || 'Y'
+        viewable: findMenuItem?.viewable || 'Y',
       }
     })
   }
@@ -126,6 +128,6 @@ export const useMenuStore = defineStore('menu', () => {
     setMenuPaths,
     setFlatMenuPaths,
     setAccessibleMenu,
-    getAccessibleMenu
+    getAccessibleMenu,
   }
 })

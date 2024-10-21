@@ -2,12 +2,7 @@
   <div class="accordion-wrapper">
     <div class="title pl-3 pr-3">
       {{ title }}
-      <v-icon
-        class="float-right"
-        :style="{ top: '10px' }"
-        icon="mdi-minus-circle"
-        @click="toggleAccordion"
-      />
+      <v-icon class="float-right" :style="{ top: '10px' }" icon="mdi-minus-circle" @click="toggleAccordion" />
     </div>
     <div
       ref="accordion"
@@ -26,8 +21,8 @@ import { ref } from 'vue'
 defineProps({
   title: {
     type: String,
-    required: true
-  }
+    required: true,
+  },
 })
 
 const accordion = ref(null)

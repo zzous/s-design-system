@@ -1,53 +1,24 @@
 <template>
   <div class="port-input-wrapper">
     <v-row class="port-header port-row" dense no-gutters>
-      <v-col class="port-header-col large-col">
-        이름
-      </v-col>
-      <v-col class="port-header-col large-col">
-        MountPath
-      </v-col>
-      <v-col class="port-header-col large-col">
-        HostPath
-      </v-col>
-      <v-col class="port-header-col large-col">
-        Type
-      </v-col>
+      <v-col class="port-header-col large-col">이름</v-col>
+      <v-col class="port-header-col large-col">MountPath</v-col>
+      <v-col class="port-header-col large-col">HostPath</v-col>
+      <v-col class="port-header-col large-col">Type</v-col>
       <v-col class="port-header-col small-col">
         <v-icon icon="mdi-plus-circle-outline" @click="onClickAddRow" />
       </v-col>
     </v-row>
 
-    <v-row
-      v-for="hostPath in model"
-      :key="hostPath.name"
-      class="port-row"
-      dense
-      no-gutters
-    >
+    <v-row v-for="hostPath in model" :key="hostPath.name" class="port-row" dense no-gutters>
       <v-col class="port-input-col large-col">
-        <v-text-field
-          v-model="hostPath.name"
-          variant="outlined"
-          type=""
-          placeholder="app-log"
-        />
+        <v-text-field v-model="hostPath.name" variant="outlined" type="" placeholder="app-log" />
       </v-col>
       <v-col class="port-input-col large-col">
-        <v-text-field
-          v-model="hostPath.mountPath"
-          variant="outlined"
-          type=""
-          placeholder="/logs"
-        />
+        <v-text-field v-model="hostPath.mountPath" variant="outlined" type="" placeholder="/logs" />
       </v-col>
       <v-col class="port-input-col large-col">
-        <v-text-field
-          v-model="hostPath.hostPath"
-          variant="outlined"
-          type=""
-          placeholder="/logs"
-        />
+        <v-text-field v-model="hostPath.hostPath" variant="outlined" type="" placeholder="/logs" />
       </v-col>
       <v-col class="port-input-col large-col">
         <v-select v-model="hostPath.type" :items="hostPathTypeList" />
@@ -63,7 +34,7 @@
 import { ref } from 'vue'
 
 const hostPathTypeList = ref(['DirectoryOrCreate', 'Directory', 'FileOrCreate', 'File'])
-const onClickRemoveRow = (idx) => {
+const onClickRemoveRow = idx => {
   model.value.splice(idx, 1)
 }
 const onClickAddRow = () => {
@@ -71,12 +42,12 @@ const onClickAddRow = () => {
     name: '',
     mountPath: '',
     hostPath: '',
-    type: 'DirectoryOrCreate'
+    type: 'DirectoryOrCreate',
   })
 }
 const model = defineModel({
   type: Array,
-  default: []
+  default: [],
 })
 </script>
 

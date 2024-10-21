@@ -1,1 +1,1 @@
-export const ROLE_GROUPS ='/api/v2/portal/role-groups'
+export const ROLE_GROUPS = '/api/v2/portal/role-groups'

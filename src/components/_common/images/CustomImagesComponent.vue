@@ -7,9 +7,7 @@
     :cover="cover"
     :eager="eager"
     :gradient="gradient"
-    :lazy-src="
-      (lazySrc && `${publicPath}/assets/images/` + lazySrc) || lazySrcUrl
-    "
+    :lazy-src="(lazySrc && `${publicPath}/assets/images/` + lazySrc) || lazySrcUrl"
     :options="options"
     :sizes="sizes"
     :src="(src && `${publicPath}/assets/images/` + src) || srcUrl"
@@ -77,8 +75,7 @@ defineProps({
   aspectRatio: {
     type: [String, Number],
     default: undefined,
-    description:
-      '너비/높이로 계산되므로 1920x1080px 이미지의 경우 1.7778이 됨. 생략하면 자동으로 계산',
+    description: '너비/높이로 계산되므로 1920x1080px 이미지의 경우 1.7778이 됨. 생략하면 자동으로 계산',
   },
   // contain: {
   //   type: Boolean,
@@ -113,8 +110,7 @@ defineProps({
   lazySrc: {
     type: String,
     default: undefined,
-    description:
-      '기본 이미지가 로드되기를 기다리는 동안 표시할 항목으로 일반적으로 base64로 인코딩된 작은 축소판',
+    description: '기본 이미지가 로드되기를 기다리는 동안 표시할 항목으로 일반적으로 base64로 인코딩된 작은 축소판',
   },
   lazySrcUrl: {
     type: String,
@@ -172,7 +168,7 @@ const publicPath = computed(() => {
     @param
     - event: EventTarget(이벤트 값)
 */
-const onError = (event) => {
+const onError = event => {
   console.log(tag, 'onError')
   emits('error', event)
 }
@@ -183,7 +179,7 @@ const onError = (event) => {
     @param
     - event: EventTarget(이벤트 값)
 */
-const onLoad = () =>{}
+const onLoad = () => {}
 /*
     @brief 이미지 로드가 시작될 떄 호출되는 함수
     @date 2021/11/09
@@ -203,11 +199,11 @@ const onLoadStart = () => {}
 
 <style lang="scss">
 .s-image {
-&.with-btn {
+  &.with-btn {
     .v-responsive__content {
-    width: 20px !important;
-    max-width: 100px;
+      width: 20px !important;
+      max-width: 100px;
     }
-}
+  }
 }
 </style>

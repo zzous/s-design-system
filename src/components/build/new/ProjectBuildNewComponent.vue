@@ -2,11 +2,7 @@
   <div class="view-wrapper">
     <s-sub-header :show-cnt="false" :title="$t('기본 정보')" class-name="sub-title" />
     <s-form-table>
-      <s-form-item
-        :label="$t('빌드명')"
-        name="buildName"
-        required
-      >
+      <s-form-item :label="$t('빌드명')" name="buildName" required>
         <v-text-field
           v-model="buildName"
           variant="outlined"
@@ -19,10 +15,7 @@
         </s-btn>
       </s-form-item>
 
-      <s-form-item
-        :label="$t('브랜치')"
-        name="branch"
-      >
+      <s-form-item :label="$t('브랜치')" name="branch">
         <!-- <v-text-field
           variant="outlined"
           density="compact"
@@ -39,10 +32,7 @@
           @update:model-value="onChangeInputRelevantPipeline"
         />
       </s-form-item>
-      <s-form-item
-        :label="$t('빌드 승인 프로세스')"
-        name="templateId"
-      >
+      <s-form-item :label="$t('빌드 승인 프로세스')" name="templateId">
         <v-select
           v-model="selectedFlow"
           :items="smcFlows"
@@ -54,10 +44,7 @@
           :placeholder="$t('빌드 승인 프로세스 선택')"
         />
       </s-form-item>
-      <s-form-item
-        :label="$t('패키지 유형')"
-        name="templateId"
-      >
+      <s-form-item :label="$t('패키지 유형')" name="templateId">
         <!-- {{ '패키지 유형 ex Container Image' }}packageTypes -->
         <v-select
           v-model="selectedPackageTypeCode"
@@ -74,10 +61,7 @@
     </s-form-table>
     <s-sub-header :show-cnt="false" :title="$t('컨테이너 빌드 정보')" class-name="sub-title" />
     <s-form-table>
-      <s-form-item
-        :label="$t('Application 포트')"
-        name="templateId"
-      >
+      <s-form-item :label="$t('Application 포트')" name="templateId">
         <v-text-field
           variant="outlined"
           density="compact"
@@ -85,10 +69,7 @@
           :placeholder="$t('Application 포트를 입력하세요(숫자만 입력 가능)')"
         />
       </s-form-item>
-      <s-form-item
-        :label="$t('Application 설치 경로')"
-        name="templateId"
-      >
+      <s-form-item :label="$t('Application 설치 경로')" name="templateId">
         <v-text-field
           variant="outlined"
           density="compact"
@@ -128,20 +109,20 @@ import { useSmcStore } from '@/stores/devops/smc'
 import { storeToRefs } from 'pinia'
 import { onMounted, ref } from 'vue'
 import ScriptEditor from '@/components/_common/editor/ScriptEditor.vue'
-import { useJenkinsStore } from '@/stores/devops/jenkins'
 import { useBuildStore } from '@/stores/devops/build'
 import { useAlertStore } from '@/stores/components/alert'
 import { useI18n } from '@/_setting/i18n'
-import build from '@/router/project/build'
 const { tt } = useI18n()
 const buildName = ref('')
 const smcStore = useSmcStore()
 const projectSotre = useProjectStore()
-const jenkinsStore = useJenkinsStore()
 const alertStore = useAlertStore()
 const buildStore = useBuildStore()
 const branchs = ref(['stage', 'dev', 'master'])
-const packageTypes = ref([{ name: 'Container Image', code: 'DOCKER_IMAGE' }, { name: 'WAR', code:'WAR' }])
+const packageTypes = ref([
+  { name: 'Container Image', code: 'DOCKER_IMAGE' },
+  { name: 'WAR', code: 'WAR' },
+])
 const selectedBranch = ref()
 const selectedFlow = ref()
 const { smcFlows } = storeToRefs(smcStore)
@@ -151,8 +132,8 @@ const isDuplicatedName = ref(true) //이름 중복체크 결과
 const selectedPackageTypeCode = ref(selectedProject.value.packageCd ? selectedProject.value.packageCd : 'DOCKER_IMAGE')
 
 const getSmcFlows = async () => {
-  if(selectedProject.value && selectedProject.value.projectId){
-    await smcStore.getPostSmcFlows({ key1:'project', key2:selectedProject.value.projectId, key3:'B' })
+  if (selectedProject.value && selectedProject.value.projectId) {
+    await smcStore.getPostSmcFlows({ key1: 'project', key2: selectedProject.value.projectId, key3: 'B' })
     /*if(smcFlows.value.length) {
       selectedFlow.value = smcFlows.value[0].flowId
     }*/
@@ -160,7 +141,7 @@ const getSmcFlows = async () => {
 }
 
 const onChangeInputRelevantPipeline = () => {
-  if(selectedBranch.value && buildName.value && selectedPackageTypeCode.value && !isDuplicatedName.value) {
+  if (selectedBranch.value && buildName.value && selectedPackageTypeCode.value && !isDuplicatedName.value) {
     getDefaultPipeList()
   }
 }
@@ -169,22 +150,22 @@ const getDefaultPipeList = async () => {
     projectId: selectedProject.value.projectId,
     buildName: buildName.value,
     branch: selectedBranch.value,
-    packageCd: selectedPackageTypeCode.value
+    packageCd: selectedPackageTypeCode.value,
   }
   await buildStore.getBuildJenkinsPipelineDefault(params)
 }
 
 const checkBuildNameDuplicate = async () => {
-  if(!buildName.value) alert('이름없음')
+  if (!buildName.value) alert('이름없음')
   const parmas = {
     projectId: selectedProject.value.projectId,
-    buildName: buildName.value
+    buildName: buildName.value,
   }
   const result = await buildStore.getBuildNameDuplicate(parmas)
   isDuplicatedName.value = result
-  if(!result) {
+  if (!result) {
     alertStore.openAlert({ titleName: tt('사용가능한 이름 입니다') })
-  }else{
+  } else {
     alertStore.openAlert({ titleName: tt('중복된 이름 입니다') })
   }
 }

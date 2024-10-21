@@ -8,7 +8,9 @@
           </div>
         </div>
         <div class="center-vertical work-flow-el edit-user text-align-center" :class="type">
-          {{ userName }}<br>{{ updateDate }}
+          {{ userName }}
+          <br />
+          {{ updateDate }}
         </div>
       </v-col>
     </v-row>
@@ -35,27 +37,27 @@
 defineProps({
   title: {
     type: String,
-    default: 'default title'
+    default: 'default title',
   },
   userName: {
     type: String,
-    default: 'default user name'
+    default: 'default user name',
   },
   updateDate: {
     type: String,
-    default: 'yyyy-MM-dd hh:mm'
+    default: 'yyyy-MM-dd hh:mm',
   },
   showArrow: {
     type: Boolean,
-    default: true
+    default: true,
   },
   type: {
     type: String,
     required: true,
-    validator: (value) => {
+    validator: value => {
       return ['circle', 'decision', 'dot-circle'].includes(value)
-    }
-  }
+    },
+  },
 })
 </script>
 

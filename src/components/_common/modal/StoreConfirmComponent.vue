@@ -1,28 +1,15 @@
 <template>
   <teleport to="#destination">
-    <v-dialog
-      class="s-confirm-modal"
-      width="446"
-      persistent
-      :model-value="showConfirmValue"
-    >
+    <v-dialog class="s-confirm-modal" width="446" persistent :model-value="showConfirmValue">
       <v-card modal-height="210">
         <v-card-text class="s-confirm-modal__text">
           {{ contents }}
         </v-card-text>
         <v-card-actions class="button-wrapper">
-          <s-btn
-            variant="elevated"
-            color="blue"
-            @click.stop="onConfirm"
-          >
+          <s-btn variant="elevated" color="blue" @click.stop="onConfirm">
             {{ $t('확인') }}
           </s-btn>
-          <s-btn
-            variant="outlined"
-            color="blue"
-            @click="onCancel"
-          >
+          <s-btn variant="outlined" color="blue" @click="onCancel">
             {{ $t('취소') }}
           </s-btn>
         </v-card-actions>
@@ -34,9 +21,6 @@
 <script setup>
 import { useConfirmStore } from '@/stores/components/confirm'
 import { storeToRefs } from 'pinia'
-
-
-
 
 const confirmStore = useConfirmStore()
 const onConfirm = () => confirmStore.closeConfirm(true)
@@ -73,4 +57,3 @@ const showConfirmValue = storeToRefs(confirmStore).isShowConfirm
   }
 }
 </style>
-

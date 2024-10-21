@@ -21,16 +21,16 @@ defineProps({
   },
   title: {
     type: String,
-    required: true
+    required: true,
   },
   showCnt: {
     type: Boolean,
     required: false,
-    default: true
+    default: true,
   },
   listCnt: {
     type: Number,
-    default: 0
-  }
+    default: 0,
+  },
 })
 </script>

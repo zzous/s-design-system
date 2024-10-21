@@ -7,8 +7,8 @@ const menuList = {
         meta: {
           title: 'menu.config.myInfo',
           icon: 'fas fa-id-card',
-          iconUrl: '/settings/myInfo.png'
-        }
+          iconUrl: '/settings/myInfo.png',
+        },
       },
       {
         path: '/configurations/notifications/list',
@@ -16,8 +16,8 @@ const menuList = {
         meta: {
           title: 'menu.config.notifications',
           icon: 'fas fa-bell',
-          iconUrl: '/settings/alarm.png'
-        }
+          iconUrl: '/settings/alarm.png',
+        },
       },
       {
         path: '/configurations/general',
@@ -25,8 +25,8 @@ const menuList = {
         meta: {
           title: 'menu.config.general',
           icon: 'fas fa-cog',
-          iconUrl: '/settings/general.png'
-        }
+          iconUrl: '/settings/general.png',
+        },
       },
       {
         path: '/configurations/connectionList',
@@ -34,8 +34,8 @@ const menuList = {
         meta: {
           title: 'menu.config.connection.title',
           icon: 'fas fa-cog',
-          iconUrl: '/settings/connection.png'
-        }
+          iconUrl: '/settings/connection.png',
+        },
       },
 
       // {
@@ -52,7 +52,7 @@ const menuList = {
       //       name: 'configuration_gitlab',
       //       meta: {
       //         title:
-			// 					'menu.config.connection.gitLab',
+      // 					'menu.config.connection.gitLab',
       //         icon: 'fab fa-git-square',
       //         iconUrl: '/settings/sub/gitlab.png'
       //       }
@@ -62,7 +62,7 @@ const menuList = {
       //       name: 'configuration_jenkins',
       //       meta: {
       //         title:
-			// 					'menu.config.connection.jenkins',
+      // 					'menu.config.connection.jenkins',
       //         icon: 'fab fa-jenkins',
       //         iconUrl: '/settings/sub/jenkins.png'
       //       }
@@ -76,8 +76,8 @@ const menuList = {
         meta: {
           title: 'menu.member',
           icon: 'fas fa-users',
-          iconUrl: '/settings/member.png'
-        }
+          iconUrl: '/settings/member.png',
+        },
       },
       {
         path: '/configurations/authority',
@@ -85,8 +85,8 @@ const menuList = {
         meta: {
           title: 'menu.authority',
           icon: 'fas fa-layer-group',
-          iconUrl: '/settings/authority.png'
-        }
+          iconUrl: '/settings/authority.png',
+        },
       },
       {
         path: '/configurations/message/list',
@@ -94,8 +94,8 @@ const menuList = {
         meta: {
           title: 'menu.message',
           icon: 'fas fa-comment-dots',
-          iconUrl: '/settings/msg.png'
-        }
+          iconUrl: '/settings/msg.png',
+        },
       },
       {
         path: '/configurations/statemachine',
@@ -103,9 +103,9 @@ const menuList = {
         meta: {
           title: 'menu.statemachine',
           icon: 'fas fa-bezier-curve',
-          iconUrl: '/settings/approval.png'
-        }
-      }
+          iconUrl: '/settings/approval.png',
+        },
+      },
     ],
     groups: [
       {
@@ -115,9 +115,9 @@ const menuList = {
           title: 'menu.organization',
           icon: 'fab fa-goodreads',
           iconUrl: '/main/organization.png',
-          noAuthority: true
-        }
-      }
+          noAuthority: true,
+        },
+      },
     ],
     group: [
       {
@@ -127,8 +127,8 @@ const menuList = {
           title: 'menu.project',
           icon: 'fas fa-box',
           noAuthority: true,
-          iconUrl: '/organization/project.png'
-        }
+          iconUrl: '/organization/project.png',
+        },
       },
       {
         path: '/group/:groupId/deploy_modeler/list',
@@ -136,8 +136,8 @@ const menuList = {
         meta: {
           title: 'menu.deployModeler',
           icon: 'fas fa-tools',
-          iconUrl: '/organization/deploy-modeler.png'
-        }
+          iconUrl: '/organization/deploy-modeler.png',
+        },
       },
       /*
         {
@@ -185,19 +185,18 @@ const menuList = {
         meta: {
           title: 'menu.organizationSetting.title',
           icon: 'fas fa-cogs',
-          iconUrl: '/organization/setting.png'
+          iconUrl: '/organization/setting.png',
         },
         children: [
           {
             path: '/group/:groupId/view',
             name: 'group_view',
             meta: {
-              title:
-								'menu.organizationSetting.general',
+              title: 'menu.organizationSetting.general',
               icon: 'fab fa-goodreads',
-              iconUrl: '/organization/sub/general.png'
+              iconUrl: '/organization/sub/general.png',
             },
-            hidden: false
+            hidden: false,
           },
           {
             path: '/group/:groupId/member',
@@ -205,9 +204,9 @@ const menuList = {
             meta: {
               title: 'menu.organizationSetting.member',
               icon: 'fas fa-users',
-              iconUrl: '/organization/sub/member.png'
+              iconUrl: '/organization/sub/member.png',
             },
-            hidden: false
+            hidden: false,
           },
           {
             path: '/group/:groupId/credential/list',
@@ -215,9 +214,9 @@ const menuList = {
             meta: {
               title: 'menu.organizationSetting.credential',
               icon: 'fas fa-id-card',
-              iconUrl: '/organization/sub/credential.png'
+              iconUrl: '/organization/sub/credential.png',
             },
-            hidden: false
+            hidden: false,
           },
           /* {
 						path: "/group/:groupId/remotehost/list",
@@ -230,16 +229,14 @@ const menuList = {
 						hidden: false,
 					},*/
           {
-            path:
-							'/group/:groupId/deploy_location/list',
+            path: '/group/:groupId/deploy_location/list',
             name: 'group_deploy_location_list',
             meta: {
-              title:
-								'menu.organizationSetting.deployLocation',
+              title: 'menu.organizationSetting.deployLocation',
               icon: 'fas fa-project-diagram',
-              iconUrl: '/organization/sub/deploy-location.png'
+              iconUrl: '/organization/sub/deploy-location.png',
             },
-            hidden: true
+            hidden: true,
           },
           {
             path: '/group/:groupId/remotehost/list',
@@ -247,44 +244,42 @@ const menuList = {
             meta: {
               title: 'menu.organizationSetting.docker',
               icon: 'fas fa-server',
-              iconUrl: '/organization/sub/docker.png'
+              iconUrl: '/organization/sub/docker.png',
             },
-            hidden: false
+            hidden: false,
           },
           {
             path: '/group/:groupId/k8sconfig/list',
             name: 'group_k8s_list',
             meta: {
-              title:
-								'menu.organizationSetting.k8sConfig',
+              title: 'menu.organizationSetting.k8sConfig',
               icon: 'fas fa-server',
-              iconUrl: '/organization/sub/kubernetes.png'
+              iconUrl: '/organization/sub/kubernetes.png',
             },
-            hidden: false
+            hidden: false,
           },
           {
             path: '/group/:groupId/azurecredential/list',
             name: 'group_azurecredential_list',
             meta: {
-              title:
-								'menu.organizationSetting.azuerConfig',
+              title: 'menu.organizationSetting.azuerConfig',
               icon: 'fas fa-server',
-              iconUrl: '/organization/sub/azure.png'
+              iconUrl: '/organization/sub/azure.png',
             },
-            hidden: false
-          }, {
+            hidden: false,
+          },
+          {
             path: '/group/:groupId/openshiftconfig/list',
             name: 'group_openshift_list',
             meta: {
-              title:
-								'menu.organizationSetting.openShiftConfig',
+              title: 'menu.organizationSetting.openShiftConfig',
               icon: 'fas fa-server',
-              iconUrl: '/organization/sub/openshift.png'
+              iconUrl: '/organization/sub/openshift.png',
             },
-            hidden: false
-          }
-        ]
-      }
+            hidden: false,
+          },
+        ],
+      },
     ],
     service: [],
     projects: [],
@@ -295,9 +290,9 @@ const menuList = {
         meta: {
           title: 'menu.dashboard',
           icon: 'fas fa-tachometer-alt',
-          iconUrl: '/project/dashbord.png'
+          iconUrl: '/project/dashbord.png',
         },
-        hidden: false
+        hidden: false,
       },
 
       {
@@ -306,7 +301,7 @@ const menuList = {
         meta: {
           title: 'menu.repository.title',
           icon: 'fas fa-database',
-          iconUrl: '/project/repository.png'
+          iconUrl: '/project/repository.png',
         },
         hidden: false,
         children: [
@@ -316,44 +311,41 @@ const menuList = {
             meta: {
               title: 'menu.repository.file',
               icon: 'fas fa-file',
-              iconUrl: '/project/sub/file.png'
+              iconUrl: '/project/sub/file.png',
             },
-            hidden: false
+            hidden: false,
           },
           {
-            path:
-							'/group/:groupId/project/:projectId/repository/commit',
+            path: '/group/:groupId/project/:projectId/repository/commit',
             name: 'project_repository_commit_list',
             meta: {
               title: 'menu.repository.commit',
               icon: 'fas fa-file-export',
-              iconUrl: '/project/sub/commit.png'
+              iconUrl: '/project/sub/commit.png',
             },
-            hidden: false
+            hidden: false,
           },
           {
-            path:
-							'/group/:groupId/project/:projectId/repository/graph',
+            path: '/group/:groupId/project/:projectId/repository/graph',
             name: 'project_repository_graph',
             meta: {
               title: 'menu.repository.graph',
               icon: 'fas fa-file-export',
-              iconUrl: '/project/sub/graph.png'
+              iconUrl: '/project/sub/graph.png',
             },
-            hidden: false
+            hidden: false,
           },
           {
-            path:
-							'/group/:groupId/project/:projectId/repository/branch',
+            path: '/group/:groupId/project/:projectId/repository/branch',
             name: 'project_repository_branches_list',
             meta: {
               title: 'menu.repository.branch',
               icon: 'fas fa-code-branch',
-              iconUrl: '/project/sub/branch.png'
+              iconUrl: '/project/sub/branch.png',
             },
-            hidden: false
-          }
-        ]
+            hidden: false,
+          },
+        ],
       },
       {
         path: '/group/:groupId/project/:projectId/apimapper',
@@ -361,33 +353,31 @@ const menuList = {
         meta: {
           title: 'menu.apiMappter.title',
           icon: 'fas fa-tools',
-          iconUrl: '/project/api-mapper.png'
+          iconUrl: '/project/api-mapper.png',
         },
         hidden: false,
         children: [
           {
-            path:
-							'/group/:groupId/project/:projectId/apimapper/connection/list',
+            path: '/group/:groupId/project/:projectId/apimapper/connection/list',
             name: 'project_apimapper_connection_list',
             meta: {
               title: 'menu.apiMappter.connection',
               icon: 'fas fa-plug',
-              iconUrl: '/project/sub/connection.png'
+              iconUrl: '/project/sub/connection.png',
             },
-            hidden: false
+            hidden: false,
           },
           {
-            path:
-							'/group/:groupId/project/:projectId/apimapper/mapper/list',
+            path: '/group/:groupId/project/:projectId/apimapper/mapper/list',
             name: 'project_apimapper_mapper_list',
             meta: {
               title: 'menu.apiMappter.mapper',
               icon: 'fas fa-list-alt',
-              iconUrl: '/project/sub/mepper.png'
+              iconUrl: '/project/sub/mepper.png',
             },
-            hidden: false
-          }
-        ]
+            hidden: false,
+          },
+        ],
       },
       {
         path: '/group/:groupId/project/:projectId/build/list',
@@ -395,9 +385,9 @@ const menuList = {
         meta: {
           title: 'menu.build',
           icon: 'fab fa-bimobject',
-          iconUrl: '/project/build.png'
+          iconUrl: '/project/build.png',
         },
-        hidden: false
+        hidden: false,
       },
       {
         path: '/group/:groupId/project/:projectId/deploy/list',
@@ -405,9 +395,9 @@ const menuList = {
         meta: {
           title: 'menu.deploy',
           icon: 'fab fa-buromobelexperte',
-          iconUrl: '/project/deploy.png'
+          iconUrl: '/project/deploy.png',
         },
-        hidden: false
+        hidden: false,
       },
       // {
       // 	path: "/group/:groupId/project/:projectId/aksDeploy/list",
@@ -424,35 +414,32 @@ const menuList = {
         meta: {
           title: 'menu.projectSettings.title',
           icon: 'fas fa-cogs',
-          iconUrl: '/project/setting.png'
+          iconUrl: '/project/setting.png',
         },
         children: [
           {
-            path:
-							'/group/:groupId/project/:projectId/general',
+            path: '/group/:groupId/project/:projectId/general',
             name: 'project_view',
             meta: {
               title: 'menu.projectSettings.general',
               icon: 'fas fa-box-open',
-              iconUrl: '/project/sub/general.png'
-
+              iconUrl: '/project/sub/general.png',
             },
-            hidden: false
+            hidden: false,
           },
           {
-            path:
-							'/group/:groupId/project/:projectId/member',
+            path: '/group/:groupId/project/:projectId/member',
             name: 'project_member_list',
             meta: {
               title: 'menu.projectSettings.member',
               icon: 'fas fa-users',
-              iconUrl: '/project/sub/member.png'
+              iconUrl: '/project/sub/member.png',
             },
-            hidden: false
-          }
-        ]
-      }
-    ]
-  }
+            hidden: false,
+          },
+        ],
+      },
+    ],
+  },
 }
 export default menuList.list

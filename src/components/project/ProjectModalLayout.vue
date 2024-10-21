@@ -1,10 +1,5 @@
 <template>
-  <s-modal
-    :model-value="modelValue"
-    :class-name="modal.size"
-    :title="modal.title"
-    @update:model-value="updateModal"
-  >
+  <s-modal :model-value="modelValue" :class-name="modal.size" :title="modal.title" @update:model-value="updateModal">
     <!-- 생성, 상세, 수정-->
     <component :is="modal.component" ref="modalCompRef" v-bind="modal.props" />
     <template #footer>
@@ -34,23 +29,22 @@ import ProjectDetail from './ProjectDetailComponent.vue'
 import ProjectEdit from './ProjectEditComponent.vue'
 import ProjectImport from './ProjectImportComponent.vue'
 
-
 const { tt } = useI18n()
 
 const props = defineProps({
   mode: {
     type: String,
     default: null,
-    description: '[new|detail|edit|import]'
+    description: '[new|detail|edit|import]',
   },
   modelValue: {
     type: Boolean,
-    default: false
+    default: false,
   },
   projectId: {
     type: [String, Number],
-    default: null
-  }
+    default: null,
+  },
 })
 
 const emits = defineEmits(['update:model-value', 'update:mode', 'refresh'])
@@ -60,7 +54,7 @@ const modal = reactive({
   size: 'lg',
   title: '',
   component: null,
-  type: ''
+  type: '',
 })
 
 const modalCompRef = ref()
@@ -77,7 +71,7 @@ const updateModal = () => {
   }
 }
 
-const updateMode = (type) => {
+const updateMode = type => {
   emits('update:mode', type)
 }
 
@@ -97,33 +91,33 @@ watch(
     // console.log('changeMode')
     modal.type = props.mode
     switch (props.mode) {
-    case 'new':
-      modal.component = markRaw(ProjectNew)
-      modal.title = tt('프로젝트 생성')
-      break
-    case 'detail':
-      modal.component = markRaw(ProjectDetail)
-      modal.title = tt('프로젝트 상세')
-      modal.props = {
-        projectId: props.projectId
-      }
-      break
-    case 'edit':
-      modal.component = markRaw(ProjectEdit)
-      modal.title = tt('프로젝트 상세')
-      modal.props = {
-        projectId: props.projectId
-      }
-      break
-    case 'import':
-      modal.component = markRaw(ProjectImport)
-      modal.title = tt('프로젝트 생성')
-      break
-    default:
-      modal.component = null
-      break
+      case 'new':
+        modal.component = markRaw(ProjectNew)
+        modal.title = tt('프로젝트 생성')
+        break
+      case 'detail':
+        modal.component = markRaw(ProjectDetail)
+        modal.title = tt('프로젝트 상세')
+        modal.props = {
+          projectId: props.projectId,
+        }
+        break
+      case 'edit':
+        modal.component = markRaw(ProjectEdit)
+        modal.title = tt('프로젝트 상세')
+        modal.props = {
+          projectId: props.projectId,
+        }
+        break
+      case 'import':
+        modal.component = markRaw(ProjectImport)
+        modal.title = tt('프로젝트 생성')
+        break
+      default:
+        modal.component = null
+        break
     }
-  }
+  },
 )
 
 watch(
@@ -132,12 +126,8 @@ watch(
     if (!props.modelValue) {
       emits('update:mode', null)
     }
-  }
+  },
 )
-
-
 </script>
 
-<style lang="scss" scoped>
-
-</style>
+<style lang="scss" scoped></style>

@@ -7,20 +7,14 @@
         :project-name="buildDetail.projectName"
       >
         <default-button-component title="수정" />
-        <default-button-component
-          class="ml-1"
-          title="삭제"
-        />
+        <default-button-component class="ml-1" title="삭제" />
       </detail-view-header-component>
       <div class="buildContents">
         <div class="mt-16 mb-16">
           빌드 승인 프로세스
           <div class="pl-10 pr-10">
             <div id="work_flow_contents">
-              <v-row
-                class="scroll-row"
-                no-gutters
-              >
+              <v-row class="scroll-row" no-gutters>
                 <work-flow-component
                   v-for="state in smcFlowStates"
                   :key="state.stateId"
@@ -101,23 +95,12 @@
           </div>
         </div>
         <div id="build_history_list_wrapper">
-          <div id="build_history_list_table_title">
-            빌드 내역 (0)
-          </div>
-          <div
-            id="build_history_list_table_wrapper"
-            class="mt-10"
-          >
-            <v-data-table
-              :headers="buildHistoryHeader"
-              :items="buildHistories"
-            >
+          <div id="build_history_list_table_title">빌드 내역 (0)</div>
+          <div id="build_history_list_table_wrapper" class="mt-10">
+            <v-data-table :headers="buildHistoryHeader" :items="buildHistories">
               <template #headers="{ columns }">
                 <tr class="tableHeader">
-                  <template
-                    v-for="(header, idx) in columns"
-                    :key="idx"
-                  >
+                  <template v-for="(header, idx) in columns" :key="idx">
                     <th :style="{ textAlign: header.align ? header.align : 'center' }">
                       {{ header.title }}
                     </th>
@@ -125,29 +108,15 @@
                 </tr>
               </template>
               <template #[`item.state`]="{ item }">
-                <img
-                  v-show="item.state === 'FAIL'"
-                  :alt="item.state"
-                  src="/devops/assets/images/icon_f.gif"
-                >
-                <img
-                  v-show="item.state === 'SUCCESS'"
-                  :alt="item.state"
-                  src="/devops/assets/images/icon_s.gif"
-                >
+                <img v-show="item.state === 'FAIL'" :alt="item.state" src="/devops/assets/images/icon_f.gif" />
+                <img v-show="item.state === 'SUCCESS'" :alt="item.state" src="/devops/assets/images/icon_s.gif" />
               </template>
               <template #[`item.approveHistory`]>
-                <v-icon
-                  class="historyButton"
-                  icon="mdi-clipboard-outline"
-                />
+                <v-icon class="historyButton" icon="mdi-clipboard-outline" />
               </template>
               <template #bottom>
                 <div class="text-center pt-2">
-                  <v-pagination
-                    v-model="page"
-                    :length="pageCnt"
-                  />
+                  <v-pagination v-model="page" :length="pageCnt" />
                 </div>
               </template>
             </v-data-table>
@@ -171,8 +140,8 @@ import { computed, ref } from 'vue'
 const props = defineProps({
   buildId: {
     type: Number,
-    default: 0
-  }
+    default: 0,
+  },
 })
 const buildStore = useBuildStore()
 const smcStore = useSmcStore()
@@ -182,27 +151,23 @@ const { buildDetail, buildHistories } = storeToRefs(buildStore)
 const { smcFlowStates } = storeToRefs(smcStore)
 
 const getBuildDetail = async () => {
-  if(props.buildId){
+  if (props.buildId) {
     //1. 빌드 상세 조회
     buildStore.getBuildDetail(props.buildId)
     //2. 빌드 history 조회
     await buildStore.getBuildHistory(props.buildId)
     const lastBuild = buildHistories.value.at(-1)
     //3. 가장 최근 history 기준 승인 조회 /smc/flow | POST
-    smcStore.getPostSmcFlows({ key1:'build', key2:props.buildId })
-    if(lastBuild) {
+    smcStore.getPostSmcFlows({ key1: 'build', key2: props.buildId })
+    if (lastBuild) {
       //4. 가장 최근 history 기준 flow 조회 /smc/flow/state | POST
-      smcStore.getPostSmcFlowState({ key1:'build', key2:props.buildId, key3: lastBuild.buildHistoryId })
+      smcStore.getPostSmcFlowState({ key1: 'build', key2: props.buildId, key3: lastBuild.buildHistoryId })
       //5. 가장 최근 history 기준 flow 조회 /smc/flow/states | POST
-      smcStore.getPostSmcFlowStates({ key1:'build', key2:props.buildId, key3: lastBuild.buildHistoryId })
+      smcStore.getPostSmcFlowStates({ key1: 'build', key2: props.buildId, key3: lastBuild.buildHistoryId })
     }
   }
   //console.error('getBuildDetail ', props.buildId)
 }
-
-
-
-
 
 const page = ref(1)
 const pageCnt = computed(() => Math.ceil(buildHistories.value.length / buildHistories.value.length))
@@ -214,9 +179,8 @@ const buildHistoryHeader = ref([
   { title: '설명', key: 'buildDesc', align: 'center', sortable: false },
   { title: '빌드 사용자', key: 'buildUserName', align: 'center', sortable: false },
   { title: '빌드 날짜', key: 'buildDate', align: 'center', sortable: false },
-  { title: '승인이력', key: 'approveHistory', align: 'center', sortable: false }
+  { title: '승인이력', key: 'approveHistory', align: 'center', sortable: false },
 ])
-
 
 onMounted(() => {
   getBuildDetail()

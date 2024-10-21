@@ -10,17 +10,8 @@
         :disabled="selected.length !== 1"
         @click="onClickDeleteBuild"
       />
-      <s-btn
-        variant="outlined"
-        :title="$t('빌드')"
-        :disabled="selected.length !== 1"
-        @click="onClickExcuteBuild"
-      />
-      <s-btn
-        variant="outlined"
-        :title="$t('생성')"
-        @click="onClickNewBuild"
-      />
+      <s-btn variant="outlined" :title="$t('빌드')" :disabled="selected.length !== 1" @click="onClickExcuteBuild" />
+      <s-btn variant="outlined" :title="$t('생성')" @click="onClickNewBuild" />
     </view-header-component>
     <div class="contentsWrapper">
       <div class="layout__list-contents">
@@ -49,13 +40,7 @@
         >
           <template #[`item.buildName`]="{ item }">
             <span>{{ item.buildName }}</span>
-            <v-icon
-              class="ml-1"
-              size="small"
-              @click="onClickDetail(item)"
-            >
-              mdi-open-in-new
-            </v-icon>
+            <v-icon class="ml-1" size="small" @click="onClickDetail(item)">mdi-open-in-new</v-icon>
           </template>
         </s-data-table>
       </div>
@@ -78,8 +63,6 @@ import { useI18n } from '@/_setting/i18n'
 import { useAlertStore } from '@/stores/components/alert'
 //import build from '@/router/project/build'
 
-
-
 //new table
 const selected = ref([])
 
@@ -100,25 +83,25 @@ const { tt } = useI18n()
 const devOpsServiceGroupId = storeToRefs(devOpsServiceGroupStore).serviceGroupId
 const builds = storeToRefs(buildStore).builds
 
-
 const onClickExcuteBuild = async () => {
   const buildId = selected.value.at(-1)
-  if(!buildId) return alertStore.openAlert({
-    titleName: tt('선택된 빌드가 없습니다'),
-    type: 'error',
-  })
+  if (!buildId)
+    return alertStore.openAlert({
+      titleName: tt('선택된 빌드가 없습니다'),
+      type: 'error',
+    })
   //showConfirm
   const confirmVal = await confirmStore.showConfirm(tt('빌드를 실행하시겠습니까?'))
-  if(confirmVal) {
+  if (confirmVal) {
     //빌드 실행
     let reqBody = {
       buildDesc: '',
       buildUserId: userInfo.value.userId,
-      buildUsername: userInfo.value.usernameKr
+      buildUsername: userInfo.value.usernameKr,
     }
     await buildStore.executeBuild(buildId, reqBody)
     alertStore.openAlert({
-      titleName: tt('빌드를 실행하였습니다.')
+      titleName: tt('빌드를 실행하였습니다.'),
     })
   }
 }
@@ -126,8 +109,11 @@ const onClickExcuteBuild = async () => {
 //빌드 목록을 가져오고 빌드 목록이 있다면 주기적으로 요청 한다.
 const getBuildList = async () => {
   const projectObj = JSON.parse(localStorage.getItem(LOCALSTORAGE_KEY.PROJECT_ID))
-  const tempBuilds = await buildStore.getBuildsWithHistory({ serviceGroupId: devOpsServiceGroupId.value, projectId: projectObj.projectId })
-  if(tempBuilds?.length) {
+  const tempBuilds = await buildStore.getBuildsWithHistory({
+    serviceGroupId: devOpsServiceGroupId.value,
+    projectId: projectObj.projectId,
+  })
+  if (tempBuilds?.length) {
     intervalGetBuildList()
   }
 }
@@ -136,32 +122,30 @@ const onClickNewBuild = () => {
   showNewModal.value = true
 }
 
-const onClickDetail = (build) => {
+const onClickDetail = build => {
   selectedBuildId.value = build.buildId
   showDetailPopup.value = true
 }
 const onClickDeleteBuild = async () => {
   const buildId = selected.value.at(-1)
-  if(!buildId) return alertStore.openAlert({
-    titleName: tt('선택된 빌드가 없습니다'),
-    type: 'error',
-  })
+  if (!buildId)
+    return alertStore.openAlert({
+      titleName: tt('선택된 빌드가 없습니다'),
+      type: 'error',
+    })
   //showConfirm
   const confirmVal = await confirmStore.showConfirm(tt('빌드를 삭제하시겠습니까?'))
   // confirm true 면
-  if(confirmVal) {
+  if (confirmVal) {
     await buildStore.deleteBuild(buildId)
     await getBuildList()
   }
-
 }
 const intervalGetBuildList = () => {
   setTimeout(async () => {
     await getBuildList()
   }, intervalGetBuildListTime)
 }
-
-
 
 onMounted(() => {
   getBuildList()
@@ -171,27 +155,27 @@ const headers = ref([
   {
     title: tt('빌드명'),
     align: 'center',
-    key: 'buildName'
+    key: 'buildName',
   },
   {
     title: tt('브랜치'),
     align: 'center',
-    key: 'branch'
+    key: 'branch',
   },
   {
     title: tt('빌드 수'),
     align: 'center',
-    key: 'buildCount'
+    key: 'buildCount',
   },
   {
     title: tt('마지막 빌드 시간'),
     align: 'center',
-    key: 'lastBuildDate'
+    key: 'lastBuildDate',
   },
   {
     title: tt('마지막 빌드 상태'),
     align: 'center',
-    key: 'lastBuildStatus'
+    key: 'lastBuildStatus',
   },
 ])
 </script>

@@ -5,7 +5,7 @@ import { SHEET_INFO } from './.credentials/sheet-info.js'
 
 const SPREADSHEET_ID = SHEET_INFO.ID // 스프레드시트 ID
 
-const saveTranslations = (data) => {
+const saveTranslations = data => {
   // 한국어와 영어 데이터를 저장할 객체
   const koTranslations = {}
   const enTranslations = {}
@@ -29,7 +29,7 @@ async function fetchTranslations(sheets, sheetNames) {
 
   const response = await sheets.spreadsheets.values.get({
     spreadsheetId: SPREADSHEET_ID,
-    range
+    range,
   })
 
   const data = response.data.values
@@ -38,11 +38,11 @@ async function fetchTranslations(sheets, sheetNames) {
 }
 
 // 메인 실행 함수
-const __main__ = async() => {
+const __main__ = async () => {
   const sheets = await authenticate()
 
   const { data } = await sheets.spreadsheets.get({
-    spreadsheetId: SPREADSHEET_ID
+    spreadsheetId: SPREADSHEET_ID,
   })
 
   // 구글 시트 이름 가져오기

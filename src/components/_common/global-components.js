@@ -10,7 +10,6 @@ import FormTableComponent from './form/FormTableComponent.vue'
 import CustomModalComponent from './modal/CustomModalComponent.vue'
 import CustomConfirmComponent from './modal/CustomConfirmComponent.vue'
 
-
 export default function setComponents(app) {
   app.component('SUser', AvatarComponent)
   app.component('SBtn', DefaultButtonComponent)

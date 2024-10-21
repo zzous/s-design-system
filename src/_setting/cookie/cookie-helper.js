@@ -15,7 +15,7 @@ const cookieHelper = {
     // document.cookie = `${key}=${value};expires=${date.toString()};path=/`
     document.cookie = `${key}=${value};expires=${date.toUTCString()};path=/` // 브라우저 종료시에 refresh token이 남아있어서 expires 삭제
   },
-  getCookie: (key) => {
+  getCookie: key => {
     const value = document.cookie.match(`(^|;) ?${key}=([^;]*)(;|$)`)
     if ([null, undefined, 'undefined', ''].includes(value)) {
       cookieHelper.deleteCookie(key)
@@ -23,10 +23,10 @@ const cookieHelper = {
     }
     return value ? value[2] : null
   },
-  deleteCookie: (key) => {
+  deleteCookie: key => {
     const date = new Date()
     document.cookie = `${key}= ; expires=${date.toUTCString()}; path=/`
-  }
+  },
 }
 
 export default cookieHelper

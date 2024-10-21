@@ -37,10 +37,7 @@
       <div class="base-layout">
         <div class="show-navi">
           <router-view v-slot="{ Component }">
-            <component
-              :is="Component"
-              ref="viewRef"
-            />
+            <component :is="Component" ref="viewRef" />
           </router-view>
         </div>
         <footer-component />
@@ -82,12 +79,10 @@ import StoreConfirmComponent from '@/components/_common/modal/StoreConfirmCompon
 import GlobalProgress from '../_common/progress/GlobalProgressComponent.vue'
 import { useI18n } from '@/_setting/i18n'
 
-
 const router = useRouter()
 const tokenStore = useTokenStore()
 const userStore = useUserStore()
-const sgStore
-  = useServiceGroupStore()
+const sgStore = useServiceGroupStore()
 const devOpsSgStore = useDevOpsServiceGroupStore()
 const menuStore = useMenuStore()
 
@@ -110,14 +105,13 @@ const { alertItemStack } = storeToRefs(alertStore)
 const userInfoTrans = computed(() => {
   return {
     ...userInfo.value,
-    name: userInfo.value?.usernameKr
+    name: userInfo.value?.usernameKr,
   }
 })
 
 const closeAlert = index => {
   alertStore.closeAlert(index)
 }
-
 
 const onClickLogin = () => {
   tokenStore.onLogIn()
@@ -132,16 +126,16 @@ const onLogOut = () => {
   }, 10000)
 }
 
-const onClickSignUp = () => { }
+const onClickSignUp = () => {}
 
 const showMenuBtn = ref(false)
 const showMenu = ref(false)
 
-const onClickMenu = (value) => {
+const onClickMenu = value => {
   showMenu.value = value
 }
 
-const onClickMenuItem = (value) => {
+const onClickMenuItem = value => {
   if (value === 'my-company') {
     router.push(`/company/detail/${userInfo.value.company.uuid}`)
   } else if (value === 'user-detail') {
@@ -157,7 +151,7 @@ const onClickMenuItem = (value) => {
   }
 }
 
-const onClickServiceItem = (value) => {
+const onClickServiceItem = value => {
   if (value.menuUrl && value.accessible) {
     window.location.href = value.menuUrl
   }
@@ -185,7 +179,6 @@ watch(
     } else {
       showMenuBtn.value = true
     }
-  }
+  },
 )
-
 </script>

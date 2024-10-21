@@ -4,7 +4,6 @@ import { defineConfig, loadEnv } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import vueDevTools from 'vite-plugin-vue-devtools'
 
-
 // https://vitejs.dev/config/
 export default ({ mode }) => {
   process.env = { ...process.env, ...loadEnv(mode, process.cwd()) }
@@ -16,14 +15,14 @@ export default ({ mode }) => {
       preprocessorOptions: {
         scss: {
           api: 'modern', // or "modern"
-          additionalData: `@import "@/assets/style/_variables.scss";@import "@/assets/style/_mixin.scss";` //scss 값 전역 설정
-        }
-      }
+          additionalData: `@import "@/assets/style/_variables.scss";@import "@/assets/style/_mixin.scss";`, //scss 값 전역 설정
+        },
+      },
     },
     resolve: {
       alias: {
-        '@': fileURLToPath(new URL('./src', import.meta.url))
-      }
+        '@': fileURLToPath(new URL('./src', import.meta.url)),
+      },
     },
     build: {
       rollupOptions: {
@@ -49,9 +48,9 @@ export default ({ mode }) => {
       terserOptions: {
         compress: {
           drop_console: mode !== 'dev',
-          drop_debugger: mode !== 'dev'
-        }
-      }
+          drop_debugger: mode !== 'dev',
+        },
+      },
     },
     server: {
       port: 3001,
@@ -61,18 +60,18 @@ export default ({ mode }) => {
           changeOrigin: true,
           secure: false,
           headers: {
-            origin: process.env.VITE_USER_API
-          }
+            origin: process.env.VITE_USER_API,
+          },
         },
         '^/api/(v[0-9])/devops': {
           target: process.env.VITE_DEVOPS_API,
           changeOrigin: true,
           secure: false,
           headers: {
-            origin: process.env.VITE_DEVOPS_API
-          }
+            origin: process.env.VITE_DEVOPS_API,
+          },
         },
-      }
-    }
+      },
+    },
   })
 }

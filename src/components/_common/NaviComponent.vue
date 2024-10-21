@@ -42,7 +42,10 @@
             v-for="(subMenu, i) in menu.subMenus"
             :key="i"
             class="navi-inner-menu"
-            :class="{disabled : selectedProject.projectId <= 0, active: selectedProject.projectId > 0}"
+            :class="{
+              disabled: selectedProject.projectId <= 0,
+              active: selectedProject.projectId > 0,
+            }"
             active-class="menu-active"
             prepend-icon="mdi-circle-small"
           >
@@ -73,9 +76,11 @@ const menuStore = useMenuStore()
 const projectStore = useProjectStore()
 const { projects: projectList, selectedProject } = storeToRefs(projectStore)
 const { menuPaths } = storeToRefs(menuStore)
-const filteredMenu = computed(() => menuPaths.value.find(({ clientId }) => {
-  return clientId === 'strato-devops'
-}))
+const filteredMenu = computed(() =>
+  menuPaths.value.find(({ clientId }) => {
+    return clientId === 'strato-devops'
+  }),
+)
 const open = ref([]) //활성화할 메뉴의 value
 //프로젝트가 있으면 가져오고 없으면 전체로
 // const projectList = ref([
@@ -90,8 +95,6 @@ const onChangeProject = () => {
   //프로젝트가 바뀔 때 로컬 스토리지에 저장
   localStorage.setItem(LOCALSTORAGE_KEY.PROJECT_ID, JSON.stringify(selectedProject.value))
 }
-
-
 </script>
 
 <style scoped lang="scss">
@@ -108,7 +111,7 @@ const onChangeProject = () => {
   height: 52px;
   line-height: 50px;
 }
-#menu_title_wrapper a{
+#menu_title_wrapper a {
   text-decoration: none;
 }
 
@@ -126,7 +129,7 @@ const onChangeProject = () => {
 .navi-inner-menu {
   padding-inline: 15px !important;
 }
-.navi-inner-menu.disabled .navi-inner-menu-title{
+.navi-inner-menu.disabled .navi-inner-menu-title {
   pointer-events: none;
   color: grey;
   cursor: not-allowed;
@@ -139,11 +142,11 @@ const onChangeProject = () => {
 .navi-inner-menu-title.router-link-exact-active {
   color: $active-font-color;
 }
-.navi-inner-menu.active:hover .navi-inner-menu-title{
+.navi-inner-menu.active:hover .navi-inner-menu-title {
   color: $active-font-color;
 }
 
-.navi-menu{
+.navi-menu {
   &.v-list {
     padding: 0;
     ::v-deep(.v-list-group) {
@@ -179,7 +182,7 @@ const onChangeProject = () => {
         background-color: rgba($s-btn--blue-1, 0.1);
       }
 
-      &:has(.router-link-active){
+      &:has(.router-link-active) {
         .router-link-active {
           color: $active-font-color;
           font-weight: 700;

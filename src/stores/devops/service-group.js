@@ -8,15 +8,17 @@ import axios from '@/_setting/axios/request-devops'
 import { SERVICE_GROUP } from '@/assets/consts/api/devops/service-group'
 
 export const useDevOpsServiceGroupStore = defineStore('devops-service-group', () => {
-    const serviceGroupId = ref(0)
+  const serviceGroupId = ref(0)
 
-    const getServiceGroupDetail = async uuid => {
-        serviceGroupId.value = 0
-        const { data } = await axios.get(SERVICE_GROUP, { params: {
-            serviceGroupUuid: uuid
-        } })
-        serviceGroupId.value = data.data?.serviceGroupId || 0
-    }
+  const getServiceGroupDetail = async uuid => {
+    serviceGroupId.value = 0
+    const { data } = await axios.get(SERVICE_GROUP, {
+      params: {
+        serviceGroupUuid: uuid,
+      },
+    })
+    serviceGroupId.value = data.data?.serviceGroupId || 0
+  }
 
-    return { serviceGroupId, getServiceGroupDetail }
+  return { serviceGroupId, getServiceGroupDetail }
 })
