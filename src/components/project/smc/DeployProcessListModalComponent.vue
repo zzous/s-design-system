@@ -6,30 +6,32 @@
     @update:model-value="updateModal"
   >
     <template #default>
-      <s-sub-header :title="$t('배포 승인 프로세스 목록')" class-name="sub-title" :list-cnt="datas.length" />
-      <div class="layout__list-contents">
-        <div class="search">
-          <v-text-field
-            v-model="search"
-            class="search__text-field"
-            variant="outlined"
-            density="compact"
-            hide-details
-            prepend-inner-icon="mdi-magnify"
-            :placeholder="$t('검색할 키워드를 입력하세요')"
-          />
-        </div>
-        <div>
-          <s-data-table
-            :model-value="selected"
-            :search="search"
-            :headers="headers"
-            :items="datas"
-            item-value="flowId"
-            show-select
-            hide-default-footer
-            @update:model-value="updateModelValue"
-          />
+      <div class="form-wrapper">
+        <s-sub-header :title="$t('배포 승인 프로세스 목록')" class-name="sub-title" :list-cnt="datas.length" />
+        <div class="layout__list-contents">
+          <div class="search">
+            <v-text-field
+              v-model="search"
+              class="search__text-field"
+              variant="outlined"
+              density="compact"
+              hide-details
+              prepend-inner-icon="mdi-magnify"
+              :placeholder="$t('검색할 키워드를 입력하세요')"
+            />
+          </div>
+          <div>
+            <s-data-table
+              :model-value="selected"
+              :search="search"
+              :headers="headers"
+              :items="datas"
+              item-value="flowId"
+              show-select
+              hide-default-footer
+              @update:model-value="updateModelValue"
+            />
+          </div>
         </div>
       </div>
     </template>

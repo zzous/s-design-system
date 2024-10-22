@@ -127,9 +127,22 @@
     &.v-file-input,
     &.v-text-field,
     &.v-select {
+        height: 40px;
+
         .v-field__input,
         .v-select__selection {
             font-size: 16px;
         }
+    }
+}
+
+.form-wrapper {
+    border-radius: 10px;
+    background-color: white;
+    border: 1px solid $s-default--gray-5;
+    padding: 10px;
+
+    &:not(:first-child) {
+        margin-top: 10px;
     }
 }

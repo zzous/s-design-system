@@ -1,28 +1,32 @@
 <template>
   <div v-if="buildDetail" class="view-wrapper">
-    <s-sub-header :show-cnt="false" :title="$t('기본 정보')" class-name="sub-title" />
-    <s-form-table>
-      <s-form-item :label="$t('빌드명')" name="buildName">
-        {{ buildDetail.buildName }}
-      </s-form-item>
-      <s-form-item :label="$t('브랜치')" name="buildBranch">
-        {{ buildDetail.branch }}
-      </s-form-item>
-      <s-form-item :label="$t('빌드 승인 프로세스')" name="buildApproveProcess">??</s-form-item>
-      <s-form-item :label="$t('패키지 유형')" name="packageType">
-        {{ buildDetail.packageCdName }}
-      </s-form-item>
-    </s-form-table>
-    <template v-if="showContainerBuildInfo">
-      <s-sub-header :show-cnt="false" :title="$t('컨테이너 빌드 정보')" class-name="sub-title" />
+    <div class="form-wrapper">
+      <s-sub-header :show-cnt="false" :title="$t('기본 정보')" class-name="sub-title" />
       <s-form-table>
-        <s-form-item :label="$t('Application 포트')" name="appPort">
+        <s-form-item :label="$t('빌드명')" name="buildName">
           {{ buildDetail.buildName }}
         </s-form-item>
-        <s-form-item :label="$t('Application 설치 경로')" name="appPath">
-          {{ buildDetail.buildName }}
+        <s-form-item :label="$t('브랜치')" name="buildBranch">
+          {{ buildDetail.branch }}
+        </s-form-item>
+        <s-form-item :label="$t('빌드 승인 프로세스')" name="buildApproveProcess">??</s-form-item>
+        <s-form-item :label="$t('패키지 유형')" name="packageType">
+          {{ buildDetail.packageCdName }}
         </s-form-item>
       </s-form-table>
+    </div>
+    <template v-if="showContainerBuildInfo">
+      <div class="form-wrapper">
+        <s-sub-header :show-cnt="false" :title="$t('컨테이너 빌드 정보')" class-name="sub-title" />
+        <s-form-table>
+          <s-form-item :label="$t('Application 포트')" name="appPort">
+            {{ buildDetail.buildName }}
+          </s-form-item>
+          <s-form-item :label="$t('Application 설치 경로')" name="appPath">
+            {{ buildDetail.buildName }}
+          </s-form-item>
+        </s-form-table>
+      </div>
     </template>
     <!-- <shell-script-input-component v-model="buildDetail.pipelineScript" /> -->
     <!-- <monaco-editor

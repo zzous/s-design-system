@@ -130,7 +130,7 @@ const onUpdateModalValue = value => {
   }
 
   &.sm {
-    width: 600px;
+    width: 500px;
   }
 
   &.xs {
@@ -171,32 +171,33 @@ const onUpdateModalValue = value => {
   }
 
   .s-modal__content {
-    padding: 30px;
+    padding: 20px;
     max-height: 700px;
     @include scroll();
     overflow-y: auto;
+    background-color: $s-base-background;
   }
   .s-modal__footer {
     width: 100%;
+    background-color: $s-base-background;
   }
-}
-</style>
-<style lang="scss">
-.s-modal .v-overlay__content {
-  width: inherit;
-  max-width: inherit;
-}
 
-.v-dialog.s-modal .v-card .v-card-item {
-  display: flex;
-  flex-direction: column;
-  padding: 0;
+  ::v-deep(.v-card) .v-card-item {
+    display: flex;
+    flex-direction: column;
+    padding: 0;
 
-  .v-card-item__prepend,
-  .v-card-item__append,
-  .v-card-item__content {
-    padding-inline-end: 0;
-    width: 100%;
+    .v-card-item__prepend,
+    .v-card-item__append,
+    .v-card-item__content {
+      padding-inline-end: 0;
+      width: 100%;
+    }
+  }
+
+  ::v-deep(.v-overlay__content) {
+    width: inherit;
+    max-width: inherit;
   }
 }
 </style>

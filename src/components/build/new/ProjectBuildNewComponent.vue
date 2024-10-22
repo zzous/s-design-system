@@ -1,121 +1,125 @@
 <template>
   <div class="view-wrapper">
-    <s-sub-header :show-cnt="false" :title="$t('기본 정보')" class-name="sub-title" />
-    <s-form-table>
-      <s-form-item :label="$t('빌드명')" name="buildName" required>
-        <v-text-field
-          v-model="buildName"
-          variant="outlined"
-          density="compact"
-          hide-details="auto"
-          :placeholder="$t('빌드명을 입력하세요')"
-        />
-        <s-btn height="30" @click="checkBuildNameDuplicate">
-          {{ $t('중복 체크') }}
-        </s-btn>
-      </s-form-item>
+    <div class="form-wrapper">
+      <s-sub-header :show-cnt="false" :title="$t('기본 정보')" class-name="sub-title" />
+      <s-form-table>
+        <s-form-item :label="$t('빌드명')" name="buildName" required>
+          <v-text-field
+            v-model="buildName"
+            variant="outlined"
+            density="compact"
+            hide-details="auto"
+            :placeholder="$t('빌드명을 입력하세요')"
+          />
+          <s-btn height="30" @click="checkBuildNameDuplicate">
+            {{ $t('중복 체크') }}
+          </s-btn>
+        </s-form-item>
 
-      <s-form-item :label="$t('브랜치')" name="branch">
-        <!-- <v-text-field
+        <s-form-item :label="$t('브랜치')" name="branch">
+          <!-- <v-text-field
           variant="outlined"
           density="compact"
           hide-details="auto"
           :placeholder="$t('브랜치 선택 select')"
         /> -->
-        <v-select
-          v-model="selectedBranch"
-          :items="defaultBranchs"
-          :placeholder="$t('브랜치 선택')"
-          variant="outlined"
-          density="compact"
-          hide-details="auto"
-          item-title="branchName"
-          item-value="stageCd"
-          @update:model-value="onChangeInputRelevantPipeline"
-        />
-      </s-form-item>
-      <s-form-item :label="$t('빌드 승인 프로세스')" name="templateId">
-        <v-select
-          v-model="selectedFlow"
-          :items="smcFlows"
-          variant="outlined"
-          density="compact"
-          hide-details="auto"
-          item-title="flowName"
-          item-value="flowId"
-          :placeholder="$t('빌드 승인 프로세스 선택')"
-        />
-      </s-form-item>
-      <s-form-item :label="$t('패키지 유형')" name="templateId">
-        <!-- {{ '패키지 유형 ex Container Image' }}packageTypes -->
-        <v-select
-          v-model="selectedPackageTypeCode"
-          :disabled="!!selectedProject.packageCd"
-          :items="packageTypes"
-          variant="outlined"
-          density="compact"
-          hide-details="auto"
-          item-title="codeName"
-          item-value="commonCd"
-          @change="onChangeInputRelevantPipeline"
-        />
-      </s-form-item>
-    </s-form-table>
-    <s-sub-header :show-cnt="false" :title="$t('컨테이너 빌드 정보')" class-name="sub-title" />
-    <s-form-table>
-      <s-form-item :label="$t('Application 포트')" name="templateId">
-        <v-text-field
-          variant="outlined"
-          density="compact"
-          hide-details="auto"
-          :placeholder="$t('Application 포트를 입력하세요(숫자만 입력 가능)')"
-        />
-      </s-form-item>
-      <s-form-item :label="$t('Application 설치 경로')" name="templateId">
-        <v-text-field
-          variant="outlined"
-          density="compact"
-          hide-details="auto"
-          :placeholder="$t('Application 설치 경로를 입력하세요')"
-        />
-      </s-form-item>
-    </s-form-table>
-    <s-sub-header :show-cnt="false" :title="$t('파이프라인 정보')" class-name="sub-title" />
-    <div class="position-relative">
-      <s-btn class="position-absolute create-script-button" @click="onClickNewScript">
-        {{ $t('스크립트 생성') }}
-      </s-btn>
+          <v-select
+            v-model="selectedBranch"
+            :items="defaultBranchs"
+            :placeholder="$t('브랜치 선택')"
+            variant="outlined"
+            density="compact"
+            hide-details="auto"
+            item-title="branchName"
+            item-value="stageCd"
+            @update:model-value="onChangeInputRelevantPipeline"
+          />
+        </s-form-item>
+        <s-form-item :label="$t('빌드 승인 프로세스')" name="templateId">
+          <v-select
+            v-model="selectedFlow"
+            :items="smcFlows"
+            variant="outlined"
+            density="compact"
+            hide-details="auto"
+            item-title="flowName"
+            item-value="flowId"
+            :placeholder="$t('빌드 승인 프로세스 선택')"
+          />
+        </s-form-item>
+        <s-form-item :label="$t('패키지 유형')" name="templateId">
+          <!-- {{ '패키지 유형 ex Container Image' }}packageTypes -->
+          <v-select
+            v-model="selectedPackageTypeCode"
+            :disabled="!!selectedProject.packageCd"
+            :items="packageTypes"
+            variant="outlined"
+            density="compact"
+            hide-details="auto"
+            item-title="codeName"
+            item-value="commonCd"
+            @change="onChangeInputRelevantPipeline"
+          />
+        </s-form-item>
+      </s-form-table>
+      <s-sub-header :show-cnt="false" :title="$t('컨테이너 빌드 정보')" class-name="sub-title" />
+      <s-form-table>
+        <s-form-item :label="$t('Application 포트')" name="templateId">
+          <v-text-field
+            variant="outlined"
+            density="compact"
+            hide-details="auto"
+            :placeholder="$t('Application 포트를 입력하세요(숫자만 입력 가능)')"
+          />
+        </s-form-item>
+        <s-form-item :label="$t('Application 설치 경로')" name="templateId">
+          <v-text-field
+            variant="outlined"
+            density="compact"
+            hide-details="auto"
+            :placeholder="$t('Application 설치 경로를 입력하세요')"
+          />
+        </s-form-item>
+      </s-form-table>
     </div>
-    <s-form-table>
-      <v-row>
-        <v-col cols="10">
-          <template v-if="!pipeLines.length">
-            <div>{{ tt('스크립트를 생성해주세요') }}</div>
-          </template>
-          <template v-for="(pipeLineScript, idx) in pipeLines" :key="idx">
-            <div>{{ pipeLineScript.pipelineCd }}</div>
-            <script-editor v-model="pipeLineScript.pipelineScript" :height="400" class="mt-2" />
-          </template>
-        </v-col>
-        <v-col cols="2">
-          <accordion-menu-component
-            v-for="pipeline in commonPipeLineSteps"
-            :key="pipeline.commonCd"
-            class="ml-2"
-            :title="pipeline.commonCd"
-          >
-            <v-item-list
-              v-for="(pipelineScript, idx) in pipeline.scripts"
-              :key="idx"
-              class="cursor-pointer"
-              @click="onClickAddPipeLine(pipelineScript)"
+    <div class="form-wrapper">
+      <s-sub-header :show-cnt="false" :title="$t('파이프라인 정보')" class-name="sub-title" />
+      <div class="position-relative">
+        <s-btn class="position-absolute create-script-button" @click="onClickNewScript">
+          {{ $t('스크립트 생성') }}
+        </s-btn>
+      </div>
+      <s-form-table>
+        <v-row>
+          <v-col cols="10">
+            <template v-if="!pipeLines.length">
+              <div>{{ tt('스크립트를 생성해주세요') }}</div>
+            </template>
+            <template v-for="(pipeLineScript, idx) in pipeLines" :key="idx">
+              <div>{{ pipeLineScript.pipelineCd }}</div>
+              <script-editor v-model="pipeLineScript.pipelineScript" :height="400" class="mt-2" />
+            </template>
+          </v-col>
+          <v-col cols="2">
+            <accordion-menu-component
+              v-for="pipeline in commonPipeLineSteps"
+              :key="pipeline.commonCd"
+              class="ml-2"
+              :title="pipeline.commonCd"
             >
-              {{ pipelineScript.pipelineName }}
-            </v-item-list>
-          </accordion-menu-component>
-        </v-col>
-      </v-row>
-    </s-form-table>
+              <v-item-list
+                v-for="(pipelineScript, idx) in pipeline.scripts"
+                :key="idx"
+                class="cursor-pointer"
+                @click="onClickAddPipeLine(pipelineScript)"
+              >
+                {{ pipelineScript.pipelineName }}
+              </v-item-list>
+            </accordion-menu-component>
+          </v-col>
+        </v-row>
+      </s-form-table>
+    </div>
     <div class="mt-3 text-align-center">
       <s-btn height="30" class="mr-2">
         {{ $t('저장') }}

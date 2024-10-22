@@ -1,54 +1,56 @@
 <template>
   <div class="view-wrapper">
     <vee-form ref="formRef" v-slot="{ values }" :validation-schema="schema">
-      <s-sub-header :show-cnt="false" :title="$t('기본 정보')" class-name="sub-title" />
-      <s-form-table>
-        <s-form-item :label="$t('프로젝트명')" name="projectName">
-          {{ dataInfo.projectName }}
-        </s-form-item>
-        <s-form-item :label="$t('생성 일시')" name="regDate">
-          {{ dataInfo.regDate || '-' }}
-        </s-form-item>
-        <s-form-item :label="$t('수정 일시')" name="modDate">
-          {{ dataInfo.modDate || '-' }}
-        </s-form-item>
-        <s-form-item :label="$t('프로젝트 템플릿')" name="projectCd">
-          {{ dataInfo.projectCd || '-' }}
-        </s-form-item>
-        <s-form-item :label="$t('패키지 정보')" name="packageCd">
-          {{ dataInfo.packageCd || '-' }}
-        </s-form-item>
-        <s-form-item :label="$t('JDK 버전')" name="jdkVersion">
-          {{ dataInfo.sourceInfo?.jdkVersion || '-' }}
-        </s-form-item>
-        <s-form-item :label="$t('패키지명')" name="packageName">
-          {{ dataInfo.sourceInfo?.packageName || '-' }}
-        </s-form-item>
-        <s-form-item v-slot="{ handleChange }" :label="$t('프로젝트 별칭')" name="projectAlias">
-          <v-text-field
-            :model-value="values.projectAlias"
-            variant="outlined"
-            density="compact"
-            hide-details="auto"
-            :placeholder="$t('프로젝트 별칭을 입력해주세요')"
-            @update:model-value="handleChange"
-          />
-        </s-form-item>
-        <s-form-item
-          v-slot="{ handleChange }"
-          :label="$t('설명({{length}}자 이내)', { length: 250 })"
-          name="projectDesc"
-        >
-          <v-textarea
-            :model-value="values.projectDesc"
-            density="compact"
-            variant="outlined"
-            hide-details="auto"
-            :placeholder="$t('설명을 입력하세요')"
-            @update:model-value="handleChange"
-          />
-        </s-form-item>
-      </s-form-table>
+      <div class="form-wrapper">
+        <s-sub-header :show-cnt="false" :title="$t('기본 정보')" class-name="sub-title" />
+        <s-form-table>
+          <s-form-item :label="$t('프로젝트명')" name="projectName">
+            {{ dataInfo.projectName }}
+          </s-form-item>
+          <s-form-item :label="$t('생성 일시')" name="regDate">
+            {{ dataInfo.regDate || '-' }}
+          </s-form-item>
+          <s-form-item :label="$t('수정 일시')" name="modDate">
+            {{ dataInfo.modDate || '-' }}
+          </s-form-item>
+          <s-form-item :label="$t('프로젝트 템플릿')" name="projectCd">
+            {{ dataInfo.projectCd || '-' }}
+          </s-form-item>
+          <s-form-item :label="$t('패키지 정보')" name="packageCd">
+            {{ dataInfo.packageCd || '-' }}
+          </s-form-item>
+          <s-form-item :label="$t('JDK 버전')" name="jdkVersion">
+            {{ dataInfo.sourceInfo?.jdkVersion || '-' }}
+          </s-form-item>
+          <s-form-item :label="$t('패키지명')" name="packageName">
+            {{ dataInfo.sourceInfo?.packageName || '-' }}
+          </s-form-item>
+          <s-form-item v-slot="{ handleChange }" :label="$t('프로젝트 별칭')" name="projectAlias">
+            <v-text-field
+              :model-value="values.projectAlias"
+              variant="outlined"
+              density="compact"
+              hide-details="auto"
+              :placeholder="$t('프로젝트 별칭을 입력해주세요')"
+              @update:model-value="handleChange"
+            />
+          </s-form-item>
+          <s-form-item
+            v-slot="{ handleChange }"
+            :label="$t('설명({{length}}자 이내)', { length: 250 })"
+            name="projectDesc"
+          >
+            <v-textarea
+              :model-value="values.projectDesc"
+              density="compact"
+              variant="outlined"
+              hide-details="auto"
+              :placeholder="$t('설명을 입력하세요')"
+              @update:model-value="handleChange"
+            />
+          </s-form-item>
+        </s-form-table>
+      </div>
     </vee-form>
   </div>
 </template>

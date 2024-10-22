@@ -1,30 +1,32 @@
 <template>
   <s-modal :model-value="modelValue" class-name="sm" :title="$t('관리자 설정')" @update:model-value="updateModal">
     <template #default>
-      <s-sub-header :title="$t('사용자 목록')" class-name="sub-title" :list-cnt="datas.length" />
-      <div class="layout__list-contents">
-        <div class="search">
-          <v-text-field
-            v-model="search"
-            class="search__text-field"
-            variant="outlined"
-            density="compact"
-            hide-details
-            prepend-inner-icon="mdi-magnify"
-            :placeholder="$t('검색할 키워드를 입력하세요')"
-          />
-        </div>
-        <div>
-          <s-data-table
-            :model-value="selected"
-            :search="search"
-            :headers="headers"
-            :items="datas"
-            item-value="userId"
-            show-select
-            hide-default-footer
-            @update:model-value="updateModelValue"
-          />
+      <div class="form-wrapper">
+        <s-sub-header :title="$t('사용자 목록')" class-name="sub-title" :list-cnt="datas.length" />
+        <div class="layout__list-contents">
+          <div class="search">
+            <v-text-field
+              v-model="search"
+              class="search__text-field"
+              variant="outlined"
+              density="compact"
+              hide-details
+              prepend-inner-icon="mdi-magnify"
+              :placeholder="$t('검색할 키워드를 입력하세요')"
+            />
+          </div>
+          <div>
+            <s-data-table
+              :model-value="selected"
+              :search="search"
+              :headers="headers"
+              :items="datas"
+              item-value="userId"
+              show-select
+              hide-default-footer
+              @update:model-value="updateModelValue"
+            />
+          </div>
         </div>
       </div>
     </template>

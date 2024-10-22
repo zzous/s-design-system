@@ -9,137 +9,139 @@
       @update:selected="value => updateSelected(modal.target, value)"
     />
     <vee-form ref="formRef" v-slot="{ values }" :validation-schema="schema">
-      <s-sub-header :show-cnt="false" :title="$t('기본 정보')" class-name="sub-title" />
-      <s-form-table>
-        <s-form-item v-slot="{ errors, handleChange }" :label="$t('프로젝트명')" name="projectName" required>
-          <v-text-field
-            v-model="schema.projectName"
-            variant="outlined"
-            density="compact"
-            hide-details="auto"
-            :placeholder="$t('프로젝트명을 입력해주세요')"
-            :error-messages="errors"
-            @update:model-value="handleChange"
-            @input="isDuplicateProjectName = true"
-          />
-          <s-btn height="30" :disabled="!isDuplicateProjectName" @click="checkDuplicate">
-            {{ $t('중복 체크') }}
-          </s-btn>
-        </s-form-item>
-        <s-form-item v-slot="{ handleChange }" :label="$t('프로젝트 별칭')" name="projectAlias">
-          <v-text-field
-            v-model="schema.projectAlias"
-            variant="outlined"
-            density="compact"
-            hide-details="auto"
-            :placeholder="$t('프로젝트 별칭을 입력해주세요')"
-            @update:model-value="handleChange"
-          />
-        </s-form-item>
-        <s-form-item v-slot="{ errors, handleChange }" :label="$t('파일 가져오기')" name="projectFile" required>
-          <v-file-input
-            ref="projectFile"
-            v-model="schema.projectFile"
-            class="d-none"
-            @update:model-value="handleChange"
-          />
-          <v-text-field
-            :model-value="schema.projectFile?.name"
-            variant="outlined"
-            density="compact"
-            hide-details="auto"
-            readonly
-            :error-messages="errors"
-            :placeholder="$t('projectImportPlaceholder')"
-          />
-          <s-btn height="30" @click="$refs.projectFile.click()">
-            {{ $t('파일 찾기') }}
-          </s-btn>
-        </s-form-item>
-        <s-form-item :label="$t('빌드 승인 프로세스')" name="buildApproveFlow" required>
-          <template #default>
-            <s-btn variant="outlined" height="30" @click="openModal('buildApproveFlow')">
-              {{ $t('프로세스 선택') }}
+      <div class="form-wrapper">
+        <s-sub-header :show-cnt="false" :title="$t('기본 정보')" class-name="sub-title" />
+        <s-form-table>
+          <s-form-item v-slot="{ errors, handleChange }" :label="$t('프로젝트명')" name="projectName" required>
+            <v-text-field
+              v-model="schema.projectName"
+              variant="outlined"
+              density="compact"
+              hide-details="auto"
+              :placeholder="$t('프로젝트명을 입력해주세요')"
+              :error-messages="errors"
+              @update:model-value="handleChange"
+              @input="isDuplicateProjectName = true"
+            />
+            <s-btn height="30" :disabled="!isDuplicateProjectName" @click="checkDuplicate">
+              {{ $t('중복 체크') }}
             </s-btn>
-            <div class="selected__chip">
-              <v-chip
-                v-for="(flow, index) in values.buildApproveFlow"
-                :key="flow.flowId"
-                class="s-chip"
-                :value="flow.flowId"
-                closable
-                @click:close="deleteSelected('buildApproveFlow', index)"
-              >
-                {{ flow.flowName }}
-              </v-chip>
-            </div>
-          </template>
-          <template #outer-append="{ errors }">
-            <span v-if="errors.length" class="error-msg">{{ errors.at(0) }}</span>
-          </template>
-        </s-form-item>
-        <s-form-item :label="$t('배포 승인 프로세스')" name="deployApproveFlow" required>
-          <template #default>
-            <s-btn variant="outlined" height="30" @click="openModal('deployApproveFlow')">
-              {{ $t('프로세스 선택') }}
+          </s-form-item>
+          <s-form-item v-slot="{ handleChange }" :label="$t('프로젝트 별칭')" name="projectAlias">
+            <v-text-field
+              v-model="schema.projectAlias"
+              variant="outlined"
+              density="compact"
+              hide-details="auto"
+              :placeholder="$t('프로젝트 별칭을 입력해주세요')"
+              @update:model-value="handleChange"
+            />
+          </s-form-item>
+          <s-form-item v-slot="{ errors, handleChange }" :label="$t('파일 가져오기')" name="projectFile" required>
+            <v-file-input
+              ref="projectFile"
+              v-model="schema.projectFile"
+              class="d-none"
+              @update:model-value="handleChange"
+            />
+            <v-text-field
+              :model-value="schema.projectFile?.name"
+              variant="outlined"
+              density="compact"
+              hide-details="auto"
+              readonly
+              :error-messages="errors"
+              :placeholder="$t('projectImportPlaceholder')"
+            />
+            <s-btn height="30" @click="$refs.projectFile.click()">
+              {{ $t('파일 찾기') }}
             </s-btn>
-            <div class="selected__chip">
-              <v-chip
-                v-for="(flow, index) in values.deployApproveFlow"
-                :key="flow.flowId"
-                class="s-chip"
-                :value="flow.flowId"
-                closable
-                @click:close="deleteSelected('deployApproveFlow', index)"
-              >
-                {{ flow.flowName }}
-              </v-chip>
-            </div>
-          </template>
-          <template #outer-append="{ errors }">
-            <span v-if="errors.length" class="error-msg">
-              {{ errors.at(0) }}
-            </span>
-          </template>
-        </s-form-item>
-        <s-form-item :label="$t('프로젝트 관리자')" name="projectManagerList" required>
-          <template #default>
-            <s-btn variant="outlined" height="30" @click="openModal('projectManagerList')">
-              {{ $t('관리자 선택') }}
-            </s-btn>
-            <div class="selected__chip">
-              <v-chip
-                v-for="(user, index) in values.projectManagerList"
-                :key="user.userId"
-                class="s-chip"
-                :value="user.userId"
-                closable
-                @click:close="deleteSelected('projectManagerList', index)"
-              >
-                {{ user.username }}
-              </v-chip>
-            </div>
-          </template>
-          <template #outer-append="{ errors }">
-            <span v-if="errors.length" class="error-msg">{{ errors.at(0) }}</span>
-          </template>
-          <!-- TODO ProjectManagers -->
-        </s-form-item>
-        <s-form-item
-          v-slot="{ handleChange }"
-          :label="$t('설명({{length}}자 이내)', { length: 250 })"
-          name="projectDesc"
-        >
-          <v-textarea
-            v-model="schema.projectDesc"
-            density="compact"
-            variant="outlined"
-            hide-details="auto"
-            :placeholder="$t('설명을 입력하세요')"
-            @update:model-value="handleChange"
-          />
-        </s-form-item>
-      </s-form-table>
+          </s-form-item>
+          <s-form-item :label="$t('빌드 승인 프로세스')" name="buildApproveFlow" required>
+            <template #default>
+              <s-btn variant="outlined" height="30" @click="openModal('buildApproveFlow')">
+                {{ $t('프로세스 선택') }}
+              </s-btn>
+              <div class="selected__chip">
+                <v-chip
+                  v-for="(flow, index) in values.buildApproveFlow"
+                  :key="flow.flowId"
+                  class="s-chip"
+                  :value="flow.flowId"
+                  closable
+                  @click:close="deleteSelected('buildApproveFlow', index)"
+                >
+                  {{ flow.flowName }}
+                </v-chip>
+              </div>
+            </template>
+            <template #outer-append="{ errors }">
+              <span v-if="errors.length" class="error-msg">{{ errors.at(0) }}</span>
+            </template>
+          </s-form-item>
+          <s-form-item :label="$t('배포 승인 프로세스')" name="deployApproveFlow" required>
+            <template #default>
+              <s-btn variant="outlined" height="30" @click="openModal('deployApproveFlow')">
+                {{ $t('프로세스 선택') }}
+              </s-btn>
+              <div class="selected__chip">
+                <v-chip
+                  v-for="(flow, index) in values.deployApproveFlow"
+                  :key="flow.flowId"
+                  class="s-chip"
+                  :value="flow.flowId"
+                  closable
+                  @click:close="deleteSelected('deployApproveFlow', index)"
+                >
+                  {{ flow.flowName }}
+                </v-chip>
+              </div>
+            </template>
+            <template #outer-append="{ errors }">
+              <span v-if="errors.length" class="error-msg">
+                {{ errors.at(0) }}
+              </span>
+            </template>
+          </s-form-item>
+          <s-form-item :label="$t('프로젝트 관리자')" name="projectManagerList" required>
+            <template #default>
+              <s-btn variant="outlined" height="30" @click="openModal('projectManagerList')">
+                {{ $t('관리자 선택') }}
+              </s-btn>
+              <div class="selected__chip">
+                <v-chip
+                  v-for="(user, index) in values.projectManagerList"
+                  :key="user.userId"
+                  class="s-chip"
+                  :value="user.userId"
+                  closable
+                  @click:close="deleteSelected('projectManagerList', index)"
+                >
+                  {{ user.username }}
+                </v-chip>
+              </div>
+            </template>
+            <template #outer-append="{ errors }">
+              <span v-if="errors.length" class="error-msg">{{ errors.at(0) }}</span>
+            </template>
+            <!-- TODO ProjectManagers -->
+          </s-form-item>
+          <s-form-item
+            v-slot="{ handleChange }"
+            :label="$t('설명({{length}}자 이내)', { length: 250 })"
+            name="projectDesc"
+          >
+            <v-textarea
+              v-model="schema.projectDesc"
+              density="compact"
+              variant="outlined"
+              hide-details="auto"
+              :placeholder="$t('설명을 입력하세요')"
+              @update:model-value="handleChange"
+            />
+          </s-form-item>
+        </s-form-table>
+      </div>
     </vee-form>
   </div>
 </template>

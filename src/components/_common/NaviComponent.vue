@@ -8,8 +8,9 @@
       </router-link>
     </div>
     <div id="project_select_wrapper">
-      <div id="project_select" class="border-b-sm">
+      <div class="project_select">
         <v-select
+          width="238px"
           :model-value="selectedProject"
           variant="outlined"
           density="comfortable"
@@ -17,6 +18,7 @@
           item-title="projectName"
           item-value="projectId"
           label="Select"
+          hide-details
           persistent-hint
           return-object
           single-line
@@ -123,11 +125,28 @@ const onChangeProject = value => {
   padding-left: 20px;
   background: $main-color;
   border-radius: 0 10px 10px 0;
+  font-size: 20px;
+  font-weight: 700;
   color: #fff;
 }
 
 #project_select_wrapper {
-  padding: 15px 25px 5px 25px;
+  width: 300px;
+  height: 88px;
+
+  .project_select {
+    padding: 24px 31px;
+  }
+  &::after {
+    content: '';
+    display: block;
+    width: 270px;
+    height: 0;
+    margin: 0 15px;
+    border-top: 1px solid $s-default--gray-5;
+    top: -1px;
+    position: relative;
+  }
 }
 
 .navi-inner-menu {
@@ -140,6 +159,7 @@ const onChangeProject = value => {
 }
 
 .navi-inner-menu-title {
+  font-weight: 300;
   text-decoration: none;
   color: black;
 }
@@ -169,17 +189,17 @@ const onChangeProject = value => {
         margin: 0;
 
         .v-list-item__content .v-list-item-title {
-          font-weight: 400;
+          font-weight: 300;
           font-size: 18px;
         }
       }
     }
 
-    ::v-deep(.v-list-group .v-list-group__items) .v-list-item {
+    ::v-deep(.v-list-group) .v-list-group__items .v-list-item {
       padding-inline: 5px !important;
       margin: 0;
       min-height: 40px;
-      font-weight: 400;
+      font-weight: 300;
 
       &:hover {
         border-radius: 100px !important;

@@ -1,39 +1,45 @@
 <template>
-  <s-sub-header
-    :show-cnt="false"
-    :title="`${$t('빌드 내역')} (${buildHistories?.length || 0})`"
-    class-name="sub-title"
-  />
-  <v-data-table :headers="buildHistoryHeader" :items="buildHistories" :items-per-page="itemsPerPage" :page="page">
-    <template #headers="{ columns }">
-      <tr class="tableHeader">
-        <template v-for="(header, idx) in columns" :key="idx">
-          <th :style="{ textAlign: header.align ? header.align : 'center' }">
-            {{ header.title }}
-          </th>
-        </template>
-      </tr>
-    </template>
-    <template #[`item.buildResult`]="{ item }">
-      <img v-if="item.buildResult === 'FAIL'" :alt="item.state" src="/public/devops/assets/images/icon_f.gif" />
-      <img v-else-if="item.buildResult === 'APPROVE'" :alt="item.state" src="/public/devops/assets/images/icon_s.gif" />
-      <template v-else>
-        {{ item.buildResult }}
+  <div class="form-wrapper">
+    <s-sub-header
+      :show-cnt="false"
+      :title="`${$t('빌드 내역')} (${buildHistories?.length || 0})`"
+      class-name="sub-title"
+    />
+    <v-data-table :headers="buildHistoryHeader" :items="buildHistories" :items-per-page="itemsPerPage" :page="page">
+      <template #headers="{ columns }">
+        <tr class="tableHeader">
+          <template v-for="(header, idx) in columns" :key="idx">
+            <th :style="{ textAlign: header.align ? header.align : 'center' }">
+              {{ header.title }}
+            </th>
+          </template>
+        </tr>
       </template>
-    </template>
-    <template #[`item.approveHistory`]="{ item }">
-      <!-- <v-icon
+      <template #[`item.buildResult`]="{ item }">
+        <img v-if="item.buildResult === 'FAIL'" :alt="item.state" src="/public/devops/assets/images/icon_f.gif" />
+        <img
+          v-else-if="item.buildResult === 'APPROVE'"
+          :alt="item.state"
+          src="/public/devops/assets/images/icon_s.gif"
+        />
+        <template v-else>
+          {{ item.buildResult }}
+        </template>
+      </template>
+      <template #[`item.approveHistory`]="{ item }">
+        <!-- <v-icon
         class="historyButton"
         icon="mdi-clipboard-outline"
       /> -->
-      <s-btn variant="outlined" :title="$t('상세보기')" @click="onClickHistoryDetail(item)" />
-    </template>
-    <template #bottom>
-      <div class="text-center pt-2">
-        <v-pagination v-model="page" :length="pageCnt" />
-      </div>
-    </template>
-  </v-data-table>
+        <s-btn variant="outlined" :title="$t('상세보기')" @click="onClickHistoryDetail(item)" />
+      </template>
+      <template #bottom>
+        <div class="text-center pt-2">
+          <v-pagination v-model="page" :length="pageCnt" />
+        </div>
+      </template>
+    </v-data-table>
+  </div>
 </template>
 <script setup>
 import { computed } from 'vue'

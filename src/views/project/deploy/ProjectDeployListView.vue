@@ -42,6 +42,10 @@ import { useI18n } from '@/_setting/i18n'
 import { useDeployStore } from '@/stores/devops/deploy'
 import { useProjectStore } from '@/stores/devops/project'
 
+const intervalGetBuildListTime = 60 * 1000
+
+const itemsPerPage = 5
+
 const page = ref(1)
 const search = ref('')
 const selected = ref([])
@@ -85,19 +89,23 @@ const deployStore = useDeployStore()
 const { deploies: items } = storeToRefs(deployStore)
 const { selectedProject } = storeToRefs(useProjectStore())
 
-const pageCnt = computed(() => Math.ceil(items.value.length / items.value))
+const pageCnt = computed(() => Math.ceil(items.value.length / itemsPerPage))
 
-const getDeployList = () => {
-  deployStore.getDeployList({
+const getDeployList = async () => {
+  await deployStore.getDeployList({
     projectId: selectedProject.value.projectId,
   })
+}
+const intervalGetBuildList = () => {
+  setTimeout(async () => {
+    await getDeployList()
+  }, intervalGetBuildListTime)
 }
 
 onMounted(() => {
   getDeployList()
+  intervalGetBuildList()
 })
 </script>
 
-<style scoped lang="scss">
-@import '@/assets/style/variables';
-</style>
+<style scoped lang="scss"></style>
