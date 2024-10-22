@@ -1,86 +1,91 @@
 <template>
   <div class="view-wrapper">
     <div class="form-wrapper">
-      <s-sub-header :show-cnt="false" :title="$t('기본 정보')" class-name="sub-title" />
-      <s-form-table>
-        <s-form-item :label="$t('빌드명')" name="buildName" required>
-          <v-text-field
-            v-model="buildName"
-            variant="outlined"
-            density="compact"
-            hide-details="auto"
-            :placeholder="$t('빌드명을 입력하세요')"
-          />
-          <s-btn height="30" @click="checkBuildNameDuplicate">
-            {{ $t('중복 체크') }}
-          </s-btn>
-        </s-form-item>
+      <vee-form ref="formRef" v-slot="{ values }" :validation-schema="buildSchema">
+        <s-sub-header :show-cnt="false" :title="$t('기본 정보')" class-name="sub-title" />
+        <s-form-table>
+          <s-form-item v-slot="{ errors, handleChange }" :label="$t('빌드명')" name="buildName" required>
+            <v-text-field
+              :model-value="values.buildName"
+              :error-messages="errors"
+              variant="outlined"
+              density="compact"
+              hide-details="auto"
+              :placeholder="$t('빌드명을 입력하세요')"
+              @update:model-value="handleChange"
+            />
+            <s-btn height="30" @click="checkBuildNameDuplicate">
+              {{ $t('중복 체크') }}
+            </s-btn>
+          </s-form-item>
 
-        <s-form-item :label="$t('브랜치')" name="branch">
-          <!-- <v-text-field
+          <s-form-item v-slot="{ errors, handleChange }" :label="$t('브랜치')" name="branch">
+            <!-- <v-text-field
           variant="outlined"
           density="compact"
           hide-details="auto"
           :placeholder="$t('브랜치 선택 select')"
         /> -->
-          <v-select
-            v-model="selectedBranch"
-            :items="defaultBranchs"
-            :placeholder="$t('브랜치 선택')"
-            variant="outlined"
-            density="compact"
-            hide-details="auto"
-            item-title="branchName"
-            item-value="stageCd"
-            @update:model-value="onChangeInputRelevantPipeline"
-          />
-        </s-form-item>
-        <s-form-item :label="$t('빌드 승인 프로세스')" name="templateId">
-          <v-select
-            v-model="selectedFlow"
-            :items="smcFlows"
-            variant="outlined"
-            density="compact"
-            hide-details="auto"
-            item-title="flowName"
-            item-value="flowId"
-            :placeholder="$t('빌드 승인 프로세스 선택')"
-          />
-        </s-form-item>
-        <s-form-item :label="$t('패키지 유형')" name="templateId">
-          <!-- {{ '패키지 유형 ex Container Image' }}packageTypes -->
-          <v-select
-            v-model="selectedPackageTypeCode"
-            :disabled="!!selectedProject.packageCd"
-            :items="packageTypes"
-            variant="outlined"
-            density="compact"
-            hide-details="auto"
-            item-title="codeName"
-            item-value="commonCd"
-            @change="onChangeInputRelevantPipeline"
-          />
-        </s-form-item>
-      </s-form-table>
-      <s-sub-header :show-cnt="false" :title="$t('컨테이너 빌드 정보')" class-name="sub-title" />
-      <s-form-table>
-        <s-form-item :label="$t('Application 포트')" name="templateId">
-          <v-text-field
-            variant="outlined"
-            density="compact"
-            hide-details="auto"
-            :placeholder="$t('Application 포트를 입력하세요(숫자만 입력 가능)')"
-          />
-        </s-form-item>
-        <s-form-item :label="$t('Application 설치 경로')" name="templateId">
-          <v-text-field
-            variant="outlined"
-            density="compact"
-            hide-details="auto"
-            :placeholder="$t('Application 설치 경로를 입력하세요')"
-          />
-        </s-form-item>
-      </s-form-table>
+            <v-select
+              v-mode="values.branch"
+              :error-messages="errors"
+              :items="defaultBranchs"
+              :placeholder="$t('브랜치 선택')"
+              variant="outlined"
+              density="compact"
+              hide-details="auto"
+              item-title="branchName"
+              item-value="stageCd"
+              @update:model-value="onChangeInputRelevantPipeline"
+            />
+          </s-form-item>
+          <s-form-item :label="$t('빌드 승인 프로세스')" name="templateId">
+            <v-select
+              v-model="selectedFlow"
+              :items="smcFlows"
+              variant="outlined"
+              density="compact"
+              hide-details="auto"
+              item-title="flowName"
+              item-value="flowId"
+              :placeholder="$t('빌드 승인 프로세스 선택')"
+            />
+          </s-form-item>
+          <s-form-item :label="$t('패키지 유형')" name="templateId">
+            <!-- {{ '패키지 유형 ex Container Image' }}packageTypes -->
+            <v-select
+              v-model="selectedPackageTypeCode"
+              :disabled="!!selectedProject.packageCd"
+              :items="packageTypes"
+              variant="outlined"
+              density="compact"
+              hide-details="auto"
+              item-title="codeName"
+              item-value="commonCd"
+              @change="onChangeInputRelevantPipeline"
+            />
+          </s-form-item>
+        </s-form-table>
+        <s-sub-header :show-cnt="false" :title="$t('컨테이너 빌드 정보')" class-name="sub-title" />
+        <s-form-table>
+          <s-form-item :label="$t('Application 포트')" name="templateId">
+            <v-text-field
+              variant="outlined"
+              density="compact"
+              hide-details="auto"
+              :placeholder="$t('Application 포트를 입력하세요(숫자만 입력 가능)')"
+            />
+          </s-form-item>
+          <s-form-item :label="$t('Application 설치 경로')" name="templateId">
+            <v-text-field
+              variant="outlined"
+              density="compact"
+              hide-details="auto"
+              :placeholder="$t('Application 설치 경로를 입력하세요')"
+            />
+          </s-form-item>
+        </s-form-table>
+      </vee-form>
     </div>
     <div class="form-wrapper">
       <s-sub-header :show-cnt="false" :title="$t('파이프라인 정보')" class-name="sub-title" />
@@ -121,10 +126,10 @@
       </s-form-table>
     </div>
     <div class="mt-3 text-align-center">
-      <s-btn height="30" class="mr-2">
+      <s-btn height="30" class="mr-2" @click="onClickSave">
         {{ $t('저장') }}
       </s-btn>
-      <s-btn height="30" variant="outlined">
+      <s-btn height="30" variant="outlined" @click="onClickCancel">
         {{ $t('취소') }}
       </s-btn>
     </div>
@@ -143,6 +148,8 @@ import { useI18n } from '@/_setting/i18n'
 import AccordionMenuComponent from '@/components/_common/AccordionMenuComponent.vue'
 import { useDevOpsCommonStore } from '@/stores/devops/common'
 import { useSonarqubeStore } from '@/stores/devops/sonarqube'
+import * as yup from 'yup'
+import { Form as VeeForm } from 'vee-validate'
 
 const { tt } = useI18n()
 const buildName = ref('')
@@ -158,13 +165,18 @@ const { smcFlows } = storeToRefs(smcStore)
 const { selectedProject } = storeToRefs(projectSotre)
 const { rules } = storeToRefs(sonarqubeStore)
 
+const buildSchema = yup.object({
+  //buildName
+  buildName: yup.string().label(tt('빌드명')).required(),
+  branch: yup.string().label(tt('브랜치')).required(),
+})
+
+const formRef = ref()
 const packageTypes = ref([])
 const commonPipeLineSteps = ref([])
-
 const selectedBranch = ref()
 const selectedFlow = ref()
 const selectedPackageTypeCode = ref()
-
 const isDuplicatedName = ref(true) //이름 중복체크 결과
 
 //const selectedPackageTypeCode = ref(selectedProject.value.packageCd ? selectedProject.value.packageCd : 'DOCKER_IMAGE')
@@ -250,6 +262,25 @@ const getDefaultPackages = async () => {
 const getSonarqubeRules = async () => {
   const reqBody = { buildCd: selectedProject.value.buildCd, serviceGroupId: selectedProject.value.serviceGroupId }
   await sonarqubeStore.getSonarqubeRules(reqBody)
+}
+const onClickSave = async () => {
+  const { valid, errors } = await formRef.value.validate()
+  if (valid) {
+    alertStore.openSuccessAlert('성공')
+  } else if (errors) {
+    let message = ''
+    const keys = Object.keys(errors)
+    for (const idx in keys) {
+      message += errors[keys[idx]]
+    }
+    alertStore.openErrorAlert(message)
+  }
+  // console.error('valid : ', valid)
+  // console.error('errors : ', errors)
+}
+
+const onClickCancel = () => {
+  alertStore.openDefaultAlert('onClickCancel')
 }
 
 onMounted(async () => {

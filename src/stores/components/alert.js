@@ -28,6 +28,38 @@ export const useAlertStore = defineStore('alert', () => {
     }
   }
 
+  function openSuccessAlert(titleName) {
+    const attrs = {
+      titleName,
+      type: 'success',
+    }
+    openAlert(attrs)
+  }
+
+  function openErrorAlert(titleName) {
+    const attrs = {
+      titleName,
+      type: 'error',
+    }
+    openAlert(attrs)
+  }
+
+  function openWarnAlert(titleName) {
+    const attrs = {
+      titleName,
+      type: 'warn',
+    }
+    openAlert(attrs)
+  }
+
+  function openDefaultAlert(titleName) {
+    const attrs = {
+      titleName,
+      type: 'default',
+    }
+    openAlert(attrs)
+  }
+
   function openAlert(attrs) {
     showAlert.value = false
     if (attrs) {
@@ -54,5 +86,15 @@ export const useAlertStore = defineStore('alert', () => {
     }
   }
 
-  return { alertAttrs, showAlert, openAlert, closeAlert, alertItemStack }
+  return {
+    alertAttrs,
+    showAlert,
+    openAlert,
+    closeAlert,
+    alertItemStack,
+    openSuccessAlert,
+    openErrorAlert,
+    openWarnAlert,
+    openDefaultAlert,
+  }
 })
