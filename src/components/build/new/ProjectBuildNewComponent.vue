@@ -80,16 +80,38 @@
     </s-form-table>
     <s-sub-header :show-cnt="false" :title="$t('파이프라인 정보')" class-name="sub-title" />
     <div class="position-relative">
-      <s-btn class="position-absolute create-script-button">
+      <s-btn class="position-absolute create-script-button" @click="onClickNewScript">
         {{ $t('스크립트 생성') }}
       </s-btn>
     </div>
     <s-form-table>
       <v-row>
         <v-col cols="10">
-          <script-editor v-model="script" :height="400" class="mt-2" />
+          <template v-if="!pipeLines.length">
+            <div>{{ tt('스크립트를 생성해주세요') }}</div>
+          </template>
+          <template v-for="(pipeLineScript, idx) in pipeLines" :key="idx">
+            <div>{{ pipeLineScript.pipelineCd }}</div>
+            <script-editor v-model="pipeLineScript.pipelineScript" :height="400" class="mt-2" />
+          </template>
         </v-col>
-        <v-col cols="2" />
+        <v-col cols="2">
+          <accordion-menu-component
+            v-for="pipeline in commonPipeLineSteps"
+            :key="pipeline.commonCd"
+            class="ml-2"
+            :title="pipeline.commonCd"
+          >
+            <v-item-list
+              v-for="(pipelineScript, idx) in pipeline.scripts"
+              :key="idx"
+              class="cursor-pointer"
+              @click="onClickAddPipeLine(pipelineScript)"
+            >
+              {{ pipelineScript.pipelineName }}
+            </v-item-list>
+          </accordion-menu-component>
+        </v-col>
       </v-row>
     </s-form-table>
     <div class="mt-3 text-align-center">
@@ -112,12 +134,16 @@ import ScriptEditor from '@/components/_common/editor/ScriptEditor.vue'
 import { useBuildStore } from '@/stores/devops/build'
 import { useAlertStore } from '@/stores/components/alert'
 import { useI18n } from '@/_setting/i18n'
+import AccordionMenuComponent from '@/components/_common/AccordionMenuComponent.vue'
+import { useDevOpsCommonStore } from '@/stores/devops/common'
+
 const { tt } = useI18n()
 const buildName = ref('')
 const smcStore = useSmcStore()
 const projectSotre = useProjectStore()
 const alertStore = useAlertStore()
 const buildStore = useBuildStore()
+const commonStore = useDevOpsCommonStore()
 const branchs = ref(['stage', 'dev', 'master'])
 const packageTypes = ref([
   { name: 'Container Image', code: 'DOCKER_IMAGE' },
@@ -125,11 +151,15 @@ const packageTypes = ref([
 ])
 const selectedBranch = ref()
 const selectedFlow = ref()
+const commonPipeLineSteps = ref([])
 const { smcFlows } = storeToRefs(smcStore)
 const { selectedProject } = storeToRefs(projectSotre)
 const script = ref('')
 const isDuplicatedName = ref(true) //이름 중복체크 결과
 const selectedPackageTypeCode = ref(selectedProject.value.packageCd ? selectedProject.value.packageCd : 'DOCKER_IMAGE')
+//스크립트 생성 누를떄 출력할 스크립트
+const { buildDefaultJenkinsPipelines } = storeToRefs(buildStore)
+const pipeLines = ref([])
 
 const getSmcFlows = async () => {
   if (selectedProject.value && selectedProject.value.projectId) {
@@ -140,12 +170,28 @@ const getSmcFlows = async () => {
   }
 }
 
-const onChangeInputRelevantPipeline = () => {
+const onChangeInputRelevantPipeline = async () => {
   if (selectedBranch.value && buildName.value && selectedPackageTypeCode.value && !isDuplicatedName.value) {
-    getDefaultPipeList()
+    await getCommonPipeLine()
+    await getDefaultPipeLine()
+    getCommonPipeLineScripts()
   }
 }
-const getDefaultPipeList = async () => {
+
+const getCommonPipeLineScripts = async () => {
+  const reqParam = {
+    projectId: selectedProject.value.projectId,
+    branch: selectedBranch.value,
+  }
+  for (const idx in commonPipeLineSteps.value) {
+    const scripts = await buildStore.getBuildJenkinsPipeLine(commonPipeLineSteps.value[idx].commonCd, reqParam)
+    commonPipeLineSteps.value[idx].scripts = scripts
+  }
+}
+const getCommonPipeLine = async () => {
+  commonPipeLineSteps.value = await commonStore.getCommonGroups('pipeline')
+}
+const getDefaultPipeLine = async () => {
   const params = {
     projectId: selectedProject.value.projectId,
     buildName: buildName.value,
@@ -168,6 +214,19 @@ const checkBuildNameDuplicate = async () => {
   } else {
     alertStore.openAlert({ titleName: tt('중복된 이름 입니다') })
   }
+}
+
+const onClickNewScript = () => {
+  pipeLines.value = [...buildDefaultJenkinsPipelines.value]
+}
+
+const onClickAddPipeLine = pipelineScript => {
+  if (!pipeLines.value.length) return alertStore.openAlert({ titleName: tt('스크립트를 생성 해 주세요') })
+  const tempPipeLine = {
+    pipelineScript: pipelineScript.pipelineScript,
+    pipelineCd: pipelineScript.pipelineCd,
+  }
+  pipeLines.value.splice(pipeLines.value.length - 1, 0, tempPipeLine)
 }
 
 onMounted(() => {

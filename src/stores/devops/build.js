@@ -9,6 +9,7 @@ import {
   BUILD_$BUILDID_RUN,
   BUILD_JENKINS_PIPELINE_DEFAULT,
   BUILD_NAME_DUPLICATE,
+  BUILD_JENKINS_PIPELINE_$PIPELINECD,
 } from '@/assets/consts/api/devops/build'
 import { resolvePathVariable } from '@/assets/consts/utils/string'
 
@@ -70,6 +71,13 @@ export const useBuildStore = defineStore('build', () => {
     buildDefaultJenkinsPipelines.value = data?.data || []
     return buildDefaultJenkinsPipelines.value
   }
+
+  const getBuildJenkinsPipeLine = async (pipelineCd, params) => {
+    const { data } = await axios.get(resolvePathVariable(BUILD_JENKINS_PIPELINE_$PIPELINECD, { pipelineCd }), {
+      params,
+    })
+    return data?.data
+  }
   //BUILD_NAME_DUPLICATE
   const getBuildNameDuplicate = async params => {
     const { data } = await axios.get(BUILD_NAME_DUPLICATE, { params })
@@ -95,5 +103,6 @@ export const useBuildStore = defineStore('build', () => {
     getBuildJenkinsPipelineDefault,
     getBuildNameDuplicate,
     buildDefaultJenkinsPipelines,
+    getBuildJenkinsPipeLine,
   }
 })
