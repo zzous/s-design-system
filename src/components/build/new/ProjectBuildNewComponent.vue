@@ -24,11 +24,13 @@
         /> -->
         <v-select
           v-model="selectedBranch"
-          :items="branchs"
+          :items="defaultBranchs"
           :placeholder="$t('브랜치 선택')"
           variant="outlined"
           density="compact"
           hide-details="auto"
+          item-title="branchName"
+          item-value="stageCd"
           @update:model-value="onChangeInputRelevantPipeline"
         />
       </s-form-item>
@@ -53,8 +55,8 @@
           variant="outlined"
           density="compact"
           hide-details="auto"
-          item-title="name"
-          item-value="code"
+          item-title="codeName"
+          item-value="commonCd"
           @change="onChangeInputRelevantPipeline"
         />
       </s-form-item>
@@ -136,6 +138,7 @@ import { useAlertStore } from '@/stores/components/alert'
 import { useI18n } from '@/_setting/i18n'
 import AccordionMenuComponent from '@/components/_common/AccordionMenuComponent.vue'
 import { useDevOpsCommonStore } from '@/stores/devops/common'
+import { useSonarqubeStore } from '@/stores/devops/sonarqube'
 
 const { tt } = useI18n()
 const buildName = ref('')
@@ -144,19 +147,23 @@ const projectSotre = useProjectStore()
 const alertStore = useAlertStore()
 const buildStore = useBuildStore()
 const commonStore = useDevOpsCommonStore()
-const branchs = ref(['stage', 'dev', 'master'])
-const packageTypes = ref([
-  { name: 'Container Image', code: 'DOCKER_IMAGE' },
-  { name: 'WAR', code: 'WAR' },
-])
-const selectedBranch = ref()
-const selectedFlow = ref()
-const commonPipeLineSteps = ref([])
+const sonarqubeStore = useSonarqubeStore()
+
+const { defaultBranchs } = storeToRefs(commonStore)
 const { smcFlows } = storeToRefs(smcStore)
 const { selectedProject } = storeToRefs(projectSotre)
-const script = ref('')
+const { rules } = storeToRefs(sonarqubeStore)
+
+const packageTypes = ref([])
+const commonPipeLineSteps = ref([])
+
+const selectedBranch = ref()
+const selectedFlow = ref()
+const selectedPackageTypeCode = ref()
+
 const isDuplicatedName = ref(true) //이름 중복체크 결과
-const selectedPackageTypeCode = ref(selectedProject.value.packageCd ? selectedProject.value.packageCd : 'DOCKER_IMAGE')
+
+//const selectedPackageTypeCode = ref(selectedProject.value.packageCd ? selectedProject.value.packageCd : 'DOCKER_IMAGE')
 //스크립트 생성 누를떄 출력할 스크립트
 const { buildDefaultJenkinsPipelines } = storeToRefs(buildStore)
 const pipeLines = ref([])
@@ -229,8 +236,23 @@ const onClickAddPipeLine = pipelineScript => {
   pipeLines.value.splice(pipeLines.value.length - 1, 0, tempPipeLine)
 }
 
-onMounted(() => {
+const getDefaultPackages = async () => {
+  const packages = await commonStore.getCommonGroups('Package')
+  selectedPackageTypeCode.value = selectedProject.value.packageCd
+    ? selectedProject.value.packageCd
+    : packages[0].commonCd
+  packageTypes.value = packages
+}
+const getSonarqubeRules = async () => {
+  const reqBody = { buildCd: selectedProject.value.buildCd, serviceGroupId: selectedProject.value.serviceGroupId }
+  await sonarqubeStore.getSonarqubeRules(reqBody)
+}
+
+onMounted(async () => {
   getSmcFlows()
+  getSonarqubeRules()
+  await getDefaultPackages()
+  await commonStore.getCommonBranchList()
 })
 </script>
 <style lang="scss" scoped>
