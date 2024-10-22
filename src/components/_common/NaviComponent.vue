@@ -10,7 +10,7 @@
     <div id="project_select_wrapper">
       <div id="project_select" class="border-b-sm">
         <v-select
-          v-model="selectedProject"
+          :model-value="selectedProject"
           variant="outlined"
           density="comfortable"
           :items="totalProjectList"
@@ -24,12 +24,12 @@
         />
       </div>
     </div>
-    <div v-if="filteredMenu && filteredMenu.subMenus && filteredMenu.subMenus.length" id="menu_wrapper">
+    <div v-if="menuPaths && menuPaths.subMenus && menuPaths.subMenus.length" id="menu_wrapper">
       <v-list v-model:opened="open" class="navi-menu">
-        <v-list-group v-for="menu in filteredMenu.subMenus" :key="menu.idx" :value="menu.idx">
-          <template #activator="{ props }">
+        <v-list-group v-for="menu in menuPaths.subMenus" :key="menu.idx" :value="menu.idx">
+          <template #activator="{ props: itemProps }">
             <v-list-item
-              v-bind="props"
+              v-bind="itemProps"
               height="50px"
               active-class="menu-active"
               :title="menu.menuNameKr"
@@ -62,25 +62,29 @@
 </template>
 
 <script setup>
-//import { NAVI_MENU } from '@/assets/consts/consts'
-import { useProjectStore } from '@/stores/devops/project'
-import { useMenuStore } from '@/stores/portal/menu'
-import { storeToRefs } from 'pinia'
 import { ref, computed } from 'vue'
-import { LOCALSTORAGE_KEY } from '@/assets/consts/consts'
 const defaultProject = { projectName: '전체', projectId: 0 }
 const onClickMenuItem = () => {
   open.value = !open.value.length ? open.value : open.value.splice(open.value.length - 1, 1)
 }
-const menuStore = useMenuStore()
-const projectStore = useProjectStore()
-const { projects: projectList, selectedProject } = storeToRefs(projectStore)
-const { menuPaths } = storeToRefs(menuStore)
-const filteredMenu = computed(() =>
-  menuPaths.value.find(({ clientId }) => {
-    return clientId === 'strato-devops'
-  }),
-)
+
+const props = defineProps({
+  projectList: {
+    type: Array,
+    default: () => [],
+  },
+  selectedProject: {
+    type: Object,
+    default: () => {},
+  },
+  menuPaths: {
+    type: Array,
+    default: () => [],
+  },
+})
+
+const emits = defineEmits(['change:project'])
+
 const open = ref([]) //활성화할 메뉴의 value
 //프로젝트가 있으면 가져오고 없으면 전체로
 // const projectList = ref([
@@ -89,11 +93,11 @@ const open = ref([]) //활성화할 메뉴의 value
 //   { name: '프로젝트2', value: 'projcet-2' },
 //   { name: '프로젝트3', value: 'projcet-3' }
 // ])
-const totalProjectList = computed(() => [{ ...defaultProject }, ...projectList.value])
+const totalProjectList = computed(() => [{ ...defaultProject }, ...props.projectList])
 
-const onChangeProject = () => {
+const onChangeProject = value => {
   //프로젝트가 바뀔 때 로컬 스토리지에 저장
-  localStorage.setItem(LOCALSTORAGE_KEY.PROJECT_ID, JSON.stringify(selectedProject.value))
+  emits('change:project', value)
 }
 </script>
 

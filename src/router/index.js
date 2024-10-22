@@ -27,33 +27,6 @@ const router = createRouter({
       path: '/console',
       children: [...projectRouter],
     },
-    /*//build
-    {
-      path: '/serviceGroups/:serviceGroupId/console/projects/:projectId/builds',
-      name: 'projectBuildList',
-      component: () => import('@/views/project/build/ProjectBuildListView.vue')
-    },
-    {
-      path: '/serviceGroups/:serviceGroupId/console/projects/:projectId/builds/new',
-      name: 'projectNewBuild',
-      component: () => import('@/views/project/build/NewBuildView.vue')
-    },
-    {
-      path: '/serviceGroups/:serviceGroupId/console/projects/:projectId/builds/detail/:buildId',
-      name: 'projectBuildDetail',
-      component: () => import('@/views/project/build/ProjectBuildDetailView.vue')
-    },
-    //deploy
-    {
-      path: '/serviceGroups/:serviceGroupId/console/projects/:projectId/deploy',
-      name: 'projectDeployList',
-      component: () => import('@/views/project/deploy/DeployListView.vue')
-    },
-    {
-      path: '/serviceGroups/:serviceGroupId/console/projects/:projectId/deploy/new',
-      name: 'projectNewDeploy',
-      component: () => import('@/views/project/deploy/NewDeployView.vue')
-    }*/
   ],
 })
 

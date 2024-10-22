@@ -33,7 +33,12 @@
       </template>
     </header-component>
     <div class="show-header">
-      <navi-component />
+      <navi-component
+        :menu-paths="filteredMenu"
+        :project-list="projectList"
+        :selected-project="selectedProject"
+        @change:project="onChangeProject"
+      />
       <div class="base-layout">
         <div class="show-navi">
           <router-view v-slot="{ Component }">
@@ -41,8 +46,8 @@
           </router-view>
         </div>
         <footer-component />
+        <global-progress v-model="loading" />
       </div>
-      <global-progress v-model="loading" />
     </div>
     <teleport to="#destination">
       <template v-for="(alert, index) in alertItemStack" :key="alert.uuid">
@@ -70,6 +75,8 @@ import { useDevOpsServiceGroupStore } from '@/stores/devops/service-group'
 import { useAlertStore } from '@/stores/components/alert'
 import { useMenuStore } from '@/stores/portal/menu'
 import { useLoadingStore } from '@/stores/components/loading'
+import { useProjectStore } from '@/stores/devops/project'
+import { LOCALSTORAGE_KEY } from '@/assets/consts/consts'
 
 import HeaderComponent from '@/components/_common/RootHeaderComponent.vue'
 import FooterComponent from '@/components/_common/FooterComponent.vue'
@@ -79,6 +86,8 @@ import StoreConfirmComponent from '@/components/_common/modal/StoreConfirmCompon
 import GlobalProgress from '../_common/progress/GlobalProgressComponent.vue'
 import { useI18n } from '@/_setting/i18n'
 
+const projectStore = useProjectStore()
+const { projects: projectList, selectedProject } = storeToRefs(projectStore)
 const router = useRouter()
 const tokenStore = useTokenStore()
 const userStore = useUserStore()
@@ -88,7 +97,7 @@ const menuStore = useMenuStore()
 
 const loadingStore = useLoadingStore()
 const { loading } = storeToRefs(loadingStore)
-const { serviceMenus } = storeToRefs(menuStore)
+const { serviceMenus, menuPaths } = storeToRefs(menuStore)
 const { t } = useI18n()
 
 const { isLoggedIn, userInfo } = storeToRefs(userStore)
@@ -108,6 +117,18 @@ const userInfoTrans = computed(() => {
     name: userInfo.value?.usernameKr,
   }
 })
+
+const filteredMenu = computed(() =>
+  menuPaths.value.find(({ clientId }) => {
+    return clientId === 'strato-devops'
+  }),
+)
+
+const onChangeProject = value => {
+  selectedProject.value = value
+  //프로젝트가 바뀔 때 로컬 스토리지에 저장
+  localStorage.setItem(LOCALSTORAGE_KEY.PROJECT_ID, JSON.stringify(selectedProject.value))
+}
 
 const closeAlert = index => {
   alertStore.closeAlert(index)

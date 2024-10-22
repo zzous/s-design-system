@@ -155,7 +155,7 @@
             hide-details="auto"
             item-title="commonCd"
             item-value="commonCd"
-            :items="groupJdkVersions"
+            :items="jdkVersions"
             :placeholder="$t('JDK 버전을 선택해주세요')"
             :error-messages="errors"
             @update:model-value="handleChange"
@@ -189,11 +189,13 @@ const isDuplicateProjectName = ref(false)
 
 const { tt } = useI18n()
 const commonStore = useDevOpsCommonStore()
-const { projectTemplates, groupJdkVersions } = storeToRefs(commonStore)
+const { projectTemplates } = storeToRefs(commonStore)
 const sgStore = useDevOpsServiceGroupStore()
 const { serviceGroupId } = storeToRefs(sgStore)
 const projectStore = useProjectStore()
 const alertStore = useAlertStore()
+
+const jdkVersions = ref([])
 
 const schema = yup.object({
   templateId: yup.string().label(tt('템플릿')).required(),
@@ -357,11 +359,20 @@ const deleteSelected = (targetKey, index) => {
   updateSelected(targetKey, targetList)
 }
 
+const getJenkinsVersions = async () => {
+  try {
+    const result = await commonStore.getCommonGroups('jdkversion')
+    jdkVersions.value = result
+  } catch (e) {
+    console.log(e)
+  }
+}
+
 defineExpose({ validate, submit })
 
 onMounted(async () => {
   await commonStore.getProjectTemplates()
-  commonStore.getGroupJdkVersions()
+  getJenkinsVersions()
 })
 </script>
 

@@ -6,7 +6,6 @@ import { COMMON_PROJECT_TEMPLATE_LIST, COMMON_GROUP_$COMMONGROUPCD } from '@/ass
 
 export const useDevOpsCommonStore = defineStore('devops-common', () => {
   const projectTemplates = ref([])
-  const groupJdkVersions = ref([])
 
   const getProjectTemplates = async () => {
     projectTemplates.value = []
@@ -15,16 +14,14 @@ export const useDevOpsCommonStore = defineStore('devops-common', () => {
     projectTemplates.value = data?.data || []
   }
 
-  const getGroupJdkVersions = async () => {
-    groupJdkVersions.value = []
-    const { data } = await axios.get(COMMON_GROUP_$COMMONGROUPCD.replace('{commonGroupCd}', 'jdkversion'))
-    groupJdkVersions.value = data.data || []
+  const getCommonGroups = async commonGroupCd => {
+    const { data } = await axios.get(COMMON_GROUP_$COMMONGROUPCD.replace('{commonGroupCd}', commonGroupCd))
+    return data.data || []
   }
 
   return {
     projectTemplates,
     getProjectTemplates,
-    groupJdkVersions,
-    getGroupJdkVersions,
+    getCommonGroups,
   }
 })

@@ -1,8 +1,8 @@
 <template>
   <div class="view-wrapper">
     <s-sub-header :title="$t('배포 목록')" :list-cnt="items.length">
-      <s-btn variant="outlined" color="red" :title="$t('삭제')" />
-      <s-btn variant="outlined" :title="$t('배포')" />
+      <s-btn variant="outlined" color="red" :title="$t('삭제')" :disabled="selected.length !== 1" />
+      <s-btn variant="outlined" :title="$t('배포')" :disabled="selected.length !== 1" />
       <s-btn variant="outlined" :title="$t('생성')" />
     </s-sub-header>
     <div class="layout__list-contents">
