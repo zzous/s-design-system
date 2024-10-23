@@ -14,7 +14,7 @@
               :placeholder="$t('빌드명을 입력하세요')"
               @update:model-value="handleChange"
             />
-            <s-btn height="30" @click="checkBuildNameDuplicate">
+            <s-btn height="30" variant="outlined" @click="checkBuildNameDuplicate">
               {{ $t('중복 체크') }}
             </s-btn>
           </s-form-item>
@@ -88,12 +88,11 @@
       </vee-form>
     </div>
     <div class="form-wrapper">
-      <s-sub-header :show-cnt="false" :title="$t('파이프라인 정보')" class-name="sub-title" />
-      <div class="position-relative">
-        <s-btn class="position-absolute create-script-button" @click="onClickNewScript">
+      <s-sub-header :show-cnt="false" :title="$t('파이프라인 정보')" class-name="sub-title">
+        <s-btn color="black" height="30" @click="onClickNewScript">
           {{ $t('스크립트 생성') }}
         </s-btn>
-      </div>
+      </s-sub-header>
       <s-form-table>
         <v-row>
           <v-col cols="10">

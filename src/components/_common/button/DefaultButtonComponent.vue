@@ -58,6 +58,10 @@ a.s-btn {
       background: $s-btn--red-1;
       color: white;
     }
+    &[s-color='black'] {
+      background: black;
+      color: white;
+    }
   }
 
   &.v-btn--variant-outlined {

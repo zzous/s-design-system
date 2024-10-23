@@ -126,7 +126,11 @@ const onUpdateModalValue = value => {
   }
 
   &.md {
-    width: 960px;
+    width: 1000px;
+
+    ::v-deep(.s-form__item-content-item) {
+      min-width: 618px;
+    }
   }
 
   &.sm {
@@ -171,7 +175,8 @@ const onUpdateModalValue = value => {
   }
 
   .s-modal__content {
-    padding: 20px;
+    scrollbar-gutter: stable both-edges;
+    padding: 20px 10px;
     max-height: 700px;
     @include scroll();
     overflow-y: auto;

@@ -51,7 +51,7 @@ const emits = defineEmits(['update:model-value', 'update:mode', 'refresh'])
 
 const modal = reactive({
   show: false,
-  size: 'lg',
+  size: 'md',
   title: '',
   component: null,
   type: '',

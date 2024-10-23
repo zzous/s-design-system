@@ -37,7 +37,7 @@
               @update:model-value="handleChange"
               @input="isDuplicateProjectName = true"
             />
-            <s-btn height="30" :disabled="!isDuplicateProjectName" @click="checkDuplicate">
+            <s-btn height="30" variant="outlined" :disabled="!isDuplicateProjectName" @click="checkDuplicate">
               {{ $t('중복 체크') }}
             </s-btn>
           </s-form-item>

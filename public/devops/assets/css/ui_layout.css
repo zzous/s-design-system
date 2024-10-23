@@ -108,7 +108,7 @@ padding: 2px; border-radius:50%;}
 .s-form__item-label{background:#F7F9FA; flex:0 0 170px; display: flex; align-items: center;padding-left:20px;}
 .s-form__item-label .required{color: red; margin-left:3px; position: relative; top:-2px;}
 .s-form__item-label > span{font-size:12px; color:#333; font-weight:700;}
-.s-form__item-content{display: flex; align-items: center; padding:8px 20px; font-size:12px; color:#333;}
+.s-form__item-content{display: flex; align-items: center; padding:8px 10px 8px 20px; font-size:12px; color:#333;}
 
 .s-form__item-content .v-file-input .v-field--appended { padding-inline-end: 0;}
 

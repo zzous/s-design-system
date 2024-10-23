@@ -40,6 +40,18 @@ const props = defineProps({
   .s-form__item-content-item {
     display: flex;
     gap: 10px;
+
+    ::v-deep(.v-text-field) {
+      min-width: 618px;
+
+      &.v-select {
+        min-width: 618px;
+      }
+    }
+
+    ::v-deep(.s-btn) {
+      width: 112px;
+    }
   }
 
   .s-form__item-outer-append {

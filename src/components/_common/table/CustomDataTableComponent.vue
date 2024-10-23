@@ -541,6 +541,8 @@ onMounted(() => {
 
 <style lang="scss" scoped>
 .s-data-table {
+  border-radius: 0;
+
   ::v-deep(th.v-data-table__th) {
     --v-table-header-height: 36px;
     font-weight: 600;

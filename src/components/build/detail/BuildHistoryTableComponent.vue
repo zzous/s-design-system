@@ -5,16 +5,7 @@
       :title="`${$t('빌드 내역')} (${buildHistories?.length || 0})`"
       class-name="sub-title"
     />
-    <v-data-table :headers="buildHistoryHeader" :items="buildHistories" :items-per-page="itemsPerPage" :page="page">
-      <template #headers="{ columns }">
-        <tr class="tableHeader">
-          <template v-for="(header, idx) in columns" :key="idx">
-            <th :style="{ textAlign: header.align ? header.align : 'center' }">
-              {{ header.title }}
-            </th>
-          </template>
-        </tr>
-      </template>
+    <s-data-table :headers="buildHistoryHeader" :items="buildHistories" :items-per-page="itemsPerPage" :page="page">
       <template #[`item.buildResult`]="{ item }">
         <img v-if="item.buildResult === 'FAIL'" :alt="item.state" src="/public/devops/assets/images/icon_f.gif" />
         <img
@@ -31,14 +22,14 @@
         class="historyButton"
         icon="mdi-clipboard-outline"
       /> -->
-        <s-btn variant="outlined" :title="$t('상세보기')" @click="onClickHistoryDetail(item)" />
+        <s-btn variant="outlined" :title="$t('상세보기')" height="30" width="100" @click="onClickHistoryDetail(item)" />
       </template>
       <template #bottom>
         <div class="text-center pt-2">
           <v-pagination v-model="page" :length="pageCnt" />
         </div>
       </template>
-    </v-data-table>
+    </s-data-table>
   </div>
 </template>
 <script setup>
