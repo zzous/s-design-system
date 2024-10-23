@@ -76,7 +76,6 @@ import { useAlertStore } from '@/stores/components/alert'
 import { useMenuStore } from '@/stores/portal/menu'
 import { useLoadingStore } from '@/stores/components/loading'
 import { useProjectStore } from '@/stores/devops/project'
-import { LOCALSTORAGE_KEY } from '@/assets/consts/consts'
 
 import HeaderComponent from '@/components/_common/RootHeaderComponent.vue'
 import FooterComponent from '@/components/_common/FooterComponent.vue'
@@ -125,9 +124,8 @@ const filteredMenu = computed(() =>
 )
 
 const onChangeProject = value => {
-  selectedProject.value = value
   //프로젝트가 바뀔 때 로컬 스토리지에 저장
-  localStorage.setItem(LOCALSTORAGE_KEY.PROJECT_ID, JSON.stringify(selectedProject.value))
+  projectStore.setProject(value)
 }
 
 const closeAlert = index => {

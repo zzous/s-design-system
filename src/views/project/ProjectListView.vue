@@ -48,22 +48,22 @@
             <v-icon class="ml-1" size="small" @click="onClickDetail(item)">mdi-open-in-new</v-icon>
           </template>
           <template #[`item.buildCount`]="{ item }">
-            <a :href="goto('build', item)" class="table-link">
+            <a href="#" class="table-link" @click.prevent.stop="goto('build', item)">
               {{ item.buildCount }}
             </a>
           </template>
           <template #[`item.deployCount`]="{ item }">
-            <a :href="goto('deploy', item)" class="table-link">
+            <a href="#" class="table-link" @click.prevent.stop="goto('deploy', item)">
               {{ item.deployCount }}
             </a>
           </template>
           <template #[`item.userCount`]="{ item }">
-            <a :href="goto('user', item)" class="table-link">
+            <a href="#" class="table-link" @click.prevent.stop="goto('user', item)">
               {{ item.userCount }}
             </a>
           </template>
           <template #[`item.repo`]="{ item }">
-            <a :href="goto('repo', item)" class="table-link">Repo</a>
+            <a href="#" class="table-link" @click.prevent.stop="goto('repo', item)">Repo</a>
           </template>
         </s-data-table>
       </div>
@@ -74,11 +74,11 @@
 <script setup>
 import { computed, ref, reactive, onMounted } from 'vue'
 import { storeToRefs } from 'pinia'
+import { useRouter } from 'vue-router'
 
 import { useDevOpsServiceGroupStore } from '@/stores/devops/service-group'
 import { useProjectStore } from '@/stores/devops/project'
 import { useI18n } from '@/_setting/i18n'
-import { LOCALSTORAGE_KEY } from '@/assets/consts/consts'
 import { useConfirmStore } from '@/stores/components/confirm'
 
 import ProjectModal from '@/components/project/ProjectModalLayout.vue'
@@ -98,27 +98,28 @@ const confirmStore = useConfirmStore()
 const search = ref('')
 const selected = ref([])
 
+const router = useRouter()
+
 const pageCnt = computed(() => Math.ceil(projects.value.length / itemsPerPage.value))
 
-const setProjectId = projectId => {
-  localStorage.setItem(LOCALSTORAGE_KEY.project, projectId)
+const setProject = item => {
+  projectStore.setProject(item)
 }
 
 const goto = (type, item) => {
-  setProjectId(item.projectId)
+  setProject(item)
   if (type === 'build') {
-    return '/console/projects/build/list'
+    router.push('/console/projects/build/list')
   }
   if (type === 'deploy') {
-    return '/console/projects/deploy/list'
+    router.push('/console/projects/deploy/list')
   }
   if (type === 'user') {
-    return '/console/projects/user/list'
+    router.push('/console/projects/user/list')
   }
   if (type === 'repo') {
-    return '/console/projects/repo/list'
+    router.push('/console/projects/repo/list')
   }
-  return '/console/projects/build/list'
 }
 
 const getProjects = async () => {

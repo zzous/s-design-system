@@ -9,8 +9,8 @@ const defaultProject = { projectName: '전체', projectId: 0 }
 const initSelectedProject = projects => {
   try {
     let returnProject = null
-    const savedProject = localStorage.getItem(LOCALSTORAGE_KEY.PROJECT_ID)
-      ? JSON.parse(localStorage.getItem(LOCALSTORAGE_KEY.PROJECT_ID))
+    const savedProject = localStorage.getItem(LOCALSTORAGE_KEY.PROJECT)
+      ? JSON.parse(localStorage.getItem(LOCALSTORAGE_KEY.PROJECT))
       : { ...defaultProject }
     const idx = projects.findIndex(tempProject => tempProject.projectId === savedProject.projectId)
     returnProject = idx >= 0 ? { ...projects[idx] } : { ...defaultProject }
@@ -55,6 +55,11 @@ export const useProjectStore = defineStore('project', () => {
     }
 
     return data
+  }
+
+  const setProject = async projectObj => {
+    selectedProject.value = projectObj
+    localStorage.setItem(LOCALSTORAGE_KEY.PROJECT, JSON.stringify(projectObj))
   }
 
   const fetchDeleteProject = async projectId => {
@@ -119,6 +124,7 @@ export const useProjectStore = defineStore('project', () => {
     project,
     getProjects,
     getProject,
+    setProject,
     fetchDeleteProject,
     fetchNewProject,
     fetchEditProject,

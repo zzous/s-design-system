@@ -1,7 +1,7 @@
 export const LOCALSTORAGE_KEY = Object.freeze({
   SERVICE_GROUP_UUID: 'STRATO_SG_UUID',
   SERVICE_GROUP_NAME: 'STRATO_SG_NAME',
-  PROJECT_ID: 'STRATO_DEVOPS_PROJECT', // projectId
+  PROJECT: 'STRATO_DEVOPS_PROJECT', // project
 })
 
 export const SESSIONSTORAGE_KEY = Object.freeze({

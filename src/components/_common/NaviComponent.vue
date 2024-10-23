@@ -80,8 +80,8 @@ const props = defineProps({
     default: () => {},
   },
   menuPaths: {
-    type: Array,
-    default: () => [],
+    type: Object,
+    default: () => {},
   },
 })
 
