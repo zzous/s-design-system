@@ -10,6 +10,7 @@ import {
   BUILD_JENKINS_PIPELINE_DEFAULT,
   BUILD_NAME_DUPLICATE,
   BUILD_JENKINS_PIPELINE_$PIPELINECD,
+  BUILD,
 } from '@/assets/consts/api/devops/build'
 import { resolvePathVariable } from '@/assets/consts/utils/string'
 
@@ -31,12 +32,27 @@ export const useBuildStore = defineStore('build', () => {
     return builds.value
   }
 
+  /**
+   * 빌드 상세
+   * @param {*} buildId
+   * @returns
+   */
   const getBuildDetail = async buildId => {
     buildDetail.value = null
     const reqUrl = resolvePathVariable(BUILD_$BUILDID, { buildId })
     const { data } = await axios.get(reqUrl)
     buildDetail.value = data?.data || null
     return buildDetail.value
+  }
+
+  /**
+   * 빌드 생성
+   * @param {*} reqBody
+   * @returns
+   */
+  const postBuild = async reqBody => {
+    const { data } = await axios.post(BUILD, reqBody)
+    return data?.data || null
   }
 
   const getBuildHistory = async buildId => {
@@ -92,6 +108,7 @@ export const useBuildStore = defineStore('build', () => {
 
   return {
     builds,
+    postBuild,
     getBuilds,
     getBuildHistory,
     getBuildsWithHistory,

@@ -1,5 +1,5 @@
 <template>
-  <s-modal :model-value="showModal" :title="$t('빌드 생성')" class-name="md" @update:model-value="updateModal">
+  <s-modal :model-value="showModal" :title="$t('빌드 생성')" class-name="lg" @update:model-value="updateModal">
     <project-build-new-component />
   </s-modal>
 </template>

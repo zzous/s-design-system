@@ -1,7 +1,7 @@
 <template>
   <div :class="['s-form__item', className]">
     <vee-field v-slot="{ handleChange, errors }" :name="props.name">
-      <div class="s-form__item-label">
+      <div v-if="showLabel" class="s-form__item-label">
         <span>
           {{ label }}
         </span>
@@ -28,6 +28,7 @@ const props = defineProps({
     description: '페이지타이틀',
   },
   label: { type: String, required: true, default: '', description: '폼라벨' },
+  showLabel: { type: Boolean, required: false, default: true, description: '폼라벨 노출 여부' },
   name: { type: String, default: '', description: 'validation 체크 시 필수 값' },
   required: { type: Boolean, default: false, description: '필수값' },
 })
