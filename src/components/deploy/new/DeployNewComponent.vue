@@ -39,10 +39,10 @@
               variant="outlined"
               density="compact"
               hide-details="auto"
-              item-value="templateId"
-              item-title="templateName"
+              item-value="buildId"
+              item-title="buildName"
               :placeholder="$t('빌드를 선택해주세요')"
-              :items="projectTemplates"
+              :items="projects"
               :error-messages="errors"
               @update:model-value="handleChange"
             />
@@ -80,6 +80,7 @@ import * as yup from 'yup'
 // import { DEFAULT_BUTTON_COLOR } from '@/assets/consts/consts'
 import { useSmcStore } from '@/stores/devops/smc'
 import { useProjectStore } from '@/stores/devops/project'
+import { useBuildStore } from '@/stores/devops/build'
 
 import DeployInfoInputComponent from './DeployInfoFormComponent.vue'
 
@@ -105,12 +106,14 @@ const schema = yup.object({
 })
 
 const smcStore = useSmcStore()
+const buildStore = useBuildStore()
 const projectStore = useProjectStore()
 const { selectedProject } = storeToRefs(projectStore)
 
 const isDuplicateDeployName = ref(true) //이름 중복체크 결과
 
 const deployApproveFlows = ref([])
+const projects = ref([])
 
 const getDeployApproveFlows = async () => {
   deployApproveFlows.value = []
@@ -125,7 +128,15 @@ const getDeployApproveFlows = async () => {
   }
 }
 
+const getBuildList = async () => {
+  const res = await buildStore.getBuilds({
+    projectId: selectedProject.value.projectId,
+  })
+  projects.value = res
+}
+
 onMounted(() => {
+  getBuildList()
   getDeployApproveFlows()
 })
 </script>

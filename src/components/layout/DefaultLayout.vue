@@ -28,6 +28,7 @@
           color="white"
           variant="solo"
           bg-color="#1C2536"
+          @update:model-value="onUpdateGlobalValue"
         />
       </template>
     </header-component>
@@ -121,10 +122,17 @@ const filteredMenu = computed(() =>
     return clientId === 'strato-devops'
   }),
 )
-
+const viewRef = ref(null)
 const onChangeProject = value => {
   //프로젝트가 바뀔 때 로컬 스토리지에 저장
   projectStore.setProject(value)
+  if (value.projectId === 0) {
+    router.push('/project/list')
+    return
+  }
+  if (viewRef.value) {
+    viewRef.value?.onRefresh()
+  }
 }
 
 const closeAlert = index => {
@@ -179,7 +187,6 @@ const goToMain = () => {
   window.location.href = import.meta.env.VITE_STRATO_PORTAL
 }
 
-const viewRef = ref(null)
 const onUpdateGlobalValue = async uuid => {
   sgStore.updateServiceGroup(uuid)
   await devOpsSgStore.getServiceGroupDetail(globalServiceGroup.value)
@@ -188,20 +195,6 @@ const onUpdateGlobalValue = async uuid => {
     viewRef.value?.onRefresh()
   }
 }
-
-watch(
-  () => [globalServiceGroup.value, selectedProject.value],
-  () => {
-    /**
-     * 네비게이션의 프로젝트를 전체로 변경할 시 프로젝트 목록 화면으로 강제 이동합니다.
-     */
-    if (selectedProject.value.projectId === 0) {
-      router.push('/project/list')
-      return
-    }
-    onUpdateGlobalValue(globalServiceGroup.value)
-  },
-)
 
 watch(
   () => isLoggedIn.value,
