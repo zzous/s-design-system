@@ -1,6 +1,6 @@
 <template>
   <div class="form-wrapper">
-    <s-sub-header :show-cnt="false" :title="$t('기본 정보')" class-name="sub-title" />
+    <s-sub-header :show-cnt="false" :title="$t('배포 정보')" class-name="sub-title" />
     <s-form-table>
       <s-form-item :label="$t('프로바이더')" name="buildName">
         <v-select

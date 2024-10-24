@@ -28,7 +28,6 @@
           color="white"
           variant="solo"
           bg-color="#1C2536"
-          @update:model-value="onUpdateGlobalValue"
         />
       </template>
     </header-component>
@@ -189,6 +188,20 @@ const onUpdateGlobalValue = async uuid => {
     viewRef.value?.onRefresh()
   }
 }
+
+watch(
+  () => [globalServiceGroup.value, selectedProject.value],
+  () => {
+    /**
+     * 네비게이션의 프로젝트를 전체로 변경할 시 프로젝트 목록 화면으로 강제 이동합니다.
+     */
+    if (selectedProject.value.projectId === 0) {
+      router.push('/project/list')
+      return
+    }
+    onUpdateGlobalValue(globalServiceGroup.value)
+  },
+)
 
 watch(
   () => isLoggedIn.value,

@@ -27,7 +27,7 @@ export const useBuildStore = defineStore('build', () => {
    */
   const getBuilds = async params => {
     builds.value = []
-    const { data } = await axios.post(BUILD_LIST, { params })
+    const { data } = await axios.post(BUILD_LIST, params)
     builds.value = data?.data || []
     return builds.value
   }

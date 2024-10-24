@@ -151,6 +151,9 @@ onMounted(() => {
   getBuildList()
   intervalGetBuildList()
 })
+
+defineExpose({ onRefresh: getBuildList })
+
 const headers = ref([
   {
     title: tt('빌드명'),
