@@ -111,14 +111,18 @@ export const useMenuStore = defineStore('menu', () => {
 
   // 권한 정보 및 tree 구조를 가진 메뉴 목록 호출
   const getAccessibleMenu = async () => {
-    const { data } = await axios.get(TREEMENUS_ACCESSIBLE)
+    const { data } = await axios.get(TREEMENUS_ACCESSIBLE, {
+      params: {
+        clientIds: 'strato-devops',
+      },
+    })
     const datas = _.cloneDeep([...data])
     setAccessibleMenu(data)
     setFlatMenuWithAccessible(datas)
 
     // Client 저장소에 저장
-    sessionStorage.setItem(SESSIONSTORAGE_KEY.STRATO_PORTAL_MENU, JSON.stringify(menuPaths.value))
-    sessionStorage.setItem(SESSIONSTORAGE_KEY.STRATO_PORTAL_MENU_FLAT, JSON.stringify(flatMenuPaths.value))
+    sessionStorage.setItem(SESSIONSTORAGE_KEY.STRATO_DEVOPS_MENU, JSON.stringify(menuPaths.value))
+    sessionStorage.setItem(SESSIONSTORAGE_KEY.STRATO_DEVOPS_MENU_FLAT, JSON.stringify(flatMenuPaths.value))
   }
   return {
     menuPaths,

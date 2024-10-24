@@ -48,8 +48,8 @@ export const useTokenStore = defineStore('token', () => {
   }
 
   function removeStorage() {
-    sessionStorage.removeItem(SESSIONSTORAGE_KEY.STRATO_PORTAL_MENU)
-    sessionStorage.removeItem(SESSIONSTORAGE_KEY.STRATO_PORTAL_MENU_FLAT)
+    sessionStorage.removeItem(SESSIONSTORAGE_KEY.STRATO_DEVOPS_MENU)
+    sessionStorage.removeItem(SESSIONSTORAGE_KEY.STRATO_DEVOPS_MENU_FLAT)
   }
 
   function onLogIn(toPath) {

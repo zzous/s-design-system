@@ -1,9 +1,16 @@
 <template>
+  <deploy-modal
+    v-model="modal.show"
+    v-bind="modal.props"
+    :mode="modal.mode"
+    @refresh="onRefresh"
+    @update:mode="updateMode"
+  />
   <div class="view-wrapper">
     <s-sub-header :title="$t('배포 목록')" :list-cnt="items.length">
       <s-btn variant="outlined" color="red" :title="$t('삭제')" :disabled="selected.length !== 1" />
       <s-btn variant="outlined" :title="$t('배포')" :disabled="selected.length !== 1" />
-      <s-btn variant="outlined" :title="$t('생성')" />
+      <s-btn variant="outlined" :title="$t('생성')" @click="onClickNewProject" />
     </s-sub-header>
     <div class="layout__list-contents">
       <div class="search">
@@ -35,12 +42,14 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted } from 'vue'
+import { ref, computed, reactive, onMounted } from 'vue'
 import { storeToRefs } from 'pinia'
 
 import { useI18n } from '@/_setting/i18n'
 import { useDeployStore } from '@/stores/devops/deploy'
 import { useProjectStore } from '@/stores/devops/project'
+
+import DeployModal from '@/components/deploy/DeployModalLayout.vue'
 
 const intervalGetBuildListTime = 60 * 1000
 
@@ -91,21 +100,44 @@ const { selectedProject } = storeToRefs(useProjectStore())
 
 const pageCnt = computed(() => Math.ceil(items.value.length / itemsPerPage))
 
-const getDeployList = async () => {
-  await deployStore.getDeployList({
+const getDeploys = async () => {
+  await deployStore.getDeploys({
     projectId: selectedProject.value.projectId,
   })
 }
+
+const onRefresh = res => {
+  if (res) getDeploys()
+}
+
 const intervalGetBuildList = () => {
   setTimeout(async () => {
-    await getDeployList()
+    await getDeploys()
   }, intervalGetBuildListTime)
 }
 
+const modal = reactive({
+  mode: null,
+  show: false,
+  props: {
+    projectId: null,
+  },
+})
+const onClickNewProject = () => {
+  modal.show = true
+  modal.mode = 'new'
+}
+
+const updateMode = value => {
+  modal.mode = value
+}
+
 onMounted(() => {
-  getDeployList()
+  getDeploys()
   intervalGetBuildList()
 })
+
+defineExpose({ onRefresh })
 </script>
 
 <style scoped lang="scss"></style>

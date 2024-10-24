@@ -19,6 +19,7 @@ export const useSmcStore = defineStore('smc', () => {
   const getPostSmcFlows = async reqBody => {
     const { data } = await axios.post(SMC_FLOWS, reqBody)
     smcFlows.value = data?.data || []
+    return data?.data || []
   }
 
   const getPostSmcFlowState = async reqBody => {

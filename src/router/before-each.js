@@ -67,8 +67,8 @@ const _getUserMenu = async () => {
   //메뉴 정보 가져온 다음 메뉴 없으면 세션 스토리지에 메뉴 있는지 확인 하고 가져올것
   //const isThereMenu = useMenuStore().menuPaths.length
   //세션 스토리지에서 메뉴 가져오기
-  const menuStr = sessionStorage.getItem(SESSIONSTORAGE_KEY.STRATO_PORTAL_MENU)
-  const flatMenuStr = sessionStorage.getItem(SESSIONSTORAGE_KEY.STRATO_PORTAL_MENU_FLAT)
+  const menuStr = sessionStorage.getItem(SESSIONSTORAGE_KEY.STRATO_DEVOPS_MENU)
+  const flatMenuStr = sessionStorage.getItem(SESSIONSTORAGE_KEY.STRATO_DEVOPS_MENU_FLAT)
   //메뉴가 있다면 store 에 추가
   if (menuStr) useMenuStore().setMenuPaths(JSON.parse(menuStr))
   if (flatMenuStr) useMenuStore().setFlatMenuPaths(JSON.parse(flatMenuStr))

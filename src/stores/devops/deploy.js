@@ -8,7 +8,7 @@ import { DEPLOY_LIST, DEPLOY_$DEPLOYID } from '@/assets/consts/api/devops/deploy
 export const useDeployStore = defineStore('deploy', () => {
   const deploies = ref([])
 
-  const getDeployList = async params => {
+  const getDeploys = async params => {
     const { data } = await axios.get(DEPLOY_LIST, { params })
     deploies.value = data.data || []
   }
@@ -18,5 +18,5 @@ export const useDeployStore = defineStore('deploy', () => {
     return data.data
   }
 
-  return { deploies, getDeployList, getDeploy }
+  return { deploies, getDeploys, getDeploy }
 })
