@@ -47,7 +47,9 @@
         @ready="handleReady"
       />
     </div> -->
-    <script-editor v-model="buildDetail.pipelineScript" :height="300" :read-only="true" />
+    <div class="mt-3">
+      <script-editor v-model="buildDetail.pipelineScript" :height="300" :read-only="true" />
+    </div>
     <div id="build_editor">
       <build-history-table-component :build-histories="buildHistories" />
     </div>

@@ -153,14 +153,14 @@
         </s-form-table>
       </vee-form>
     </div>
-    <div class="mt-3 text-align-center">
+    <!-- <div class="mt-3 text-align-center">
       <s-btn height="30" class="mr-2" @click="onClickSave">
         {{ $t('저장') }}
       </s-btn>
       <s-btn height="30" variant="outlined" @click="onClickCancel">
         {{ $t('취소') }}
       </s-btn>
-    </div>
+    </div> -->
   </div>
 </template>
 
@@ -192,7 +192,7 @@ const userStore = useUserStore()
 const { defaultBranchs } = storeToRefs(commonStore)
 const { smcFlows } = storeToRefs(smcStore)
 const { selectedProject } = storeToRefs(projectSotre)
-const { rules } = storeToRefs(sonarqubeStore)
+//const { rules } = storeToRefs(sonarqubeStore)
 const { buildDefaultJenkinsPipelines } = storeToRefs(buildStore)
 const { userInfo } = storeToRefs(userStore)
 
@@ -224,7 +224,12 @@ const buildSchema = yup.object({
 // const buildName = ref('')
 // const pipeLines = ref([])
 
-const formRef = ref()
+//const formRef = ref()
+const formRef = defineModel({
+  type: Object,
+  default: {},
+  required: true,
+})
 const packageTypes = ref([])
 const commonPipeLineSteps = ref([])
 const isDuplicatedName = ref(true) //이름 중복체크 결과
@@ -282,7 +287,7 @@ const getDefaultPipeLine = async () => {
 
 const checkBuildNameDuplicate = async () => {
   const buildName = formRef.value?.getValues()?.buildName
-  if (!buildName) alert('이름없음')
+  if (!buildName) return alertStore.openErrorAlert(tt('이름이 없습니다'))
   const parmas = {
     projectId: selectedProject.value.projectId,
     buildName: buildName,
@@ -326,30 +331,36 @@ const getSonarqubeRules = async () => {
   const reqBody = { buildCd: selectedProject.value.buildCd, serviceGroupId: selectedProject.value.serviceGroupId }
   await sonarqubeStore.getSonarqubeRules(reqBody)
 }
-const onClickSave = async () => {
-  const { valid, errors } = await formRef.value.validate()
-  if (valid) {
-    const formValue = formRef.value.getValues()
-    const postBuildBody = {
-      ...formValue,
-      regId: userInfo.value.userId,
-      serviceGroupId: selectedProject.value.serviceGroupId,
-      projectId: selectedProject.value.projectId,
-      pipelineScript: formValue.pipelines.map(({ pipelineScript }) => pipelineScript).join('\n'),
-    }
-    const result = await buildStore.postBuild(postBuildBody)
-    console.log(result)
-    // alertStore.openSuccessAlert('성공')
-    //TODO: 빌드 추가 후 후처리
-  } else if (errors) {
-    const keys = Object.keys(errors)
-    alertStore.openErrorAlert(errors[keys[0]])
-  }
-}
+// const onClickSave = async () => {
+//   const { valid, errors } = await formRef.value.validate()
+//   if (valid) {
+//     const formValue = formRef.value.getValues()
+//     const postBuildBody = {
+//       ...formValue,
+//       branch: formValue.branch.toLowerCase(),
+//       regId: userInfo.value.userId,
+//       serviceGroupId: selectedProject.value.serviceGroupId,
+//       projectId: selectedProject.value.projectId,
+//       pipelineScript: formValue.pipelines.map(({ pipelineScript }) => pipelineScript).join('\n'),
+//     }
+//     const result = await buildStore.postBuild(postBuildBody)
+//     console.log(result)
+//     if (result.code === 200) {
+//       alertStore.openSuccessAlert(result?.message)
+//       //TODO: 빌드 추가 후 후처리
+//     } else {
+//       alertStore.openErrorAlert(result?.message)
+//     }
+//     // alertStore.openSuccessAlert('성공')
+//   } else if (errors) {
+//     const keys = Object.keys(errors)
+//     alertStore.openErrorAlert(errors[keys[0]])
+//   }
+// }
 
-const onClickCancel = () => {
-  alertStore.openDefaultAlert('onClickCancel')
-}
+// const onClickCancel = () => {
+//   alertStore.openDefaultAlert('onClickCancel')
+// }
 
 onMounted(async () => {
   getSmcFlows()

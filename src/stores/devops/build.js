@@ -52,7 +52,7 @@ export const useBuildStore = defineStore('build', () => {
    */
   const postBuild = async reqBody => {
     const { data } = await axios.post(BUILD, reqBody)
-    return data?.data || null
+    return data
   }
 
   const getBuildHistory = async buildId => {

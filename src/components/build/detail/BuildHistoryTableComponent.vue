@@ -7,11 +7,11 @@
     />
     <s-data-table :headers="buildHistoryHeader" :items="buildHistories" :items-per-page="itemsPerPage" :page="page">
       <template #[`item.buildResult`]="{ item }">
-        <img v-if="item.buildResult === 'FAIL'" :alt="item.state" src="/public/devops/assets/images/icon_f.gif" />
+        <img v-if="item.buildResult === 'FAIL'" :alt="item.state" src="/public/devops/assets/images/icon_f.svg" />
         <img
           v-else-if="item.buildResult === 'APPROVE'"
           :alt="item.state"
-          src="/public/devops/assets/images/icon_s.gif"
+          src="/public/devops/assets/images/icon_s.svg"
         />
         <template v-else>
           {{ item.buildResult }}

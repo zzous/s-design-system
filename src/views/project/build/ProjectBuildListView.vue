@@ -1,5 +1,5 @@
 <template>
-  <project-build-new-modal-component v-model="showNewModal" />
+  <project-build-new-modal-component v-model="showNewModal" @new-build-result="callbackNewBuildResult" />
   <project-build-detail-modal-component v-model="showDetailPopup" :build-id="selectedBuildId" />
   <div class="view-wrapper">
     <view-header-component :title="$t('빌드 목록')" :list-cnt="builds.length">
@@ -82,6 +82,10 @@ const alertStore = useAlertStore()
 const { tt } = useI18n()
 const devOpsServiceGroupId = storeToRefs(devOpsServiceGroupStore).serviceGroupId
 const builds = storeToRefs(buildStore).builds
+
+const callbackNewBuildResult = result => {
+  if (result) getBuildList()
+}
 
 const onClickExcuteBuild = async () => {
   const buildId = selected.value.at(-1)
