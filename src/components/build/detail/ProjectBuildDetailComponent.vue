@@ -28,31 +28,17 @@
         </s-form-table>
       </div>
     </template>
-    <!-- <shell-script-input-component v-model="buildDetail.pipelineScript" /> -->
-    <!-- <monaco-editor
-      v-model:value="buildDetail.pipelineScript"
-      theme="vs"
-      language="groovy"
-      :height="400"
-      :options="editorOptions"
-    /> -->
-    <!-- <div style="max-height: 300px; overflow: scroll;">
-      <code-mirror
-        v-model="buildDetail.pipelineScript"
-        :autofocus="true"
-        :indent-with-tab="true"
-        :tab-size="2"
-        :extensions="extensions"
-        :readonly="true"
-        @ready="handleReady"
-      />
-    </div> -->
-    <div class="mt-3">
-      <script-editor v-model="buildDetail.pipelineScript" :height="300" :read-only="true" />
+
+    <div class="form-wrapper">
+      <s-sub-header :show-cnt="false" :title="$t('컨테이너 빌드 정보')" class-name="sub-title" />
+      <template v-for="(pipeline, idx) in buildDetail.pipelines" :key="idx">
+        <div class="mt-3">
+          {{ pipeline.pipelineCd }}
+          <script-editor v-model="pipeline.pipelineScript" :height="300" :read-only="true" />
+        </div>
+      </template>
     </div>
-    <div id="build_editor">
-      <build-history-table-component :build-histories="buildHistories" />
-    </div>
+    <build-history-table-component :build-histories="buildHistories" />
   </div>
 </template>
 
