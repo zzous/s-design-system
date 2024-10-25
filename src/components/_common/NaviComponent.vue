@@ -45,16 +45,28 @@
             :key="i"
             class="navi-inner-menu"
             :class="{
-              disabled: selectedProject.projectId <= 0,
-              active: selectedProject.projectId > 0,
+              disabled: selectedProject.projectId <= 0 && menu.menuCode === 'DEVOPS_PROJECT_MANAGEMENT',
+              active: selectedProject.projectId > 0 || menu.menuCode !== 'DEVOPS_PROJECT_MANAGEMENT',
             }"
             active-class="menu-active"
             prepend-icon="mdi-circle-small"
           >
             <template #title>
-              <RouterLink class="navi-inner-menu-title" :to="subMenu.menuUrl">
+              <RouterLink
+                v-if="selectedProject.projectId > 0 || menu.menuCode !== 'DEVOPS_PROJECT_MANAGEMENT'"
+                class="navi-inner-menu-title"
+                :to="subMenu.menuUrl"
+              >
                 {{ subMenu.menuNameKr }}
               </RouterLink>
+              <template v-else>
+                <span class="navi-inner-menu-title">
+                  {{ subMenu.menuNameKr }}
+                  <v-tooltip activator="parent" location="start">
+                    {{ $t('프로젝트를 선택 해 주세요') }}
+                  </v-tooltip>
+                </span>
+              </template>
             </template>
           </v-list-item>
         </v-list-group>
@@ -153,7 +165,7 @@ const onChangeProject = value => {
   padding-inline: 15px !important;
 }
 .navi-inner-menu.disabled .navi-inner-menu-title {
-  pointer-events: none;
+  //pointer-events: none;
   color: grey;
   cursor: not-allowed;
 }
