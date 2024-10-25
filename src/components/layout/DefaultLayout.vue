@@ -34,6 +34,7 @@
     </header-component>
     <div class="show-header">
       <navi-component
+        v-if="filteredMenu"
         :menu-paths="filteredMenu"
         :project-list="projectList"
         :selected-project="selectedProject"

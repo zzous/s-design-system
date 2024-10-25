@@ -17,6 +17,10 @@
           {{ item.buildResult }}
         </template>
       </template>
+      <template #[`item.buildId`]="{ item }">#{{ item.buildId }}</template>
+      <template #[`item.branch`]="{ item }">
+        {{ item.branch ? '#' + item.branch.charAt(0).toUpperCase() + item.branch.slice(1) : item.branch }}
+      </template>
       <template #[`item.approveHistory`]="{ item }">
         <!-- <v-icon
         class="historyButton"

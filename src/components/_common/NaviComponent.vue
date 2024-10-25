@@ -76,7 +76,10 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, computed, onMounted, nextTick, watch } from 'vue'
+import { useRoute } from 'vue-router'
+
+const route = useRoute()
 const defaultProject = { projectName: '전체', projectId: 0 }
 const onClickMenuItem = () => {
   open.value = !open.value.length ? open.value : open.value.splice(open.value.length - 1, 1)
@@ -100,19 +103,29 @@ const props = defineProps({
 const emits = defineEmits(['change:project'])
 
 const open = ref([]) //활성화할 메뉴의 value
-//프로젝트가 있으면 가져오고 없으면 전체로
-// const projectList = ref([
-//   { name: '전체', value: 'total' },
-//   { name: '프로젝트1', value: 'projcet-1' },
-//   { name: '프로젝트2', value: 'projcet-2' },
-//   { name: '프로젝트3', value: 'projcet-3' }
-// ])
+
 const totalProjectList = computed(() => [{ ...defaultProject }, ...props.projectList])
 
 const onChangeProject = value => {
   //프로젝트가 바뀔 때 로컬 스토리지에 저장
   emits('change:project', value)
 }
+
+watch(
+  () => route.path,
+  () => {
+    const menus = props.menuPaths.subMenus
+    const nowPath = route.path
+    for (const idx in menus) {
+      const pathIdx = nowPath.indexOf(menus[idx].menuUrl)
+      if (pathIdx >= 0) {
+        open.value = [menus[idx].idx]
+        break
+      }
+    }
+  },
+  { immediate: true },
+)
 </script>
 
 <style scoped lang="scss">
