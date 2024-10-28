@@ -14,21 +14,25 @@
           </s-btn>
         </template>
         <template v-else>
-          <s-btn @click="onClickRequestBuild">
-            <!-- 생성, 수정 화면에서 사용 -->
-            {{ $t('빌드 요청') }}
-          </s-btn>
-          <s-btn @click="onClickDelete">
-            <!-- 생성, 수정 화면에서 사용 -->
-            {{ $t('삭제') }}
-          </s-btn>
-          <s-btn @click="onClickChangeEditMode(true)">
-            <!-- 생성, 수정 화면에서 사용 -->
-            {{ $t('수정') }}
-          </s-btn>
-          <s-btn variant="outlined" @click="onClickCancel">
-            {{ $t('취소') }}
-          </s-btn>
+          <div class="detail-btn-wrapper w-100">
+            <s-btn variant="outlined" class="float-left" color="red" @click="onClickDelete">
+              <!-- 생성, 수정 화면에서 사용 -->
+              {{ $t('삭제') }}
+            </s-btn>
+            <div class="float-right">
+              <s-btn variant="outlined" @click="onClickCancel">
+                {{ $t('취소') }}
+              </s-btn>
+              <s-btn variant="outlined" @click="onClickChangeEditMode(true)">
+                <!-- 생성, 수정 화면에서 사용 -->
+                {{ $t('수정') }}
+              </s-btn>
+              <s-btn @click="onClickRequestBuild">
+                <!-- 생성, 수정 화면에서 사용 -->
+                {{ $t('빌드 요청') }}
+              </s-btn>
+            </div>
+          </div>
         </template>
       </div>
     </template>
@@ -116,8 +120,7 @@ const doUpdate = async () => {
       buildId: buildId,
     }
     const result = await buildStore.putBuildDetail(putBuildBody)
-    // console.error(putBuildBody)
-    // const result = { code: 200 }
+
     if (result.code === 200) {
       alertStore.openSuccessAlert(result?.message)
       onClickChangeEditMode(false)
