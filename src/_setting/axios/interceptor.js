@@ -105,9 +105,14 @@ function setInterceptor(service) {
       if (numberOfCallPending === 0) {
         closeLoading()
       }
+
+      const originalRequest = error.config
+
       if (!error?.response) {
         // console.log(error.config)
-        // await handleAuthToken(error.config, null)
+        originalRequest._retry = true
+        await handleAuthToken(error.config, null)
+        service(originalRequest)
       }
 
       if (error?.response?.status === 401) {
