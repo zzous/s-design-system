@@ -55,6 +55,12 @@ export const useBuildStore = defineStore('build', () => {
     return data
   }
 
+  const putBuildDetail = async reqBody => {
+    const reqUrl = resolvePathVariable(BUILD_$BUILDID, { buildId: reqBody.buildId })
+    const { data } = await axios.put(reqUrl, reqBody)
+    return data
+  }
+
   const getBuildHistory = async buildId => {
     buildHistories.value = []
     const reqUrl = resolvePathVariable(BUILD_$BUILDID_HISTORY, { buildId })
@@ -121,5 +127,6 @@ export const useBuildStore = defineStore('build', () => {
     getBuildNameDuplicate,
     buildDefaultJenkinsPipelines,
     getBuildJenkinsPipeLine,
+    putBuildDetail,
   }
 })

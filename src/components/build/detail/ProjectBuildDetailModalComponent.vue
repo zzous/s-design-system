@@ -62,7 +62,7 @@ const showModal = defineModel({
   required: true,
 })
 
-defineProps({
+const { buildId } = defineProps({
   buildId: {
     type: Number,
     default: 0,
@@ -106,20 +106,21 @@ const doUpdate = async () => {
   const { valid, errors } = await editFormRef.value.validate()
   if (valid) {
     const formValue = editFormRef.value.getValues()
-    const postBuildBody = {
+    const putBuildBody = {
       ...formValue,
       branch: formValue.branch.toLowerCase(),
       regId: userInfo.value.userId,
       serviceGroupId: selectedProject.value.serviceGroupId,
       projectId: selectedProject.value.projectId,
       pipelineScript: formValue.pipelines.map(({ pipelineScript }) => pipelineScript).join('\n'),
+      buildId: buildId,
     }
-    //const result = await buildStore.postBuild(postBuildBody)
-    const result = { code: 200 }
+    const result = await buildStore.putBuildDetail(putBuildBody)
+    // console.error(putBuildBody)
+    // const result = { code: 200 }
     if (result.code === 200) {
       alertStore.openSuccessAlert(result?.message)
-      //emits('update:model-value', false)
-      //emits('new-build-result', true)
+      onClickChangeEditMode(false)
     } else {
       alertStore.openErrorAlert(result?.message)
     }

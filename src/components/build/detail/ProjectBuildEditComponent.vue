@@ -184,7 +184,7 @@ import { useDevOpsCommonStore } from '@/stores/devops/common'
 import { useSonarqubeStore } from '@/stores/devops/sonarqube'
 import * as yup from 'yup'
 import { Form as VeeForm } from 'vee-validate'
-import { useUserStore } from '@/stores/portal/user'
+//import { useUserStore } from '@/stores/portal/user'
 
 const props = defineProps({
   buildId: {

@@ -20,10 +20,10 @@
         <s-sub-header :show-cnt="false" :title="$t('컨테이너 빌드 정보')" class-name="sub-title" />
         <s-form-table>
           <s-form-item :label="$t('Application 포트')" name="appPort">
-            {{ buildDetail.buildName }}
+            {{ buildDetail.applicationPort }}
           </s-form-item>
           <s-form-item :label="$t('Application 설치 경로')" name="appPath">
-            {{ buildDetail.buildName }}
+            {{ buildDetail.applicationInstallPath }}
           </s-form-item>
         </s-form-table>
       </div>
