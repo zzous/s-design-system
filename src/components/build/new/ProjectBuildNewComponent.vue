@@ -1,7 +1,7 @@
 <template>
   <div class="view-wrapper">
-    <div class="form-wrapper">
-      <vee-form ref="formRef" v-slot="{ values }" :validation-schema="buildSchema">
+    <vee-form ref="formRef" v-slot="{ values }" :validation-schema="buildSchema">
+      <div class="form-wrapper">
         <s-sub-header :show-cnt="false" :title="$t('기본 정보')" class-name="sub-title" />
         <s-form-table>
           <s-form-item v-slot="{ errors, handleChange }" :label="$t('빌드명')" name="buildName" required>
@@ -80,6 +80,8 @@
             />
           </s-form-item>
         </s-form-table>
+      </div>
+      <div v-if="values.packageCd === 'DOCKER_IMAGE'" class="form-wrapper">
         <s-sub-header :show-cnt="false" :title="$t('컨테이너 빌드 정보')" class-name="sub-title" />
         <s-form-table>
           <s-form-item v-slot="{ errors, handleChange }" :label="$t('Application 포트')" name="applicationPort">
@@ -109,6 +111,8 @@
             />
           </s-form-item>
         </s-form-table>
+      </div>
+      <div class="form-wrapper">
         <s-sub-header :show-cnt="false" :title="$t('파이프라인 정보')" class-name="sub-title">
           <s-btn color="black" height="30" @click="onClickNewScript">
             {{ $t('스크립트 생성') }}
@@ -151,8 +155,9 @@
             </v-col>
           </v-row>
         </s-form-table>
-      </vee-form>
-    </div>
+      </div>
+    </vee-form>
+
     <!-- <div class="mt-3 text-align-center">
       <s-btn height="30" class="mr-2" @click="onClickSave">
         {{ $t('저장') }}
@@ -194,7 +199,7 @@ const { smcFlows } = storeToRefs(smcStore)
 const { selectedProject } = storeToRefs(projectSotre)
 //const { rules } = storeToRefs(sonarqubeStore)
 const { buildDefaultJenkinsPipelines } = storeToRefs(buildStore)
-const { userInfo } = storeToRefs(userStore)
+//const { userInfo } = storeToRefs(userStore)
 
 const buildSchema = yup.object({
   //buildName
@@ -202,8 +207,8 @@ const buildSchema = yup.object({
   branch: yup.string().label(tt('브랜치')).required(),
   flowId: yup.string().label(tt('빌드 승인 프로세스')).required(),
   packageCd: yup.string().label(tt('패키지 유형')).required(),
-  applicationPort: yup.number().label(tt('Application 포트')).required(),
-  applicationInstallPath: yup.string().label(tt('Application 설치 경로')).required(),
+  applicationPort: yup.number().label(tt('Application 포트')).typeError(tt('숫자를 입력해 주세요')),
+  applicationInstallPath: yup.string().label(tt('Application 설치 경로')),
   pipelines: yup
     .array()
     .of(
