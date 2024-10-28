@@ -30,7 +30,7 @@
     </template>
 
     <div class="form-wrapper">
-      <s-sub-header :show-cnt="false" :title="$t('컨테이너 빌드 정보')" class-name="sub-title" />
+      <s-sub-header :show-cnt="false" :title="$t('파이프라인 정보')" class-name="sub-title" />
       <template v-for="(pipeline, idx) in buildDetail.pipelines" :key="idx">
         <div class="mt-3">
           {{ pipeline.pipelineCd }}
