@@ -1,16 +1,25 @@
 import * as yup from 'yup'
 import { useI18n } from '@/_setting/i18n'
-import { REG_ALLOW_ENG, REG_ALLOW_ENG_NUM_HYPHEN } from '@/assets/consts/regex'
+import { REG_ALLOW_ENG, REG_ALLOW_ENG_NUM_HYPHEN, REG_DOMAIN } from '@/assets/consts/regex'
 
-const { tt } = useI18n()
+const { t, tt } = useI18n()
 
 /**
  * form error 메세지 커스텀
  */
 
 export default () => {
+  yup.addMethod(yup.string, 'domain', function domain(message) {
+    return this.test('only-eng', message || t('도메인 규칙에 맞게 입력해주세요'), function (value) {
+      const { createError } = this
+
+      // 빈 값 허용 (필수 항목은 따로 처리 가능)
+      if (!value) return true
+      return REG_DOMAIN.test(value) || createError({ message: message || createError() })
+    })
+  })
   yup.addMethod(yup.string, 'onlyEng', function onlyEng(message) {
-    return this.test('only-eng', message || tt('영문만 입력 가능합니다'), function (value) {
+    return this.test('only-eng', message || t('영문만 입력 가능합니다'), function (value) {
       const { createError } = this
 
       // 빈 값 허용 (필수 항목은 따로 처리 가능)
@@ -21,7 +30,7 @@ export default () => {
   yup.addMethod(yup.StringSchema, 'onlyEngNumHyphen', function onlyEngNumHyphen(message) {
     return this.test(
       'only-eng-num-hyphen',
-      message || tt('영문, 숫자, 특수문자(-)만 입력 가능합니다'),
+      message || t('영문 숫자 특수문자 하이픈만 입력 가능합니다'),
       function (value) {
         const { createError } = this
 
