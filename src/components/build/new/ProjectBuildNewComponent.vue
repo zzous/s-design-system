@@ -81,7 +81,7 @@
           </s-form-item>
         </s-form-table>
       </div>
-      <div class="form-wrapper">
+      <div v-if="values.packageCd === 'DOCKER_IMAGE'" class="form-wrapper">
         <s-sub-header :show-cnt="false" :title="$t('컨테이너 빌드 정보')" class-name="sub-title" />
         <s-form-table>
           <s-form-item v-slot="{ errors, handleChange }" :label="$t('Application 포트')" name="applicationPort">
@@ -207,8 +207,8 @@ const buildSchema = yup.object({
   branch: yup.string().label(tt('브랜치')).required(),
   flowId: yup.string().label(tt('빌드 승인 프로세스')).required(),
   packageCd: yup.string().label(tt('패키지 유형')).required(),
-  applicationPort: yup.number().label(tt('Application 포트')).required().typeError(tt('숫자를 입력해 주세요')),
-  applicationInstallPath: yup.string().label(tt('Application 설치 경로')).required(),
+  applicationPort: yup.number().label(tt('Application 포트')).typeError(tt('숫자를 입력해 주세요')),
+  applicationInstallPath: yup.string().label(tt('Application 설치 경로')),
   pipelines: yup
     .array()
     .of(
