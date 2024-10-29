@@ -40,7 +40,7 @@ const showModal = defineModel({
   required: true,
 })
 
-const formRef = ref()
+const formRef = ref({})
 
 const updateModal = () => {
   emits('update:model-value', false)

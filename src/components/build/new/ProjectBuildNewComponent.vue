@@ -20,12 +20,6 @@
           </s-form-item>
 
           <s-form-item v-slot="{ errors, handleChange }" :label="$t('브랜치')" name="branch">
-            <!-- <v-text-field
-          variant="outlined"
-          density="compact"
-          hide-details="auto"
-          :placeholder="$t('브랜치 선택 select')"
-        /> -->
             <v-select
               :model-value="values.branch"
               :error-messages="errors"
@@ -59,7 +53,6 @@
             />
           </s-form-item>
           <s-form-item v-slot="{ errors, handleChange }" :label="$t('패키지 유형')" name="packageCd">
-            <!-- {{ '패키지 유형 ex Container Image' }}packageTypes -->
             <v-select
               :model-value="values.packageCd"
               :items="packageTypes"
@@ -128,8 +121,18 @@
                 <template v-else>
                   <div class="script-form">
                     <template v-for="(pipeLineScript, idx) in values.pipelines" :key="idx">
-                      <div>{{ pipeLineScript.pipelineCd }}</div>
-
+                      <div class="script-title">
+                        {{ pipeLineScript.pipelineCd }}
+                        <s-btn
+                          v-if="pipeLineScript.isCustomScipt"
+                          size="small"
+                          variant="outlined"
+                          color="red"
+                          @click="deleteCustomScript(idx)"
+                        >
+                          Delete
+                        </s-btn>
+                      </div>
                       <script-editor v-model="pipeLineScript.pipelineScript" :height="400" class="mt-2" />
                     </template>
                   </div>
@@ -157,15 +160,6 @@
         </s-form-table>
       </div>
     </vee-form>
-
-    <!-- <div class="mt-3 text-align-center">
-      <s-btn height="30" class="mr-2" @click="onClickSave">
-        {{ $t('저장') }}
-      </s-btn>
-      <s-btn height="30" variant="outlined" @click="onClickCancel">
-        {{ $t('취소') }}
-      </s-btn>
-    </div> -->
   </div>
 </template>
 
@@ -183,7 +177,7 @@ import { useDevOpsCommonStore } from '@/stores/devops/common'
 import { useSonarqubeStore } from '@/stores/devops/sonarqube'
 import * as yup from 'yup'
 import { Form as VeeForm } from 'vee-validate'
-import { useUserStore } from '@/stores/portal/user'
+import { useConfirmStore } from '@/stores/components/confirm'
 
 const { tt } = useI18n()
 const smcStore = useSmcStore()
@@ -192,14 +186,12 @@ const alertStore = useAlertStore()
 const buildStore = useBuildStore()
 const commonStore = useDevOpsCommonStore()
 const sonarqubeStore = useSonarqubeStore()
-const userStore = useUserStore()
+const confirmStore = useConfirmStore()
 
 const { defaultBranchs } = storeToRefs(commonStore)
 const { smcFlows } = storeToRefs(smcStore)
 const { selectedProject } = storeToRefs(projectSotre)
-//const { rules } = storeToRefs(sonarqubeStore)
 const { buildDefaultJenkinsPipelines } = storeToRefs(buildStore)
-//const { userInfo } = storeToRefs(userStore)
 
 const buildSchema = yup.object({
   //buildName
@@ -223,13 +215,6 @@ const buildSchema = yup.object({
     .min(1, tt('스크립트를 추가 해 주세요')),
 })
 
-// const selectedBranch = ref()
-// const selectedFlow = ref()
-// const selectedPackageTypeCode = ref()
-// const buildName = ref('')
-// const pipeLines = ref([])
-
-//const formRef = ref()
 const formRef = defineModel({
   type: Object,
   default: {},
@@ -238,9 +223,6 @@ const formRef = defineModel({
 const packageTypes = ref([])
 const commonPipeLineSteps = ref([])
 const isDuplicatedName = ref(true) //이름 중복체크 결과
-
-//const selectedPackageTypeCode = ref(selectedProject.value.packageCd ? selectedProject.value.packageCd : 'DOCKER_IMAGE')
-//스크립트 생성 누를떄 출력할 스크립트
 
 const getSmcFlows = async () => {
   if (selectedProject.value && selectedProject.value.projectId) {
@@ -306,11 +288,22 @@ const checkBuildNameDuplicate = async () => {
   }
 }
 
-const onClickNewScript = () => {
+const onClickNewScript = async () => {
   //pipeLines.value = [...buildDefaultJenkinsPipelines.value]
-  const pipeLines = [...buildDefaultJenkinsPipelines.value]
-  formRef.value.setFieldValue('pipelines', pipeLines)
-  //console.error(formRef.value.getValues())
+  //새 스크립트를 생성하면 지금까지 편집한 CHECKOUTBUILD, FILEUPLOAD의 내용이 사라집니다. 변경하겠습니까?
+  const isScriptThere = formRef.value.getValues()?.pipelines?.length
+  let doReset = true
+  if (isScriptThere) {
+    doReset = await confirmStore.showConfirm(
+      tt('새 스크립트를 생성하면 지금까지 편집한 내용이 사라집니다 변경하겠습니까'),
+    )
+  }
+  if (doReset) {
+    const pipeLines = buildDefaultJenkinsPipelines.value.map(pipeLine => {
+      return { ...pipeLine, isCustomScipt: false }
+    })
+    formRef.value.setFieldValue('pipelines', pipeLines)
+  }
 }
 
 const onClickAddPipeLine = pipelineScript => {
@@ -319,6 +312,7 @@ const onClickAddPipeLine = pipelineScript => {
   const tempPipeLine = {
     pipelineScript: pipelineScript.pipelineScript,
     pipelineCd: pipelineScript.pipelineCd,
+    isCustomScipt: true,
     commonYn: 'N',
     protectedYn: 'N',
   }
@@ -336,36 +330,12 @@ const getSonarqubeRules = async () => {
   const reqBody = { buildCd: selectedProject.value.buildCd, serviceGroupId: selectedProject.value.serviceGroupId }
   await sonarqubeStore.getSonarqubeRules(reqBody)
 }
-// const onClickSave = async () => {
-//   const { valid, errors } = await formRef.value.validate()
-//   if (valid) {
-//     const formValue = formRef.value.getValues()
-//     const postBuildBody = {
-//       ...formValue,
-//       branch: formValue.branch.toLowerCase(),
-//       regId: userInfo.value.userId,
-//       serviceGroupId: selectedProject.value.serviceGroupId,
-//       projectId: selectedProject.value.projectId,
-//       pipelineScript: formValue.pipelines.map(({ pipelineScript }) => pipelineScript).join('\n'),
-//     }
-//     const result = await buildStore.postBuild(postBuildBody)
-//     console.log(result)
-//     if (result.code === 200) {
-//       alertStore.openSuccessAlert(result?.message)
-//       //TODO: 빌드 추가 후 후처리
-//     } else {
-//       alertStore.openErrorAlert(result?.message)
-//     }
-//     // alertStore.openSuccessAlert('성공')
-//   } else if (errors) {
-//     const keys = Object.keys(errors)
-//     alertStore.openErrorAlert(errors[keys[0]])
-//   }
-// }
 
-// const onClickCancel = () => {
-//   alertStore.openDefaultAlert('onClickCancel')
-// }
+const deleteCustomScript = idx => {
+  const pipeLines = [...formRef.value.getValues().pipelines]
+  pipeLines.splice(idx, 1)
+  formRef.value.setFieldValue('pipelines', pipeLines)
+}
 
 onMounted(async () => {
   getSmcFlows()
@@ -375,6 +345,11 @@ onMounted(async () => {
 })
 </script>
 <style lang="scss" scoped>
+.script-title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center; /* 중앙 정렬을 위해 추가 */
+}
 .input-text-btn {
   margin: 0 5px 23px;
 }
