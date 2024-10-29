@@ -216,8 +216,8 @@ const buildSchema = yup.object({
 })
 
 const formRef = defineModel({
-  type: Object,
-  default: {},
+  type: [Object, null],
+  default: null,
   required: true,
 })
 const packageTypes = ref([])
@@ -338,6 +338,7 @@ const deleteCustomScript = idx => {
 }
 
 onMounted(async () => {
+  //if (!formRef.value) formRef.value = {}
   getSmcFlows()
   getSonarqubeRules()
   await getDefaultPackages()

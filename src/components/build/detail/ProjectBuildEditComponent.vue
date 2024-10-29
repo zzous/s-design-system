@@ -238,8 +238,8 @@ const buildSchema = yup.object({
 
 //const formRef = ref()
 const formRef = defineModel({
-  type: Object,
-  default: {},
+  type: [Object, null],
+  default: null,
   required: true,
 })
 const packageTypes = ref([])

@@ -61,7 +61,7 @@ const onClickSave = async () => {
     const result = await buildStore.postBuild(postBuildBody)
     if (result.code === 200) {
       alertStore.openSuccessAlert(result?.message)
-      emits('update:model-value', false)
+      updateModal()
       emits('new-build-result', true)
     } else {
       alertStore.openErrorAlert(result?.message)
@@ -73,7 +73,7 @@ const onClickSave = async () => {
 }
 
 const onClickCancel = () => {
-  emits('update:model-value', false)
+  updateModal()
 }
 </script>
 <style lang="scss" scoped></style>

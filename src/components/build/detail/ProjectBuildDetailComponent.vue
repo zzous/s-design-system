@@ -48,7 +48,7 @@ import { storeToRefs } from 'pinia'
 import { useBuildStore } from '@/stores/devops/build'
 import { useSmcStore } from '@/stores/devops/smc'
 import { computed } from 'vue'
-import BuildHistoryTableComponent from './BuildHistoryTableComponent.vue'
+import BuildHistoryTableComponent from '@/components/build/detail/history/BuildHistoryTableComponent.vue'
 import ScriptEditor from '@/components/_common/editor/ScriptEditor.vue'
 
 const props = defineProps({
