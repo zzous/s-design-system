@@ -1,4 +1,5 @@
 <template>
+  <build-history-detail-modal-component v-model="showHistoryDetailModal" />
   <div class="form-wrapper">
     <s-sub-header
       :show-cnt="false"
@@ -39,6 +40,9 @@
 <script setup>
 import { computed } from 'vue'
 import { ref } from 'vue'
+import BuildHistoryDetailModalComponent from '@/components/build/detail/history/BuildHistoryDetailModalComponent.vue'
+
+const showHistoryDetailModal = ref(false)
 const props = defineProps({
   buildHistories: {
     type: Array,
@@ -50,6 +54,7 @@ const itemsPerPage = ref(10)
 const pageCnt = computed(() => Math.ceil((props.buildHistories ? props.buildHistories.length : 0) / itemsPerPage.value))
 const onClickHistoryDetail = history => {
   console.error('onClickHistoryDetail : ', history)
+  showHistoryDetailModal.value = true
 }
 
 const buildHistoryHeader = ref([
