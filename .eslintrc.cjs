@@ -7,14 +7,7 @@ module.exports = {
     node: true,
     commonjs: true,
   },
-  extends: [
-    'plugin:vue/vue3-essential',
-    'plugin:vue/vue3-recommended',
-    'eslint:recommended',
-    '@vue/prettier',
-    '@vue/eslint-config-prettier',
-    'plugin:prettier/recommended',
-  ],
+  extends: ['plugin:vue/vue3-essential', 'plugin:vue/vue3-recommended', 'eslint:recommended', '@vue/prettier', '@vue/eslint-config-prettier', 'plugin:prettier/recommended', 'plugin:storybook/recommended'],
   rules: {
     // semi: ["error", "never"], // 세미콜론 사용 금지
     // 속성당 최대 개수 설정

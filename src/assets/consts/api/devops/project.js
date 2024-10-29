@@ -1,4 +1,0 @@
-export const PROJECT_LIST = '/api/v1/devops/project/list' // 프로젝트 목록
-export const PROJECT_$PROJECTID = '/api/v1/devops/project/{projectId}' // 프로젝트 상세, 수정, 삭제
-export const PROJECT = '/api/v1/devops/project' // 프로젝트 생성
-export const PROJECT_NAME_DUPLICATE = '/api/v1/devops/project/name/duplicate' // 프로젝트명 중복 확인

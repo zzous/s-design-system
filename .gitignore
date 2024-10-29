@@ -32,3 +32,5 @@ coverage
 .idea
 
 .credentials
+
+*storybook.log

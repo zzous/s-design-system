@@ -1,8 +1,0 @@
-export const BUILD = '/api/v1/devops/build'
-export const BUILD_LIST = '/api/v1/devops/build/list'
-export const BUILD_$BUILDID_HISTORY = '/api/v1/devops/build/{buildId}/history'
-export const BUILD_$BUILDID = '/api/v1/devops/build/{buildId}'
-export const BUILD_$BUILDID_RUN = '/api/v1/devops/build/{buildId}/run'
-export const BUILD_JENKINS_PIPELINE_DEFAULT = '/api/v1/devops/build/jenkins/pipeline/default'
-export const BUILD_NAME_DUPLICATE = '/api/v1/devops/build/name/duplicate'
-export const BUILD_JENKINS_PIPELINE_$PIPELINECD = '/api/v1/devops/build/jenkins/pipeline/{pipelineCd}'
