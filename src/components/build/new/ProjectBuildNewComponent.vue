@@ -116,7 +116,7 @@
             <v-col cols="10" style="display: inline" class="script-form">
               <s-form-item name="pipelines" :label="$t('파이프라인 정보')" :show-label="false">
                 <template v-if="!values.pipelines || !values.pipelines.length">
-                  <div>{{ tt('스크립트를 생성해주세요') }}</div>
+                  <div>{{ tt('스크립트를 생성하세요') }}</div>
                 </template>
                 <template v-else>
                   <div class="script-form">

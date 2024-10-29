@@ -7,7 +7,7 @@
         </span>
         <span v-if="required" class="required">*</span>
       </div>
-      <div class="s-form__item-content">
+      <div class="s-form__item-content" :class="[contentClass]">
         <div class="s-form__item-content-item">
           <slot name="default" :handle-change="handleChange" :errors="errors" />
         </div>
@@ -27,6 +27,11 @@ const props = defineProps({
     default: '',
     description: '페이지타이틀',
   },
+  contentClass: {
+    type: String,
+    default: '',
+    description: '콘텐트 영역 클랙스',
+  },
   label: { type: String, required: true, default: '', description: '폼라벨' },
   showLabel: { type: Boolean, required: false, default: true, description: '폼라벨 노출 여부' },
   name: { type: String, default: '', description: 'validation 체크 시 필수 값' },
@@ -41,17 +46,10 @@ const props = defineProps({
   .s-form__item-content-item {
     display: flex;
     gap: 10px;
-
-    ::v-deep(.v-text-field) {
-      min-width: 618px;
-
-      &.v-select {
-        min-width: 618px;
-      }
-    }
+    flex-wrap: wrap;
 
     ::v-deep(.s-btn) {
-      width: 112px;
+      width: 110px;
     }
   }
 

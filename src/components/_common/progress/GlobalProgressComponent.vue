@@ -1,24 +1,26 @@
 <!-- 전역 로딩 바 -->
 <template>
-  <v-overlay
-    :model-value="modelValue"
-    class="align-center justify-center"
-    contained
-    persistent
-    no-click-animation
-    scrim="transparent"
-    z-index="9999"
-  >
-    <div class="s-loading">
-      <div class="s-loading__message">
-        {{ loadingMessage }}
+  <teleport to="#destination">
+    <v-overlay
+      :model-value="modelValue"
+      class="align-center justify-center"
+      contained
+      persistent
+      no-click-animation
+      scrim="transparent"
+      z-index="9999"
+    >
+      <div class="s-loading">
+        <div class="s-loading__message">
+          {{ loadingMessage }}
+        </div>
+        <div class="s-loading__spinner">
+          <s-progress-circular />
+        </div>
+        <div class="s-loading__text">Please wait...</div>
       </div>
-      <div class="s-loading__spinner">
-        <s-progress-circular />
-      </div>
-      <div class="s-loading__text">Please wait...</div>
-    </div>
-  </v-overlay>
+    </v-overlay>
+  </teleport>
 </template>
 
 <script setup>

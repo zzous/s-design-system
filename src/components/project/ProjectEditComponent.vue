@@ -31,7 +31,7 @@
               variant="outlined"
               density="compact"
               hide-details="auto"
-              :placeholder="$t('프로젝트 별칭을 입력해주세요')"
+              :placeholder="$t('프로젝트 별칭을 입력하세요')"
               @update:model-value="handleChange"
             />
           </s-form-item>

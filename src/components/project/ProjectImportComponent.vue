@@ -18,7 +18,7 @@
               variant="outlined"
               density="compact"
               hide-details="auto"
-              :placeholder="$t('프로젝트명을 입력해주세요')"
+              :placeholder="$t('프로젝트명을 입력하세요')"
               :error-messages="errors"
               @update:model-value="handleChange"
               @input="isDuplicateProjectName = true"
@@ -33,29 +33,17 @@
               variant="outlined"
               density="compact"
               hide-details="auto"
-              :placeholder="$t('프로젝트 별칭을 입력해주세요')"
+              :placeholder="$t('프로젝트 별칭을 입력하세요')"
               @update:model-value="handleChange"
             />
           </s-form-item>
-          <s-form-item v-slot="{ errors, handleChange }" :label="$t('파일 가져오기')" name="projectFile" required>
-            <v-file-input
-              ref="projectFile"
-              v-model="schema.projectFile"
-              class="d-none"
-              @update:model-value="handleChange"
-            />
-            <v-text-field
-              :model-value="schema.projectFile?.name"
-              variant="outlined"
-              density="compact"
-              hide-details="auto"
-              readonly
-              :error-messages="errors"
+          <s-form-item v-slot="{ errors }" :label="$t('파일 가져오기')" name="projectFile" required>
+            <s-file-input-btn
               :placeholder="$t('projectImportPlaceholder')"
+              :model-value="schema.projectFile"
+              :error-messages="errors"
+              @update:model-value="updateFile"
             />
-            <s-btn height="30" variant="outlined" @click="$refs.projectFile.click()">
-              {{ $t('파일 찾기') }}
-            </s-btn>
           </s-form-item>
           <s-form-item :label="$t('빌드 승인 프로세스')" name="buildApproveFlow" required>
             <template #default>
@@ -161,6 +149,7 @@ import { useProjectStore } from '@/stores/devops/project'
 import BuildProcessListModal from '@/components/project/smc/BuildProcessListModalComponent.vue'
 import DeployProcessListModal from '@/components/project/smc/DeployProcessListModalComponent.vue'
 import ProjectManagerListModal from '@/components/project/smc/ProjectManagerListModalComponent.vue'
+import SFileInputBtn from '@/components/_common/input/FileInputButtonComponent.vue'
 
 const emits = defineEmits(['validate', 'errors', 'click:cancel', 'submit'])
 
@@ -189,6 +178,10 @@ const modal = reactive({
   component: null,
   props: {},
 })
+
+const updateFile = value => {
+  formRef.value.setFieldValue('projectFile', value)
+}
 
 const openModal = target => {
   switch (target) {

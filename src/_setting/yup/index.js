@@ -10,7 +10,7 @@ const { t, tt } = useI18n()
 
 export default () => {
   yup.addMethod(yup.string, 'domain', function domain(message) {
-    return this.test('only-eng', message || t('도메인 규칙에 맞게 입력해주세요'), function (value) {
+    return this.test('domain', message || t('도메인 규칙에 맞게 입력하세요'), function (value) {
       const { createError } = this
 
       // 빈 값 허용 (필수 항목은 따로 처리 가능)

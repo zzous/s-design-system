@@ -11,7 +11,7 @@
             <v-text-field
               variant="outlined"
               density="compact"
-              error-messages="규칙에 맞게 입력해주세요.(영문자, 숫자, (-)만 가능)"
+              error-messages="규칙에 맞게 입력하세요.(영문자, 숫자, (-)만 가능)"
             />
             <default-button-component class="input-text-btn" title="중복체크" />
           </div>
@@ -23,7 +23,7 @@
             :items="branchList"
             density="compact"
             variant="outlined"
-            error-messages="항목을 선택해주세요."
+            error-messages="항목을 선택하세요."
           />
         </v-col>
       </v-row>
@@ -63,7 +63,7 @@
             variant="outlined"
             density="compact"
             placeholder="Application 설치 경로를 입력하세요"
-            error-messages="내용을 입력해주세요."
+            error-messages="내용을 입력하세요."
           />
         </v-col>
       </v-row>

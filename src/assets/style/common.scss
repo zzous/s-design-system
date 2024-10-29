@@ -112,26 +112,70 @@
     }
 }
 
-.v-input.v-input--density-compact {
-    &.v-file-input,
-    &.v-text-field,
-    &.v-select {
-        .v-field__input,
-        .v-select__selection {
-            font-size: 12px;
-        }
+.search .v-field .v-field__prepend-inner .v-icon {
+    --v-medium-emphasis-opacity: 1;
+}
+
+.v-input.v-input--disabled .v-field__overlay{
+    background-color: $s-default--gray-5;
+}
+
+.v-input .v-field--variant-outlined {
+    &:not(.v-field--error) .v-field__outline {
+        --v-field-border-opacity: 1;
+        color: $s-default--gray-5;
+    }
+
+    &.v-field--error .v-field__outline {
+        --v-field-border-opacity: 1;
+        color: $s-btn--red-1;
     }
 }
 
-.v-input.v-input--density-comfortable {
-    &.v-file-input,
-    &.v-text-field,
-    &.v-select {
-        height: 40px;
+.v-input {
+    &.v-input--density-compact {
+        --v-input-control-height: 30px;
 
-        .v-field__input,
-        .v-select__selection {
-            font-size: 16px;
+        &.v-file-input,
+        &.v-text-field,
+        &.v-select {
+            .v-field__input,
+            .v-select__selection {
+                font-size: 12px;
+
+                &::placeholder{
+                    font-weight: 300;
+                }
+            }
+        }
+
+        .v-selection-control--density-compact {
+            --v-selection-control-size: 18px;
+
+            .v-label {
+                opacity: 1;
+                font-size: 12px;
+                padding-left: 8px;
+                font-weight: 400;
+
+                .label--active {
+                    color: $s-blue;
+                }
+            }
+        }
+    }
+    &.v-input--density-comfortable {
+        --v-input-control-height: 40px;
+
+        &.v-file-input,
+        &.v-text-field,
+        &.v-select {
+            height: 40px;
+
+            .v-field__input,
+            .v-select__selection {
+                font-size: 16px;
+            }
         }
     }
 }
@@ -143,6 +187,20 @@
     padding: 10px;
 
     &:not(:first-child) {
-        margin-top: 10px;
+        margin-top: 20px;
+    }
+}
+
+.form-item--half {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr 110px;
+    gap: 10px;
+
+    .v-text-field {
+        min-width: initial !important;
+        .v-input__control .v-field .v-field__input {
+            min-width: initial !important;
+        }
     }
 }

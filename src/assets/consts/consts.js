@@ -14,6 +14,25 @@ export const COOKIE_KEY = Object.freeze({
   ACCESS: 'access',
 })
 
+export const DEPLOY_CONTROLLER_TYPE = Object.freeze({
+  DEPLOYMENT: 'Deployment',
+  DAEMON_SET: 'DaemonSet',
+  STATEFUL_SET: 'StatefulSet',
+  CRONJOB: 'CronJob',
+  ROLLOUT: 'Rollout',
+})
+
+export const DEPLOY_TYPE = Object.freeze({
+  SHELL: 'shell',
+  K8S: 'k8s',
+})
+
+export const DEPLOY_SERVICE_TYPE = Object.freeze({
+  CLUSTER_IP: 'ClusterIP',
+  NODE_PORT: 'NodePort',
+  LOAD_BALANCER: 'LoadBalancer',
+})
+
 export const DEFAULT_BUTTON_COLOR = '#017BE5'
 export const DEFAULT_CHECKOUT_SCRIPT = `//It was created by the Devops portal.
 pipeline {

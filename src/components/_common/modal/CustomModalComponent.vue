@@ -129,7 +129,13 @@ const onUpdateModalValue = value => {
     width: 1000px;
 
     ::v-deep(.s-form__item-content-item) {
-      min-width: 618px;
+      .v-text-field {
+        min-width: 618px;
+
+        &.v-select {
+          min-width: 618px;
+        }
+      }
     }
   }
 

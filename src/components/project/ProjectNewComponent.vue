@@ -20,7 +20,7 @@
               hide-details="auto"
               item-value="templateId"
               item-title="templateName"
-              :placeholder="$t('템플릿을 선택해주세요')"
+              :placeholder="$t('템플릿을 선택하세요')"
               :items="projectTemplates"
               :error-messages="errors"
               @update:model-value="handleChange"
@@ -32,7 +32,7 @@
               variant="outlined"
               density="compact"
               hide-details="auto"
-              :placeholder="$t('프로젝트명을 입력해주세요')"
+              :placeholder="$t('프로젝트명을 입력하세요')"
               :error-messages="errors"
               @update:model-value="handleChange"
               @input="isDuplicateProjectName = true"
@@ -47,7 +47,7 @@
               variant="outlined"
               density="compact"
               hide-details="auto"
-              :placeholder="$t('프로젝트 별칭을 입력해주세요')"
+              :placeholder="$t('프로젝트 별칭을 입력하세요')"
               @update:model-value="handleChange"
             />
           </s-form-item>
@@ -145,7 +145,7 @@
               variant="outlined"
               density="compact"
               hide-details="auto"
-              :placeholder="$t('패키지 명을 입력해주세요')"
+              :placeholder="$t('패키지 명을 입력하세요')"
               :error-messages="errors"
               @update:model-value="handleChange"
             />
@@ -159,7 +159,7 @@
               item-title="commonCd"
               item-value="commonCd"
               :items="jdkVersions"
-              :placeholder="$t('JDK 버전을 선택해주세요')"
+              :placeholder="$t('JDK 버전을 선택하세요')"
               :error-messages="errors"
               @update:model-value="handleChange"
             />
@@ -252,7 +252,7 @@ const openModal = target => {
 const validate = async () => {
   if (isDuplicateProjectName.value) {
     alertStore.openAlert({
-      titleName: tt('중복 체크를 실행해주세요'),
+      titleName: tt('중복 체크를 실행하세요'),
       type: 'warn',
     })
     return
