@@ -1,21 +1,22 @@
 {
   "name": "strato-ui",
   "private": true,
-  "version": "0.0.0",
+  "version": "0.0.1",
   "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "sb": "storybook build && storybook dev -p 6006",
-    "build-storybook": "storybook build"
+    "sb": "storybook dev -p 6006",
+    "sb-build": "storybook build",
+    "publish": "npm publish"
   },
-  "main": "dist/strato-ui.umd.js",
-  "module": "dist/strato-ui.es.js",
+  "main": "lib/index.umd.js",
+  "module": "lib/index.es.js",
   "exports": {
     ".": {
-      "import": "./dist/index.es.js",
-      "require": "./dist/index.js"
+      "import": "./lib/index.es.js",
+      "require": "./lib/index.js"
     }
   },
   "files": [
@@ -23,6 +24,7 @@
     "src"
   ],
   "dependencies": {
+    "@mdi/font": "^7.4.47",
     "vue": "^3.4.29",
     "vuetify": "3.7.1"
   },
@@ -33,14 +35,19 @@
     "@storybook/addon-links": "^8.3.6",
     "@storybook/addon-onboarding": "^8.3.6",
     "@storybook/blocks": "^8.3.6",
+    "@storybook/preset-scss": "^1.0.3",
     "@storybook/test": "^8.3.6",
     "@storybook/vue3": "^8.3.6",
     "@storybook/vue3-vite": "^8.3.6",
     "@vitejs/plugin-vue": "^5.1.4",
+    "css-loader": "^7.1.2",
     "eslint-plugin-storybook": "^0.10.1",
-    "sass": "^1.80.4",
+    "sass": "1.49.9",
+    "sass-loader": "^16.0.2",
     "storybook": "^8.3.6",
-    "vite": "^5.4.9"
+    "style-loader": "^4.0.0",
+    "vite": "^5.4.9",
+    "vite-plugin-compression2": "^1.3.0"
   },
   "packageManager": "yarn@1.22.22+sha1.ac34549e6aa8e7ead463a7407e1c7390f61a6610"
 }
