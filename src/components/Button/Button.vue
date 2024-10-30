@@ -8,9 +8,6 @@
 </template>
 
 <script setup>
-// import { DEFAULT_BUTTON_COLOR } from '@/assets/consts/consts'
-// import { ref } from 'vue'
-// const btnColor = ref(DEFAULT_BUTTON_COLOR)
 defineProps({
   title: {
     type: String,
@@ -42,6 +39,7 @@ defineProps({
 </script>
 
 <style lang="scss">
+
 a.s-btn {
   min-width: 110px;
 }
