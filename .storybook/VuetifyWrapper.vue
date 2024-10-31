@@ -1,9 +1,12 @@
 <template>
-  <v-app :theme="themeName">
-    <v-main>
-        <slot/>
-    </v-main>
-  </v-app>
+  <div id="vuetifyWrapper">
+    <v-app :theme="themeName">
+      <v-main>
+        <slot />
+        <div id="destination" />
+      </v-main>
+    </v-app>
+  </div>
 </template>
 
 <script>

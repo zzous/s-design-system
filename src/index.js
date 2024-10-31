@@ -12,3 +12,5 @@ export {default as FormTable} from './components/form/FormTable.vue';
 export {default as FormItem} from './components/form/FormItem.vue';
 export {default as Avatar} from './components/images/Avatar.vue';
 export {default as CustomImages} from './components/images/CustomImages.vue';
+export {default as CustomConfirm} from './components/modal/CustomConfirm.vue';
+export {default as CustomModal} from './components/modal/CustomModal.vue';

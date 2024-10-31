@@ -27,11 +27,15 @@ setup((app) => {
 
 export const decorators = [
     (story) => ({
-        components: {story},
+        components: { VuetifyWrapper, story },
         template: `
           <VuetifyWrapper>
-            <story/>
-          </VuetifyWrapper>`,
-    })];
+            <story />
+          </VuetifyWrapper>
+        `,
+    }),
+];
+
+
 
 export default preview;

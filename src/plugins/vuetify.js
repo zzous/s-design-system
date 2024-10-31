@@ -1,20 +1,8 @@
 // Vuetify
 import {createVuetify} from 'vuetify';
 import {
-    VBtn,
-    VTextField,
-    VLabel,
-    VCol,
-    VRow,
-    VCheckbox,
-    VList,
-    VListItem,
-    VListItemTitle,
-    VSnackbar,
-    VSheet,
-    VFileInput,
-    VMenu,
-    VImg,
+    VBtn, VTextField, VLabel, VCol, VRow, VCheckbox, VList, VListItem, VListItemTitle,
+    VSnackbar, VSheet, VFileInput, VMenu, VImg, VDialog, VCard, VCardText, VCardActions, VIcon,
 } from 'vuetify/components';
 import * as directives from 'vuetify/directives';
 import {aliases, mdi} from 'vuetify/iconsets/mdi';
@@ -22,7 +10,7 @@ import customTheme from '@/plugins/customTheme.js';
 
 export default createVuetify(
     {
-        components: {VBtn, VTextField, VLabel, VCol, VRow, VCheckbox, VList, VListItem, VListItemTitle, VSnackbar, VSheet, VFileInput, VMenu, VImg},
+        components: {VBtn, VTextField, VLabel, VCol, VRow, VCheckbox, VList, VListItem, VListItemTitle, VSnackbar, VSheet, VFileInput, VMenu, VImg, VDialog, VCard, VCardText, VCardActions, VIcon},
         directives,
         icons: {
             defaultSet: 'mdi',
