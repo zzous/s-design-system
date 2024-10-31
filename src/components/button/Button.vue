@@ -3,7 +3,7 @@
     <template v-if="title">
       {{ title }}
     </template>
-    <slot v-else />
+    <slot v-else/>
   </v-btn>
 </template>
 
@@ -28,18 +28,17 @@ defineProps({
     type: String,
     default: undefined, //기본 medium
     validator: value => {
-      return [undefined, 'x-small', 'small', 'large', 'x-large'].includes(value)
+      return [undefined, 'x-small', 'small', 'large', 'x-large'].includes(value);
     },
   },
   color: {
     type: String,
     default: 'blue',
   },
-})
+});
 </script>
 
 <style lang="scss">
-
 a.s-btn {
   min-width: 110px;
 }
@@ -47,6 +46,7 @@ a.s-btn {
   margin-left: 10px;
 }
 .s-btn {
+
   &.v-btn--variant-elevated {
     &[s-color='blue'] {
       background: $s-btn--blue-1;
