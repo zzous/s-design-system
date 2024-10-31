@@ -115,10 +115,13 @@
     --v-medium-emphasis-opacity: 1;
 }
 
-.v-input.v-input--disabled .v-field__overlay{
-    background-color: $s-default--gray-5;
+.v-input.v-input--disabled .v-field--disabled,
+.v-input.v-input--readonly {
+    --v-disabled-opacity: 1;
+    .v-field__overlay{
+        background-color: $s-default--gray-1;
+    }
 }
-
 .v-input .v-field--variant-outlined {
     &:not(.v-field--error) .v-field__outline {
         --v-field-border-opacity: 1;
