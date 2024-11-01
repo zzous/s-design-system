@@ -60,3 +60,11 @@ $s-default--gray-7: #999999;
 $s-default--gray-8: #6C6C6C;
 $s-default--gray-9: #333333;
 $s-default--gray-10: #000000;
+
+
+:root {
+    --s-form-item-label-width: 170px;
+
+    --s-text-field-min-width: 450px;
+    --s-text-select-min-width: 410px;
+}
