@@ -14,3 +14,5 @@ export {default as Avatar} from './components/images/Avatar.vue';
 export {default as CustomImages} from './components/images/CustomImages.vue';
 export {default as CustomConfirm} from './components/modal/CustomConfirm.vue';
 export {default as CustomModal} from './components/modal/CustomModal.vue';
+export {default as CustomProgressCircular} from './components/progress/CustomProgressCircular.vue';
+export {default as GlobalProgress} from './components/progress/GlobalProgress.vue';

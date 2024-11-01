@@ -11,7 +11,7 @@
       :placeholder="placeholder"
     />
     <Button height="30" variant="outlined" :disabled="btnDisabled" @click="$refs.importFile.click()">
-      {{buttonText}}}
+      {{buttonText}}
     </Button>
   </div>
 </template>
