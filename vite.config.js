@@ -14,14 +14,14 @@ export default defineConfig({
             include: /\.(js|scss)$/,
             threshold: 1400,
         }),
-        { // 빌드 시 css 파일 폰트 경로 수정
+        { // 빌드 시 css src 속성 경로 수정
             name: 'update-font-paths',
             transform(code, id) {
                 if (id.endsWith('.scss')) {
                     return {
                         code: code.replace(
-                            /src:\s*url\(\s*"?\.\.\/\.\.\/public\/assets\/fonts\/([^)"]+)"?\s*\)/g,
-                            'src: url("assets/fonts/$1")'
+                            /src:\s*url\(\s*"?\.\.\/\.\.\/public\/assets\/([^)"]+)"?\s*\)/g,
+                            'src: url("assets/$1")'
                         ),
                         map: null,
                     };

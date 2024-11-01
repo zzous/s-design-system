@@ -5,3 +5,8 @@
 </template>
 
 <script setup></script>
+<style lang="scss">
+.s-table__form {
+  border-top:solid 1px #000
+}
+</style>
