@@ -4,4 +4,4 @@ COPY default.conf /etc/nginx/conf.d/default.conf
 
 RUN mkdir /strato-documentation
 
-COPY . /usr/share/nginx/html
+COPY . /strato-documentation
