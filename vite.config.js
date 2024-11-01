@@ -6,7 +6,6 @@ import compression from 'vite-plugin-compression2';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
-
 // https://vite.dev/config/
 export default defineConfig({
     plugins: [
@@ -14,11 +13,29 @@ export default defineConfig({
         compression({
             include: /\.(js|scss)$/,
             threshold: 1400,
-        })],
+        }),
+        { // 빌드 시 css 파일 폰트 경로 수정
+            name: 'update-font-paths',
+            transform(code, id) {
+                if (id.endsWith('.scss')) {
+                    return {
+                        code: code.replace(
+                            /src:\s*url\(\s*"?\.\.\/\.\.\/public\/assets\/fonts\/([^)"]+)"?\s*\)/g,
+                            'src: url("assets/fonts/$1")'
+                        ),
+                        map: null,
+                    };
+                }
+                return null;
+            },
+        },
+    ],
+    
     resolve: {
         extensions: ['.js', '.ts', '.tsx'],
         alias: [{ find: '@', replacement: path.resolve(__dirname, 'src') }],
     },
+    
     css: {
         preprocessorOptions: {
             scss: {
@@ -29,13 +46,14 @@ export default defineConfig({
     
     build: {
         outDir: './lib',
+        assetsInlineLimit: 0,
         lib: {
             entry: path.resolve(__dirname, 'src/index.js'), // 라이브러리의 진입 파일 설정
             name: 'strato-ui',
             fileName: (format) => `index.${format}.js`,
         },
         rollupOptions: {
-            external: ['vue'], // 외부 종속성 제외
+            external: ['vue', /\.(ttf|otf|woff2?)$/],
             output: {
                 globals: {vue: 'Vue'},
             },

@@ -16,13 +16,15 @@
       <slot name="alert-icon" />
       {{ titleName }}
       <template #actions>
-        <v-btn v-if="isClose" :color="'#fff'" variant="text" @click="onClickCloseAlert">Close</v-btn>
+        <Button v-if="isClose" :color="'#fff'" variant="text" @click="onClickCloseAlert">Close</Button>
       </template>
     </v-snackbar>
   </div>
 </template>
 
 <script setup>
+import Button from '../button/Button.vue';
+
 const emits = defineEmits(['update:model-value', 'open-alert', 'close-alert'])
 
 defineProps({
