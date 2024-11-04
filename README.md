@@ -1,4 +1,6 @@
-# [@strato/components](http://10.10.30.70:32030/)
+# @strato/components
+- [Storybook](http://10.10.30.70:32030/)
+- [Nexus Repository](http://210.217.178.150:8081/#browse/browse:strato-ui)
 
 ## 프로젝트 구조
 ```bash
@@ -30,7 +32,6 @@
 ├── 📄 README.md
 └── 📄 vite.config.js
 ```
-
 
 ## 스토리북 개발 서버 실행
 ```bash
