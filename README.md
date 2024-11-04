@@ -1,4 +1,4 @@
-# #{`name`}
+# [@strato/components](http://10.10.30.70:32030/)
 
 ## 프로젝트 구조
 ```bash
