@@ -14,7 +14,6 @@ const Template = (args, { argTypes }) => ({
     components: { Avatar },
     props: Object.keys(argTypes),
     setup() {
-        console.log(args);
         return { args };
     },
     template: `
