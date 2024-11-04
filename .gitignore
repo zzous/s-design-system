@@ -35,3 +35,4 @@ src/lib/
 .credentials
 
 *storybook.log
+storybook-static/*
