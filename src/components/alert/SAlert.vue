@@ -1,29 +1,29 @@
 <template>
   <div class="s-alert">
     <v-snackbar
-        :style="alertStyle"
-        :model-value="dialog"
-        :multi-line="multiLine"
-        :timeout="timeout"
-        :color="color"
-        :height="height"
-        elevation="0"
-        min-width="600"
-        location="top"
-        @input="onClickOpenAlert"
-        @update:model-value="updateModelValue"
+      :style="alertStyle"
+      :model-value="dialog"
+      :multi-line="multiLine"
+      :timeout="timeout"
+      :color="color"
+      :height="height"
+      elevation="0"
+      min-width="600"
+      location="top"
+      @input="onClickOpenAlert"
+      @update:model-value="updateModelValue"
     >
       <slot name="alert-icon" />
       {{ titleName }}
       <template #actions>
-        <Button v-if="isClose" :color="'#fff'" variant="text" @click="onClickCloseAlert">Close</Button>
+        <s-btn v-if="isClose" :color="'#fff'" variant="text" @click="onClickCloseAlert">Close</s-btn>
       </template>
     </v-snackbar>
   </div>
 </template>
 
 <script setup>
-import Button from '../button/Button.vue';
+import SBtn from '../button/SBtn.vue';
 
 const emits = defineEmits(['update:model-value', 'open-alert', 'close-alert'])
 
@@ -31,17 +31,17 @@ defineProps({
   titleName: {
     type: String,
     default: '',
-    description: '모달 헤더 이름',
+    description: '알림 내용',
   },
   dialog: {
     type: Boolean,
     default: false,
-    description: '모달 오픈 여부',
+    description: '알림 오픈 여부',
   },
   multiLine: {
     type: Boolean,
     default: false,
-    description: '라인 수',
+    description: '최소 높이를 더 높게 설정합니다.',
   },
   color: {
     type: String,
@@ -92,20 +92,5 @@ const onClickOpenAlert = () => {
 </script>
 
 <style lang="scss">
-.s-alert {
-  .v-snack__wrapper {
-    .v-snack__content {
-      justify-content: center;
-
-      .v-icon {
-        margin-right: 9px;
-      }
-
-      display: flex;
-      padding: 13px 19px;
-      align-items: center;
-      @include set-text(500, 15, #fff);
-    }
-  }
-}
+@import url('./SAlert.scss');
 </style>

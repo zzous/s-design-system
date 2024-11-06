@@ -4,12 +4,12 @@ import 'vuetify/styles';
 export {default as customTheme} from './plugins/customTheme.js';
 
 // Components
-export {default as Button} from './components/button/Button.vue';
+export {default as SBtn} from './components/button/SBtn.vue';
 export {default as TextCheckBoxInput} from './components/Input/TextCheckBoxInput.vue';
 export {default as ShellScriptInput} from './components/Input/ShellScriptInput.vue';
 export {default as FileInputButton} from './components/Input/FileInputButton.vue';
-export {default as CustomAlert} from './components/alert/CustomAlert.vue';
-export {default as CustomEmpty} from './components/containment/CustomEmpty.vue';
+export {default as SAlert} from './components/alert/SAlert.vue';
+export {default as SEmpty} from './components/containment/SEmpty.vue';
 export {default as ScriptEditor} from './components/editor/ScriptEditor.vue';
 export {default as FormTable} from './components/form/FormTable.vue';
 export {default as FormItem} from './components/form/FormItem.vue';

@@ -1,10 +1,10 @@
 <script setup>
-import {Button} from './index.js';
+import { SBtn } from './index.js';
 </script>
 
 <template>
 <div>
-  <Button>버튼</Button>
+  <s-btn>버튼</s-btn>
 </div>
 </template>
 

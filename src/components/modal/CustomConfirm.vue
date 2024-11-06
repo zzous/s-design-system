@@ -12,12 +12,12 @@
           {{ contents }}
         </v-card-text>
         <v-card-actions class="button-wrapper">
-          <Button variant="elevated" color="blue" @click.stop="onConfirm">
+          <SBtn variant="elevated" color="blue" @click.stop="onConfirm">
             {{ confirmButtonText }}
-          </Button>
-          <Button variant="outlined" color="blue" @click="onCancel">
+          </SBtn>
+          <SBtn variant="outlined" color="blue" @click="onCancel">
             {{ cancelButtonText }}
-          </Button>
+          </SBtn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -25,7 +25,7 @@
 </template>
 
 <script setup>
-import {Button} from '@';
+import {SBtn} from '@';
 
 const emits = defineEmits(['update:model-value', 'click:confirm', 'click:cancel'])
 

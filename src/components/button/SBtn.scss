@@ -1,0 +1,44 @@
+a.s-btn {
+  min-width: 110px;
+}
+
+.s-btn {
+  &.v-btn--variant-elevated{
+    &[s-color='blue'] {
+      background: $s-btn--blue-1;
+      color: white;
+    }
+    &[s-color='red'] {
+      background: $s-btn--red-1;
+      color: white;
+    }
+    &[s-color='black'] {
+      background: black;
+      color: white;
+    }
+  }
+
+  &.v-btn--variant-outlined {
+    opacity: 1;
+    background-color: white;
+
+    &[s-color='blue'] {
+      border-color: $s-btn--blue-1;
+      color: $s-btn--blue-1;
+      &:hover .v-btn__overlay {
+        background: $s-btn--blue-1;
+      }
+    }
+    &[s-color='red'] {
+      border-color: $s-btn--red-1;
+      color: $s-btn--red-1;
+      &:hover .v-btn__overlay {
+        background: $s-btn--red-1;
+      }
+    }
+    &:disabled {
+      border-color: $s-default--gray-5;
+      color: $s-default--gray-5;
+    }
+  }
+}

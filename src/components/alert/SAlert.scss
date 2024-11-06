@@ -1,0 +1,16 @@
+.s-alert {
+  .v-snack__wrapper {
+    .v-snack__content {
+      justify-content: center;
+
+      .v-icon {
+        margin-right: 9px;
+      }
+
+      display: flex;
+      padding: 13px 19px;
+      align-items: center;
+      @include set-text(500, 15, #fff);
+    }
+  }
+}

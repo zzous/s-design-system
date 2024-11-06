@@ -20,7 +20,7 @@
             </span>
             <div class="button-wrapper">
               <slot name="header-btn-append" />
-              <Button
+              <SBtn
                 class="modal--cancel"
                 elevation="0"
                 dense
@@ -30,7 +30,7 @@
                 @click="onClickCloseModal"
               >
                 <v-icon :color="isWhite ? '#1A3350' : '#fff'" size="x-large">mdi-close</v-icon>
-              </Button>
+              </SBtn>
             </div>
           </div>
         </template>
@@ -51,7 +51,7 @@
 </template>
 
 <script setup>
-import { Button } from '@/index.js';
+import { SBtn } from '@/index.js';
 
 defineProps({
   title: {

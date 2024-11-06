@@ -42,32 +42,6 @@ defineProps({
 })
 </script>
 
-<style lang="scss">
-.s-empty {
-  $this: 's-empty';
-  display: flex;
-  width: 100%;
-  height: 80px;
-
-  .#{$this}__card {
-    width: 100%;
-    height: 100%;
-    border: thin dotted $s-default--gray-5;
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-    justify-content: space-evenly;
-
-    .#{$this}__card-title {
-      @include set-text(bold, 14, rgba($color: $s-primary, $alpha: 1));
-      margin-bottom: 4px;
-      text-align: center;
-      display: flex;
-    }
-    .#{$this}__card-content {
-      @include set-text(500, 12, rgba($color: $s-primary, $alpha: 1));
-      text-align: center;
-    }
-  }
-}
+<style lang="scss" scoped>
+@import url('./SEmpty.scss');
 </style>

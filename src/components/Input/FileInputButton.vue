@@ -10,14 +10,14 @@
       :error-messages="errorMessages"
       :placeholder="placeholder"
     />
-    <Button height="30" variant="outlined" :disabled="btnDisabled" @click="$refs.importFile.click()">
+    <SBtn height="30" variant="outlined" :disabled="btnDisabled" @click="$refs.importFile.click()">
       {{buttonText}}
-    </Button>
+    </SBtn>
   </div>
 </template>
 
 <script setup>
-import { Button } from '@';
+import { SBtn } from '@';
 import { ref, onMounted } from 'vue'
 const props = defineProps({
   placeholder: {

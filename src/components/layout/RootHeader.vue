@@ -9,11 +9,11 @@
         </a>
       </div>
       <v-app-bar-title density="compact" variant="flat" size="small" background-color="white">
-        <Button v-if="showMenuBtn" class="s-btn__menu" text="서비스" @click="toggleMenu">
+        <SBtn v-if="showMenuBtn" class="s-btn__menu" text="서비스" @click="toggleMenu">
           <template #prepend>
             <v-icon class="s-btn__menu__icon" variant="text" density="compact" icon="mdi-menu" />
           </template>
-        </Button>
+        </SBtn>
       </v-app-bar-title>
     </template>
     <template #append>
@@ -77,7 +77,7 @@
 </template>
 
 <script setup>
-import {Avatar, Button, CustomImages} from '@';
+import {Avatar, SBtn, CustomImages} from '@';
 import Logo from "./Logo.vue";
 
 const props = defineProps({

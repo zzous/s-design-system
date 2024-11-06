@@ -1,19 +1,19 @@
-import { CustomEmpty } from '@';
+import { SAlert } from '@';
 
 export default {
-    title: 'Containment/CustomEmpty',
-    component: CustomEmpty,
+    title: 'Alert/SAlert',
+    component: SAlert,
     tags: ['autodocs'],
     argTypes: {
         // 📌 스토리북 작성 가이드 https://storybook.js.org/docs/essentials/controls#annotation
+        color: {control: {type: 'text'}, description: '배경 색상'},
     },
 };
 
 // More on writing stories with args: https://storybook.js.org/docs/writing-stories/args
 export const Default = {
     args: {
-        title: "Title",
-        description: "Description",
-        shadowed: true,
+        titleName: "Test Strato Alarm!",
+        dialog: true,
     },
 };
