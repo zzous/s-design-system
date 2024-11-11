@@ -11,6 +11,7 @@ export default {
         size: {control: {type: 'select'}, options: [undefined, 'x-small', 'small', 'large', 'x-large'], description: '버튼 사이즈'},
         height: { control: { type: 'text' }, description: '버튼 높이'},
         color: {control: {type: 'select'}, options: ["blue", "red", "black"], description: '버튼 색상'},
+        icon: {control: {type: 'text'}, description: '아이콘 버튼'},
     },
 };
 
@@ -21,36 +22,20 @@ export const Default = {
     }
 };
 
+const outlinedTemplate = `
+    <div class="d-flex align-center">
+        <SBtn class="mr-5" title="기본" variant="outlined" color="black" v-bind="args" />
+        <SBtn class="mr-5" title="등록" variant="outlined" color="blue" />
+        <SBtn class="mr-5" title="삭제" variant="outlined" color="red" />
+    </div>
+`;
 
 export const OutlinedButton = (args) => ({
     components: { SBtn },
     setup() {
-        const defaultButtonArgs = {}
-        const outlinedButtonArgs = [
-            {
-                title: '등록',
-                color: 'blue',
-                variant: 'outlined'
-            },
-            {
-                title: '삭제',
-                color: 'red',
-                variant: 'outlined'
-            }
-        ];
-        return { defaultButtonArgs, outlinedButtonArgs, args };
+        return { args };
     },
-    template: `
-        <div>
-            <SBtn class="mr-5" v-bind="{...defaultButtonArgs, ...args}" />
-            <SBtn
-                class="mr-5"
-                v-for="(outlinedArgs, index) in outlinedButtonArgs"
-                :key="index"
-                v-bind="{...outlinedArgs}"
-            />
-        </div>
-    `,
+    template: outlinedTemplate,
 });
 
 
@@ -63,13 +48,7 @@ OutlinedButton.args = {
 OutlinedButton.parameters = {
     docs: {
         source: {
-            code: `
-<div>
-    <SBtn class="mr-5" title="기본" variant="outlined" color="black" />
-    <SBtn class="mr-5" title="등록" variant="outlined" color="blue" />
-    <SBtn class="mr-5" title="삭제" variant="outlined" color="red" />
-</div>
-        `,
+            code: `<template>${outlinedTemplate}</template>`,
             language: 'html',
             type: 'auto',
         },
@@ -77,47 +56,22 @@ OutlinedButton.parameters = {
 };
 
 
+const sizeTemplate = `
+    <div class="d-flex align-center">
+        <SBtn class="mr-5" title="기본" v-bind="args" />
+        <SBtn class="mr-5" title="x-small" color="black" size="x-small" />
+        <SBtn class="mr-5" title="small" color="black" size="small" />
+        <SBtn class="mr-5" title="large" color="black" size="large" />
+        <SBtn class="mr-5" title="x-large" color="black" size="x-large" />
+    </div>
+`;
 export const ButtonSize = (args) => ({
     components: { SBtn },
     setup() {
-        const defaultButtonArgs = {}
-        const sizeButtonArgs = [
-            {
-                title: 'x-small',
-                size: 'x-small',
-                color: 'black'
-            },
-            {
-                title: 'small',
-                size: 'small',
-                color: 'black'
-            },
-            {
-                title: 'large',
-                size: 'large',
-                color: 'black'
-            },
-            {
-                title: 'x-large',
-                size: 'x-large',
-                color: 'black'
-            }
-        ];
-        return { defaultButtonArgs, sizeButtonArgs, args };
+        return { args };
     },
-    template: `
-        <div>
-            <SBtn class="mr-5" v-bind="{...defaultButtonArgs, ...args}" />
-            <SBtn
-                class="mr-5"
-                v-for="(btnArgs, index) in sizeButtonArgs"
-                :key="index"
-                v-bind="{...btnArgs}"
-            />
-        </div>
-    `,
+    template: sizeTemplate,
 });
-
 
 ButtonSize.args = {
     title: '기본',
@@ -126,16 +80,42 @@ ButtonSize.args = {
 ButtonSize.parameters = {
     docs: {
         source: {
-            code: `
-<div>
-    <SBtn class="mr-5" title="기본" />
-    <SBtn class="mr-5" title="Default" color="black" />
-    <SBtn class="mr-5" title="x-small" color="black" />
-    <SBtn class="mr-5" title="small" color="black" />
-    <SBtn class="mr-5" title="large" color="black" />
-    <SBtn class="mr-5" title="x-large" color="black" />
-</div>
-        `,
+            code: `<template>${sizeTemplate}</template>`,
+            language: 'html',
+            type: 'auto',
+        }
+    },
+};
+
+const iconTemplate = `
+    <div class="d-flex align-center">
+        <SBtn class="mr-5" icon="mdi-plus" v-bind="args" />
+        <SBtn class="mr-5" size="x-small" variant="outlined" color="black" icon="mdi-plus" />
+        <SBtn class="mr-5" size="small" color="black" icon="mdi-plus" />
+        <SBtn class="mr-5" size="x-small" variant="outlined" color="blue" icon="mdi-plus" />
+        <SBtn class="mr-5" size="small" color="blue" icon="mdi-plus" />
+        <SBtn class="mr-5" size="x-small" variant="outlined" color="red" icon="mdi-plus" />
+        <SBtn class="mr-5" size="small" color="red" icon="mdi-plus" />
+    </div>
+`;
+
+export const ButtonIcon = (args) => ({
+    components: { SBtn },
+    setup() {
+        return { args };
+    },
+    template: iconTemplate,
+});
+
+
+ButtonIcon.args = {
+    icon: 'mdi-plus',
+};
+
+ButtonIcon.parameters = {
+    docs: {
+        source: {
+            code: `<template>${iconTemplate}</template>`,
             language: 'html',
             type: 'auto',
         }

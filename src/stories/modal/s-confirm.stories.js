@@ -1,8 +1,8 @@
-import {CustomModal} from '@';
+import {SConfirm} from '@';
 
 export default {
-    title: 'Modal/CustomModal',
-    component: CustomModal,
+    title: 'Modal/SConfirm',
+    component: SConfirm,
     tags: ['autodocs'],
     argTypes: {
         // 📌 스토리북 작성 가이드 https://storybook.js.org/docs/essentials/controls#annotation
@@ -10,19 +10,16 @@ export default {
 };
 
 const Template = (args) => ({
-    components: { CustomModal },
+    components: { SConfirm },
     setup() { return { args }; },
-    template: `
-      <CustomModal v-bind="args">
-        Modal Contents
-      </CustomModal>
-    `,
+    template: `<SConfirm v-bind="args" />`,
 });
 
 export const Default = Template.bind({});
 Default.args = {
     modelValue: false,
-    modalWidth: '760px',
-    title: 'Modal Title',
+    contents: 'Confirm Text',
+    confirmButtonText: '확인',
+    cancelButtonText: '취소',
     teleportId: 'storybook-root',
 };

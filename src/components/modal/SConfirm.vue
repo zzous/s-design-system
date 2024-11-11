@@ -12,12 +12,8 @@
           {{ contents }}
         </v-card-text>
         <v-card-actions class="button-wrapper">
-          <SBtn variant="elevated" color="blue" @click.stop="onConfirm">
-            {{ confirmButtonText }}
-          </SBtn>
-          <SBtn variant="outlined" color="blue" @click="onCancel">
-            {{ cancelButtonText }}
-          </SBtn>
+          <s-btn variant="elevated" color="blue" @click.stop="onConfirm" :title="confirmButtonText" />
+          <s-btn variant="outlined" color="blue" @click="onCancel" :title="cancelButtonText" />
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -25,8 +21,7 @@
 </template>
 
 <script setup>
-import {SBtn} from '@';
-
+import { SBtn } from '@'
 const emits = defineEmits(['update:model-value', 'click:confirm', 'click:cancel'])
 
 defineProps({
@@ -40,20 +35,20 @@ defineProps({
     default: false,
     description: '컨펌창 오픈 여부',
   },
-  confirmButtonText: {
-    type: String,
-    default: '확인',
-    description: '확인 버튼 텍스트',
-  },
-  cancelButtonText: {
-    type: String,
-    default: '취소',
-    description: '취소 버튼 텍스트',
-  },
   teleportId: {
     type: String,
     default: 'destination',
     description: 'Teleport ID',
+  },
+  confirmButtonText: {
+    type: String,
+    default: '확인',
+    description: '확인 버튼의 텍스트',
+  },
+  cancelButtonText: {
+    type: String,
+    default: '취소',
+    description: '취소 버튼의 텍스트',
   }
 })
 
@@ -62,10 +57,10 @@ const updateModelValue = value => {
 }
 
 const onConfirm = () => emits('click:confirm')
-const onCancel = () => emits('click:cancel')
+const onCancel = () => emits('update:cancel', false)
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .s-confirm-modal {
   margin: 0 auto;
   .s-confirm-modal__text {
@@ -86,6 +81,12 @@ const onCancel = () => emits('click:cancel')
     > button {
       min-width: 110px;
       height: 36px;
+    }
+  }
+
+  ::v-deep(.v-dialog) {
+    .v-overlay__content > .v-card {
+      border-radius: 8px;
     }
   }
 }

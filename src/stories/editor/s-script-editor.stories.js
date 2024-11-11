@@ -1,8 +1,8 @@
-import { FormTable } from '@';
+import { SScriptEditor } from '@';
 
 export default {
-    title: 'Form/FormTable',
-    component: FormTable,
+    title: 'Editor/SScriptEditor',
+    component: SScriptEditor,
     tags: ['autodocs'],
     argTypes: {
         // 📌 스토리북 작성 가이드 https://storybook.js.org/docs/essentials/controls#annotation

@@ -1,0 +1,90 @@
+.s-modal {
+  &.xl {
+    width: 1450px;
+  }
+
+  &.lg {
+    width: 1300px;
+  }
+
+  &.md {
+    width: 1000px;
+    --s-text-field-min-width: 618px;
+    --s-text-select-min-width: 618px;
+  }
+
+  &.sm {
+    width: 500px;
+    --s-form-item-label-width: 120px;
+    --s-text-field-min-width: 270px;
+    --s-text-select-min-width: 270px;
+  }
+
+  &.xs {
+    width: 460px;
+  }
+
+  .s-modal__title {
+    height: 48px;
+    width: 100%;
+    padding: 0 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: 600;
+
+    &.s-modal__title--light {
+      background-color: white;
+      color: $s-primary;
+    }
+    &.s-modal__title--dark {
+      background-color: $s-primary;
+      color: white;
+    }
+  }
+
+  .button-wrapper {
+    display: flex;
+    flex: 1;
+    justify-content: flex-end;
+    align-items: center;
+
+    .modal--cancel {
+      background: transparent;
+      padding: 0;
+      min-width: 0;
+      opacity: 0.6;
+    }
+  }
+
+  .s-modal__content {
+    scrollbar-gutter: stable both-edges;
+    padding: 20px 10px;
+    max-height: 700px;
+    @include scroll();
+    overflow-y: auto;
+    background-color: $s-base-background;
+  }
+  .s-modal__footer {
+    width: 100%;
+    background-color: $s-base-background;
+  }
+
+  ::v-deep(.v-card) .v-card-item {
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+
+    .v-card-item__prepend,
+    .v-card-item__append,
+    .v-card-item__content {
+      padding-inline-end: 0;
+      width: 100%;
+    }
+  }
+
+  ::v-deep(.v-overlay__content) {
+    width: inherit;
+    max-width: inherit;
+  }
+}

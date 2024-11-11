@@ -1,8 +1,8 @@
-a.s-btn {
-  min-width: 110px;
-}
-
 .s-btn {
+  &:not(.v-btn--icon) {
+    min-width: 110px;
+  }
+
   &.v-btn--variant-elevated{
     &[s-color='blue'] {
       background: $s-btn--blue-1;

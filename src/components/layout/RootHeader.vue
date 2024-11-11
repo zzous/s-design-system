@@ -30,7 +30,7 @@
       <!-- 전역 테넌트 셀렉트박스 -->
       <div v-else class="s-item-group">
         <slot name="inner-append" />
-        <Avatar
+        <s-avatar
           :user="userInfo"
           :menu-items="userMenus"
           :class-name="{ fontWhite: true }"
@@ -38,16 +38,16 @@
         >
           <template #badge>
             <v-avatar size="35">
-              <CustomImages
+              <s-img
                 v-if="userInfo.picture"
                 lazy-src="user-avatar.png"
                 :src-url="`data:image/${userInfo.picture.format};base64,${userInfo.picture.data}`"
                 width="100"
               />
-              <CustomImages v-else lazy-src="user-avatar.png" src="user-avatar.png" width="100" />
+              <s-img v-else lazy-src="user-avatar.png" src="user-avatar.png" width="100" />
             </v-avatar>
           </template>
-        </Avatar>
+        </s-avatar>
       </div>
     </template>
   </v-app-bar>
@@ -77,7 +77,7 @@
 </template>
 
 <script setup>
-import {Avatar, SBtn, CustomImages} from '@';
+import {SAvatar, SBtn, SImg} from '@';
 import Logo from "./Logo.vue";
 
 const props = defineProps({

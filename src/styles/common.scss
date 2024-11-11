@@ -1,5 +1,3 @@
-body { font-family: $s-base-font; }
-
 .portal_layout * {
     font-family: $s-base-font;
     --global-nav-header-height: 68px;
@@ -35,6 +33,43 @@ body { font-family: $s-base-font; }
     --v-medium-emphasis-opacity: 1;
 }
 
+.v-menu .v-overlay__content > .v-list{
+    padding:5px 0;
+    border: solid 1px $active-font-color;
+}
+
+.v-list {
+    .v-list-item {
+        margin:0 5px;
+    }
+
+    .v-list-item + .v-list-item {
+        margin-top: 5px;
+    }
+
+    .v-list-item > .v-list-item__overlay {
+        background: $active-font-color;
+        border-radius:99px;
+    }
+
+    .v-list-item--active {
+        font-weight:400;
+    }
+
+    .v-list-item--active > .v-list-item__overlay,
+    .v-list-item:hover > .v-list-item__overlay {
+        opacity: .3;
+    }
+
+    .v-list-item--density-default.v-list-item--one-line {
+        min-height: 24px;
+
+        .v-list-item-title {
+            @include set-text(500, 12, $s-default--gray-9);
+        }
+    }
+}
+
 .v-input {
     &.v-input--disabled,
     &.v-input--readonly {
@@ -53,14 +88,6 @@ body { font-family: $s-base-font; }
         &.v-field--error .v-field__outline {
             --v-field-border-opacity: 1;
             color: $s-btn--red-1;
-        }
-    }
-
-    &.v-list-item--density-default.v-list-item--one-line {
-        min-height: 24px;
-
-        .v-list-item-title{
-            @include set-text(500, 12, $s-default--gray-9);
         }
     }
 
@@ -148,6 +175,21 @@ body { font-family: $s-base-font; }
         min-width: initial !important;
         .v-input__control .v-field .v-field__input {
             min-width: initial !important;
+        }
+    }
+}
+
+
+.form__btn-wrapper {
+    display: flex;
+    justify-content: center;
+    padding: 10px 30px 30px;
+
+    .s-btn {
+        min-width: 110px;
+        height: 36px;
+        &:not(:first-child){
+            margin-left:10px
         }
     }
 }

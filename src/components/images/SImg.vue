@@ -1,6 +1,6 @@
 <template>
   <v-img
-    class="s-image"
+    class="s-img"
     :class="{ ...className }"
     :alt="alt"
     :aspect-ratio="aspectRatio"
@@ -156,10 +156,11 @@ defineProps({
     default: undefined,
     description: '구성 요소의 너비를 설정',
   },
-})
-const publicPath = computed(() => {
-  // return import.meta.env.VITE_BASE_PUBLIC_URL
-  return '/devops'
+  publicPath: {
+    type: String,
+    default: '',
+    description: '/public 이후의 경로',
+  }
 })
 /*
     @brief 에러 발생 함수
@@ -198,7 +199,7 @@ const onLoadStart = () => {}
 </script>
 
 <style lang="scss">
-.s-image {
+.s-img {
   &.with-btn {
     .v-responsive__content {
       width: 20px !important;

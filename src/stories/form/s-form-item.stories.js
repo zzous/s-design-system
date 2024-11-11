@@ -1,8 +1,8 @@
-import {FormItem} from '@';
+import {SFormItem} from '@';
 
 export default {
-    title: 'Form/FormItem',
-    component: FormItem,
+    title: 'Form/SFormItem',
+    component: SFormItem,
     tags: ['autodocs'],
     argTypes: {
         // 📌 스토리북 작성 가이드 https://storybook.js.org/docs/essentials/controls#annotation
@@ -10,20 +10,20 @@ export default {
 };
 
 const Template = (args, { argTypes }) => ({
-    components: { FormItem },
+    components: { SFormItem },
     props: Object.keys(argTypes),
     setup() {
         return { args };
     },
     template: `
-      <FormItem v-bind="args">
+      <SFormItem v-bind="args">
         <template #default="{ handleChange, errors }">
           <input type="text" @input="handleChange" placeholder="Enter text" />
         </template>
         <template #outer-append="{ errors }">
           <span class="error-message" v-if="errors">{{ errors[0] }}</span>
         </template>
-      </FormItem>
+      </SFormItem>
     `,
 });
 

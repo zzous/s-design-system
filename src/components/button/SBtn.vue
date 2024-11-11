@@ -1,9 +1,8 @@
 <template>
-  <v-btn class="s-btn" elevation="0" :s-color="color" :size="size" :to="to" :height="height">
-    <template v-if="title">
+  <v-btn class="s-btn" elevation="0" :s-color="color" :size="size" :to="to" :height="height" :icon="icon">
+    <template v-if="title" #default>
       {{ title }}
     </template>
-    <slot v-else />
   </v-btn>
 </template>
 
@@ -29,15 +28,19 @@ defineProps({
   },
   size: {
     type: String,
-    default: undefined, //기본 medium
+    default: 'default', //기본 medium
     validator: value => {
-      return [undefined, 'x-small', 'small', 'large', 'x-large'].includes(value)
+      return ['default', 'x-small', 'small', 'large', 'x-large'].includes(value)
     },
   },
   color: {
     type: String,
     default: 'blue',
   },
+  icon: {
+    type: String,
+    default: undefined,
+  }
 })
 </script>
 

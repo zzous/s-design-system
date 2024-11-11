@@ -1,8 +1,8 @@
-import {Avatar} from '@';
+import {SAvatar} from '@';
 
 export default {
-    title: 'Images/Avatar',
-    component: Avatar,
+    title: 'Images/SAvatar',
+    component: SAvatar,
     tags: ['autodocs'],
     argTypes: {
         // 📌 스토리북 작성 가이드 https://storybook.js.org/docs/essentials/controls#annotation
@@ -11,14 +11,14 @@ export default {
 
 // More on writing stories with args: https://storybook.js.org/docs/writing-stories/args
 const Template = (args, { argTypes }) => ({
-    components: { Avatar },
+    components: { SAvatar },
     props: Object.keys(argTypes),
     setup() {
         return { args };
     },
     template: `
       <div :style="{ background: '#525252', padding: '16px' }">
-        <Avatar v-bind="args" />
+        <SAvatar v-bind="args" />
       </div>
     `,
 });
@@ -31,4 +31,3 @@ Default.args = {
         { title: "Menu3", value: 'Menu3' },
     ]
 };
-

@@ -8,7 +8,7 @@
         :indent-with-tab="true"
         :tab-size="2"
         :extensions="extensions"
-        :readonly="readOnly"
+        :readonly="readonly"
         :style="height ? { height: `${height}px` } : {}"
     />
   </div>
@@ -32,7 +32,7 @@ defineProps({
     type: Number,
     default: 0,
   },
-  readOnly: {
+  readonly: {
     type: Boolean,
     default: false,
   },
