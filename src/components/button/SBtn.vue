@@ -1,7 +1,8 @@
 <template>
   <v-btn class="s-btn" elevation="0" :s-color="color" :size="size" :to="to" :height="height" :icon="icon">
-    <template v-if="title" #default>
+    <template #default>
       {{ title }}
+      <slot />
     </template>
   </v-btn>
 </template>

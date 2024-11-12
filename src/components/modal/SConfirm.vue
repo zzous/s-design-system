@@ -84,7 +84,7 @@ const onCancel = () => emits('update:cancel', false)
     }
   }
 
-  ::v-deep(.v-dialog) {
+  :deep(.v-dialog) {
     .v-overlay__content > .v-card {
       border-radius: 8px;
     }

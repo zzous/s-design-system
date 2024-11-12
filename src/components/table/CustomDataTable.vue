@@ -548,13 +548,13 @@ onMounted(() => {
 .s-data-table {
   border-radius: 0;
 
-  ::v-deep(th.v-data-table__th) {
+  :deep(th.v-data-table__th) {
     --v-table-header-height: 36px;
     font-weight: 600;
     font-size: toRem(14);
   }
 
-  ::v-deep(td.v-data-table__td) {
+  :deep(td.v-data-table__td) {
     --v-border-color: 0, 0, 0;
     --v-table-row-height: 42px;
     font-size: toRem(14);
@@ -575,16 +575,16 @@ onMounted(() => {
   }
 
   &.hide-footer {
-    > ::v-deep(.v-data-table-footer) {
+    > :deep(.v-data-table-footer) {
       display: none !important;
     }
   }
-  ::v-deep(.v-btn:hover) > .v-btn__overlay {
+  :deep(.v-btn:hover) > .v-btn__overlay {
     opacity: 0.1;
     background: #1297f2;
   }
 
-  ::v-deep(.v-btn--disabled).v-btn--variant-flat .v-btn__overlay {
+  :deep(.v-btn--disabled).v-btn--variant-flat .v-btn__overlay {
     opacity: 1;
     background: transparent;
   }
@@ -599,7 +599,7 @@ onMounted(() => {
     color: #333;
     margin-top: 60px;
 
-    ::v-deep(.v-pagination__item--is-active) {
+    :deep(.v-pagination__item--is-active) {
       color: white;
 
       .v-btn--disabled {
@@ -615,7 +615,7 @@ onMounted(() => {
   }
 
   /* 테이블 말 줄임표 */
-  &::v-deep(.v-table__wrapper).fixed-table table {
+  &:deep(.v-table__wrapper).fixed-table table {
     table-layout: fixed;
 
     .v-data-table__td {

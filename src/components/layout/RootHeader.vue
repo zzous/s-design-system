@@ -167,7 +167,7 @@ const onClickServiceItem = value => {
 .s-header {
   box-shadow: 0px 4px 4px 0px #00000040;
 
-  ::v-deep(.v-toolbar__prepend) {
+  :deep(.v-toolbar__prepend) {
     margin-inline: 0;
 
     .s-btn__menu {
@@ -212,7 +212,7 @@ const onClickServiceItem = value => {
   overflow-y: auto;
   @include scroll();
 
-  &::v-deep(.v-list-item) {
+  &:deep(.v-list-item) {
     margin-top: 0 !important;
     font-weight: 300;
 

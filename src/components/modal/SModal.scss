@@ -70,7 +70,7 @@
     background-color: $s-base-background;
   }
 
-  ::v-deep(.v-card) .v-card-item {
+  :deep(.v-card) .v-card-item {
     display: flex;
     flex-direction: column;
     padding: 0;
@@ -83,7 +83,7 @@
     }
   }
 
-  ::v-deep(.v-overlay__content) {
+  :deep(.v-overlay__content) {
     width: inherit;
     max-width: inherit;
   }

@@ -37,7 +37,7 @@
       gap: 10px;
       flex-wrap: wrap;
 
-      ::v-deep(.s-btn) {
+      :deep(.s-btn) {
         width: 110px;
       }
     }
@@ -46,7 +46,7 @@
       font-size: 12px;
     }
 
-    ::v-deep(.v-text-field) {
+    :deep(.v-text-field) {
       min-width: var(--s-text-field-min-width, 618px);
 
       .v-input__control .v-field {
