@@ -3,7 +3,7 @@ import {createVuetify} from 'vuetify';
 import {
     VBtn, VTextField, VLabel, VCol, VRow, VCheckbox, VList, VListItem, VListItemTitle,
     VSnackbar, VSheet, VFileInput, VMenu, VImg, VDialog, VCard, VCardText, VCardActions, VIcon,
-    VPagination, VDataTable, VFooter, VApp, VAppBar, VAppBarTitle, VAvatar
+    VPagination, VDataTable, VFooter, VApp, VAppBar, VAppBarTitle, VAvatar, VOverlay, VMain
 } from 'vuetify/components';
 import * as directives from 'vuetify/directives';
 import {aliases, mdi} from 'vuetify/iconsets/mdi';
@@ -15,7 +15,7 @@ export default createVuetify(
             VBtn, VTextField, VLabel, VCol, VRow, VCheckbox, VList, VListItem,
             VListItemTitle, VSnackbar, VSheet, VFileInput, VMenu, VImg, VDialog,
             VCard, VCardText, VCardActions, VIcon, VPagination, VDataTable, VFooter,
-            VApp, VAppBar, VAppBarTitle, VAvatar
+            VApp, VAppBar, VAppBarTitle, VAvatar, VOverlay, VMain
         },
         directives,
         icons: {

@@ -1,8 +1,8 @@
-import {CustomDataTable} from '@';
+import {SDataTable} from '@';
 
 export default {
-    title: 'Table/CustomDataTable',
-    component: CustomDataTable,
+    title: 'Table/SDataTable',
+    component: SDataTable,
     tags: ['autodocs'],
     argTypes: {
         // 📌 스토리북 작성 가이드 https://storybook.js.org/docs/essentials/controls#annotation
@@ -10,9 +10,9 @@ export default {
 };
 
 const Template = (args) => ({
-    components: { CustomDataTable },
+    components: { SDataTable },
     setup() { return { args }; },
-    template: `<CustomDataTable v-bind="args" />`,
+    template: `<SDataTable v-bind="args" />`,
 });
 
 export const Default = Template.bind({});

@@ -1,8 +1,8 @@
-import {GlobalProgress} from '@';
+import {SProgressCircular} from '@';
 
 export default {
-    title: 'Progress/GlobalProgressCircular',
-    component: GlobalProgress,
+    title: 'Progress/SProgressCircular',
+    component: SProgressCircular,
     tags: ['autodocs'],
     argTypes: {
         // 📌 스토리북 작성 가이드 https://storybook.js.org/docs/essentials/controls#annotation
@@ -10,14 +10,11 @@ export default {
 };
 
 const Template = (args) => ({
-    components: { GlobalProgress },
+    components: { SProgressCircular },
     setup() { return { args }; },
-    template: `<GlobalProgress v-bind="args" />`,
+    template: `<SProgressCircular v-bind="args" />`,
 });
 
 export const Default = Template.bind({});
 Default.args = {
-    loadingMessage: "Loading Message",
-    modelValue: true,
-    teleportId: 'storybook-root',
 };

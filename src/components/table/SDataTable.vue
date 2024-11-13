@@ -18,6 +18,7 @@
     :items="filterDatas"
     :item-value="itemValue"
     :items-per-page="itemsPerPage"
+    :item-selectable="itemSelectable"
     :model-value="selected"
     :multi-sort="multiSort"
     :must-sort="mustSort"
@@ -366,6 +367,11 @@ const props = defineProps({
     default: false,
     description: '툴팁 사용 여부(툴팁을 사용하려면 테이블의 class가 fixed-table을 포함하고 있어야 합니다.)',
   },
+  itemSelectable: {
+    type: String,
+    default: null,
+    description: '테이블의 checkbox가 선택이 가능한지의 여부를 판단할 수 있는 요소의 키 값입니다. (예: selectable)',
+  },
 })
 
 const selected = ref([])
@@ -544,98 +550,6 @@ onMounted(() => {
 })
 </script>
 
-<style lang="scss">
-.s-data-table {
-  border-radius: 0;
-
-  :deep(th.v-data-table__th) {
-    --v-table-header-height: 36px;
-    font-weight: 600;
-    font-size: toRem(14);
-  }
-
-  :deep(td.v-data-table__td) {
-    --v-border-color: 0, 0, 0;
-    --v-table-row-height: 42px;
-    font-size: toRem(14);
-    font-weight: 300;
-  }
-
-  .status-chip {
-    color: white;
-    font-weight: 300;
-  }
-
-  .no-data {
-    color: #ccc;
-  }
-
-  .s-data-table-column__text {
-    width: inherit;
-  }
-
-  &.hide-footer {
-    > :deep(.v-data-table-footer) {
-      display: none !important;
-    }
-  }
-  :deep(.v-btn:hover) > .v-btn__overlay {
-    opacity: 0.1;
-    background: #1297f2;
-  }
-
-  :deep(.v-btn--disabled).v-btn--variant-flat .v-btn__overlay {
-    opacity: 1;
-    background: transparent;
-  }
-
-  .s-data-table-pagination {
-    position: relative;
-    height: 40px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 12px;
-    color: #333;
-    margin-top: 60px;
-
-    :deep(.v-pagination__item--is-active) {
-      color: white;
-
-      .v-btn--disabled {
-        color: white;
-
-        &.v-btn--variant-flat .v-btn__content {
-          font-size: 12px;
-          font-weight: 700;
-          color: #fff;
-        }
-      }
-    }
-  }
-
-  /* 테이블 말 줄임표 */
-  &:deep(.v-table__wrapper).fixed-table table {
-    table-layout: fixed;
-
-    .v-data-table__td {
-      span {
-        max-width: 100%;
-        display: inline-block;
-        word-break: break-all;
-      }
-
-      &:has(span + i) {
-        span {
-          max-width: calc(100% - 30px);
-        }
-      }
-    }
-  }
-
-  .right-move {
-    position: absolute;
-    right: 0;
-  }
-}
+<style lang="scss" scoped>
+@import url('./SDataTable.scss');
 </style>

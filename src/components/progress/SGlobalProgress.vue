@@ -25,7 +25,8 @@
 </template>
 
 <script setup>
-import SProgressCircular from '@/components/progress/CustomProgressCircular.vue'
+import { VOverlay } from 'vuetify/components'
+import SProgressCircular from '@/components/progress/SProgressCircular.vue'
 
 defineProps({
   loadingMessage: {

@@ -1,8 +1,8 @@
-import {CustomCardTable} from '@';
+import {SCardTable} from '@';
 
 export default {
-    title: 'Table/CustomCardTable',
-    component: CustomCardTable,
+    title: 'Table/SCardTable',
+    component: SCardTable,
     tags: ['autodocs'],
     argTypes: {
         // 📌 스토리북 작성 가이드 https://storybook.js.org/docs/essentials/controls#annotation
@@ -12,7 +12,7 @@ export default {
 const Template = (args) => ({
     components: { CustomCardTable },
     setup() { return { args }; },
-    template: `<CustomCardTable v-bind="args" />`,
+    template: `<SCardTable v-bind="args" />`,
 });
 
 export const Default = Template.bind({});

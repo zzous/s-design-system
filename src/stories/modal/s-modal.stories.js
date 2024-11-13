@@ -37,7 +37,7 @@ const newModalTemplate = `
     </div>
     <template #footer>
       <div class="form__btn-wrapper">
-        <SBtn title="저장" v-else @click="args.modelValue = false" />
+        <SBtn title="저장" @click="args.modelValue = false" />
         <SBtn title="취소" variant="outlined" @click="args.modelValue = false" />
       </div>
     </template>
