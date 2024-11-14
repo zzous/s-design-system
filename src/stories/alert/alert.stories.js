@@ -6,7 +6,11 @@ export default {
     tags: ['autodocs'],
     argTypes: {
         // 📌 스토리북 작성 가이드 https://storybook.js.org/docs/essentials/controls#annotation
-        color: {control: {type: 'text'}, description: '배경 색상'},
+        color: {
+            control: {type: 'text'},
+            description: '배경 색상 <br />'
+                + '`\'#FF8000\'` | `\'#DE0655\'` | `\'#29AA54\'` | `\'#036EB8\'`<br />'
+        },
     },
 };
 
@@ -14,6 +18,7 @@ export default {
 export const Default = {
     args: {
         titleName: "Test Strato Alarm!",
-        dialog: true,
+        modelValue: true,
+        timeout: -1
     },
 };

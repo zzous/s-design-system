@@ -46,23 +46,6 @@ defineEmits(['click:menu-item'])
 const fontWhite = computed(() => props.className?.fontWhite)
 </script>
 
-<style lang="scss">
-.s-avatar {
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  height: 100%;
-  .s-user-name {
-    margin-right: 11px;
-    cursor: pointer;
-    .s-user-name__text {
-      text-align: right;
-      color: #fff;
-    }
-  }
-}
-.s-avatar-menu__list {
-  width: 100px;
-  @include set-text(400, 12, null);
-}
+<style lang="scss" scoped>
+@import url('./SAvatar.scss');
 </style>

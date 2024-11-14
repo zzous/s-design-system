@@ -1,6 +1,9 @@
 <template>
   <v-btn class="s-btn" elevation="0" :s-color="color" :size="size" :to="to" :height="height" :icon="icon">
-    <template #default>
+    <template #icon v-if="hasIcon && !$slots.default">
+      <v-icon>{{ icon }}</v-icon>
+    </template>
+    <template #default v-else>
       {{ title }}
       <slot />
     </template>
@@ -8,10 +11,12 @@
 </template>
 
 <script setup>
+import { VIcon } from 'vuetify/components';
+import { useSlots, computed } from 'vue';
 // import { DEFAULT_BUTTON_COLOR } from '@/assets/consts/consts'
 // import { ref } from 'vue'
 // const btnColor = ref(DEFAULT_BUTTON_COLOR)
-defineProps({
+const props = defineProps({
   title: {
     type: String,
     required: false,
@@ -42,6 +47,13 @@ defineProps({
     type: String,
     default: undefined,
   }
+})
+
+const slots = useSlots()
+
+const hasIcon = computed(() => {
+  if (!!slots.icon || props.icon) return true
+  return false
 })
 </script>
 

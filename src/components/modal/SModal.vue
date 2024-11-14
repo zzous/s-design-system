@@ -1,11 +1,12 @@
 <template>
   <teleport :to="`#${teleportId}`">
     <v-dialog
-      :model-value="modelValue"
+      :model-value="isActive"
       :width="modalWidth"
       scroll-strategy="none"
       class="s-modal"
       :class="className"
+      :size="size"
       persistent
       @update:model-value="onUpdateModalValue"
     >
@@ -51,9 +52,10 @@
 </template>
 
 <script setup>
-import { SBtn } from '@/index.js';
+import { watch, ref } from 'vue'
+import { SBtn } from '@/index.js'
 
-defineProps({
+const props = defineProps({
   title: {
     type: String,
     default: '',
@@ -103,6 +105,11 @@ defineProps({
     type: String,
     default: 'destination',
     description: 'Teleport ID',
+  },
+  size: {
+    type: String,
+    default: 'medium',
+    description: 'modal size x-small, small, medium, large, x-large',
   }
 })
 
@@ -110,14 +117,19 @@ const emits = defineEmits(['update:model-value'])
 
 const onClickCloseModal = () => {
   // console.log(tag, 'onClickCloseModal')
+  isActive.value = false
   emits('update:model-value', false)
 }
 const onUpdateModalValue = value => {
+  isActive.value = value
   emits('update:model-value', value)
-  if (!value) {
-    onClickCloseModal()
-  }
 }
+
+const isActive = ref(props.modelValue)
+
+watch(() => props.modelValue, value => {
+  isActive.value = value
+})
 </script>
 
 <style lang="scss" scoped>

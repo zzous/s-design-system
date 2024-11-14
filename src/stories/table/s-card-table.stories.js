@@ -10,7 +10,7 @@ export default {
 };
 
 const Template = (args) => ({
-    components: { CustomCardTable },
+    components: { SCardTable },
     setup() { return { args }; },
     template: `<SCardTable v-bind="args" />`,
 });

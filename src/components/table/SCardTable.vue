@@ -359,9 +359,9 @@ onMounted(() => {
       display: flex;
       justify-content: center;
       align-items: center;
-      height: 56px;
+      height: 38px;
       padding: 0 10px;
-      @include set-text(600, 12px, $s-default--gray-9);
+      @include set-text(600, 14, $s-default--gray-9);
     }
   }
 
@@ -370,6 +370,7 @@ onMounted(() => {
     display: flex;
     width: 100%;
     height: 60px;
+    margin-bottom: 10px;
 
     .s-card-table__body-item {
       background-color: white;
@@ -390,7 +391,8 @@ onMounted(() => {
     display: flex;
     width: 100%;
     flex-wrap: nowrap;
-    font-size: 12px;
+    font-size: 14px;
+    font-weight: 400;
 
     .s-card-table__body-wrapper {
       width: 100%;

@@ -2,7 +2,7 @@
   <div class="s-alert">
     <v-snackbar
       :style="alertStyle"
-      :model-value="dialog"
+      :model-value="isActive"
       :multi-line="multiLine"
       :timeout="timeout"
       :color="color"
@@ -10,11 +10,10 @@
       elevation="0"
       min-width="600"
       location="top"
-      @input="onClickOpenAlert"
       @update:model-value="updateModelValue"
     >
       <slot name="alert-icon" />
-      {{ titleName }}
+      <pre>{{ titleName }}</pre>
       <template #actions>
         <s-btn v-if="isClose" :color="'#fff'" variant="text" @click="onClickCloseAlert">Close</s-btn>
       </template>
@@ -23,17 +22,18 @@
 </template>
 
 <script setup>
+import { ref, watchEffect } from 'vue';
 import SBtn from '../button/SBtn.vue';
 
-const emits = defineEmits(['update:model-value', 'open-alert', 'close-alert'])
+const emits = defineEmits(['update:model-value'])
 
-defineProps({
+const props = defineProps({
   titleName: {
     type: String,
     default: '',
     description: '알림 내용',
   },
-  dialog: {
+  modelValue: {
     type: Boolean,
     default: false,
     description: '알림 오픈 여부',
@@ -45,23 +45,23 @@ defineProps({
   },
   color: {
     type: String,
-    default: '#DE0655',
-    description: '토스트 색상',
+    default: '#036EB8',
+    description: '알림 색상',
   },
   height: {
-    type: String,
+    type: [String, Number],
     default: '48px',
-    description: '토스트 높이',
+    description: '알림 높이',
   },
   width: {
-    type: String,
+    type: [String, Number],
     default: '450px',
-    description: '토스트 넓이',
+    description: '알림 넓이',
   },
   timeout: {
     type: Number,
     default: 5000,
-    description: '토스트 오픈 시간',
+    description: '알림 오픈 시간',
   },
   isClose: {
     type: Boolean,
@@ -76,19 +76,22 @@ defineProps({
   },
 })
 
+const isActive = ref(props.modelValue)
+
 const updateModelValue = value => {
+  isActive.value = value
   emits('update:model-value', value)
 }
 
 const onClickCloseAlert = () => {
-  console.log('onClickCloseAlert')
-  emits('close-alert')
+  isActive.value = false
+  emits('update:model-value', false)
 }
 
-const onClickOpenAlert = () => {
-  console.log('onClickOpenAlert')
-  emits('open-alert')
-}
+watchEffect(() => {
+  isActive.value = props.modelValue
+})
+
 </script>
 
 <style lang="scss">

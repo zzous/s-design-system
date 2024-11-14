@@ -1,26 +1,30 @@
 .s-modal {
-  &.xl {
+  &[size="x-large"] {
     width: 1450px;
   }
 
-  &.lg {
+  &[size="large"] {
     width: 1300px;
-  }
-
-  &.md {
-    width: 1000px;
+    --s-form-item-label-width: 170px;
     --s-text-field-min-width: 618px;
     --s-text-select-min-width: 618px;
   }
 
-  &.sm {
+  &[size="medium"] {
+    width: 1000px;
+    --s-form-item-label-width: 170px;
+    --s-text-field-min-width: 618px;
+    --s-text-select-min-width: 618px;
+  }
+
+  &[size="small"] {
     width: 500px;
     --s-form-item-label-width: 120px;
     --s-text-field-min-width: 270px;
     --s-text-select-min-width: 270px;
   }
 
-  &.xs {
+  &[size="x-small"] {
     width: 460px;
   }
 

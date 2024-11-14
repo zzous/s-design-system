@@ -2,7 +2,7 @@
   <v-app-bar class="s-header" color="#1C2536" :height="68">
     <template #prepend>
       <div class="s-logo">
-        <a href="#" @click="$emit('click:logo')">
+        <a href.prevent.stop="#" @click="$emit('click:logo')">
           <span class="d-none">main-logo</span>
           <img v-if="logoSrc" class="s-logo__img" :src="logoSrc" alt="logo" />
           <Logo class="s-logo__img" v-else />
@@ -37,14 +37,15 @@
           @click:menu-item="onClickMenuItem"
         >
           <template #badge>
-            <v-avatar size="35">
-              <s-img
-                v-if="userInfo.picture"
-                lazy-src="user-avatar.png"
-                :src-url="`data:image/${userInfo.picture.format};base64,${userInfo.picture.data}`"
-                width="100"
-              />
-              <s-img v-else lazy-src="user-avatar.png" src="user-avatar.png" width="100" />
+            <v-avatar>
+              <div class="s-avater__border">
+                <s-img
+                  v-if="userInfo.picture"
+                  lazy-src="profile.svg"
+                  :src-url="`data:image/${userInfo.picture.format};base64,${userInfo.picture.data}`"
+                />
+                <s-img v-else lazy-src="profile.svg" src="profile.svg" />
+              </div>
             </v-avatar>
           </template>
         </s-avatar>
@@ -163,141 +164,6 @@ const onClickServiceItem = value => {
 }
 </script>
 
-<style lang="scss">
-.s-header {
-  box-shadow: 0px 4px 4px 0px #00000040;
-
-  :deep(.v-toolbar__prepend) {
-    margin-inline: 0;
-
-    .s-btn__menu {
-      &:hover > .v-btn__overlay,
-      &:focus-visible > .v-btn__overlay {
-        opacity: 0;
-      }
-
-      > .v-ripple__container {
-        display: none;
-      }
-
-      &:focus-visible::after {
-        opacity: 0;
-      }
-
-      .s-btn__menu__icon {
-        color: #000;
-        background-color: #fff;
-        border-radius: 50%;
-        font-size: 1rem;
-        width: 18px;
-        height: 18px;
-      }
-    }
-  }
-}
-
-.side-menu {
-  cursor: pointer;
-  height: 50px;
-  padding: 0;
-}
-#side_menu_wrapper {
-  --v-hover-opacity: 0;
-  --v-activated-opacity: 0;
-  --v-focus-opacity: 0;
-  --v-theme-overlay-multiplier: 0;
-
-  position: relative;
-  height: calc(100vh - 150px);
-  overflow-y: auto;
-  @include scroll();
-
-  &:deep(.v-list-item) {
-    margin-top: 0 !important;
-    font-weight: 300;
-
-    .v-list-item-title {
-      font-size: 18px;
-      font-weight: 300;
-    }
-
-    &.v-list-item--active {
-      color: $active-font-color;
-
-      .v-list-item-title {
-        font-size: 18px;
-        font-weight: 700;
-      }
-    }
-  }
-}
-#side_menu_background {
-  width: 420px;
-  font-size: 16px;
-  font-weight: bold;
-  height: 100%;
-  background: $main-color;
-  color: #fff;
-  padding-left: 30px;
-  padding-right: 30px;
-  overflow: hidden;
-  margin: 10px 30px 29px;
-}
-
-.s-logo {
-  width: 288px;
-  height: 68px;
-
-  .s-logo__img {
-    margin-top: 17px;
-  }
-}
-
-.s-item-group {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-right: 10px;
-  gap: 10px;
-
-  .s-sign__btn {
-    display: inline-table;
-    cursor: pointer;
-    color: #fff;
-    background: $s-btn__primary 0% 0% no-repeat padding-box;
-    opacity: 1;
-    padding: 6px 20px;
-    text-align: center;
-    padding: 0;
-    width: 110px;
-    height: 36px;
-
-    border-radius: 5px;
-    border: solid 1px #fff;
-    font-size: 14px;
-    font-weight: 500;
-
-    line-height: 36px;
-  }
-}
-
-.header-title-text {
-  font-size: 15px;
-}
-.menu-back-ground {
-  position: fixed;
-  width: 100%;
-  z-index: 100;
-  background: rgba(0, 0, 0, 0.2);
-  margin-top: var(--global-nav-header-height);
-}
-.menu-back-ground.hide {
-  height: 0;
-  margin: 0;
-  transition: linear 0.2s;
-}
-.menu-back-ground.show {
-  height: calc(100% - var(--global-nav-header-height));
-  transition: linear 0.2s;
-}
+<style lang="scss" scoped>
+@import url('./SHeader.scss');
 </style>

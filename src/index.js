@@ -21,7 +21,7 @@ export {default as SProgressCircular} from './components/progress/SProgressCircu
 export {default as SGlobalProgress} from './components/progress/SGlobalProgress.vue';
 export {default as SCardTable} from './components/table/SCardTable.vue';
 export {default as SDataTable} from './components/table/SDataTable.vue';
-export {default as RootHeader} from './components/layout/RootHeader.vue';
+export {default as SHeader} from './components/layout/SHeader.vue';
 export {default as Footer} from './components/layout/Footer.vue';
 export {default as SSubHeader} from './components/layout/SSubHeader.vue';
 export {default as AccordionMenu} from './components/accordion/AccordionMenu.vue';
