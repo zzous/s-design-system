@@ -9,11 +9,11 @@
         </a>
       </div>
       <v-app-bar-title density="compact" variant="flat" size="small" background-color="white">
-        <SBtn v-if="showMenuBtn" class="s-btn__menu" text="서비스" @click="toggleMenu">
+        <v-btn v-if="showMenuBtn" class="s-btn__menu" text="서비스" @click="toggleMenu">
           <template #prepend>
             <v-icon class="s-btn__menu__icon" variant="text" density="compact" icon="mdi-menu" />
           </template>
-        </SBtn>
+        </v-btn>
       </v-app-bar-title>
     </template>
     <template #append>
@@ -54,8 +54,8 @@
   </v-app-bar>
 
   <!-- 서비스 메뉴 -->
-  <teleport :to="`#${teleportId}`">
-    <div class="menu-back-ground" :class="{ show: showMenu, hide: !showMenu }">
+  <!-- <teleport :to="`#${teleportId}`"> -->
+    <div class="menu-back-ground" :class="{ show: lazyShowMenu, hide: !lazyShowMenu }">
       <div id="side_menu_background">
         <div class="text-right">
           <v-icon icon="mdi-close" @click="closeMenu" />
@@ -66,7 +66,7 @@
               v-if="item.accessible"
               :key="index"
               class="side-menu"
-              :active="item.menuCode === 'DEVOPS'"
+              :active="item.menuCode === activeMenuCode"
               :title="item.menuName"
               @click="onClickServiceItem(item)"
             />
@@ -74,11 +74,12 @@
         </div>
       </div>
     </div>
-  </teleport>
+  <!-- </teleport> -->
 </template>
 
 <script setup>
-import {SAvatar, SBtn, SImg} from '@';
+import {watch, ref} from 'vue'
+import {SAvatar, SImg} from '@';
 import Logo from "./Logo.vue";
 
 const props = defineProps({
@@ -114,7 +115,7 @@ const props = defineProps({
   },
   showMenuBtn: {
     type: Boolean,
-    default: false,
+    default: true,
   },
   showMenu: {
     type: Boolean,
@@ -132,6 +133,11 @@ const props = defineProps({
     type: String,
     default: 'destination',
     description: 'Teleport Id'
+  },
+  activeMenuCode: {
+    type: String,
+    default: '',
+    description: '선택된 메뉴코드'
   }
 })
 
@@ -144,14 +150,16 @@ const emits = defineEmits([
   'click:service-item',
 ])
 
-//const showMenu = ref(false)
+const lazyShowMenu = ref(props.showMenu)
 
 const toggleMenu = () => {
   //showMenu.value = !showMenu.value
-  emits('click:menu', !props.showMenu)
+  lazyShowMenu.value = !lazyShowMenu.value
+  emits('click:menu', lazyShowMenu.value)
 }
 const closeMenu = () => {
   //showMenu.value = false
+  lazyShowMenu.value = false
   emits('click:menu', false)
 }
 
@@ -162,6 +170,16 @@ const onClickMenuItem = value => {
 const onClickServiceItem = value => {
   emits('click:service-item', value)
 }
+
+watch(
+  () => props.showMenu,
+  (nv, ov) => {
+    if (nv !== ov) {
+      lazyShowMenu.value = nv
+    }
+  }
+)
+
 </script>
 
 <style lang="scss" scoped>

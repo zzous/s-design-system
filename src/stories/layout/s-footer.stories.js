@@ -1,7 +1,7 @@
 import {SFooter} from '@';
 
 export default {
-    title: 'Layout/Footer',
+    title: 'Layout/SFooter',
     component: SFooter,
     tags: ['autodocs'],
     argTypes: {

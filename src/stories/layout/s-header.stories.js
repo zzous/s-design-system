@@ -14,7 +14,7 @@ const Template = (args) => ({
     setup() { return { args }; },
     template: `
         <div :style="{padding: '24px 48px'}">
-          <SHeader :userInfo="args.userInfo" :user-menus="args.userMenus" :isLoggedIn="args.isLoggedIn" />
+          <SHeader :userInfo="args.userInfo" :user-menus="args.userMenus" :isLoggedIn="args.isLoggedIn" :service-menus="args.serviceMenus" :active-menu-code="args.activeMenuCode" />
         </div>
     `,
 });
@@ -22,6 +22,11 @@ const Template = (args) => ({
 export const Default = Template.bind({});
 Default.args = {
     isLoggedIn: true,
+    serviceMenus: [
+      { menuName: '데브옵스', menuNameKr: '데브옵스', menuCode: 'DEVOPS', accessible: true, viewable: true },
+      { menuName: '인프라 관리', menuNameKr: '인프라 관리', menuCode: 'INFRA_MENAGEMENT', accessible: true, viewable: true },
+    ],
+    activeMenuCode: 'DEVOPS',
     userInfo: {
         name: 'UserA',
         picture: {
@@ -35,5 +40,4 @@ Default.args = {
         { title: "Menu2", value: 'Menu2' },
         { title: "Menu3", value: 'Menu3' },
     ],
-    teleportId: 'storybook-root'
 };
