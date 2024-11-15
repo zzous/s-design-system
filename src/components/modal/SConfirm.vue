@@ -57,7 +57,7 @@ const updateModelValue = value => {
 }
 
 const onConfirm = () => emits('click:confirm')
-const onCancel = () => emits('update:cancel', false)
+const onCancel = () => emits('click:cancel', false)
 </script>
 
 <style lang="scss" scoped>

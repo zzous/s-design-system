@@ -1,25 +1,22 @@
 <template>
   <div :class="['s-form__item', className]">
-    <vee-field v-slot="{ handleChange, errors }" :name="props.name">
-      <div v-if="showLabel" class="s-form__item-label">
-        <span>
-          {{ label }}
-        </span>
-        <span v-if="required" class="required">*</span>
+    <div v-if="showLabel" class="s-form__item-label">
+      <span>
+        {{ label }}
+      </span>
+      <span v-if="required" class="required">*</span>
+    </div>
+    <div class="s-form__item-content" :class="[contentClass]">
+      <div class="s-form__item-content-item">
+        <slot name="default" />
       </div>
-      <div class="s-form__item-content" :class="[contentClass]">
-        <div class="s-form__item-content-item">
-          <slot name="default" :handle-change="handleChange" :errors="errors" />
-        </div>
-        <div v-if="$slots['outer-append']" class="s-form__item-append">
-          <slot name="outer-append" :errors="errors" />
-        </div>
+      <div v-if="$slots['outer-append']" class="s-form__item-append">
+        <slot name="outer-append" />
       </div>
-    </vee-field>
+    </div>
   </div>
 </template>
 <script setup>
-import { Field as VeeField } from 'vee-validate'
 
 const props = defineProps({
   className: {
