@@ -5,9 +5,9 @@ export {default as customTheme} from './plugins/customTheme.js';
 
 // Components
 export {default as SBtn} from './components/button/SBtn.vue';
-export {default as TextCheckBoxInput} from './components/Input/TextCheckBoxInput.vue';
-export {default as ShellScriptInput} from './components/Input/ShellScriptInput.vue';
-export {default as FileInputButton} from './components/Input/FileInputButton.vue';
+export {default as STextCheckBoxInput} from './components/Input/STextCheckBoxInput.vue';
+export {default as SShellScriptInput} from './components/Input/SShellScriptInput.vue';
+export {default as SFileInputBtn} from './components/Input/SFileInputBtn.vue';
 export {default as SAlert} from './components/alert/SAlert.vue';
 export {default as SEmpty} from './components/containment/SEmpty.vue';
 export {default as SScriptEditor} from './components/editor/SScriptEditor.vue';
@@ -22,9 +22,10 @@ export {default as SGlobalProgress} from './components/progress/SGlobalProgress.
 export {default as SCardTable} from './components/table/SCardTable.vue';
 export {default as SDataTable} from './components/table/SDataTable.vue';
 export {default as SHeader} from './components/layout/SHeader.vue';
-export {default as Footer} from './components/layout/Footer.vue';
+export {default as SFooter} from './components/layout/SFooter.vue';
 export {default as SSubHeader} from './components/layout/SSubHeader.vue';
-export {default as AccordionMenu} from './components/accordion/AccordionMenu.vue';
+export {default as SAccordionMenu} from './components/accordion/SAccordionMenu.vue';
+export {default as SNavi} from './components/layout/SNavi.vue';
 
 // Utils
 export {default as stringUtil} from './utils/stringUtil.js'

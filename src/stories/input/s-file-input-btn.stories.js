@@ -1,8 +1,8 @@
-import {FileInputButton} from '@';
+import {SFileInputBtn} from '@';
 
 export default {
-    title: 'Input/FileInputButton',
-    component: FileInputButton,
+    title: 'Input/SFileInputBtn',
+    component: SFileInputBtn,
     tags: ['autodocs'],
     argTypes: {
         // 📌 스토리북 작성 가이드 https://storybook.js.org/docs/essentials/controls#annotation
