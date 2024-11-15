@@ -27,8 +27,8 @@
       </div>
     </div>
     <div id="s-menu-wrapper">
-      <v-list v-model:opened="open" class="navi-menu" v-if="menuPaths && menuPaths.subMenus && menuPaths.subMenus.length">
-        <v-list-group v-for="menu in menuPaths.subMenus" :key="menu.idx" :value="menu.idx">
+      <v-list v-model:opened="open" class="navi-menu" v-if="menuPath && menuPath.subMenus && menuPath.subMenus.length">
+        <v-list-group v-for="menu in menuPath.subMenus" :key="menu.idx" :value="menu.idx">
           <template #activator="{ props: itemProps }">
             <v-list-item
               v-bind="itemProps"
@@ -99,9 +99,16 @@ const props = defineProps({
     type: Object,
     default: () => {},
   },
-  menuPaths: {
-    type: Array,
-    default: () => [],
+  menuPath: {
+    type: Object,
+    default: () => {
+      return {
+        menuUrl: '',
+        menuName: '',
+        menuNameKr: '',
+        subMenus: [],
+      }
+    },
   },
   serviceName: {
     type: String,
@@ -137,8 +144,8 @@ const goFirstMenu = () => {
   if (props.firstMenuPath) {
     emits('click:service-name', { path: props.firstMenuPath })
   } else {
-    if (props.menuPaths.length) {
-      emits('click:service-name', { path: props.menuPaths.at(0)?.menuUrl || '/' })
+    if (props.menuPath) {
+      emits('click:service-name', { path: props.menuPath.menuUrl || '/' })
     } else {
       emits('click:service-name', { path: '/' })
     }
@@ -148,7 +155,7 @@ const goFirstMenu = () => {
 watch(
   () => props.routerPath,
   () => {
-    const menus = props.menuPaths?.subMenus || []
+    const menus = props.menuPath?.subMenus || []
     const nowPath = props.routerPath
     for (const idx in menus) {
       const pathIdx = nowPath.indexOf(menus[idx].menuUrl)
