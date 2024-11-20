@@ -388,20 +388,7 @@ const updateModelValue = item => {
 }
 
 const pageCnt = computed(() => {
-  if (filterDatas.value.length > 0) {
-    if (!props.options?.pageCnt) {
-      // eslint-disable-next-line vue/no-side-effects-in-computed-properties
-      lazyPage.value = tempPage.value
-    }
-    return Math.ceil(filterDatas.value.length / props.itemsPerPage)
-  }
-  if (!props.options?.pageCnt) {
-    // eslint-disable-next-line vue/no-side-effects-in-computed-properties
-    tempPage.value = props.lazyPage
-    // eslint-disable-next-line vue/no-side-effects-in-computed-properties
-    lazyPage.value = 1
-  }
-  return 1
+  return props.options?.pageCnt || Math.ceil(props.items.length / props.itemsPerPage)
 })
 const filterDatas = computed(() => {
   // TODO Pagination 컴포넌트 사용 시 Search props와 페이지 수가 맞지 않는 오류가 있음 (해결방법: vuetify 업그레이드)
@@ -531,7 +518,7 @@ watch(
 )
 
 watch(
-  () => lazyPage,
+  () => lazyPage.value,
   nv => {
     updatePage(nv)
   },

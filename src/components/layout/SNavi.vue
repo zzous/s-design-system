@@ -43,7 +43,13 @@
                     : 'mdi-chevron-right'
               "
               @click="onClickMenuItem"
-            />
+              >
+              <template v-if="!menu.subMenus || menu.subMenus.length === 0" #title>
+                <RouterLink class="navi-inner-menu-title" :to="menu.menuUrl">
+                  {{ menu.menuName || menu.menuNameKr }}
+                </RouterLink>
+              </template>
+            </v-list-item>
           </template>
 
           <v-list-item
@@ -51,8 +57,8 @@
             :key="i"
             class="s-navi-inner-menu"
             :class="{
-              disabled: selectedProject.projectId <= 0 && subMenu.dependency === 'PROJECT',
-              active: selectedProject.projectId > 0 || subMenu.dependency !== 'PROJECT',
+              disabled: selectedProject?.projectId <= 0 && subMenu.dependency === 'PROJECT',
+              active: selectedProject?.projectId > 0 || subMenu.dependency !== 'PROJECT',
             }"
             :value="subMenu.idx"
             active-class="menu-active"
@@ -60,7 +66,7 @@
           >
             <template #title>
               <RouterLink
-                v-if="selectedProject.projectId > 0"
+                v-if="selectedProject?.projectId > 0"
                 class="s-navi-inner-menu-title"
                 :to="subMenu.menuUrl"
               >
