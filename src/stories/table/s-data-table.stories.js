@@ -22,7 +22,7 @@ Default.args = {
             title: "VPC Name",
             key: 'vpcName',
             width: 300,
-            align: 'center',
+            align: 'start',
         },
         {
             title: "VPC ID",

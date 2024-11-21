@@ -82,7 +82,7 @@
         </span>
       </v-tooltip>
 
-      <div v-else class="d-flex justify-center align-center">
+      <div v-else>
         <slot :name="`item.${el.key}`" :item="item">
           {{ item[el.key] || '-' }}
         </slot>
