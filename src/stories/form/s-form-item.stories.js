@@ -1,4 +1,5 @@
 import {SFormItem} from '@';
+import SBtn from '../../components/button/SBtn.vue';
 
 export default {
     title: 'Form/SFormItem',
@@ -10,7 +11,7 @@ export default {
 };
 
 const Template = (args, { argTypes }) => ({
-    components: { SFormItem },
+    components: { SFormItem, SBtn },
     props: Object.keys(argTypes),
     setup() {
         return { args };

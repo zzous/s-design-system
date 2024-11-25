@@ -48,7 +48,7 @@
   }
   :deep(.v-btn:hover) > .v-btn__overlay {
     opacity: 0.1;
-    background: $active-font-color;
+    // background: $active-font-color;
   }
 
   :deep(.v-btn--disabled).v-btn--variant-flat .v-btn__overlay {
