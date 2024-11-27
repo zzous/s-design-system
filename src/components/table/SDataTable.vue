@@ -88,11 +88,11 @@
         </slot>
       </div>
     </template>
-    <template v-if="hasCheckedColumnSlot" #[`column.data-table-select`]="{ column, selectAll }">
+    <template #[`column.data-table-select`]="{ column, selectAll }">
       <slot name="column.data-table-select" :column="column" :select-all="selectAll" />
     </template>
-    <template v-if="hasCheckedItemSlot" #[`item.data-table-select`]="{ item, isSelected, toggleSelect }">
-      <slot name="item.data-table-select" :item="item" :is-selected="isSelected" :toggle-select="toggleSelect" />
+    <template #[`item.data-table-select`]="{ internalItem, isSelected, toggleSelect }">
+      <slot name="item.data-table-select" :internalItem="internalItem" :isSelected="isSelected" :toggleSelect="toggleSelect" />
     </template>
     <template #no-data>
       <div class="text-center no-data">
@@ -461,13 +461,6 @@ const filterDatas = computed(() => {
 })
 
 const sDataTableRef = ref()
-const hasCheckedColumnSlot = computed(() => {
-  return !!sDataTableRef.value?.$slots?.['column.data-table-select']
-})
-const hasCheckedItemSlot = computed(() => {
-  return !!sDataTableRef.value?.$slots?.['item.data-table-select']
-})
-
 // const getChipColor = (status) => {
 //   // console.log(tag, 'getChipColor')
 
@@ -534,6 +527,8 @@ onMounted(() => {
   selected.value = props.modelValue
   lazyPage.value = props.page
   lazyHeaders.value = [...props.headers]
+
+  // console.log(sDataTableRef.value)
 })
 </script>
 
