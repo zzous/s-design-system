@@ -99,7 +99,11 @@
     </template>
     <template #[`item.data-table-select`]="{ internalItem, isSelected, toggleSelect }">
       <slot name="item.data-table-select" :internalItem="internalItem" :isSelected="isSelected" :toggleSelect="toggleSelect" >
-        <v-checkbox-btn :model-value="isSelected(internalItem)" @update:model-value="toggleSelect(internalItem)" />
+        <template v-if="internalItem.selectable">
+          <v-checkbox-btn :model-value="isSelected(internalItem)" @update:model-value="toggleSelect(internalItem)" />
+        </template>
+        <template v-else>
+        </template>
       </slot>
     </template>
     <template #no-data>

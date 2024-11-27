@@ -19,13 +19,6 @@ const Template2 = (args) => ({
     components: { SDataTable },
     setup() { return { args }; },
     template: `<SDataTable v-bind="args" item-value="vpcId" show-select>
-       <template v-slot:item.data-table-select="{ internalItem, isSelected, toggleSelect }">
-        <v-checkbox-btn
-            :model-value="isSelected(internalItem)"
-            color="primary"
-            @update:model-value="toggleSelect(internalItem)"
-        ></v-checkbox-btn>
-    </template>
     </SDataTable>`,
 });
 
@@ -70,7 +63,7 @@ Default.args = {
             "vpcId": "vpc-1001",
             "cloudType": "AWS",
             "regionCode": "us-west-1",
-            "tagList": "aws-vpc"
+            "tagList": "aws-vpc",
         },
         {
             "vpcName": "first-vpc",
@@ -121,14 +114,16 @@ SelectableTable.args = {
             "vpcId": "vpc-1001",
             "cloudType": "AWS",
             "regionCode": "us-west-1",
-            "tagList": "aws-vpc"
+            "tagList": "aws-vpc",
+            "selectable": true
         },
         {
             "vpcName": "first-vpc",
             "vpcId": "vpc-1000",
             "cloudType": "GCP",
             "regionCode": "us-west-2",
-            "tagList": "gcp-vpc"
+            "tagList": "gcp-vpc",
+            "selectable": false
         },
     ]
 };
