@@ -21,15 +21,15 @@ import { oneDark } from '@codemirror/theme-one-dark'
 import { defaultKeymap } from '@codemirror/commands'
 import { keymap } from '@codemirror/view'
 import { basicSetup } from 'codemirror'
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 const contents = defineModel({
   type: String,
   default: '',
 })
 
-defineProps({
+const props = defineProps({
   height: {
-    type: Number,
+    type: [String, Number],
     default: 0,
   },
   readonly: {
@@ -37,13 +37,13 @@ defineProps({
     default: false,
   },
 })
-const extensions = [basicSetup, javascript(), oneDark, keymap.of(defaultKeymap)]
+const extensions = computed(() => props.readonly ? [basicSetup, javascript(), keymap.of(defaultKeymap)] : [basicSetup, javascript(), oneDark, keymap.of(defaultKeymap)])
 const editor = ref(null)
+
 </script>
 
 <style lang="scss">
 .editor-wrapper {
   overflow: scroll;
-  background: #282c34;
 }
 </style>

@@ -1,6 +1,6 @@
 <template>
   <div class="s-file-input">
-    <v-file-input ref="importFile" :model-value="file" class="d-none" @update:model-value="handleChange" />
+    <v-file-input ref="importFile" :model-value="file" class="d-none" @update:model-value="handleChange" :accept="accept"/>
     <v-text-field
       :model-value="fileName"
       variant="outlined"
@@ -43,6 +43,10 @@ const props = defineProps({
   buttonText: {
     type: String,
     default: '파일 찾기',
+  },
+  accept: {
+    type: String,
+    default: '*',
   }
 })
 
