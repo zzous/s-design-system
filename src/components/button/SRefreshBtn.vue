@@ -1,12 +1,13 @@
 <template>
   <span class="position-relative refresh-time-wrapper">
     <span class=" refresh-time">{{ refreshDateTitle }} : {{ computedRefreshDate }}</span>
-    <s-img class="cursor-pointer ml-1" width="16" src="../../../public/assets/images/icon_refresh.svg" @click="onClickRefresh" />
+    <img class="cursor-pointer ml-1" :src="refreshIcon" @click="onClickRefresh" />
   </span>
 </template>
 <script setup>
 import { computed } from 'vue'
 import { SImg} from '@';
+import refreshIcon from '/public/assets/images/icon_refresh.svg'
 
 const props = defineProps({
   onClickRefresh: {
@@ -22,7 +23,6 @@ const props = defineProps({
     default: '기준일자'
   }
 })
-
 
 const computedRefreshDate = computed(() => {
 
