@@ -89,7 +89,7 @@
       </div>
     </template>
     <template #[`header.data-table-select`]="{ allSelected, selectAll, someSelected }">
-      <slot name="header.data-table-select" :column="column" :select-all="selectAll">
+      <slot name="header.data-table-select" :select-all="selectAll">
         <v-checkbox-btn
           :indeterminate="someSelected && !allSelected"
           :model-value="allSelected"
