@@ -1,7 +1,7 @@
 <template>
   <span class="position-relative refresh-time-wrapper">
     <span class=" refresh-time">{{ refreshDateTitle }} : {{ computedRefreshDate }}</span>
-    <s-img class="cursor-pointer ml-1" width="16" src="icon_refresh.svg" @click="onClickRefresh" />
+    <s-img class="cursor-pointer ml-1" width="16" src="../../../public/assets/images/icon_refresh.svg" @click="onClickRefresh" />
   </span>
 </template>
 <script setup>
