@@ -5,6 +5,7 @@ export {default as customTheme} from './plugins/customTheme.js';
 
 // Components
 export {default as SBtn} from './components/button/SBtn.vue';
+export {default as SRefreshBtn} from './components/button/SRefreshBtn.vue';
 export {default as STextCheckBoxInput} from './components/Input/STextCheckBoxInput.vue';
 export {default as SShellScriptInput} from './components/Input/SShellScriptInput.vue';
 export {default as SFileInputBtn} from './components/Input/SFileInputBtn.vue';
