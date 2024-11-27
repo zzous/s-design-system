@@ -43,7 +43,7 @@
     @click:row="clickRow"
   >
     <!-- DataTable 버전 이슈로 인하여 selectStrategy 값이 정상 작동하지 않아 헤더를 아래와 같이 임시로 처리합니다. -->
-    <template v-if="single" #headers>
+    <!-- <template v-if="single" #headers>
       <tr>
         <th class="v-data-table__td v-data-table__th v-data-table-column--align-center">
           <div class="v-data-table-header__content">-</div>
@@ -68,6 +68,9 @@
           </div>
         </th>
       </tr>
+    </template> -->
+    <template #headers="bind" v-if="$slots.headers">
+      <slot name="headers" v-bind="bind"></slot>
     </template>
 
     <template v-for="(el, index) in headers" #[`item.${el.key}`]="{ item }" :key="index">
