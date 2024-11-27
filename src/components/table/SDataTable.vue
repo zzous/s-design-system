@@ -88,11 +88,19 @@
         </slot>
       </div>
     </template>
-    <template #[`column.data-table-select`]="{ column, selectAll }">
-      <slot name="column.data-table-select" :column="column" :select-all="selectAll" />
+    <template #[`header.data-table-select`]="{ allSelected, selectAll, someSelected }">
+      <slot name="header.data-table-select" :column="column" :select-all="selectAll">
+        <v-checkbox-btn
+          :indeterminate="someSelected && !allSelected"
+          :model-value="allSelected"
+          @update:model-value="selectAll(!allSelected)"
+        ></v-checkbox-btn>
+      </slot>
     </template>
     <template #[`item.data-table-select`]="{ internalItem, isSelected, toggleSelect }">
-      <slot name="item.data-table-select" :internalItem="internalItem" :isSelected="isSelected" :toggleSelect="toggleSelect" />
+      <slot name="item.data-table-select" :internalItem="internalItem" :isSelected="isSelected" :toggleSelect="toggleSelect" >
+        <v-checkbox-btn :model-value="isSelected(internalItem)" @update:model-value="toggleSelect(internalItem)" />
+      </slot>
     </template>
     <template #no-data>
       <div class="text-center no-data">
