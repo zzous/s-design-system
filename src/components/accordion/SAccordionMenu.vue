@@ -2,7 +2,7 @@
   <div class="s-accordion-wrapper">
     <div class="title" :class="{ 'title-bold': titleBold }">
       {{ title }}
-      <v-icon class="float-right" :style="{ top: '10px' }" icon="mdi-chevron-down" @click="toggleAccordion" />
+      <v-icon class="float-right" :style="{ top: '10px' }" :icon="isActive ? 'mdi-chevron-down' : 'mdi-chevron-right'" @click="toggleAccordion" />
     </div>
     <div
         ref="accordion"
