@@ -9,7 +9,7 @@
         :tab-size="2"
         :extensions="extensions"
         :readonly="readonly"
-        :style="height ? { height: `${height}px` } : {}"
+        :style="customStyle"
     />
   </div>
 </template>
@@ -39,6 +39,12 @@ const props = defineProps({
 })
 const extensions = computed(() => props.readonly ? [basicSetup, javascript(), keymap.of(defaultKeymap)] : [basicSetup, javascript(), oneDark, keymap.of(defaultKeymap)])
 const editor = ref(null)
+
+const customStyle = computed(() => {
+  const height = props.height ? { height: `${props.height}px` } : {}
+  const backgroundColor = props.readonly ? { backgroundColor: 'transparent' } : { backgroundColor: '#282c34' }
+  return { ...height, ...backgroundColor }
+})
 
 </script>
 
