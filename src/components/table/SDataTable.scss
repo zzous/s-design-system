@@ -116,4 +116,16 @@
     position: absolute;
     right: 0;
   }
+
+
+  :deep(.v-table__wrapper) {
+    > table > tbody > tr > td,
+    > table > tbody > tr > th,
+    > table > thead > tr > td,
+    > table > thead > tr > th,
+    > table > tfoot > tr > td,
+    > table > tfoot > tr > th {
+      padding: 0 20px;
+    }
+  }
 }
