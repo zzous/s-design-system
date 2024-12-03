@@ -44,9 +44,9 @@
               "
               >
               <template v-if="!menu.subMenus || menu.subMenus.length === 0" #title>
-                <a class="navi-inner-menu-title" :to="menu.menuUrl">
+                <RouterLink class="navi-inner-menu-title" :to="menu.menuUrl">
                   {{ menu.menuName || menu.menuNameKr }}
-                </a>
+                </RouterLink>
               </template>
             </v-list-item>
           </template>

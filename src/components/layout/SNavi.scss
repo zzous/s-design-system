@@ -43,6 +43,7 @@
 
       .navi-inner-menu-title {
         text-decoration: none;
+        color: $s-default--gray-9;
       }
 
       &:has(.router-link-active) {
@@ -80,7 +81,6 @@
       &:has(.router-link-active) {
         .v-list-group__header {
           color: $active-font-color;
-
           .v-list-item__content .v-list-item-title {
             color: $active-font-color;
             font-weight: 700;
@@ -149,7 +149,7 @@
 .s-navi-inner-menu-title {
   font-weight: 300;
   text-decoration: none;
-  color: black;
+  color: $s-default--gray-9;
 }
 .s-navi-inner-menu.active:hover .s-navi-inner-menu-title {
   color: $active-font-color;
