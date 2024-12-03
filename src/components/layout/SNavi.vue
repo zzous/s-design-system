@@ -42,12 +42,11 @@
                     ? 'mdi-chevron-down'
                     : 'mdi-chevron-right'
               "
-              @click="onClickMenuItem"
               >
               <template v-if="!menu.subMenus || menu.subMenus.length === 0" #title>
-                <RouterLink class="navi-inner-menu-title" :to="menu.menuUrl">
+                <a class="navi-inner-menu-title" :to="menu.menuUrl">
                   {{ menu.menuName || menu.menuNameKr }}
-                </RouterLink>
+                </a>
               </template>
             </v-list-item>
           </template>
@@ -92,9 +91,11 @@
 import { ref, computed, watch } from 'vue'
 
 const defaultProject = { projectName: '전체', projectId: 0 }
-const onClickMenuItem = () => {
-  open.value = !open.value.length ? open.value : open.value.splice(open.value.length - 1, 1)
-}
+
+// 메뉴 클릭 시 다른 펼쳐진 메뉴를 닫도록 하는 함수 - 2024.12.03 (펼침을 유지하는 방안으로 변경됨)
+// const onClickMenuItem = () => {
+//   open.value = !open.value.length ? open.value : open.value.splice(open.value.length - 1, 1)
+// }
 
 const props = defineProps({
   useProject: {

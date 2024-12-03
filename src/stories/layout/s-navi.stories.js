@@ -49,6 +49,23 @@ Default.args = {
         path: '/menu-a/sub-menu-b',
         subMenus: []
       },
+      {
+        idx: 6,
+        menuName: 'Sub Menu C',
+        path: '/menu-a/sub-menu-c',
+        subMenus: [
+          {
+            idx: 7,
+            menuName: 'Sub Sub Menu C',
+            path: '/menu-a/sub-menu-c/sub-sub-menu-c',
+          },
+          {
+            idx: 8,
+            menuName: 'Sub Sub Menu D',
+            path: '/menu-a/sub-menu-c/sub-sub-menu-d',
+          },
+        ]
+      },
     ],
   }
 };
