@@ -4,7 +4,7 @@ import {
     VBtn, VTextField, VLabel, VCol, VRow, VCheckbox, VList, VListItem, VListItemTitle, VListGroup,
     VSnackbar, VSheet, VFileInput, VMenu, VImg, VDialog, VCard, VCardText, VCardActions, VIcon,
     VPagination, VDataTable, VFooter, VApp, VAppBar, VAppBarTitle, VAvatar, VOverlay, VMain,
-    VCheckboxBtn
+    VCheckboxBtn, VTooltip
 } from 'vuetify/components';
 import * as directives from 'vuetify/directives';
 import {aliases, mdi} from 'vuetify/iconsets/mdi';
@@ -16,7 +16,7 @@ export default createVuetify(
             VBtn, VTextField, VLabel, VCol, VRow, VCheckbox, VList, VListItem, VListGroup,
             VListItemTitle, VSnackbar, VSheet, VFileInput, VMenu, VImg, VDialog,
             VCard, VCardText, VCardActions, VIcon, VPagination, VDataTable, VFooter,
-            VApp, VAppBar, VAppBarTitle, VAvatar, VOverlay, VMain, VCheckboxBtn
+            VApp, VAppBar, VAppBarTitle, VAvatar, VOverlay, VMain, VCheckboxBtn, VTooltip
         },
         directives,
         icons: {
