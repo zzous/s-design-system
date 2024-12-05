@@ -72,6 +72,9 @@
             />
           </template>
         </div>
+        <div v-if="$slots['side-menu-footer']" class="side-menu-footer">
+          <slot name="side-menu-footer"></slot>
+        </div>
       </div>
     </div>
   <!-- </teleport> -->

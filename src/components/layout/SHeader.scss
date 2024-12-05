@@ -95,32 +95,6 @@
   height: calc(100vh - 150px);
   overflow-y: auto;
   @include scroll();
-
-  :deep(.side-menu) {
-    cursor: pointer;
-    width: 300px;
-    height: 52px;
-    padding: 0;
-
-    &.v-list-item {
-      margin-top: 0 !important;
-      font-weight: 300;
-
-      .v-list-item-title {
-        font-size: 18px;
-        font-weight: 300;
-      }
-
-      &.v-list-item--active {
-        color: $active-font-color;
-
-        .v-list-item-title {
-          font-size: 18px;
-          font-weight: 700;
-        }
-      }
-    }
-  }
 }
 #side_menu_background {
   width: 420px;
@@ -157,5 +131,39 @@
 
   .side-menu-btn {
     margin-top: 11px;
+  }
+
+  .side-menu-footer {
+    position: relative;
+    bottom: 0;
+  }
+}
+
+#side_menu_wrapper,
+.side-menu-footer {
+  :deep(.side-menu) {
+    cursor: pointer;
+    width: 300px;
+    height: 52px;
+    padding: 0;
+
+    &.v-list-item {
+      margin-top: 0 !important;
+      font-weight: 300;
+
+      .v-list-item-title {
+        font-size: 18px;
+        font-weight: 300;
+      }
+
+      &.v-list-item--active {
+        color: $active-font-color;
+
+        .v-list-item-title {
+          font-size: 18px;
+          font-weight: 700;
+        }
+      }
+    }
   }
 }

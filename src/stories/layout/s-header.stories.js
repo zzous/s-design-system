@@ -14,7 +14,16 @@ const Template = (args) => ({
     setup() { return { args }; },
     template: `
         <div :style="{padding: '24px 48px'}">
-          <SHeader :userInfo="args.userInfo" :user-menus="args.userMenus" :isLoggedIn="args.isLoggedIn" :service-menus="args.serviceMenus" :active-menu-code="args.activeMenuCode" />
+          <SHeader :userInfo="args.userInfo" :user-menus="args.userMenus" :isLoggedIn="args.isLoggedIn" :service-menus="args.serviceMenus" :active-menu-code="args.activeMenuCode">
+          <template #side-menu-footer>
+                <v-list-item class="side-menu">
+                <v-list-item-title>
+                    P-Cloud
+                    <v-icon size="small">mdi-exit</v-icon>
+                </v-list-item-title>
+                </v-list-item>
+            </template>
+          </SHeader>
         </div>
     `,
 });
