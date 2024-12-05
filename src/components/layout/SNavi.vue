@@ -40,7 +40,7 @@
                   ? ''
                   : open.includes(menu.idx)
                     ? 'mdi-chevron-down'
-                    : 'mdi-chevron-right'
+                    : 'mdi-chevron-up'
               "
               >
               <template v-if="!menu.subMenus || menu.subMenus.length === 0" #title>

@@ -9,7 +9,7 @@
     >
       <v-card modal-height="210">
         <v-card-text class="s-confirm-modal__text">
-          {{ contents }}
+          <pre>{{ contents }}</pre>
         </v-card-text>
         <v-card-actions class="button-wrapper">
           <s-btn variant="elevated" color="blue" @click.stop="onConfirm" :title="confirmButtonText" />
