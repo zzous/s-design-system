@@ -29,7 +29,7 @@
     <div id="s-menu-wrapper">
       <v-list v-model:opened="open" class="navi-menu" v-if="menuPath && menuPath.subMenus && menuPath.subMenus.length">
         <v-list-group v-for="menu in menuPath.subMenus" :key="menu.idx" :value="menu.idx">
-          <template #activator="{ props: itemProps }">
+          <template #activator="{ props: itemProps }" v-if="menu.accessible">
             <v-list-item
               v-bind="itemProps"
               height="50px"
@@ -51,36 +51,37 @@
             </v-list-item>
           </template>
 
-          <v-list-item
-            v-for="(subMenu, i) in menu.subMenus"
-            :key="i"
-            class="s-navi-inner-menu"
-            :class="{
-              disabled: selectedProject?.projectId <= 0 && subMenu.dependency === 'PROJECT',
-              active: selectedProject?.projectId > 0 || subMenu.dependency !== 'PROJECT',
-            }"
-            :value="subMenu.idx"
-            active-class="menu-active"
-            prepend-icon="mdi-circle-small"
-          >
-            <template #title>
-              <RouterLink
-                v-if="selectedProject?.projectId > 0 || !useProject"
-                class="s-navi-inner-menu-title"
-                :to="subMenu.menuUrl"
-              >
-                {{ subMenu.menuName || subMenu.menuNameKr }}
-              </RouterLink>
-              <template v-else>
-                <span class="s-navi-inner-menu-title">
+          <template v-for="(subMenu, i) in menu.subMenus" :key="i">
+            <v-list-item
+              v-if="subMenu.accessible"
+              class="s-navi-inner-menu"
+              :class="{
+                disabled: selectedProject?.projectId <= 0 && subMenu.dependency === 'PROJECT',
+                active: selectedProject?.projectId > 0 || subMenu.dependency !== 'PROJECT',
+              }"
+              :value="subMenu.idx"
+              active-class="menu-active"
+              prepend-icon="mdi-circle-small"
+            >
+              <template #title>
+                <RouterLink
+                  v-if="selectedProject?.projectId > 0 || !useProject"
+                  class="s-navi-inner-menu-title"
+                  :to="subMenu.menuUrl"
+                >
                   {{ subMenu.menuName || subMenu.menuNameKr }}
-                  <v-tooltip v-if="subMenu.dependency === 'PROJECT'" activator="parent" location="start">
-                    {{ dependencyTooltipMessage }}
-                  </v-tooltip>
-                </span>
+                </RouterLink>
+                <template v-else>
+                  <span class="s-navi-inner-menu-title">
+                    {{ subMenu.menuName || subMenu.menuNameKr }}
+                    <v-tooltip v-if="subMenu.dependency === 'PROJECT'" activator="parent" location="start">
+                      {{ dependencyTooltipMessage }}
+                    </v-tooltip>
+                  </span>
+                </template>
               </template>
-            </template>
-          </v-list-item>
+            </v-list-item>
+          </template>
         </v-list-group>
       </v-list>
     </div>

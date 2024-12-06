@@ -25,21 +25,25 @@ Default.args = {
     idx: 1,
     menuName: 'Menu A',
     path: '/menu-a',
+    accessible: true,
     subMenus: [
       {
         idx: 2,
         menuName: 'Sub Menu A',
         path: '/menu-a/sub-menu-a',
+        accessible: true,
         subMenus: [
           {
             idx: 3,
             menuName: 'Sub Sub Menu A',
             path: '/menu-a/sub-menu-a/sub-sub-menu-a',
+            accessible: true,
           },
           {
             idx: 4,
             menuName: 'Sub Sub Menu B',
             path: '/menu-a/sub-menu-a/sub-sub-menu-b',
+            accessible: false,
           },
         ]
       },
@@ -47,21 +51,25 @@ Default.args = {
         idx: 5,
         menuName: 'Sub Menu B',
         path: '/menu-a/sub-menu-b',
+        accessible: true,
         subMenus: []
       },
       {
         idx: 6,
         menuName: 'Sub Menu C',
         path: '/menu-a/sub-menu-c',
+        accessible: false,
         subMenus: [
           {
             idx: 7,
             menuName: 'Sub Sub Menu C',
+            accessible: true,
             path: '/menu-a/sub-menu-c/sub-sub-menu-c',
           },
           {
             idx: 8,
             menuName: 'Sub Sub Menu D',
+            accessible: true,
             path: '/menu-a/sub-menu-c/sub-sub-menu-d',
           },
         ]
