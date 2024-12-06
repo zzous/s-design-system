@@ -22,6 +22,26 @@ const Template2 = (args) => ({
     </SDataTable>`,
 });
 
+const Template3 = (args) => ({
+    components: { SDataTable },
+    setup() { return { args }; },
+    template: `<SDataTable v-bind="args" item-value="vpcId" disable-sort>
+    <template #body>
+        <tr>
+            <td rowspan="3" :class="\`v-data-table-column--align-${args.headers.at(0)?.align}\`">1</td>
+        </tr>
+        <tr>
+            <td :class="\`v-data-table-column--align-${args.headers.at(1)?.align}\`">2</td>
+            <td :class="\`v-data-table-column--align-${args.headers.at(2)?.align}\`">2</td>
+        </tr>
+        <tr>
+            <td :class="\`v-data-table-column--align-${args.headers.at(1)?.align}\`">3</td>
+            <td :class="\`v-data-table-column--align-${args.headers.at(2)?.align}\`">3</td>
+        </tr>
+    </template>
+    </SDataTable>`,
+});
+
 export const Default = Template.bind({});
 export const SelectableTable = Template2.bind({});
 Default.args = {
@@ -127,3 +147,28 @@ SelectableTable.args = {
         },
     ]
 };
+
+
+export const Rowspan = Template3.bind({});
+Rowspan.args = {
+    headers: [
+        {
+            title: "1",
+            key: 'value',
+            width: 300,
+            align: 'start',
+        },
+        {
+            title: "2",
+            key: 'value',
+            width: 250,
+            align: 'center',
+        },
+        {
+            title: "3",
+            key: 'value',
+            width: 150,
+            align: 'center',
+        },
+    ]
+}

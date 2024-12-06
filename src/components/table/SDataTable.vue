@@ -131,6 +131,9 @@
         </th>
       </tr>
     </template>
+    <template #body v-if="$slots.body">
+      <slot name="body" />
+    </template>
     <template #bottom>
       <slot name="append-content" />
       <div v-if="!hideFooter" class="text-center s-data-table-pagination">
