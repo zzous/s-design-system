@@ -211,7 +211,7 @@ const props = defineProps({
   }
 })
 
-const emits = defineEmits(['update:page'])
+const emits = defineEmits(['update:page', 'update:selected"'])
 
 /* pagination 처리 */
 const lazyPage = ref(1)
