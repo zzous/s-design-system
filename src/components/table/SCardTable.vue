@@ -3,6 +3,7 @@
     <div class="s-card-table__wrapper">
       <div v-if="!hiddenHeader" class="s-card-table__header">
         <ul class="s-card-table__header-item">
+          <li class="s-card-table__header-item-title" style="width: 50px" v-if="showSelect"></li>
           <li
             v-for="(header, index) in filterHeaders"
             :key="'header-key--' + index"
@@ -35,7 +36,7 @@
                 />
               </slot>
             </div>
-            <div v-if="showSelect">
+            <div v-if="showSelect" style="width: 50px">
               <slot name="table-select" :item="tableItem">
                 <v-checkbox-btn :model-value="modelValue.includes(tableItem[itemValue])" @update:model-value="onClickSelect(tableItem)" />
               </slot>
