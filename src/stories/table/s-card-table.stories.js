@@ -70,13 +70,27 @@ Default.args = {
     ]
 };
 
+const selectTemplateCode = `
+    <div>
+        <s-card-table
+            :headers="headers"
+            :datas="datas"
+            show-select
+            select-strategy="single"
+            :selected="selected"
+            item-value="vpcId"
+            @update:selected="selected = $event"
+        />
+    </div>
+`
+
 const SelectedTemplate = (args) => ({
     components: { SCardTable },
     setup() {
         const selected = ref([]);
-        return { args, selected };
+        return { args, headers: args.headers, datas: args.datas, selected };
     },
-    template: `<SCardTable v-bind="args" show-select :selected="selected" item-value="vpcId" @update:selected="selected = $event" />`,
+    template: selectTemplateCode,
 });
 
 
@@ -130,4 +144,14 @@ SelectedTable.args = {
             "tagList": "gcp-vpc"
         },
     ]
+};
+
+SelectedTable.parameters = {
+    docs: {
+        source: {
+            code: `<template>${selectTemplateCode}</template>`,
+            language: 'html',
+            type: 'auto',
+        },
+    },
 };

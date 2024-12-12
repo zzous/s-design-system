@@ -204,6 +204,11 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+  selectStrategy: {
+    type: String,
+    default: 'single',
+    description: 'select strategy 가능한 값 single, all (page는 아직 작업이 되지 않았습니다.)',
+  }
 })
 
 const emits = defineEmits(['update:page'])
@@ -290,10 +295,18 @@ const filterDatas = computed(() => {
 const modelValue = ref([])
 
 const onClickSelect = tableItem => {
-  if (modelValue.value.includes(tableItem[props.itemValue])) {
-    modelValue.value = modelValue.value.filter(item => item !== tableItem[props.itemValue])
-  } else {
-    modelValue.value.push(tableItem[props.itemValue])
+  if (props.selectStrategy === 'single') {
+    if (modelValue.value.includes(tableItem[props.itemValue])) {
+      modelValue.value = []
+    } else {
+      modelValue.value = [tableItem[props.itemValue]]
+    }
+  } else { // 'all'
+      if (modelValue.value.includes(tableItem[props.itemValue])) {
+      modelValue.value = modelValue.value.filter(item => item !== tableItem[props.itemValue])
+    } else {
+      modelValue.value.push(tableItem[props.itemValue])
+    }
   }
   emits('update:selected', modelValue.value)
 }
