@@ -35,6 +35,11 @@
                 />
               </slot>
             </div>
+            <div v-if="showSelect">
+              <slot name="table-select" :item="tableItem">
+                <v-checkbox-btn :model-value="modelValue.includes(tableItem[itemValue])" @update:model-value="onClickSelect(tableItem)" />
+              </slot>
+            </div>
             <div
               v-for="(header, cIndex) in filterHeaders"
               :key="'content-row--' + rIndex + '__col--' + cIndex"
@@ -91,6 +96,11 @@ import stringUtil from '@/utils/stringUtil.js'
 const {isEmpty } = stringUtil
 
 const props = defineProps({
+  itemValue: {
+    type: String,
+    default: 'id',
+    description: 'selected item value',
+  },
   itemTitle: {
     type: String,
     default: undefined,
@@ -189,6 +199,10 @@ const props = defineProps({
     default: () => {},
     description: '전체 개수 초기화(필터링 적용)',
   },
+  showSelect: {
+    type: Boolean,
+    default: false,
+  },
 })
 
 const emits = defineEmits(['update:page'])
@@ -205,7 +219,7 @@ const splitDatas = ref([])
 
 const filterDatas = computed(() => {
   // smart search일 경우
-  if (typeof props.search === typeof []) {
+  if (props.search && typeof props.search === typeof []) {
     if (props.search.length === 0) return props.datas
 
     const filteredList = props.datas.filter(data => {
@@ -271,6 +285,17 @@ const filterDatas = computed(() => {
   }
   return props.datas
 })
+
+const modelValue = ref([])
+
+const onClickSelect = tableItem => {
+  if (modelValue.value.includes(tableItem[props.itemValue])) {
+    modelValue.value = modelValue.value.filter(item => item !== tableItem[props.itemValue])
+  } else {
+    modelValue.value.push(tableItem[props.itemValue])
+  }
+  emits('update:selected', modelValue.value)
+}
 
 const setDatas = () => {
   if (!props.isPageRender) {
@@ -352,12 +377,13 @@ onMounted(() => {
 
   .s-card-table__header-item {
     display: flex;
+    justify-content: space-around;
     width: 100%;
     padding: 5px;
 
     .s-card-table__header-item-title {
       display: flex;
-      justify-content: center;
+      justify-content: space-around;
       align-items: center;
       height: 38px;
       padding: 0 10px;
@@ -374,8 +400,9 @@ onMounted(() => {
 
     .s-card-table__body-item {
       background-color: white;
+      width: 100%;
       display: flex;
-      justify-content: center;
+      justify-content: space-around;
       align-items: center;
       padding: 5px;
       border-radius: 10px;
