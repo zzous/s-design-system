@@ -62,9 +62,9 @@
         </ul>
       </template>
       <template v-else>
-        <empty :description="noDataText">
+        <s-empty :description="noDataText">
           <slot name="empty-content" />
-        </empty>
+        </s-empty>
       </template>
     </div>
     <v-pagination
@@ -93,6 +93,8 @@
  */
 import { computed, ref, onMounted, watch } from 'vue'
 import stringUtil from '@/utils/stringUtil.js'
+
+import SEmpty from '@/components/containment/SEmpty.vue'
 
 const {isEmpty } = stringUtil
 
@@ -172,8 +174,10 @@ const props = defineProps({
     description: '',
   },
   selected: {
-    type: Boolean,
-    default: false,
+    type: Array,
+    default: () => {
+      return []
+    },
   },
   width: {
     type: [Number, String],
