@@ -56,7 +56,7 @@
               v-if="subMenu.accessible"
               class="s-navi-inner-menu"
               :class="{
-                disabled: !clickableMenu,
+                disabled: !clickableMenu(subMenu),
                 active: selectedProject?.projectId > 0 || subMenu.dependency !== 'PROJECT',
               }"
               :value="subMenu.idx"
@@ -65,7 +65,7 @@
             >
               <template #title>
                 <RouterLink
-                  v-if="clickableMenu"
+                  v-if="clickableMenu(subMenu)"
                   class="s-navi-inner-menu-title"
                   :to="subMenu.menuUrl"
                 >
@@ -147,9 +147,9 @@ const open = ref([]) //활성화할 메뉴의 value
 
 const totalProjectList = computed(() => [{ ...defaultProject }, ...props.projectList])
 
-const clickableMenu = computed(() => {
-  return !useProject || (useProject && (selectedProject?.projectId > 0 && subMenu.dependency !== 'PROJECT'))
-})
+const clickableMenu = subMenu => {
+  return !props.useProject || (props.useProject && (props.selectedProject?.projectId > 0 || subMenu.dependency !== 'PROJECT'))
+}
 
 const onChangeProject = value => {
   //프로젝트가 바뀔 때 로컬 스토리지에 저장
