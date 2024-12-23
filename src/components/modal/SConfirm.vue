@@ -13,7 +13,7 @@
         </v-card-text>
         <v-card-actions class="button-wrapper">
           <s-btn variant="elevated" color="blue" @click.stop="onConfirm" :title="confirmButtonText" />
-          <s-btn variant="outlined" color="blue" @click="onCancel" :title="cancelButtonText" />
+          <s-btn variant="outlined" color="blue" @click="onCancel" :title="cancelButtonText" v-if="!noCancel" />
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -48,6 +48,11 @@ defineProps({
   cancelButtonText: {
     type: String,
     default: '취소',
+    description: '취소 버튼의 텍스트',
+  },
+  noCancel: {
+    type: Boolean,
+    default: false,
     description: '취소 버튼의 텍스트',
   }
 })
