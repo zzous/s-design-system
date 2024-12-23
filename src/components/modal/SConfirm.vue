@@ -9,7 +9,7 @@
     >
       <v-card modal-height="210">
         <v-card-text class="s-confirm-modal__text">
-          <pre>{{ contents }}</pre>
+          {{ contents }}
         </v-card-text>
         <v-card-actions class="button-wrapper">
           <s-btn variant="elevated" color="blue" @click.stop="onConfirm" :title="confirmButtonText" />
@@ -69,6 +69,8 @@ const onCancel = () => emits('click:cancel', false)
     align-items: center;
     justify-content: center;
     min-height: 130px;
+    white-space: pre-line;
+    word-break: break-word;
   }
 
   .button-wrapper {

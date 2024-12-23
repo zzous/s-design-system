@@ -128,6 +128,14 @@ html {
                 }
             }
         }
+
+        .v-text-field__suffix {
+            min-height: var(--v-input-control-height);
+
+            .v-text-field__suffix__text {
+                font-size: 12px;
+            }
+        }
     }
     &.v-input--density-comfortable {
         --v-input-control-height: 40px;

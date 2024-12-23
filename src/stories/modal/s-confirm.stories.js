@@ -18,7 +18,7 @@ const Template = (args) => ({
 export const Default = Template.bind({});
 Default.args = {
     modelValue: false,
-    contents: 'Confirm Text',
+    contents: 'Confirm Text\nConfirm Text',
     confirmButtonText: '확인',
     cancelButtonText: '취소',
     teleportId: 'storybook-root',
