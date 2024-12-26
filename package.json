@@ -26,6 +26,7 @@
   "dependencies": {
     "@codemirror/commands": "^6.7.1",
     "@codemirror/lang-javascript": "^6.2.2",
+    "@codemirror/lang-yaml": "^6.1.2",
     "@codemirror/theme-one-dark": "^6.1.2",
     "@codemirror/view": "^6.34.1",
     "@mdi/font": "^7.4.47",

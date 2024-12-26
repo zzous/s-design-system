@@ -14,3 +14,12 @@ export const Default = {
     args: {
     },
 };
+
+
+export const YamlEditor = (args) => ({
+    components: { SScriptEditor },
+    setup() {
+        return { args };
+    },
+    template: '<s-script-editor v-bind="args" lang="yaml"></s-script-editor>',
+});

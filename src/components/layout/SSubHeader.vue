@@ -3,7 +3,9 @@
     <div class="s-title-area__content">
       <div class="s-title-area__title">
         {{ title }}
-        <span v-if="showCnt" class="s-title-area__number">({{ listCnt }})</span>
+        <slot name="title-append">
+          <span v-if="showCnt" class="s-title-area__number">({{ listCnt }})</span>
+        </slot>
       </div>
       <div class="s-title-area__buttons button-wrapper">
         <slot name="default" />

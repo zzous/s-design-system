@@ -20,6 +20,7 @@ import { javascript } from '@codemirror/lang-javascript'
 import { oneDark } from '@codemirror/theme-one-dark'
 import { defaultKeymap } from '@codemirror/commands'
 import { keymap } from '@codemirror/view'
+import { yaml } from '@codemirror/lang-yaml'
 import { basicSetup } from 'codemirror'
 import { ref, computed } from 'vue'
 const contents = defineModel({
@@ -36,8 +37,18 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+  lang: {
+    type: String,
+    default: null,
+  },
 })
-const extensions = computed(() => props.readonly ? [basicSetup, javascript(), keymap.of(defaultKeymap)] : [basicSetup, javascript(), oneDark, keymap.of(defaultKeymap)])
+const extensions = computed(() => {
+  const result = props.readonly ? [basicSetup, javascript(), keymap.of(defaultKeymap)] : [basicSetup, javascript(), oneDark, keymap.of(defaultKeymap)]
+  if (props.lang === 'yaml') {
+    result.push(yaml())
+  }
+  return result
+})
 const editor = ref(null)
 
 const customStyle = computed(() => {
