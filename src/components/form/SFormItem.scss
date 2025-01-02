@@ -54,9 +54,6 @@
         .v-field__input {
           padding: 5px 8px;
 
-          &:has(input) {
-            padding: 0 8px;
-          }
           &.v-select {
             min-width: var(--s-text-select-min-width, 618px);
           }
@@ -66,6 +63,12 @@
           opacity: 1;
           color:#000;
         }
+      }
+    }
+
+    :deep(.v-field-field:not(.v-select)) {
+      .v-field__input:has(input) {
+        padding: 0 8px;
       }
     }
   }
