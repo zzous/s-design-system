@@ -49,7 +49,7 @@
       &:has(.router-link-active) {
         .router-link-active {
           color: $active-font-color;
-          font-weight: 700;
+          font-weight: 600;
         }
       }
     }
@@ -83,7 +83,7 @@
           color: $active-font-color;
           .v-list-item__content .v-list-item-title {
             color: $active-font-color;
-            font-weight: 700;
+            font-weight: 600;
           }
         }
       }
