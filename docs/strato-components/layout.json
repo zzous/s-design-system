@@ -1,0 +1,92 @@
+{
+  "SHeader": {
+    "description": "애플리케이션의 상단 헤더 컴포넌트",
+    "usage": "로고, 메뉴, 사용자 정보 등을 표시하는 메인 헤더",
+    "props": {
+      "isLoggedIn": {
+        "type": "Boolean",
+        "required": false,
+        "default": false,
+        "description": "로그인 상태"
+      },
+      "userInfo": {
+        "type": "Object",
+        "required": false,
+        "default": {
+          "name": "-",
+          "picture": {
+            "format": "png"
+          }
+        },
+        "description": "로그인한 사용자 정보"
+      },
+      "logoSrc": {
+        "type": "String",
+        "required": false,
+        "default": null,
+        "description": "서비스 로고 이미지 주소"
+      },
+      "serviceMenus": {
+        "type": "Array",
+        "required": false,
+        "default": [],
+        "description": "서비스 메뉴 아이템들"
+      }
+    },
+    "slots": {
+      "side-menu-footer": "사이드 메뉴 하단에 표시될 내용"
+    },
+    "events": {
+      "click:logo": "로고 클릭 시 발생하는 이벤트",
+      "click:menu": "메뉴 아이템 클릭 시 발생하는 이벤트"
+    },
+    "example": {
+      "import": ["import { SHeader } from '@'"],
+      "template": "<SHeader :is-logged-in=\"true\" :user-info=\"userInfo\" :service-menus=\"menus\" @click:logo=\"handleLogoClick\" />"
+    }
+  },
+  "SNavi": {
+    "description": "좌측 네비게이션 메뉴 컴포넌트",
+    "usage": "서비스의 메인 네비게이션 메뉴 구성",
+    "props": {
+      "serviceName": {
+        "type": "String",
+        "required": false,
+        "default": "Service",
+        "description": "서비스 이름"
+      },
+      "menuPath": {
+        "type": "Object",
+        "required": false,
+        "default": {
+          "menuUrl": "",
+          "menuName": "",
+          "menuNameKr": "",
+          "subMenus": []
+        },
+        "description": "현재 메뉴 경로 정보"
+      }
+    },
+    "events": {
+      "click:service-name": "서비스 이름 클릭 시 발생하는 이벤트",
+      "click:menu": "메뉴 아이템 클릭 시 발생하는 이벤트"
+    },
+    "example": {
+      "import": ["import { SNavi } from '@'"],
+      "template": "<SNavi service-name=\"My Service\" :menu-path=\"currentMenuPath\" @click:service-name=\"handleServiceClick\" />"
+    }
+  },
+  "SLayout": {
+    "description": "전체 레이아웃을 구성하는 컴포넌트",
+    "usage": "헤더, 네비게이션, 메인 콘텐츠 영역을 포함하는 기본 레이아웃",
+    "slots": {
+      "header": "헤더 영역",
+      "navi": "네비게이션 영역",
+      "default": "메인 콘텐츠 영역"
+    },
+    "example": {
+      "import": ["import { SLayout } from '@'"],
+      "template": "<SLayout><template #header><SHeader /></template><template #navi><SNavi /></template><div>메인 콘텐츠</div></SLayout>"
+    }
+  }
+}

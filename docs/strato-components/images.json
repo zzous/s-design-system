@@ -1,0 +1,89 @@
+{
+  "SAvatar": {
+    "description": "사용자 아바타 및 메뉴 컴포넌트",
+    "usage": "사용자 정보와 관련 메뉴를 표시하는 드롭다운 컴포넌트",
+    "props": {
+      "user": {
+        "type": "Object",
+        "required": false,
+        "default": "{}",
+        "description": "회원정보"
+      },
+      "menuItems": {
+        "type": "Array",
+        "required": false,
+        "default": "[]",
+        "description": "회원정보 메뉴들"
+      },
+      "className": {
+        "type": "Object",
+        "required": false,
+        "default": "{}",
+        "description": "custom class"
+      }
+    },
+    "slots": {
+      "badge": "아바타에 표시될 뱃지"
+    },
+    "events": {
+      "click:menu-item": "메뉴 아이템 클릭 시 발생 (value: 선택된 메뉴 값)"
+    }
+  },
+  "SImg": {
+    "description": "이미지 컴포넌트",
+    "usage": "Vuetify v-img를 확장한 커스텀 이미지 컴포넌트",
+    "props": {
+      "bind": {
+        "type": "Object",
+        "required": false,
+        "default": "undefined",
+        "description": "v-bind 옵션값"
+      },
+      "onProps": {
+        "type": "Object",
+        "required": false,
+        "default": "undefined",
+        "description": "v-on 옵션값"
+      },
+      "className": {
+        "type": "Object",
+        "required": false,
+        "default": "undefined",
+        "description": "클래스 이름 값 할당"
+      },
+      "src": {
+        "type": ["String", "Object"],
+        "required": false,
+        "default": "",
+        "description": "이미지 url"
+      },
+      "srcUrl": {
+        "type": "String",
+        "required": false,
+        "default": "undefined",
+        "description": "기본 경로가 아닌 경로에서 가져올 이미지 경로"
+      },
+      "lazySrc": {
+        "type": "String",
+        "required": false,
+        "default": "undefined",
+        "description": "로딩 중 표시될 이미지 경로"
+      },
+      "publicPath": {
+        "type": "String",
+        "required": false,
+        "default": "",
+        "description": "/public 이후의 경로"
+      }
+    },
+    "slots": {
+      "default": "이미지 위에 표시될 콘텐츠",
+      "placeholder": "이미지 로딩 중 표시될 콘텐츠"
+    },
+    "events": {
+      "error": "이미지 로드 실패 시 발생",
+      "load": "이미지 로드 완료 시 발생",
+      "loadstart": "이미지 로드 시작 시 발생"
+    }
+  }
+}

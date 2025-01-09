@@ -1,0 +1,83 @@
+{
+  "SBtn": {
+    "description": "기본 버튼 컴포넌트",
+    "usage": "Vuetify의 v-btn을 확장한 커스텀 버튼",
+    "props": {
+      "title": {
+        "type": "String",
+        "required": false,
+        "default": "",
+        "description": "버튼 텍스트"
+      },
+      "to": {
+        "type": "String",
+        "required": false,
+        "default": null,
+        "description": "라우터 링크 경로"
+      },
+      "height": {
+        "type": ["String", "Number"],
+        "required": false,
+        "default": null,
+        "description": "버튼 높이"
+      },
+      "size": {
+        "type": "String",
+        "required": false,
+        "default": "default",
+        "description": "버튼 크기 (x-small, small, default, large, x-large)",
+        "validator": ["default", "x-small", "small", "large", "x-large"]
+      },
+      "color": {
+        "type": "String",
+        "required": false,
+        "default": "blue",
+        "description": "버튼 색상 (blue, red, black)"
+      },
+      "icon": {
+        "type": "String",
+        "required": false,
+        "default": null,
+        "description": "아이콘 이름"
+      }
+    },
+    "slots": {
+      "default": "버튼 내용",
+      "icon": "아이콘 영역"
+    },
+    "css": {
+      "variants": {
+        "elevated": "배경색이 있는 기본 스타일",
+        "outlined": "테두리만 있는 스타일"
+      },
+      "colors": {
+        "blue": "파란색 계열",
+        "red": "빨간색 계열",
+        "black": "검정색"
+      }
+    }
+  },
+  "SRefreshBtn": {
+    "description": "새로고침 버튼 컴포넌트",
+    "usage": "날짜와 시간을 표시하고 새로고침 기능을 제공하는 버튼",
+    "props": {
+      "onClickRefresh": {
+        "type": "Function",
+        "required": true,
+        "description": "새로고침 클릭 시 실행할 함수"
+      },
+      "refreshDate": {
+        "type": "Date",
+        "required": false,
+        "default": "new Date()",
+        "description": "갱신 날짜"
+      },
+      "refreshDateTitle": {
+        "type": "String",
+        "required": false,
+        "default": "기준일자",
+        "description": "날짜 표시 앞에 붙는 텍스트"
+      }
+    }
+  }
+}

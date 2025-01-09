@@ -1,0 +1,118 @@
+{
+  "SModal": {
+    "description": "기본 모달 컴포넌트",
+    "usage": "다양한 크기와 스타일을 지원하는 커스텀 모달 다이얼로그",
+    "props": {
+      "title": {
+        "type": "String",
+        "required": false,
+        "default": "",
+        "description": "모달 헤더 이름"
+      },
+      "className": {
+        "type": ["Object", "String"],
+        "required": false,
+        "default": "",
+        "description": "클래스 명"
+      },
+      "modalWidth": {
+        "type": "String",
+        "required": false,
+        "default": "",
+        "description": "모달 넓이"
+      },
+      "modalHeight": {
+        "type": "String",
+        "required": false,
+        "default": "",
+        "description": "모달 높이"
+      },
+      "modelValue": {
+        "type": "Boolean",
+        "required": false,
+        "default": false,
+        "description": "모달 오픈 여부"
+      },
+      "isWhite": {
+        "type": "Boolean",
+        "required": false,
+        "default": false,
+        "description": "모달 헤드 색깔 여부"
+      },
+      "hideHeader": {
+        "type": "Boolean",
+        "required": false,
+        "default": false,
+        "description": "헤더 유무"
+      },
+      "teleportId": {
+        "type": "String",
+        "required": false,
+        "default": "destination",
+        "description": "Teleport ID"
+      },
+      "size": {
+        "type": "String",
+        "required": false,
+        "default": "medium",
+        "description": "modal size (x-small, small, medium, large, x-large)"
+      }
+    },
+    "slots": {
+      "buttons": "모달 트리거 버튼",
+      "default": "모달 본문 내용",
+      "footer": "모달 하단 영역",
+      "header-btn-append": "헤더 우측 추가 버튼"
+    },
+    "events": {
+      "update:model-value": "모달 상태 변경 시 발생"
+    }
+  },
+  "SConfirm": {
+    "description": "확인 모달 컴포넌트",
+    "usage": "사용자 확인이 필요한 작업에 사용되는 모달",
+    "props": {
+      "contents": {
+        "type": "String",
+        "required": false,
+        "default": "",
+        "description": "컨펌창 내용"
+      },
+      "modelValue": {
+        "type": "Boolean",
+        "required": false,
+        "default": false,
+        "description": "컨펌창 오픈 여부"
+      },
+      "teleportId": {
+        "type": "String",
+        "required": false,
+        "default": "destination",
+        "description": "Teleport ID"
+      },
+      "confirmButtonText": {
+        "type": "String",
+        "required": false,
+        "default": "확인",
+        "description": "확인 버튼의 텍스트"
+      },
+      "cancelButtonText": {
+        "type": "String",
+        "required": false,
+        "default": "취소",
+        "description": "취소 버튼의 텍스트"
+      },
+      "noCancel": {
+        "type": "Boolean",
+        "required": false,
+        "default": false,
+        "description": "취소 버튼 숨김 여부"
+      }
+    },
+    "events": {
+      "update:model-value": "모달 상태 변경 시 발생",
+      "click:confirm": "확인 버튼 클릭 시 발생",
+      "click:cancel": "취소 버튼 클릭 시 발생"
+    }
+  }
+}

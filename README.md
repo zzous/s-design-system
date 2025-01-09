@@ -58,3 +58,33 @@
 ```bash
    npm run dev
 ```
+
+## 컴포넌트 문서화
+
+### 문서 생성 요청
+
+컴포넌트 문서는 `.cursorrules`에 정의된 규칙에 따라 자동으로 생성됩니다.
+
+```bash
+# 문서 생성 요청 형식
+@{컴포넌트_폴더명} 문서 작성해줘
+
+# 예시
+@button 문서 작성해줘
+@alert 문서 작성해줘
+@input 문서 작성해줘
+```
+
+### 생성되는 문서
+
+요청 시 다음 두 가지 형식의 문서가 생성됩니다:
+
+- JSON 문서: `docs/strato-components/{category}.json`
+- 마크다운 문서: `docs/strato-components/{category}.md`
+
+### 문서 구조
+
+- **JSON 문서**: 컴포넌트의 props, slots, events 등의 정보를 구조화된 형태로 저장
+- **마크다운 문서**: 개발자가 읽기 쉬운 형태로 컴포넌트 사용법을 설명
+
+자세한 문서화 규칙은 `.cursorrules` 파일을 참고하세요.

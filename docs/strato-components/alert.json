@@ -1,0 +1,73 @@
+{
+  "SAlert": {
+    "description": "상단에 표시되는 알림 메시지 컴포넌트",
+    "usage": "사용자에게 알림, 경고, 성공 등의 메시지를 표시할 때 사용",
+    "props": {
+      "titleName": {
+        "type": "String",
+        "required": false,
+        "default": "",
+        "description": "알림 내용"
+      },
+      "modelValue": {
+        "type": "Boolean",
+        "required": false,
+        "default": false,
+        "description": "알림 오픈 여부"
+      },
+      "multiLine": {
+        "type": "Boolean",
+        "required": false,
+        "default": false,
+        "description": "최소 높이를 더 높게 설정"
+      },
+      "color": {
+        "type": "String",
+        "required": false,
+        "default": "#036EB8",
+        "description": "알림 색상"
+      },
+      "height": {
+        "type": ["String", "Number"],
+        "required": false,
+        "default": "48px",
+        "description": "알림 높이"
+      },
+      "width": {
+        "type": ["String", "Number"],
+        "required": false,
+        "default": "450px",
+        "description": "알림 넓이"
+      },
+      "timeout": {
+        "type": "Number",
+        "required": false,
+        "default": 5000,
+        "description": "알림 오픈 시간(ms)"
+      },
+      "isClose": {
+        "type": "Boolean",
+        "required": false,
+        "default": true,
+        "description": "Close 버튼 노출 유무"
+      },
+      "alertStyle": {
+        "type": "Object",
+        "required": false,
+        "default": "{}",
+        "description": "추가 스타일 객체"
+      }
+    },
+    "slots": {
+      "alert-icon": "알림 아이콘 영역",
+      "actions": "기본 Close 버튼 대신 사용할 액션 버튼 영역"
+    },
+    "events": {
+      "update:model-value": "알림 표시 상태가 변경될 때 발생"
+    },
+    "example": {
+      "import": ["import { SAlert } from '@'"],
+      "template": "<SAlert v-model=\"showAlert\" title-name=\"알림 메시지입니다.\" color=\"success\" />"
+    }
+  }
+}
