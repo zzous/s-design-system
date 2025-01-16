@@ -47,6 +47,7 @@
       }
 
       &:has(.router-link-active) {
+        color: $active-font-color;
         .router-link-active {
           color: $active-font-color;
           font-weight: 600;

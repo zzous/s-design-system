@@ -39,8 +39,8 @@
                 !menu.subMenus || menu.subMenus.length === 0
                   ? ''
                   : open.includes(menu.idx)
-                    ? 'mdi-chevron-down'
-                    : 'mdi-chevron-up'
+                    ? 'mdi-chevron-up'
+                    : 'mdi-chevron-down'
               "
               >
               <template v-if="!menu.subMenus || menu.subMenus.length === 0" #title>
@@ -62,12 +62,14 @@
               :value="subMenu.idx"
               active-class="menu-active"
               prepend-icon="mdi-circle-small"
+              @click="handleMenuClick($event, subMenu)"
             >
               <template #title>
                 <RouterLink
                   v-if="clickableMenu(subMenu)"
                   class="s-navi-inner-menu-title"
                   :to="subMenu.menuUrl"
+                  ref="menuLink"
                 >
                   {{ subMenu.menuName || subMenu.menuNameKr }}
                 </RouterLink>
@@ -183,6 +185,16 @@ watch(
   },
   { immediate: true },
 )
+
+const handleMenuClick = (event, subMenu) => {
+  if (clickableMenu(subMenu)) {
+    // RouterLink 요소 찾기
+    const linkElement = event.currentTarget.querySelector('.s-navi-inner-menu-title')
+    if (linkElement) {
+      linkElement.click()
+    }
+  }
+}
 </script>
 
 <style scoped lang="scss">
