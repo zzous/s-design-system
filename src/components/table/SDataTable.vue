@@ -405,9 +405,6 @@ const updateModelValue = item => {
   emit('update:model-value', selected.value)
 }
 
-const pageCnt = computed(() => {
-  return props.options?.pageCnt || Math.ceil(props.items.length / props.itemsPerPage)
-})
 const filterDatas = computed(() => {
   // TODO Pagination 컴포넌트 사용 시 Search props와 페이지 수가 맞지 않는 오류가 있음 (해결방법: vuetify 업그레이드)
   // vuetify 업그레이드 전 임시코드
@@ -475,7 +472,11 @@ const filterDatas = computed(() => {
     })
     return filteredList
   }
-  return props.items
+  return props.items || []
+})
+
+const pageCnt = computed(() => {
+  return props.options?.pageCnt || Math.ceil(filterDatas.value.length / props.itemsPerPage)
 })
 
 const paginatedItems = computed(() => {
