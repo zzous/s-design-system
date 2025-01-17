@@ -1,7 +1,7 @@
 <template>
   <span class="position-relative refresh-time-wrapper">
     <span class=" refresh-time">{{ refreshDateTitle }} : {{ computedRefreshDate }}</span>
-    <img class="cursor-pointer ml-1" :src="refreshIcon" @click="onClickRefresh" />
+    <img class="cursor-pointer ml-1" height="16" width="16" :src="refreshIcon" @click="onClickRefresh" />
   </span>
 </template>
 <script setup>
@@ -40,6 +40,7 @@ const computedRefreshDate = computed(() => {
 <style scoped lang="scss">
 .refresh-time-wrapper {
   display: inline-flex;
+  align-items: center;
 }
 .refresh-time {
   font-style: normal;

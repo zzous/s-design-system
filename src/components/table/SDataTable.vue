@@ -15,16 +15,16 @@
     :height="height"
     :hide-no-data="hideNoData"
     :item-props="itemProps"
-    :items="filterDatas"
+    :items="paginatedItems"
     :item-value="itemValue"
-    :items-per-page="itemsPerPage"
+    :items-per-page="-1"
     :item-selectable="itemSelectable"
     :model-value="selected"
     :multi-sort="multiSort"
     :must-sort="mustSort"
     :no-data-text="noDataText"
     :no-filter="noFilter"
-    :page="lazyPage"
+    :page="currentPage"
     :return-object="returnObject"
     :search="search"
     :show-expand="showExpand"
@@ -138,14 +138,14 @@
       <slot name="append-content" />
       <div v-if="!hideFooter" class="text-center s-data-table-pagination">
         <v-pagination
-          ref="paginateRef"
-          v-model="lazyPage"
+          :model-value="currentPage"
           size="small"
           rounded
           active-color="#1297F2"
           variant="flat"
           :total-visible="10"
           :length="options?.pageCnt || pageCnt"
+          @update:model-value="updatePage"
         />
       </div>
     </template>
@@ -478,6 +478,12 @@ const filterDatas = computed(() => {
   return props.items
 })
 
+const paginatedItems = computed(() => {
+  const start = (props.page - 1) * props.itemsPerPage
+  const end = start + props.itemsPerPage
+  return filterDatas.value.slice(start, end)
+})
+
 const sDataTableRef = ref()
 // const getChipColor = (status) => {
 //   // console.log(tag, 'getChipColor')
@@ -492,8 +498,8 @@ const sDataTableRef = ref()
 //   }
 //   return text
 // }
-const updatePage = e => {
-  emit('update:page', e)
+const updatePage = (newPage) => {
+  emit('update:page', newPage)
 }
 const updateSortBy = e => {
   sortBy.value = e
@@ -521,19 +527,21 @@ const onClickSortBy = el => {
   })
 }
 
-watch(
-  () => props.page,
-  nv => {
-    lazyPage.value = nv
-  },
-)
+const currentPage = computed({
+  get: () => props.page,
+  set: (value) => emit('update:page', value)
+})
 
-watch(
-  () => lazyPage.value,
-  nv => {
-    updatePage(nv)
-  },
-)
+// watch 제거 - readonly 오류 해결
+// watch(
+//   () => props.page,
+//   (newPage) => {
+//     if (sDataTableRef.value) {
+//       sDataTableRef.value.page = newPage
+//     }
+//   },
+//   { immediate: true }
+// )
 
 watch(
   () => props.headers,

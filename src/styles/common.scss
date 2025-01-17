@@ -1,10 +1,12 @@
-html {
+html * {
     font-family: $s-base-font;
     --global-nav-header-height: 68px;
+
+    .mdi-checkbox-marked::before{color: #1297f2 ;}
 }
 
 .v-theme--light {
-    --v-border-color: $stext__gray-5;
+    --v-border-color: $s-default--gray-5;
 }
 
 .active-text-color {
@@ -29,8 +31,28 @@ html {
     background-color: $s-base-background;
 }
 
-.search .v-field .v-field__prepend-inner .v-icon {
-    --v-medium-emphasis-opacity: 1;
+.search {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    width: 100%;
+    align-items: center;
+    margin-bottom: 10px;
+
+    .search--half {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .search__text-field {
+        max-width: 350px;
+        background-color: white;
+    }
+
+    .v-field .v-field__prepend-inner .v-icon {
+        --v-medium-emphasis-opacity: 1;
+    }
 }
 
 .v-menu .v-overlay__content > .v-list{
@@ -73,7 +95,7 @@ html {
 .v-input {
     &.v-input--disabled,
     &.v-input--readonly {
-        --v-disabled-opacity: 1;
+        // --v-disabled-opacity: 1;
         .v-field__overlay{
             background-color: $s-default--gray-1;
         }

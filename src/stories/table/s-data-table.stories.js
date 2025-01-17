@@ -1,4 +1,5 @@
-import {SDataTable} from '@';
+import {SDataTable, SRefreshBtn} from '@';
+import { ref } from 'vue';
 
 export default {
     title: 'Table/SDataTable',
@@ -39,9 +40,62 @@ export default {
 };
 
 const Template = (args) => ({
-    components: { SDataTable },
-    setup() { return { args }; },
-    template: `<SDataTable v-bind="args" />`,
+    components: { SDataTable, SRefreshBtn },
+    setup() {
+        const headers = args.headers;
+        const page = ref(1);
+        const items = ref([...args.items]);
+        const searchValue = ref('');
+
+        const updatePage = (newPage) => {
+            if (page.value !== newPage) {
+                page.value = newPage;
+            }
+        };
+
+        const refresh = (pageNum) => {
+            const tempItems = [...items.value];
+            items.value = [];
+
+            setTimeout(() => {
+                items.value = tempItems;
+                console.log(pageNum, page.value)
+                updatePage(pageNum);
+            }, 500);
+        };
+
+        return {
+            page,
+            updatePage,
+            refresh,
+            headers,
+            items,
+            searchValue
+        };
+    },
+    template: `
+    <div class="search">
+        <v-text-field
+            v-model="searchValue"
+            class="search__text-field"
+            variant="outlined"
+            density="comfortable"
+            hide-details
+            placeholder="리소스 명으로 검색"
+            prepend-inner-icon="mdi-magnify"
+            />
+        <SRefreshBtn :on-click-refresh="() => refresh(page)" />
+    </div>
+    <div>
+        <SDataTable
+            :headers="headers"
+            :items="items"
+            :page="page"
+            :search="searchValue"
+            @update:page="updatePage"
+        />
+    </div>
+    `,
 });
 
 export const Default = Template.bind({});
@@ -80,8 +134,62 @@ Default.args = {
             "regionCode": "us-west-1"
         },
         {
+            "vpcName": "default-vpc",
+            "vpcId": "vpc-1002",
+            "cloudType": "AWS",
+            "regionCode": "us-west-1"
+        },
+        {
+            "vpcName": "default-vpc",
+            "vpcId": "vpc-1003",
+            "cloudType": "AWS",
+            "regionCode": "us-west-1"
+        },
+        {
+            "vpcName": "default-vpc",
+            "vpcId": "vpc-1004",
+            "cloudType": "AWS",
+            "regionCode": "us-west-1"
+        },
+        {
+            "vpcName": "default-vpc",
+            "vpcId": "vpc-1005",
+            "cloudType": "AWS",
+            "regionCode": "us-west-1"
+        },
+        {
+            "vpcName": "default-vpc",
+            "vpcId": "vpc-1006",
+            "cloudType": "AWS",
+            "regionCode": "us-west-1"
+        },
+        {
+            "vpcName": "default-vpc",
+            "vpcId": "vpc-1007",
+            "cloudType": "AWS",
+            "regionCode": "us-west-1"
+        },
+        {
+            "vpcName": "default-vpc",
+            "vpcId": "vpc-1008",
+            "cloudType": "AWS",
+            "regionCode": "us-west-1"
+        },
+        {
+            "vpcName": "default-vpc",
+            "vpcId": "vpc-1009",
+            "cloudType": "AWS",
+            "regionCode": "us-west-1"
+        },
+        {
+            "vpcName": "default-vpc",
+            "vpcId": "vpc-1010",
+            "cloudType": "AWS",
+            "regionCode": "us-west-1"
+        },
+        {
             "vpcName": "first-vpc",
-            "vpcId": "vpc-1000",
+            "vpcId": "vpc-1011",
             "cloudType": "GCP",
             "regionCode": "us-west-2"
         }
