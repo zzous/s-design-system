@@ -35,6 +35,17 @@ export default {
             control: 'object',
             description: '선택된 항목들',
             defaultValue: []
+        },
+        search: {
+            control: 'text',
+            description: '검색어 (주의: 서버 사이드 페이지네이션 사용 시에는 이 prop을 사용하지 마세요. 서버에서 검색 로직을 처리해야 합니다.)',
+            defaultValue: ''
+        },
+        options: {
+            control: 'object',
+            description: `테이블 옵션 정보
+- pageCnt: 서버 사이드 페이지네이션을 사용할 경우에만 설정하세요. 클라이언트 사이드 페이지네이션의 경우 자동으로 계산됩니다.`,
+            defaultValue: {}
         }
     }
 };

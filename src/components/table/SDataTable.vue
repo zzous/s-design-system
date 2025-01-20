@@ -480,9 +480,12 @@ const pageCnt = computed(() => {
 })
 
 const paginatedItems = computed(() => {
-  const start = (props.page - 1) * props.itemsPerPage
-  const end = start + props.itemsPerPage
-  return filterDatas.value.slice(start, end)
+  if (!props.options?.pageCnt) {
+    const start = (props.page - 1) * props.itemsPerPage
+    const end = start + props.itemsPerPage
+    return filterDatas.value.slice(start, end)
+  }
+  return filterDatas.value
 })
 
 const sDataTableRef = ref()
