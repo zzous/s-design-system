@@ -52,10 +52,9 @@
   }
   :deep(.v-btn:hover) > .v-btn__overlay {
     opacity: 0.1;
-    // background: $active-font-color;
   }
 
-  :deep(.v-btn--disabled).v-btn--variant-flat .v-btn__overlay {
+  :deep(.v-btn--disabled.v-btn--variant-flat) .v-btn__overlay {
     opacity: 1;
     background: transparent;
   }
@@ -126,6 +125,15 @@
     > table > tfoot > tr > td,
     > table > tfoot > tr > th {
       padding: 0 20px;
+    }
+
+    > table > thead > tr > th {
+      background: #F7F9FA;
+    }
+
+    tbody tr:not(:last-child) > td,
+    tbody tr:not(:last-child) > th {
+      border-bottom: thin solid rgba(var(--v-border-color), var(--v-border-opacity));
     }
   }
 }

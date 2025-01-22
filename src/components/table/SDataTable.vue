@@ -131,8 +131,11 @@
         </th>
       </tr>
     </template>
-    <template #body v-if="$slots.body">
-      <slot name="body" />
+    <template #body="bind" v-if="$slots.body">
+      <slot name="body" v-bind="bind" />
+    </template>
+    <template #tbody="bind" v-if="$slots.tbody">
+      <slot name="tbody" v-bind="bind" />
     </template>
     <template #bottom>
       <slot name="append-content" />
