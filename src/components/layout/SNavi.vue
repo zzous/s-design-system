@@ -162,11 +162,11 @@ const goFirstMenu = () => {
   if (props.firstMenuPath) {
     emits('click:service-name', { path: props.firstMenuPath })
   } else {
-    if (props.menuPath) {
-      emits('click:service-name', { path: props.menuPath.menuUrl || '/' })
-    } else {
+    // if (props.menuPath) {
+    //   emits('click:service-name', { path: props.menuPath.menuUrl || '/' })
+    // } else {
       emits('click:service-name', { path: '/' })
-    }
+    // }
   }
 }
 
