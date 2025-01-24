@@ -31,6 +31,7 @@
     :show-select="showSelect"
     :select-strategy="selectStrategy"
     :sort-by="sortBy"
+    :disable-sort="disableSort"
     :width="width"
     :class="{
       'hide-footer': hideFooter,
@@ -392,6 +393,11 @@ const props = defineProps({
     type: String,
     default: null,
     description: '테이블의 checkbox가 선택이 가능한지의 여부를 판단할 수 있는 요소의 키 값입니다. (예: selectable)',
+  },
+  disableSort: {
+    type: Boolean,
+    default: false,
+    description: '정렬 기능 비활성화',
   },
 })
 
