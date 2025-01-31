@@ -2,46 +2,23 @@
   <v-data-table
     ref="sDataTableRef"
     class="s-data-table"
-    :custom-filter="customFilter"
-    :custom-key-filter="customKeyFilter"
-    :expanded="expanded"
-    :expand-on-click="expandOnClick"
-    :filter-keys="filterKeys"
-    :filter-mode="filterMode"
-    :fixed-footer="fixedFooter"
-    :fixed-header="fixedHeader"
-    :group-by="groupBy"
-    :headers="headers"
-    :height="height"
-    :hide-no-data="hideNoData"
-    :item-props="itemProps"
+    v-bind="$attrs"
+    :headers="lazyHeaders"
     :items="paginatedItems"
-    :item-value="itemValue"
-    :items-per-page="-1"
-    :item-selectable="itemSelectable"
-    :model-value="selected"
-    :multi-sort="multiSort"
-    :must-sort="mustSort"
-    :no-data-text="noDataText"
-    :no-filter="noFilter"
-    :page="currentPage"
-    :return-object="returnObject"
+    :page="lazyPage"
+    :items-per-page="itemsPerPage"
     :search="search"
-    :show-expand="showExpand"
-    :show-select="showSelect"
-    :select-strategy="selectStrategy"
     :sort-by="sortBy"
-    :disable-sort="disableSort"
-    :width="width"
-    :class="{
-      'hide-footer': hideFooter,
-      'fixed-table': fixedTable,
-    }"
-    hide-default-footer
-    :density="density"
-    @update:sort-by="updateSortBy"
-    @update:model-value="updateModelValue"
-    @click:row="clickRow"
+    :item-value="itemValue"
+    :show-select="showSelect"
+    :return-object="returnObject"
+    :model-value="selected"
+    :select-strategy="selectStrategy"
+    :loading="loading"
+    :hover="hover"
+    :item-class="getItemClass"
+    @update:modelValue="updateSelected"
+    @update:options="$emit('update:options', $event)"
   >
     <!-- DataTable 버전 이슈로 인하여 selectStrategy 값이 정상 작동하지 않아 헤더를 아래와 같이 임시로 처리합니다. -->
     <!-- <template v-if="single" #headers>
@@ -77,7 +54,13 @@
     <template v-for="(el, index) in headers" #[`item.${el.key}`]="{ item }" :key="index">
       <v-tooltip v-if="tooltip" location="bottom">
         <template #activator="{ props: dataProps }">
-          <span v-bind="dataProps" class="d-inline-block text-truncate sp-table-column__text">
+          <span
+            v-bind="dataProps"
+            class="d-inline-block text-truncate sp-table-column__text"
+            :class="[
+              item.highlight,
+            ]"
+          >
             {{ item[el.key] || '-' }}
           </span>
         </template>
@@ -86,7 +69,12 @@
         </span>
       </v-tooltip>
 
-      <div v-else>
+      <div
+        v-else
+        :class="[
+          item.highlight,
+        ]"
+      >
         <slot :name="`item.${el.key}`" :item="item">
           {{ item[el.key] || '-' }}
         </slot>
@@ -116,24 +104,33 @@
       </div>
     </template>
     <template v-if="footers && Object.keys(footers).length" #[`tfoot`]>
-      <tr>
-        <th
-          v-for="(head, hIndex) in headers"
-          :key="'foot__' + hIndex"
-          :width="head.width"
-          :style="{ textAlign: head.align || 'start' }"
-        >
-          <template v-if="customSlotFooter[head.key]">
-            <slot :name="`${head.key}_footer`" :props="footers" />
-          </template>
-          <template v-else>
-            {{ footers[head.key] }}
-          </template>
-        </th>
-      </tr>
+      <tfoot>
+        <tr class="v-data-table__tr">
+          <td
+            class="v-data-table__td"
+            v-for="(head, hIndex) in headers"
+            :key="'foot__' + hIndex"
+            :width="head.width"
+            :style="{ textAlign: head.align || 'start' }"
+          >
+            <template v-if="$slots[`footer.${head.key}`]">
+              <slot :name="`footer.${head.key}`" :props="footers" />
+            </template>
+            <template v-else>
+              {{ footers[head.key] }}
+            </template>
+          </td>
+        </tr>
+      </tfoot>
+    </template>
+    <template #item="bind" v-if="$slots.item">
+      <slot name="item" v-bind="bind" />
     </template>
     <template #body="bind" v-if="$slots.body">
       <slot name="body" v-bind="bind" />
+    </template>
+    <template #[`body.append`]="bind" v-if="$slots['body.append']">
+      <slot name="body.append" v-bind="bind" />
     </template>
     <template #tbody="bind" v-if="$slots.tbody">
       <slot name="tbody" v-bind="bind" />
@@ -572,6 +569,11 @@ onMounted(() => {
 
   // console.log(sDataTableRef.value)
 })
+
+// tr class를 결정하는 함수 추가
+const getItemClass = (item) => {
+  return item.highlight || ''  // highlight 속성이 있으면 해당 클래스를 반환
+}
 </script>
 
 <style lang="scss" scoped>

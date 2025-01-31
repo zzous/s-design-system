@@ -135,5 +135,23 @@
     tbody tr:not(:last-child) > th {
       border-bottom: thin solid rgba(var(--v-border-color), var(--v-border-opacity));
     }
+
+    // 하이라이트 기본 스타일
+    td:has(.s-highlight-default) {
+      background-color: $s-default--gray-4;
+    }
+
+    // 커스텀 하이라이트 클래스들
+    td:has(.s-highlight-info) {
+      background-color: $s-btn--blue-3;
+    }
+
+    td:has(.s-highlight-error) {
+      background-color: $s-btn--red-3;
+    }
+
+    td:has(.s-highlight-success) {
+      background-color: $s-btn--green-3;
+    }
   }
 }

@@ -46,6 +46,16 @@ export default {
             description: `테이블 옵션 정보
 - pageCnt: 서버 사이드 페이지네이션을 사용할 경우에만 설정하세요. 클라이언트 사이드 페이지네이션의 경우 자동으로 계산됩니다.`,
             defaultValue: {}
+        },
+        highlight: {
+            control: 'object',
+            description: `행 강조 표시를 위한 설정
+
+**사용 가능한 클래스**
+- s-highlight-warning: 노란색 배경
+- s-highlight-error: 빨간색 배경
+- s-highlight-success: 초록색 배경`,
+            defaultValue: null
         }
     }
 };
@@ -633,3 +643,152 @@ TableWithNullTagSearch.parameters = {
         }
     }
 }
+
+const TableWithFooterTemplate = (args) => ({
+    components: { SDataTable },
+    setup() {
+        const headers = [
+            { title: "Product", key: 'product', align: 'start' },
+            { title: "Quantity", key: 'quantity', align: 'end' },
+            { title: "Price", key: 'price', align: 'end' },
+            { title: "Total", key: 'total', align: 'end' }
+        ]
+
+        const items = [
+            { product: 'Item A', quantity: 2, price: 100, total: 200 },
+            { product: 'Item B', quantity: 1, price: 150, total: 150 },
+            { product: 'Item C', quantity: 3, price: 80, total: 240 }
+        ]
+
+        const footers = {
+            product: 'Total',
+            quantity: '6',
+            price: '',
+            total: '590'
+        }
+
+        return {
+            headers,
+            items,
+            footers
+        }
+    },
+    template: `
+        <SDataTable
+            :headers="headers"
+            :items="items"
+            :footers="footers"
+        >
+            <template #[\`footer.price\`]="{ props }">
+                Average: {{ (props.total / props.quantity).toFixed(2) }}
+            </template>
+        </SDataTable>
+    `
+})
+
+export const TableWithFooter = TableWithFooterTemplate.bind({})
+TableWithFooter.parameters = {
+    docs: {
+        description: {
+            story: `
+테이블 푸터를 사용하는 예시입니다.
+
+**주요 기능**
+- \`footers\` prop을 통해 각 컬럼의 푸터 값을 설정
+- 커스텀 푸터 슬롯을 통해 계산된 값 표시 가능
+- 컬럼별 정렬 방향 유지
+
+**푸터 설정 방법**
+1. 기본 푸터 값 설정
+\`\`\`js
+const footers = {
+    product: 'Total',
+    quantity: '6',
+    price: '',
+    total: '590'
+}
+\`\`\`
+
+2. 커스텀 푸터 슬롯 사용
+\`\`\`vue
+<template #[column_key]_footer="{ props }">
+    // 커스텀 푸터 내용
+</template>
+\`\`\`
+
+**참고사항**
+- 푸터 슬롯에서는 전체 푸터 데이터에 접근 가능
+- 컬럼의 정렬 방향은 헤더 설정을 따름
+- 빈 값은 빈 문자열('')로 설정
+            `
+        }
+    }
+}
+
+export const TableWithHighlight = Template.bind({});
+TableWithHighlight.args = {
+    headers: [
+        { title: "Name", key: 'name', align: 'start' },
+        { title: "Status", key: 'status', align: 'center' },
+        { title: "Value", key: 'value', align: 'end' }
+    ],
+    items: [
+        {
+            name: 'Item 1',
+            status: 'Active',
+            value: 100,
+        },
+        {
+            name: 'Item 1',
+            status: 'Active',
+            value: 100,
+            highlight: 's-highlight-default'  // 기본 하이라이트
+        },
+        {
+            name: 'Item 1',
+            status: 'Active',
+            value: 100,
+            highlight: 's-highlight-info'  // 정보 스타일
+        },
+        {
+            name: 'Item 3',
+            status: 'Error',
+            value: 200,
+            highlight: 's-highlight-error'    // 에러 스타일
+        },
+        {
+            name: 'Item 4',
+            status: 'Completed',
+            value: 300,
+            highlight: 's-highlight-success'  // 성공 스타일
+        }
+    ]
+};
+
+TableWithHighlight.parameters = {
+    docs: {
+        description: {
+            story: `
+행 하이라이트 기능을 사용하는 예시입니다.
+
+**하이라이트 설정 방법**
+\`데이터 객체\`에 highlight 속성을 추가하여 스타일 클래스를 지정합니다:
+
+\`\`\`js
+{
+  name: 'Item Name',
+  status: 'Active',
+  value: 100,
+  highlight: 's-highlight-default'  // 스타일 클래스 지정
+}
+\`\`\`
+
+**제공되는 하이라이트 클래스**
+- \`s-highlight-default\`: 기본 하이라이트 (회색)
+- \`s-highlight-info\`: 정보 스타일 (파란색)
+- \`s-highlight-error\`: 에러 스타일 (빨간색)
+- \`s-highlight-success\`: 성공 스타일 (초록색)
+      `
+        }
+    }
+};
