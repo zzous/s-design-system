@@ -1,7 +1,7 @@
 import {SFileInputBtn} from '@';
 
 export default {
-    title: 'Input/SFileInputBtn',
+    title: 'input/SFileInputBtn',
     component: SFileInputBtn,
     tags: ['autodocs'],
     argTypes: {

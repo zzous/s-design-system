@@ -1,4 +1,4 @@
-import {SDataTable, SRefreshBtn} from '@';
+import {SDataTable, SRefreshBtn, SSmartSearch} from '@';
 import { ref } from 'vue';
 
 export default {
@@ -489,3 +489,147 @@ ExpandableTable.parameters = {
         }
     }
 };
+
+const TableWithSearchTemplate = (args) => ({
+    components: { SDataTable, SSmartSearch },
+    setup() {
+        const searchValues = ref([])
+        const page = ref(1)
+
+        const headers = [
+            { title: "Instance Name", key: 'instanceName', align: 'start' },
+            { title: "Instance Type", key: 'instanceType', align: 'center' },
+            { title: "Status", key: 'status', align: 'center' },
+            { title: "Region", key: 'region', align: 'center' }
+        ]
+
+        const items = [
+            {
+                instanceName: 'prod-server-01',
+                instanceType: 't3.large',
+                status: 'running',
+                region: 'ap-northeast-2',
+                tagList: [
+                    { tagKey: 'Environment', tagValue: 'Production' },
+                    { tagKey: 'Project', tagValue: 'WebService' }
+                ]
+            },
+            {
+                instanceName: 'dev-server-01',
+                instanceType: 't3.medium',
+                status: 'stopped',
+                region: 'ap-northeast-2',
+                tagList: [
+                    { tagKey: 'Environment', tagValue: 'Development' },
+                    { tagKey: 'Project', tagValue: 'TestEnv' }
+                ]
+            },
+            {
+                instanceName: 'staging-server-01',
+                instanceType: 't3.small',
+                status: 'running',
+                region: 'ap-northeast-2',
+                tagList: [
+                    { tagKey: 'Environment', tagValue: 'Staging' }
+                ]
+            }
+        ]
+
+        return {
+            args,
+            headers,
+            items,
+            searchValues,
+            page
+        }
+    },
+    template: `
+        <div>
+            <div class="search">
+                <SSmartSearch
+                    :items="headers"
+                    class="search__text-field"
+                    :datas="items"
+                    :values="searchValues"
+                    :search-tag="true"
+                    variant="outlined"
+                    density="comfortable"
+                    prepend-inner-icon="mdi-magnify"
+                    @update:values="searchValues = $event"
+                />
+            </div>
+            <SDataTable
+                :headers="headers"
+                :items="items"
+                :smart-search="searchValues"
+                :page="page"
+                @update:page="page = $event"
+            />
+        </div>
+    `
+})
+
+export const TableWithSearch = TableWithSearchTemplate.bind({})
+TableWithSearch.args = {}
+TableWithSearch.parameters = {
+    docs: {
+        description: {
+            story: `
+SSmartSearch와 SDataTable을 조합하여 고급 검색 기능을 구현한 예시입니다.
+
+**주요 기능**
+- 속성 기반 검색: Instance Name, Type, Status 등으로 검색
+- 태그 기반 검색: Environment, Project 등의 태그로 검색
+- 다중 검색 조건: 여러 검색 조건을 동시에 적용 가능
+- 동적 필터링: 검색 조건에 따라 테이블 내용이 실시간으로 필터링
+
+**사용 방법**
+1. 검색창에서 검색하려는 속성이나 태그를 선택
+2. 검색어를 입력하고 Enter 키를 누르거나 값을 선택
+3. 여러 검색 조건을 추가하여 결과를 필터링
+4. 검색 조건은 chips 형태로 표시되며, 개별적으로 제거 가능
+
+**검색 예시**
+- \`Instance Name:prod\` - 이름에 'prod'가 포함된 인스턴스 검색
+- \`Status:running\` - 실행 중인 인스턴스 검색
+- \`Environment:Production\` - Production 환경의 인스턴스 검색
+            `
+        }
+    }
+}
+
+// 미지정 태그 검색 예시
+export const TableWithNullTagSearch = TableWithSearchTemplate.bind({})
+TableWithNullTagSearch.args = {
+    items: [
+        {
+            instanceName: 'no-tag-server',
+            instanceType: 't3.micro',
+            status: 'running',
+            region: 'ap-northeast-2',
+            tagList: []
+        },
+        {
+            instanceName: 'tagged-server',
+            instanceType: 't3.small',
+            status: 'running',
+            region: 'ap-northeast-2',
+            tagList: [
+                { tagKey: 'Environment', tagValue: 'Production' }
+            ]
+        }
+    ]
+}
+TableWithNullTagSearch.parameters = {
+    docs: {
+        description: {
+            story: `
+태그가 지정되지 않은 리소스를 검색하는 기능을 보여주는 예시입니다.
+
+**주요 기능**
+- 미지정 태그 검색: 태그가 없는 리소스를 찾을 수 있음
+- 일반 검색과 함께 사용 가능
+            `
+        }
+    }
+}

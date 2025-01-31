@@ -6,9 +6,9 @@ export {default as customTheme} from './plugins/customTheme.js';
 // Components
 export {default as SBtn} from './components/button/SBtn.vue';
 export {default as SRefreshBtn} from './components/button/SRefreshBtn.vue';
-export {default as STextCheckBoxInput} from './components/Input/STextCheckBoxInput.vue';
-export {default as SShellScriptInput} from './components/Input/SShellScriptInput.vue';
-export {default as SFileInputBtn} from './components/Input/SFileInputBtn.vue';
+export {default as STextCheckBoxInput} from './components/input/STextCheckBoxInput.vue';
+export {default as SShellScriptInput} from './components/input/SShellScriptInput.vue';
+export {default as SFileInputBtn} from './components/input/SFileInputBtn.vue';
 export {default as SAlert} from './components/alert/SAlert.vue';
 export {default as SEmpty} from './components/containment/SEmpty.vue';
 export {default as SScriptEditor} from './components/editor/SScriptEditor.vue';
@@ -27,6 +27,7 @@ export {default as SFooter} from './components/layout/SFooter.vue';
 export {default as SSubHeader} from './components/layout/SSubHeader.vue';
 export {default as SAccordionMenu} from './components/accordion/SAccordionMenu.vue';
 export {default as SNavi} from './components/layout/SNavi.vue';
+export {default as SSmartSearch} from './components/input/SSmartSearch.vue';
 
 // Utils
 export {default as stringUtil} from './utils/stringUtil.js'

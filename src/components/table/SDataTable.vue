@@ -436,48 +436,51 @@ const filterDatas = computed(() => {
 
   if (props.smartSearch.length) {
     const filteredList = props.items.filter(data => {
-      // 검색 결과는 OR 조건이기 때문에 some 함수 사용
-      // TODO: 동일 key 값에 대해서는 OR 조건일 것
-      // tag는 동일 값 검색
-      // tag 외의 검색은 like 검색
-      const isCorrect = props.smartSearch.some(option => {
-        if (option.key === 'undefinedTag') {
-          if (!data.tagList?.length) return true
-          return false
+      // 검색 조건을 key별로 그룹화
+      const groupedSearches = props.smartSearch.reduce((acc, option) => {
+        if (!acc[option.key]) {
+          acc[option.key] = []
         }
-        if (!option.value) {
-          return true
+        acc[option.key].push(option)
+        return acc
+      }, {})
+
+      // 각 key 그룹별로 검색 (다른 key 그룹 간에는 AND 조건)
+      return Object.entries(groupedSearches).every(([key, options]) => {
+        // 미지정 태그 검색 처리
+        if (key === 'undefinedTag') {
+          return !data.tagList?.length
         }
 
-        // s: 태그 검색 영역
-        if (option.type === 'tag' && data.tagList?.length) {
-          const result = data.tagList.some(tagObj => {
-            // const tagObj = JSON.parse(tagStr)
-            return (
+        // 동일 key 내에서는 OR 조건으로 검색
+        return options.some(option => {
+          if (!option.value) {
+            return true
+          }
+
+          // 태그 검색
+          if (option.type === 'tag' && data.tagList?.length) {
+            return data.tagList.some(tagObj =>
               tagObj.tagKey.toLowerCase() === option.key.toLowerCase() &&
               tagObj.tagValue.toLowerCase() === option.value.toLowerCase()
             )
-          })
-          return result
-        }
-        // e: 태그 검색 영역
+          }
 
-        // s: 태그 외 검색
-        if (option.type !== 'tag') {
-          if (typeof data[option.key] === 'object') {
-            const searchData = JSON.stringify(data[option.key])
-            // 검색 결과는 like 검색이기 때문에 indexOf 사용
-            return searchData.toLowerCase().indexOf(option.value.toLowerCase()) > -1
+          // 일반 검색
+          if (option.type !== 'tag') {
+            if (typeof data[option.key] === 'object') {
+              const searchData = JSON.stringify(data[option.key])
+              return searchData.toLowerCase().indexOf(option.value.toLowerCase()) > -1
+            }
+            if (typeof data[option.key] === 'number') {
+              return data[option.key].toString().indexOf(option.value) > -1
+            }
+            return data[option.key].toLowerCase().indexOf(option.value.toLowerCase()) > -1
           }
-          if (typeof data[option.key] === 'number') {
-            return data[option.key].toString().indexOf(option.value) > -1
-          }
-          return data[option.key].toLowerCase().indexOf(option.value.toLowerCase()) > -1
-        }
-        return false
-        // e: 태그 외 검색
+
+          return false
+        })
       })
-      return isCorrect // 전체 조건에 맞는지 여부
     })
     return filteredList
   }

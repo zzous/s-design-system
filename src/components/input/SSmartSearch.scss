@@ -1,0 +1,13 @@
+.s-autocomplete {
+  :deep(.v-input--readonly),
+  :deep(.v-input--disabled) {
+    .v-input__control > .v-field {
+      background-color: white !important;
+    }
+  }
+  :deep(.v-input__control) {
+    .v-icon {
+      font-size: toRem(24);
+    }
+  }
+}

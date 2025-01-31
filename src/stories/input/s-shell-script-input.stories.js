@@ -1,7 +1,7 @@
 import { SShellScriptInput } from '@';
 
 export default {
-    title: 'Input/SShellScriptInput',
+    title: 'input/SShellScriptInput',
     component: SShellScriptInput,
     tags: ['autodocs'],
     argTypes: {

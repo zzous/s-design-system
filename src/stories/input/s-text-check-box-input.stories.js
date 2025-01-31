@@ -1,7 +1,7 @@
 import {STextCheckBoxInput} from '@';
 
 export default {
-    title: 'Input/STextCheckBoxInput',
+    title: 'input/STextCheckBoxInput',
     component: STextCheckBoxInput,
     tags: ['autodocs'],
     argTypes: {
