@@ -114,10 +114,12 @@
             :style="{ textAlign: head.align || 'start' }"
           >
             <template v-if="$slots[`footer.${head.key}`]">
-              <slot :name="`footer.${head.key}`" :props="footers" />
+              <span :class="[footers.highlight]">
+                <slot :name="`footer.${head.key}`" :props="footers" />
+              </span>
             </template>
             <template v-else>
-              {{ footers[head.key] }}
+              <span :class="[footers.highlight]">{{ footers[head.key] }}</span>
             </template>
           </td>
         </tr>

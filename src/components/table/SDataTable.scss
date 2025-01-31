@@ -30,6 +30,29 @@
     .v-chip__content {
       height: inherit;
     }
+
+
+    // 하이라이트 기본 스타일
+    &:has(.s-highlight-default) {
+      background-color: $s-default--gray-4;
+      color: $s-default--gray-9;
+    }
+
+    // 커스텀 하이라이트 클래스들
+    &:has(.s-highlight-info) {
+      background-color: $s-btn--blue-3;
+      color: $s-btn--blue-1;
+    }
+
+    &:has(.s-highlight-error) {
+      background-color: $s-btn--red-3;
+      color: $s-btn--red-1;
+    }
+
+    &:has(.s-highlight-success) {
+      background-color: $s-btn--green-3;
+      color: $s-btn--green-1;
+    }
   }
 
   .status-chip {
@@ -136,22 +159,8 @@
       border-bottom: thin solid rgba(var(--v-border-color), var(--v-border-opacity));
     }
 
-    // 하이라이트 기본 스타일
-    td:has(.s-highlight-default) {
-      background-color: $s-default--gray-4;
-    }
-
-    // 커스텀 하이라이트 클래스들
-    td:has(.s-highlight-info) {
-      background-color: $s-btn--blue-3;
-    }
-
-    td:has(.s-highlight-error) {
-      background-color: $s-btn--red-3;
-    }
-
-    td:has(.s-highlight-success) {
-      background-color: $s-btn--green-3;
+    tfoot tr > td {
+      font-weight: 600;
     }
   }
 }

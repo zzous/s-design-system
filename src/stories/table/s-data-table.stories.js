@@ -664,7 +664,8 @@ const TableWithFooterTemplate = (args) => ({
             product: 'Total',
             quantity: '6',
             price: '',
-            total: '590'
+            total: '590',
+            highlight: 's-highlight-default'
         }
 
         return {
