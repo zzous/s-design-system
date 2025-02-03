@@ -16,37 +16,14 @@
     :select-strategy="selectStrategy"
     :loading="loading"
     :hover="hover"
+    :show-expand="showExpand"
+    :expanded="expanded"
+    :expand-on-click="expandOnClick"
     :item-class="getItemClass"
-    @update:modelValue="updateSelected"
+    @update:model-value="updateModelValue"
     @update:options="$emit('update:options', $event)"
+    @update:expanded="$emit('update:expanded', $event)"
   >
-    <!-- DataTable 버전 이슈로 인하여 selectStrategy 값이 정상 작동하지 않아 헤더를 아래와 같이 임시로 처리합니다. -->
-    <!-- <template v-if="single" #headers>
-      <tr>
-        <th class="v-data-table__td v-data-table__th v-data-table-column--align-center">
-          <div class="v-data-table-header__content">-</div>
-        </th>
-        <th
-          v-for="(el, index) in lazyHeaders"
-          :key="index"
-          class="v-data-table__td v-data-table__th v-data-table__th--sortable v-data-table__th v-data-table__th--sortable"
-          :class="[`v-data-table-column--align-${el.align || 'center'}`, `${!el.order || 'v-data-table__th--sorted'}`]"
-          @click="onClickSortBy(el)"
-        >
-          <div class="v-data-table-header__content">
-            {{ el.title }}
-            <i
-              class="mdi v-icon notranslate v-theme--light v-icon--size-default v-data-table-header__sort-icon"
-              :class="{
-                'mdi-arrow-up': el.order === 'asc' || !el.order,
-                'mdi-arrow-down': el.order === 'desc',
-              }"
-              aria-hidden="true"
-            />
-          </div>
-        </th>
-      </tr>
-    </template> -->
     <template #headers="bind" v-if="$slots.headers">
       <slot name="headers" v-bind="bind"></slot>
     </template>
@@ -152,7 +129,7 @@
         />
       </div>
     </template>
-    <template #expanded-row="bind">
+    <template #expanded-row="bind" v-if="$slots[`expanded-row`]">
       <slot name="expanded-row" v-bind="bind" />
     </template>
   </v-data-table>
@@ -169,6 +146,7 @@ const emit = defineEmits([
   'update:sort-desc',
   'update:group-by',
   'update:expanded',
+  'update:options',
   'update:model-value',
   'get-checkedbox-item',
 ])
@@ -188,11 +166,6 @@ const props = defineProps({
     default: undefined,
   },
   // onClickChips: Function,
-  customSlotInfo: {
-    type: Array,
-    default: () => [],
-  },
-  // customSlotInfo: Array,
   customFilter: {
     type: [Number, Boolean, Array],
     default: undefined,
@@ -397,6 +370,16 @@ const props = defineProps({
     type: Boolean,
     default: false,
     description: '정렬 기능 비활성화',
+  },
+  loading: {
+    type: Boolean,
+    default: false,
+    description: '로딩 상태',
+  },
+  hover: {
+    type: Boolean,
+    default: false,
+    description: 'hover 상태',
   },
 })
 

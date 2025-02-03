@@ -1,4 +1,4 @@
-import {SDataTable, SRefreshBtn, SSmartSearch} from '@';
+import { SDataTable, SRefreshBtn, SSmartSearch } from '@';
 import { ref } from 'vue';
 
 export default {
@@ -641,39 +641,128 @@ CustomRowspan.parameters = {
     }
 };
 
+const expandableCode = `
+<template>
+  <div>
+    <SDataTable
+      :headers="headers"
+      :items="items"
+      :show-expand="true"
+      :item-value="itemValue"
+      :expand-on-click="true"
+      v-model:expanded="expanded"
+      @update:expanded="updateExpanded"
+    >
+      <template #expanded-row="{ item }">
+        <tr>
+          <td :colspan="headers.length">
+            <div class="pa-4">
+              <h4>상세 정보</h4>
+              <div class="mt-2">
+                <p><strong>CIDR Block:</strong> {{ item.details.cidrBlock }}</p>
+                <p><strong>State:</strong> {{ item.details.state }}</p>
+                <div v-if="item.details.tags.length">
+                  <strong>Tags:</strong>
+                  <ul>
+                    <li v-for="tag in item.details.tags" :key="tag.key">
+                      {{ tag.key }}: {{ tag.value }}
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </td>
+        </tr>
+      </template>
+    </SDataTable>
+  </div>
+</template>
+
+<script setup>
+import { ref } from 'vue'
+
+const headers = [
+  {
+    title: "VPC Name",
+    key: 'vpcName',
+    width: 300,
+    align: 'start',
+  },
+  {
+    title: "VPC ID",
+    key: 'vpcId',
+    width: 250,
+    align: 'center',
+  },
+  {
+    title: "Cloud Type",
+    key: 'cloudType',
+    width: 150,
+    align: 'center',
+  },
+  {
+    title: "Region",
+    key: 'regionCode',
+    width: 170,
+    align: 'center',
+  }
+]
+
+const items = [
+  {
+    "vpcName": "default-vpc",
+    "vpcId": "vpc-1001",
+    "cloudType": "AWS",
+    "regionCode": "us-west-1",
+    "details": {
+      "cidrBlock": "172.31.0.0/16",
+      "state": "available",
+      "tags": [
+        { "key": "Environment", "value": "Production" }
+      ]
+    }
+  },
+  {
+    "vpcName": "first-vpc",
+    "vpcId": "vpc-1002",
+    "cloudType": "GCP",
+    "regionCode": "us-west-2",
+    "details": {
+      "cidrBlock": "10.0.0.0/16",
+      "state": "available",
+      "tags": [
+        { "key": "Environment", "value": "Development" }
+      ]
+    }
+  }
+]
+
+const expanded = ref([])
+const itemValue = 'vpcId'
+
+const updateExpanded = (newExpanded) => {
+  console.log(newExpanded)
+}
+</script>
+`
+
 const Template4 = (args) => ({
     components: { SDataTable },
     setup() {
         const headers = args.headers;
-        const page = ref(1);
         const items = ref([...args.items]);
-        const searchValue = ref('');
+        const expanded = ref([])
 
-        const updatePage = (newPage) => {
-            if (page.value !== newPage) {
-                page.value = newPage;
-            }
-        };
-
-        const refresh = (pageNum) => {
-            const tempItems = [...items.value];
-            items.value = [];
-
-            setTimeout(() => {
-                items.value = tempItems;
-                console.log(pageNum, page.value)
-                updatePage(pageNum);
-            }, 500);
-        };
+        const updateExpanded = (newExpanded) => {
+            console.log(newExpanded)
+        }
 
         return {
             args,
-            page,
-            updatePage,
-            refresh,
             headers,
             items,
-            searchValue
+            expanded,
+            updateExpanded,
         };
     },
     template: `
@@ -682,9 +771,8 @@ const Template4 = (args) => ({
             v-bind="args"
             :headers="headers"
             :items="items"
-            :page="page"
-            :search="searchValue"
-            @update:page="updatePage"
+            v-model:expanded="expanded"
+            @update:expanded="updateExpanded"
         >
             <template #expanded-row="{ item }">
                 <tr>
@@ -769,18 +857,25 @@ ExpandableTable.args = {
         }
     ],
     showExpand: true,
-    expandOnClick: true,
     itemValue: 'vpcId',
+    expandOnClick: true,
 };
 
 ExpandableTable.parameters = {
     docs: {
+        source: {
+            code: expandableCode,
+            language: 'vue',
+            type: 'auto',
+        },
         description: {
             story: `
 \`expanded\` 속성을 사용하여 행을 확장할 수 있습니다.
 - \`showExpand\`: 확장 토글 버튼을 표시합니다.
 - \`expandOnClick\`: 행 클릭 시 확장 여부를 설정합니다.
 - \`expanded-row\` 슬롯을 사용하여 확장된 행의 내용을 커스터마이징할 수 있습니다.
+- \`v-model:expanded\`: 확장된 행을 관리합니다.
+- \`@update:expanded\`: 확장 상태가 변경될 때마다 호출됩니다.
             `
         }
     }
