@@ -144,7 +144,7 @@
           :model-value="currentPage"
           size="small"
           rounded
-          active-color="#1297F2"
+          active-color="#0D69D4"
           variant="flat"
           :total-visible="10"
           :length="options?.pageCnt || pageCnt"

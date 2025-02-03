@@ -60,6 +60,111 @@ export default {
     }
 };
 
+const defaultCode = `
+<template>
+  <div>
+    <div class="search">
+      <v-text-field
+        v-model="searchValue"
+        class="search__text-field"
+        variant="outlined"
+        density="comfortable"
+        hide-details
+        placeholder="리소스 명으로 검색"
+        prepend-inner-icon="mdi-magnify"
+      />
+      <SRefreshBtn :on-click-refresh="() => refresh(page)" />
+    </div>
+    <div>
+      <SDataTable
+        :headers="headers"
+        :items="items"
+        :page="page"
+        :search="searchValue"
+        @update:page="updatePage"
+      />
+    </div>
+  </div>
+</template>
+
+<script setup>
+import { ref } from 'vue'
+
+const page = ref(1)
+const searchValue = ref('')
+
+const headers = [
+  {
+    title: "VPC Name",
+    key: 'vpcName',
+    width: 300,
+    align: 'start',
+  },
+  {
+    title: "VPC ID",
+    key: 'vpcId',
+    width: 250,
+    align: 'center',
+  },
+  {
+    title: "Cloud Type",
+    key: 'cloudType',
+    width: 150,
+    align: 'center',
+  },
+  {
+    title: "Region",
+    key: 'regionCode',
+    width: 170,
+    align: 'center',
+  }
+]
+
+const items = [
+  {
+    "vpcName": "default-vpc",
+    "vpcId": "vpc-1001",
+    "cloudType": "AWS",
+    "regionCode": "us-west-1"
+  },
+  {
+    "vpcName": "first-vpc",
+    "vpcId": "vpc-1011",
+    "cloudType": "GCP",
+    "regionCode": "us-west-2"
+  }
+]
+
+const updatePage = (newPage) => {
+  if (page.value !== newPage) {
+    page.value = newPage
+  }
+}
+
+const refresh = (pageNum) => {
+  const tempItems = [...items]
+  items.length = 0
+
+  setTimeout(() => {
+    items.push(...tempItems)
+    updatePage(pageNum)
+  }, 500)
+}
+</script>
+
+<style scoped>
+.search {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.search__text-field {
+  width: 300px;
+}
+</style>
+`
+
 const Template = (args) => ({
     components: { SDataTable, SRefreshBtn },
     setup() {
@@ -157,60 +262,6 @@ Default.args = {
             "regionCode": "us-west-1"
         },
         {
-            "vpcName": "default-vpc",
-            "vpcId": "vpc-1002",
-            "cloudType": "AWS",
-            "regionCode": "us-west-1"
-        },
-        {
-            "vpcName": "default-vpc",
-            "vpcId": "vpc-1003",
-            "cloudType": "AWS",
-            "regionCode": "us-west-1"
-        },
-        {
-            "vpcName": "default-vpc",
-            "vpcId": "vpc-1004",
-            "cloudType": "AWS",
-            "regionCode": "us-west-1"
-        },
-        {
-            "vpcName": "default-vpc",
-            "vpcId": "vpc-1005",
-            "cloudType": "AWS",
-            "regionCode": "us-west-1"
-        },
-        {
-            "vpcName": "default-vpc",
-            "vpcId": "vpc-1006",
-            "cloudType": "AWS",
-            "regionCode": "us-west-1"
-        },
-        {
-            "vpcName": "default-vpc",
-            "vpcId": "vpc-1007",
-            "cloudType": "AWS",
-            "regionCode": "us-west-1"
-        },
-        {
-            "vpcName": "default-vpc",
-            "vpcId": "vpc-1008",
-            "cloudType": "AWS",
-            "regionCode": "us-west-1"
-        },
-        {
-            "vpcName": "default-vpc",
-            "vpcId": "vpc-1009",
-            "cloudType": "AWS",
-            "regionCode": "us-west-1"
-        },
-        {
-            "vpcName": "default-vpc",
-            "vpcId": "vpc-1010",
-            "cloudType": "AWS",
-            "regionCode": "us-west-1"
-        },
-        {
             "vpcName": "first-vpc",
             "vpcId": "vpc-1011",
             "cloudType": "GCP",
@@ -219,9 +270,152 @@ Default.args = {
     ]
 };
 
-export const SelectableTable = Template.bind({});
+Default.parameters = {
+    docs: {
+        source: {
+            code: defaultCode,
+            language: 'vue',
+            type: 'auto',
+        },
+        description: {
+            story: `
+기본적인 데이터 테이블 사용 예시입니다.
+
+**주요 기능**
+- 검색 기능
+- 새로고침 기능
+- 페이지네이션
+- 정렬 기능
+
+**컴포넌트 구성**
+- 검색 필드 (v-text-field)
+- 새로고침 버튼 (SRefreshBtn)
+- 데이터 테이블 (SDataTable)
+
+**데이터 바인딩**
+- \`headers\`: 테이블 헤더 정보
+- \`items\`: 테이블 데이터
+- \`page\`: 현재 페이지
+- \`search\`: 검색어
+            `
+        }
+    }
+};
+
+const selectableCode = `
+<template>
+  <div>
+    <div class="search">
+      <v-text-field
+        v-model="searchValue"
+        class="search__text-field"
+        variant="outlined"
+        density="comfortable"
+        hide-details
+        placeholder="리소스 명으로 검색"
+        prepend-inner-icon="mdi-magnify"
+      />
+      <SRefreshBtn :on-click-refresh="() => refresh(page)" />
+    </div>
+    <div>
+      <SDataTable
+        :headers="headers"
+        :items="items"
+        :page="page"
+        :search="searchValue"
+        :show-select="true"
+        :item-value="itemValue"
+        v-model="selectedItems"
+        @update:page="updatePage"
+      />
+    </div>
+  </div>
+</template>
+
+<script setup>
+import { ref } from 'vue'
+
+const page = ref(1)
+const searchValue = ref('')
+const selectedItems = ref([])
+const itemValue = 'vpcId'
+
+const headers = [
+  {
+    title: "VPC Name",
+    key: 'vpcName',
+    width: 300,
+    align: 'start',
+  },
+  {
+    title: "VPC ID",
+    key: 'vpcId',
+    width: 250,
+    align: 'center',
+  },
+  {
+    title: "Cloud Type",
+    key: 'cloudType',
+    width: 150,
+    align: 'center',
+  },
+  {
+    title: "Region",
+    key: 'regionCode',
+    width: 170,
+    align: 'center',
+  }
+]
+
+const items = [
+  {
+    "vpcName": "default-vpc",
+    "vpcId": "vpc-1001",
+    "cloudType": "AWS",
+    "regionCode": "us-west-1",
+    "selectable": true
+  },
+  {
+    "vpcName": "first-vpc",
+    "vpcId": "vpc-1000",
+    "cloudType": "GCP",
+    "regionCode": "us-west-2",
+    "selectable": false
+  }
+]
+
+const updatePage = (newPage) => {
+  if (page.value !== newPage) {
+    page.value = newPage
+  }
+}
+
+const refresh = (pageNum) => {
+  const tempItems = [...items]
+  items.length = 0
+
+  setTimeout(() => {
+    items.push(...tempItems)
+    updatePage(pageNum)
+  }, 500)
+}
+</script>
+
+<style scoped>
+.search {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.search__text-field {
+  width: 300px;
+}
+</style>
+`
+
+export const SelectableTable = Template.bind({})
 SelectableTable.args = {
-    ...Default.args,
     showSelect: true,
     itemValue: 'vpcId',
     items: [
@@ -240,10 +434,15 @@ SelectableTable.args = {
             "selectable": false
         }
     ]
-};
+}
 
 SelectableTable.parameters = {
     docs: {
+        source: {
+            code: selectableCode,
+            language: 'vue',
+            type: 'auto',
+        },
         description: {
             story: `
 선택 가능한 테이블을 구현할 수 있습니다.
@@ -273,7 +472,41 @@ SelectableTable.parameters = {
             `
         }
     }
-};
+}
+
+const disabledSortCode = `
+<template>
+  <SDataTable
+    :headers="headers"
+    :items="items"
+    :disable-sort="true"
+  />
+</template>
+
+<script setup>
+const headers = [
+  { title: "VPC Name", key: 'vpcName', width: 300, align: 'start' },
+  { title: "VPC ID", key: 'vpcId', width: 250, align: 'center' },
+  { title: "Cloud Type", key: 'cloudType', width: 150, align: 'center' },
+  { title: "Region", key: 'regionCode', width: 170, align: 'center' }
+]
+
+const items = [
+  {
+    "vpcName": "default-vpc",
+    "vpcId": "vpc-1001",
+    "cloudType": "AWS",
+    "regionCode": "us-west-1"
+  },
+  {
+    "vpcName": "first-vpc",
+    "vpcId": "vpc-1011",
+    "cloudType": "GCP",
+    "regionCode": "us-west-2"
+  }
+]
+</script>
+`
 
 export const DisabledSort = Template.bind({});
 DisabledSort.args = {
@@ -281,25 +514,84 @@ DisabledSort.args = {
     disableSort: true
 };
 
-const Template3 = (args) => ({
-    components: { SDataTable },
-    setup() { return { args }; },
-    template: `<SDataTable v-bind="args" item-value="vpcId">
+DisabledSort.parameters = {
+    docs: {
+        source: {
+            code: disabledSortCode,
+            language: 'vue',
+            type: 'auto',
+        },
+        description: {
+            story: `
+정렬 기능이 비활성화된 테이블입니다.
+- \`disable-sort\` prop을 true로 설정하면 모든 컬럼의 정렬 기능이 비활성화됩니다.
+            `
+        }
+    }
+};
+
+const customRowspanCode = `
+<template>
+  <SDataTable
+    :headers="headers"
+    :items="items"
+    :disable-sort="true"
+    item-value="col1"
+  >
     <template #body>
-        <tr>
-            <td rowspan="3" :class="\`v-data-table-column--align-${args.headers.at(0)?.align}\`">1</td>
-        </tr>
-        <tr>
-            <td :class="\`v-data-table-column--align-${args.headers.at(1)?.align}\`">2</td>
-            <td :class="\`v-data-table-column--align-${args.headers.at(2)?.align}\`">2</td>
-        </tr>
-        <tr>
-            <td :class="\`v-data-table-column--align-${args.headers.at(1)?.align}\`">3</td>
-            <td :class="\`v-data-table-column--align-${args.headers.at(2)?.align}\`">3</td>
-        </tr>
+      <tr>
+        <td rowspan="3" class="v-data-table-column--align-start">1</td>
+      </tr>
+      <tr>
+        <td class="v-data-table-column--align-center">2</td>
+        <td class="v-data-table-column--align-center">2</td>
+      </tr>
+      <tr>
+        <td class="v-data-table-column--align-center">3</td>
+        <td class="v-data-table-column--align-center">3</td>
+      </tr>
     </template>
-    </SDataTable>`,
-});
+  </SDataTable>
+</template>
+
+<script setup>
+const headers = [
+  { title: "Column 1", key: 'col1', width: 300, align: 'start' },
+  { title: "Column 2", key: 'col2', width: 250, align: 'center' },
+  { title: "Column 3", key: 'col3', width: 150, align: 'center' }
+]
+
+const items = [
+  { col1: 'Row 1', col2: 'Data 1-2', col3: 'Data 1-3' },
+  { col1: 'Row 2', col2: 'Data 2-2', col3: 'Data 2-3' },
+  { col1: 'Row 3', col2: 'Data 3-2', col3: 'Data 3-3' }
+]
+</script>
+`
+
+const Template3 = (args) => ({
+  components: { SDataTable },
+  setup() {
+    return { args }
+  },
+  template: `
+    <SDataTable v-bind="args">
+      <template #body>
+        <tr>
+          <td rowspan="3" class="v-data-table-column--align-start">1</td>
+        </tr>
+        <tr>
+          <td class="v-data-table-column--align-center">2</td>
+          <td class="v-data-table-column--align-center">2</td>
+        </tr>
+        <tr>
+          <td class="v-data-table-column--align-center">3</td>
+          <td class="v-data-table-column--align-center">3</td>
+        </tr>
+      </template>
+    </SDataTable>
+  `
+})
 
 export const CustomRowspan = Template3.bind({});
 CustomRowspan.args = {
@@ -334,25 +626,19 @@ CustomRowspan.args = {
 CustomRowspan.parameters = {
     docs: {
         source: {
-            code: `<SDataTable v-bind="args" item-value="vpcId">
-        <template #body>
-            <tr>
-                <td rowspan="3" class="v-data-table-column--align-start">1</td>
-            </tr>
-            <tr>
-                <td class="v-data-table-column--align-center">2</td>
-                <td class="v-data-table-column--align-center">2</td>
-            </tr>
-            <tr>
-                <td class="v-data-table-column--align-center">3</td>
-                <td class="v-data-table-column--align-center">3</td>
-            </tr>
-        </template>
-    </SDataTable>`,
-            language: 'html',
+            code: customRowspanCode,
+            language: 'vue',
             type: 'auto',
+        },
+        description: {
+            story: `
+커스텀 rowspan을 사용하는 테이블입니다.
+- \`body\` 슬롯을 사용하여 테이블 본문을 완전히 커스터마이징할 수 있습니다.
+- rowspan 속성을 사용하여 셀을 병합할 수 있습니다.
+- 각 셀의 정렬은 \`v-data-table-column--align-{start|center|end}\` 클래스를 사용합니다.
+            `
         }
-    },
+    }
 };
 
 const Template4 = (args) => ({
@@ -608,123 +894,277 @@ SSmartSearch와 SDataTable을 조합하여 고급 검색 기능을 구현한 예
     }
 }
 
-// 미지정 태그 검색 예시
+const nullTagSearchCode = `
+<template>
+  <div>
+    <div class="search">
+      <SSmartSearch
+        :items="headers"
+        class="search__text-field"
+        :datas="items"
+        :values="searchValues"
+        :search-tag="true"
+        variant="outlined"
+        density="comfortable"
+        prepend-inner-icon="mdi-magnify"
+        @update:values="searchValues = $event"
+      />
+    </div>
+    <SDataTable
+      :headers="headers"
+      :items="items"
+      :smart-search="searchValues"
+      :page="page"
+      @update:page="page = $event"
+    />
+  </div>
+</template>
+
+<script setup>
+import { ref } from 'vue'
+
+const searchValues = ref([])
+const page = ref(1)
+
+const headers = [
+  { title: "Instance Name", key: 'instanceName', align: 'start' },
+  { title: "Instance Type", key: 'instanceType', align: 'center' },
+  { title: "Status", key: 'status', align: 'center' },
+  { title: "Region", key: 'region', align: 'center' }
+]
+
+const items = [
+  {
+    instanceName: 'no-tag-server',
+    instanceType: 't3.micro',
+    status: 'running',
+    region: 'ap-northeast-2',
+    tagList: []
+  },
+  {
+    instanceName: 'tagged-server',
+    instanceType: 't3.small',
+    status: 'running',
+    region: 'ap-northeast-2',
+    tagList: [
+      { tagKey: 'Environment', tagValue: 'Production' }
+    ]
+  }
+]
+</script>
+`
+
 export const TableWithNullTagSearch = TableWithSearchTemplate.bind({})
 TableWithNullTagSearch.args = {
-    items: [
-        {
-            instanceName: 'no-tag-server',
-            instanceType: 't3.micro',
-            status: 'running',
-            region: 'ap-northeast-2',
-            tagList: []
-        },
-        {
-            instanceName: 'tagged-server',
-            instanceType: 't3.small',
-            status: 'running',
-            region: 'ap-northeast-2',
-            tagList: [
-                { tagKey: 'Environment', tagValue: 'Production' }
-            ]
-        }
-    ]
+  items: [
+    {
+      instanceName: 'no-tag-server',
+      instanceType: 't3.micro',
+      status: 'running',
+      region: 'ap-northeast-2',
+      tagList: []
+    },
+    {
+      instanceName: 'tagged-server',
+      instanceType: 't3.small',
+      status: 'running',
+      region: 'ap-northeast-2',
+      tagList: [
+        { tagKey: 'Environment', tagValue: 'Production' }
+      ]
+    }
+  ]
 }
 TableWithNullTagSearch.parameters = {
-    docs: {
-        description: {
-            story: `
+  docs: {
+    source: {
+      code: nullTagSearchCode,
+      language: 'vue',
+      type: 'auto',
+    },
+    description: {
+      story: `
 태그가 지정되지 않은 리소스를 검색하는 기능을 보여주는 예시입니다.
 
 **주요 기능**
 - 미지정 태그 검색: 태그가 없는 리소스를 찾을 수 있음
 - 일반 검색과 함께 사용 가능
-            `
-        }
+
+**사용 방법**
+1. SSmartSearch 컴포넌트와 SDataTable 컴포넌트를 함께 사용
+2. searchTag prop을 true로 설정하여 태그 검색 활성화
+3. tagList가 비어있는 항목도 검색 가능
+      `
     }
+  }
 }
 
+const footerCode = `
+<template>
+  <SDataTable
+    :headers="headers"
+    :items="items"
+    :footers="footers"
+  >
+    <template #footer.price="{ props }">
+      Average: {{ (props.total / props.quantity).toFixed(2) }}
+    </template>
+  </SDataTable>
+</template>
+
+<script setup>
+const headers = [
+  { title: "Product", key: 'product', align: 'start' },
+  { title: "Quantity", key: 'quantity', align: 'end' },
+  { title: "Price", key: 'price', align: 'end' },
+  { title: "Total", key: 'total', align: 'end' }
+]
+
+const items = [
+  { product: 'Item A', quantity: 2, price: 100, total: 200 },
+  { product: 'Item B', quantity: 1, price: 150, total: 150 },
+  { product: 'Item C', quantity: 3, price: 80, total: 240 }
+]
+
+const footers = {
+  product: 'Total',
+  quantity: '6',
+  price: '',
+  total: '590',
+  highlight: 's-highlight-default'
+}
+</script>
+`
+
 const TableWithFooterTemplate = (args) => ({
-    components: { SDataTable },
-    setup() {
-        const headers = [
-            { title: "Product", key: 'product', align: 'start' },
-            { title: "Quantity", key: 'quantity', align: 'end' },
-            { title: "Price", key: 'price', align: 'end' },
-            { title: "Total", key: 'total', align: 'end' }
-        ]
+  components: { SDataTable },
+  setup() {
+    const headers = [
+      { title: "Product", key: 'product', align: 'start' },
+      { title: "Quantity", key: 'quantity', align: 'end' },
+      { title: "Price", key: 'price', align: 'end' },
+      { title: "Total", key: 'total', align: 'end' }
+    ]
 
-        const items = [
-            { product: 'Item A', quantity: 2, price: 100, total: 200 },
-            { product: 'Item B', quantity: 1, price: 150, total: 150 },
-            { product: 'Item C', quantity: 3, price: 80, total: 240 }
-        ]
+    const items = [
+      { product: 'Item A', quantity: 2, price: 100, total: 200 },
+      { product: 'Item B', quantity: 1, price: 150, total: 150 },
+      { product: 'Item C', quantity: 3, price: 80, total: 240 }
+    ]
 
-        const footers = {
-            product: 'Total',
-            quantity: '6',
-            price: '',
-            total: '590',
-            highlight: 's-highlight-default'
-        }
+    const footers = {
+      product: 'Total',
+      quantity: '6',
+      price: '',
+      total: '590',
+      highlight: 's-highlight-default'
+    }
 
-        return {
-            headers,
-            items,
-            footers
-        }
-    },
-    template: `
-        <SDataTable
-            :headers="headers"
-            :items="items"
-            :footers="footers"
-        >
-            <template #[\`footer.price\`]="{ props }">
-                Average: {{ (props.total / props.quantity).toFixed(2) }}
-            </template>
-        </SDataTable>
-    `
+    return {
+      headers,
+      items,
+      footers
+    }
+  },
+  template: `
+    <SDataTable
+      :headers="headers"
+      :items="items"
+      :footers="footers"
+    >
+      <template #footer.price="{ props }">
+        Average: {{ (props.total / props.quantity).toFixed(2) }}
+      </template>
+    </SDataTable>
+  `
 })
 
 export const TableWithFooter = TableWithFooterTemplate.bind({})
 TableWithFooter.parameters = {
-    docs: {
-        description: {
-            story: `
+  docs: {
+    source: {
+      code: footerCode,
+      language: 'vue',
+      type: 'auto',
+    },
+    description: {
+      story: `
 테이블 푸터를 사용하는 예시입니다.
 
-**주요 기능**
-- \`footers\` prop을 통해 각 컬럼의 푸터 값을 설정
-- 커스텀 푸터 슬롯을 통해 계산된 값 표시 가능
-- 컬럼별 정렬 방향 유지
-
 **푸터 설정 방법**
-1. 기본 푸터 값 설정
+
+1. 기본 푸터 데이터 설정
 \`\`\`js
 const footers = {
-    product: 'Total',
-    quantity: '6',
-    price: '',
-    total: '590'
+  product: 'Total',      // 일반 텍스트
+  quantity: '6',         // 합계
+  price: '',            // 슬롯으로 대체
+  total: '590',         // 총계
+  highlight: 's-highlight-default'  // 푸터 강조 스타일
 }
 \`\`\`
 
-2. 커스텀 푸터 슬롯 사용
+2. 푸터 슬롯 사용
 \`\`\`vue
-<template #[column_key]_footer="{ props }">
-    // 커스텀 푸터 내용
+<template #footer.{column_key}="{ props }">
+  <!-- props를 통해 전체 푸터 데이터에 접근 가능 -->
+  Average: {{ (props.total / props.quantity).toFixed(2) }}
 </template>
 \`\`\`
 
-**참고사항**
-- 푸터 슬롯에서는 전체 푸터 데이터에 접근 가능
-- 컬럼의 정렬 방향은 헤더 설정을 따름
-- 빈 값은 빈 문자열('')로 설정
-            `
-        }
+**주요 기능**
+- 컬럼별 푸터 값 설정 가능
+- 커스텀 푸터 슬롯을 통한 동적 값 표시
+- 푸터 스타일링 지원 (highlight 속성)
+- 컬럼 정렬 방향 유지
+`
     }
+  }
 }
+
+const highlightCode = `
+<template>
+  <SDataTable
+    :headers="headers"
+    :items="items"
+  />
+</template>
+
+<script setup>
+const headers = [
+  { title: "Name", key: 'name', align: 'start' },
+  { title: "Status", key: 'status', align: 'center' },
+  { title: "Value", key: 'value', align: 'end' }
+]
+
+const items = [
+  {
+    name: 'Item 1',
+    status: 'Active',
+    value: 100,
+    highlight: 's-highlight-default'  // 기본 하이라이트
+  },
+  {
+    name: 'Item 2',
+    status: 'Warning',
+    value: 150,
+    highlight: 's-highlight-warning'  // 경고 스타일
+  },
+  {
+    name: 'Item 3',
+    status: 'Error',
+    value: 200,
+    highlight: 's-highlight-error'    // 에러 스타일
+  },
+  {
+    name: 'Item 4',
+    status: 'Completed',
+    value: 300,
+    highlight: 's-highlight-success'  // 성공 스타일
+  }
+]
+</script>
+`
 
 export const TableWithHighlight = Template.bind({});
 TableWithHighlight.args = {
@@ -738,18 +1178,13 @@ TableWithHighlight.args = {
             name: 'Item 1',
             status: 'Active',
             value: 100,
-        },
-        {
-            name: 'Item 1',
-            status: 'Active',
-            value: 100,
             highlight: 's-highlight-default'  // 기본 하이라이트
         },
         {
-            name: 'Item 1',
-            status: 'Active',
-            value: 100,
-            highlight: 's-highlight-info'  // 정보 스타일
+            name: 'Item 2',
+            status: 'Warning',
+            value: 150,
+            highlight: 's-highlight-warning'  // 경고 스타일
         },
         {
             name: 'Item 3',
@@ -768,25 +1203,30 @@ TableWithHighlight.args = {
 
 TableWithHighlight.parameters = {
     docs: {
+        source: {
+            code: highlightCode,
+            language: 'vue',
+            type: 'auto',
+        },
         description: {
             story: `
 행 하이라이트 기능을 사용하는 예시입니다.
 
 **하이라이트 설정 방법**
-\`데이터 객체\`에 highlight 속성을 추가하여 스타일 클래스를 지정합니다:
+데이터 객체에 highlight 속성을 추가하여 스타일 클래스를 지정합니다:
 
 \`\`\`js
 {
   name: 'Item Name',
   status: 'Active',
   value: 100,
-  highlight: 's-highlight-default'  // 스타일 클래스 지정
+  highlight: 's-highlight-warning'  // 스타일 클래스 지정
 }
 \`\`\`
 
 **제공되는 하이라이트 클래스**
-- \`s-highlight-default\`: 기본 하이라이트 (회색)
-- \`s-highlight-info\`: 정보 스타일 (파란색)
+- \`s-highlight-default\`: 기본 하이라이트 (파란색)
+- \`s-highlight-warning\`: 경고 스타일 (회색)
 - \`s-highlight-error\`: 에러 스타일 (빨간색)
 - \`s-highlight-success\`: 성공 스타일 (초록색)
       `
