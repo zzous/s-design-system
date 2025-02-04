@@ -20,49 +20,51 @@
 
       <template v-if="splitDatas.length">
         <ul v-for="(tableItem, rIndex) in splitDatas" :key="'content-row--' + rIndex" class="s-card-table__body">
-          <li :class="`s-card-table__body-item ${showExpand ? 'table-expand_header' : 'table-expand_body'}`">
-            <div v-if="showExpand" class="s-card__body-icon--expand">
-              <slot
-                name="table-expand"
-                :item="tableItem"
-                :expanded="tableItem.showExpandRow"
-                :on-click-expand="onClickExpand"
+          <li class="s-card-table__body-row">
+            <div :class="`s-card-table__body-item ${showExpand ? 'table-expand_header' : 'table-expand_body'}`">
+              <div v-if="showExpand" class="s-card__body-icon--expand">
+                <slot
+                  name="table-expand"
+                  :item="tableItem"
+                  :expanded="tableItem.showExpandRow"
+                  :on-click-expand="onClickExpand"
+                >
+                  <v-btn
+                    density="comfortable"
+                    variant="text"
+                    :icon="tableItem.showExpandRow ? 'mdi-chevron-up' : 'mdi-chevron-down'"
+                    @click.stop.prevent="onClickExpand(tableItem)"
+                  />
+                </slot>
+              </div>
+              <div v-if="showSelect" style="width: 50px">
+                <slot name="table-select" :item="tableItem">
+                  <v-checkbox-btn :model-value="modelValue.includes(tableItem[itemValue])" @update:model-value="onClickSelect(tableItem)" />
+                </slot>
+              </div>
+              <div
+                v-for="(header, cIndex) in filterHeaders"
+                :key="'content-row--' + rIndex + '__col--' + cIndex"
+                class="s-card-table__body-wrapper"
+                :class="{ 'strong-text': options?.strongs?.includes(header.key) }"
+                :style="{
+                  width: widthStyleTranslate(header.width),
+                  justifyContent: header.align === 'd-none' ? 'center' : header.align || 'center',
+                }"
               >
-                <v-btn
-                  density="comfortable"
-                  variant="text"
-                  :icon="tableItem.showExpandRow ? 'mdi-chevron-up' : 'mdi-chevron-down'"
-                  @click.stop.prevent="onClickExpand(tableItem)"
-                />
-              </slot>
+                <slot :name="`${header.key}`" :item="tableItem">
+                  {{ isEmpty(tableItem[header.key]) ? '-' : tableItem[header.key] }}
+                </slot>
+              </div>
             </div>
-            <div v-if="showSelect" style="width: 50px">
-              <slot name="table-select" :item="tableItem">
-                <v-checkbox-btn :model-value="modelValue.includes(tableItem[itemValue])" @update:model-value="onClickSelect(tableItem)" />
-              </slot>
-            </div>
-            <div
-              v-for="(header, cIndex) in filterHeaders"
-              :key="'content-row--' + rIndex + '__col--' + cIndex"
-              class="s-card-table__body-wrapper"
-              :class="{ 'strong-text': options?.strongs?.includes(header.key) }"
-              :style="{
-                width: widthStyleTranslate(header.width),
-                justifyContent: header.align === 'd-none' ? 'center' : header.align || 'center',
-              }"
-            >
-              <slot :name="`${header.key}`" :item="tableItem">
-                {{ isEmpty(tableItem[header.key]) ? '-' : tableItem[header.key] }}
-              </slot>
-            </div>
-            <div v-if="tableItem.showExpandRow">
+            <div v-if="tableItem.showExpandRow" class="s-card-table__body-row-expand">
               <slot name="expanded-row" :item="tableItem" :columns="filterHeaders" />
             </div>
           </li>
         </ul>
       </template>
       <template v-else>
-        <s-empty :description="noDataText">
+        <s-empty :description="noDataText" class="s-card-table__empty">
           <slot name="empty-content" />
         </s-empty>
       </template>
@@ -413,18 +415,35 @@ onMounted(() => {
     filter: drop-shadow(0px 3px 4px rgba(0, 0, 0, 0.16));
     display: flex;
     width: 100%;
-    height: 60px;
+    min-height: 60px;
     margin-bottom: 10px;
 
-    .s-card-table__body-item {
+    .s-card-table__body-row {
       background-color: white;
+      display: flex;
+      flex-wrap: wrap;
+      width: 100%;
+      border-radius: 10px;
+      border: 1px solid $s-default--gray-5;
+    }
+
+    .s-card-table__body-row-expand {
+      width: 100%;
+      padding: 5px;
+    }
+
+    .s-card-table__body-item {
       width: 100%;
       display: flex;
       justify-content: space-around;
       align-items: center;
       padding: 5px;
-      border-radius: 10px;
-      border: 1px solid $s-default--gray-5;
+    }
+
+    .s-card-table__empty {
+      width: 100%;
+      height: 100%;
+      display: flex;
     }
   }
 
