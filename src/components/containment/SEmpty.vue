@@ -5,7 +5,10 @@
         {{ title }}
       </div>
       <div class="s-empty__card-content">
-        {{ description }}
+        <v-btn flat @click="onClick" v-if="onClick">
+          <span style="color: #007bff; font-size: 18px">{{ description }}</span>
+        </v-btn>
+        <template v-else>{{ description }}</template>
       </div>
       <slot name="default" />
     </v-sheet>
@@ -39,6 +42,11 @@ defineProps({
     description: '카드에 그림자 효과 부여 on/off',
     default: true,
   },
+  onClick: {
+      type: Function,
+      description: 'description 클릭 이벤트',
+      default: false,
+    },
 })
 </script>
 
