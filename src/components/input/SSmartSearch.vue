@@ -72,10 +72,6 @@ const props = defineProps({
     type: String,
     default: '검색어를 입력하세요. (Key:Value)',
   },
-  values: {
-    type: Array,
-    default: () => [],
-  },
   datas: {
     type: Array,
     default: () => [],
@@ -101,15 +97,19 @@ const props = defineProps({
     type: String,
     default: undefined,
   },
+  modelValue: {
+    type: Array,
+    default: () => [],
+  },
 })
 
-const emit = defineEmits(['update:values'])
+const emit = defineEmits(['update:model-value'])
 
 const searchValue = ref(null)
 const isValueSearch = ref(false)
 const isTagSearching = ref(false)
 const selectedKeyItem = ref(null)
-const valuesItem = reactive(props.values)
+const valuesItem = reactive(props.modelValue)
 const autoComp = ref(null)
 const menuProps = reactive({
   closeOnClick: false,
@@ -341,7 +341,7 @@ const onEnter = (event, title, type) => {
   // key 값이 있을 때
   if (isValueSearch.value && setValue) {
     if (setValue) {
-      emit('update:values', valuesItem)
+      emit('update:model-value', valuesItem)
 
       // 선택된 key, value, title 정보 저장
       const addItem = {
@@ -352,7 +352,7 @@ const onEnter = (event, title, type) => {
         }
         valuesItem.push(addItem)
         // 변경된 검색 데이터 목록
-        emit('update:search', valuesItem)
+        emit('update:model-value', valuesItem)
 
         // 추가된 아이템 이벤트
         emit('update:target-item', addItem)
@@ -395,7 +395,7 @@ const onEnter = (event, title, type) => {
 
 const onClickSearchNullTag = () => {
   valuesItem.push({ title: '미지정 태그', value: '-', key: 'undefinedTag', type: 'tag' })
-  emit('update:values', valuesItem)
+  emit('update:model-value', valuesItem)
 
   if (autoComp.value) {
     autoComp.value.search = ''
@@ -404,7 +404,7 @@ const onClickSearchNullTag = () => {
 
 const onDeleteSearchItem = (index) => {
   valuesItem.splice(index, 1)
-  emit('update:values', valuesItem)
+  emit('update:model-value', valuesItem)
 }
 </script>
 

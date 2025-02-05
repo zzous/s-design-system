@@ -64,13 +64,21 @@ export default {
 const Template = (args) => ({
   components: { SSmartSearch },
   setup() {
-    const values = ref([])
-    return { args, values }
+    const values = ref([]);
+    const handleSearchNullTag = () => {
+      console.log('미지정 태그 검색 클릭');
+    };
+    const handleDeleteItem = (index) => {
+      console.log('아이템 삭제:', index);
+    };
+    return { args, values, handleSearchNullTag, handleDeleteItem };
   },
   template: `
     <SSmartSearch
       v-bind="args"
       v-model:values="values"
+      @click-search-null-tag="handleSearchNullTag"
+      @delete-search-item="handleDeleteItem"
     />
   `
 })

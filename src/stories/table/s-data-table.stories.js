@@ -1,5 +1,5 @@
 import { SDataTable, SRefreshBtn, SSmartSearch } from '@';
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
 
 export default {
     title: 'Table/SDataTable',
@@ -881,218 +881,180 @@ ExpandableTable.parameters = {
     }
 };
 
-const TableWithSearchTemplate = (args) => ({
-    components: { SDataTable, SSmartSearch },
-    setup() {
-        const searchValues = ref([])
-        const page = ref(1)
-
-        const headers = [
-            { title: "Instance Name", key: 'instanceName', align: 'start' },
-            { title: "Instance Type", key: 'instanceType', align: 'center' },
-            { title: "Status", key: 'status', align: 'center' },
-            { title: "Region", key: 'region', align: 'center' }
-        ]
-
-        const items = [
-            {
-                instanceName: 'prod-server-01',
-                instanceType: 't3.large',
-                status: 'running',
-                region: 'ap-northeast-2',
-                tagList: [
-                    { tagKey: 'Environment', tagValue: 'Production' },
-                    { tagKey: 'Project', tagValue: 'WebService' }
-                ]
-            },
-            {
-                instanceName: 'dev-server-01',
-                instanceType: 't3.medium',
-                status: 'stopped',
-                region: 'ap-northeast-2',
-                tagList: [
-                    { tagKey: 'Environment', tagValue: 'Development' },
-                    { tagKey: 'Project', tagValue: 'TestEnv' }
-                ]
-            },
-            {
-                instanceName: 'staging-server-01',
-                instanceType: 't3.small',
-                status: 'running',
-                region: 'ap-northeast-2',
-                tagList: [
-                    { tagKey: 'Environment', tagValue: 'Staging' }
-                ]
-            }
-        ]
-
-        return {
-            args,
-            headers,
-            items,
-            searchValues,
-            page
-        }
-    },
-    template: `
-        <div>
-            <div class="search">
-                <SSmartSearch
-                    :items="headers"
-                    class="search__text-field"
-                    :datas="items"
-                    :values="searchValues"
-                    :search-tag="true"
-                    variant="outlined"
-                    density="comfortable"
-                    prepend-inner-icon="mdi-magnify"
-                    @update:values="searchValues = $event"
-                />
-            </div>
-            <SDataTable
-                :headers="headers"
-                :items="items"
-                :smart-search="searchValues"
-                :page="page"
-                @update:page="page = $event"
-            />
-        </div>
-    `
-})
-
-export const TableWithSearch = TableWithSearchTemplate.bind({})
-TableWithSearch.args = {}
-TableWithSearch.parameters = {
-    docs: {
-        description: {
-            story: `
-SSmartSearch와 SDataTable을 조합하여 고급 검색 기능을 구현한 예시입니다.
-
-**주요 기능**
-- 속성 기반 검색: Instance Name, Type, Status 등으로 검색
-- 태그 기반 검색: Environment, Project 등의 태그로 검색
-- 다중 검색 조건: 여러 검색 조건을 동시에 적용 가능
-- 동적 필터링: 검색 조건에 따라 테이블 내용이 실시간으로 필터링
-
-**사용 방법**
-1. 검색창에서 검색하려는 속성이나 태그를 선택
-2. 검색어를 입력하고 Enter 키를 누르거나 값을 선택
-3. 여러 검색 조건을 추가하여 결과를 필터링
-4. 검색 조건은 chips 형태로 표시되며, 개별적으로 제거 가능
-
-**검색 예시**
-- \`Instance Name:prod\` - 이름에 'prod'가 포함된 인스턴스 검색
-- \`Status:running\` - 실행 중인 인스턴스 검색
-- \`Environment:Production\` - Production 환경의 인스턴스 검색
-            `
-        }
-    }
-}
-
-const nullTagSearchCode = `
+const smartSearchCode = `
 <template>
   <div>
-    <div class="search">
-      <SSmartSearch
-        :items="headers"
-        class="search__text-field"
-        :datas="items"
-        :values="searchValues"
-        :search-tag="true"
-        variant="outlined"
-        density="comfortable"
-        prepend-inner-icon="mdi-magnify"
-        @update:values="searchValues = $event"
+      <div class="search">
+        <SSmartSearch
+          variant="outlined"
+          density="comfortable"
+          prepend-inner-icon="mdi-magnify"
+          :items="headers"
+          :datas="items"
+          v-model="searchValues"
+        />
+        <SRefreshBtn :on-click-refresh="refresh" />
+      </div>
+      <SDataTable
+        v-bind="args"
+        :headers="headers"
+        :items="items"
+        :page="page"
+        @update:page="updatePage"
       />
     </div>
-    <SDataTable
-      :headers="headers"
-      :items="items"
-      :smart-search="searchValues"
-      :page="page"
-      @update:page="page = $event"
-    />
-  </div>
 </template>
 
 <script setup>
-import { ref } from 'vue'
-
-const searchValues = ref([])
-const page = ref(1)
+import { ref, computed } from 'vue'
 
 const headers = [
-  { title: "Instance Name", key: 'instanceName', align: 'start' },
-  { title: "Instance Type", key: 'instanceType', align: 'center' },
-  { title: "Status", key: 'status', align: 'center' },
-  { title: "Region", key: 'region', align: 'center' }
+  { title: "VPC Name", key: 'vpcName', width: 300, align: 'start' },
+  { title: "VPC ID", key: 'vpcId', width: 250, align: 'center' },
+  { title: "Cloud Type", key: 'cloudType', width: 150, align: 'center' },
+  { title: "Region", key: 'regionCode', width: 170, align: 'center' }
 ]
 
 const items = [
   {
-    instanceName: 'no-tag-server',
-    instanceType: 't3.micro',
-    status: 'running',
-    region: 'ap-northeast-2',
-    tagList: []
+    "vpcName": "default-vpc",
+    "vpcId": "vpc-1001",
+    "cloudType": "AWS",
+    "regionCode": "us-west-1"
   },
   {
-    instanceName: 'tagged-server',
-    instanceType: 't3.small',
-    status: 'running',
-    region: 'ap-northeast-2',
-    tagList: [
-      { tagKey: 'Environment', tagValue: 'Production' }
-    ]
+    "vpcName": "first-vpc",
+    "vpcId": "vpc-1011",
+    "cloudType": "GCP",
+    "regionCode": "us-west-2"
   }
 ]
+
+const searchValues = ref([])
+
+const filteredItems = computed(() => {
+  if (!searchValues.value.length) return items;
+
+  return items.filter(item => {
+    return searchValues.value.some(search => {
+      const value = item[search.key];
+      return value && value.includes(search.value);
+    });
+  });
+});
 </script>
 `
 
-export const TableWithNullTagSearch = TableWithSearchTemplate.bind({})
-TableWithNullTagSearch.args = {
+const SmartSearchWithRefreshTemplate = (args) => ({
+  components: { SDataTable, SSmartSearch, SRefreshBtn },
+  setup() {
+    const headers = args.headers;
+    const items = ref([...args.items]);
+    const searchValues = ref([]);
+    const page = ref(1);
+
+    const filteredItems = computed(() => {
+      if (!searchValues.value.length) return items.value;
+
+      return items.value.filter(item => {
+        return searchValues.value.some(search => {
+          const value = item[search.key];
+          return value && value.includes(search.value);
+        });
+      });
+    });
+
+
+    const refresh = () => {
+      const tempItems = [...items.value];
+      items.value = [];
+
+      setTimeout(() => {
+        items.value = tempItems;
+        console.log('새로고침 완료');
+      }, 500);
+    };
+
+    const updatePage = (newPage) => {
+      if (page.value !== newPage) {
+        page.value = newPage;
+      }
+    };
+
+    return {
+      args,
+      headers,
+      items: filteredItems,
+      searchValues,
+      page,
+      refresh,
+      updatePage,
+    };
+  },
+  template: `
+    <div>
+      <div class="search">
+        <SSmartSearch
+          variant="outlined"
+          density="comfortable"
+          prepend-inner-icon="mdi-magnify"
+          :items="headers"
+          :datas="items"
+          v-model="searchValues"
+        />
+        <SRefreshBtn :on-click-refresh="refresh" />
+      </div>
+      <SDataTable
+        v-bind="args"
+        :headers="headers"
+        :items="items"
+        :page="page"
+        @update:page="updatePage"
+      />
+    </div>
+  `
+});
+
+export const WithSmartSearchAndRefresh = SmartSearchWithRefreshTemplate.bind({});
+WithSmartSearchAndRefresh.args = {
+  headers: [
+    { title: "VPC Name", key: 'vpcName', width: 300, align: 'start' },
+    { title: "VPC ID", key: 'vpcId', width: 250, align: 'center' },
+    { title: "Cloud Type", key: 'cloudType', width: 150, align: 'center' },
+    { title: "Region", key: 'regionCode', width: 170, align: 'center' }
+  ],
   items: [
     {
-      instanceName: 'no-tag-server',
-      instanceType: 't3.micro',
-      status: 'running',
-      region: 'ap-northeast-2',
-      tagList: []
+      "vpcName": "default-vpc",
+      "vpcId": "vpc-1001",
+      "cloudType": "AWS",
+      "regionCode": "us-west-1"
     },
     {
-      instanceName: 'tagged-server',
-      instanceType: 't3.small',
-      status: 'running',
-      region: 'ap-northeast-2',
-      tagList: [
-        { tagKey: 'Environment', tagValue: 'Production' }
-      ]
+      "vpcName": "first-vpc",
+      "vpcId": "vpc-1011",
+      "cloudType": "GCP",
+      "regionCode": "us-west-2"
     }
   ]
-}
-TableWithNullTagSearch.parameters = {
+};
+
+WithSmartSearchAndRefresh.parameters = {
   docs: {
-    source: {
-      code: nullTagSearchCode,
-      language: 'vue',
-      type: 'auto',
-    },
     description: {
       story: `
-태그가 지정되지 않은 리소스를 검색하는 기능을 보여주는 예시입니다.
+\`SSmartSearch\`와 \`SRefreshBtn\`을 함께 사용하는 예시입니다.
 
 **주요 기능**
-- 미지정 태그 검색: 태그가 없는 리소스를 찾을 수 있음
-- 일반 검색과 함께 사용 가능
-
-**사용 방법**
-1. SSmartSearch 컴포넌트와 SDataTable 컴포넌트를 함께 사용
-2. searchTag prop을 true로 설정하여 태그 검색 활성화
-3. tagList가 비어있는 항목도 검색 가능
+- \`SSmartSearch\`: 검색 기능 제공
+- \`SRefreshBtn\`: 새로고침 기능 제공
+- \`v-model\`: 선택된 검색 값을 관리
+- \`@click-search-null-tag\`: 미지정 태그 검색 클릭 시 이벤트 처리
+- \`@update:page\`: 페이지 변경 시 이벤트 처리
       `
     }
   }
-}
+};
 
 const footerCode = `
 <template>
