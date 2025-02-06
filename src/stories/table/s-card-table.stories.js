@@ -1,5 +1,5 @@
-import {SCardTable} from '@';
-import { ref } from 'vue'
+import { SCardTable, SRefreshBtn, SSmartSearch } from '@';
+import { ref, computed } from 'vue'
 
 export default {
     title: 'Table/SCardTable',
@@ -379,6 +379,202 @@ ExpandableCardTable.parameters = {
 - \`expanded-row\` 슬롯을 사용하여 확장된 행의 내용을 커스터마이징할 수 있습니다.
 - \`v-model:expanded\`: 확장된 행을 관리합니다.
 - \`@update:expanded\`: 확장 상태가 변경될 때마다 호출됩니다.
+      `
+    }
+  }
+};
+
+const smartSearchCode = `
+<template>
+  <div>
+    <div class="search">
+      <SSmartSearch
+        variant="outlined"
+        density="comfortable"
+        prepend-inner-icon="mdi-magnify"
+        :items="headers"
+        :datas="datas"
+        v-model="searchValues"
+      />
+      <SRefreshBtn :on-click-refresh="refresh" />
+    </div>
+    <SCardTable
+      v-bind="args"
+      :headers="headers"
+      :datas="datas"
+      :smart-search="searchValues"
+      :page="page"
+      @update:page="updatePage"
+    />
+  </div>
+</template>
+
+<script setup>
+import { ref, computed } from 'vue'
+
+const headers = [
+  { title: "VPC Name", key: 'vpcName', width: 300, align: 'start' },
+  { title: "VPC ID", key: 'vpcId', width: 250, align: 'center' },
+  { title: "Cloud Type", key: 'cloudType', width: 150, align: 'center' },
+  { title: "Region", key: 'regionCode', width: 170, align: 'center' }
+]
+
+const datas = [
+  {
+    "vpcName": "default-vpc",
+    "vpcId": "vpc-1001",
+    "cloudType": "AWS",
+    "regionCode": "us-west-1"
+  },
+  {
+    "vpcName": "first-vpc",
+    "vpcId": "vpc-1011",
+    "cloudType": "GCP",
+    "regionCode": "us-west-2"
+  }
+]
+
+const page = ref(1)
+const searchValues = ref([])
+
+const updatePage = (newPage) => {
+  if (page.value !== newPage) {
+    page.value = newPage
+  }
+}
+
+const refresh = () => {
+  const tempDatas = [...datas]
+  datas.length = 0
+
+  setTimeout(() => {
+    datas.push(...tempDatas)
+    console.log('새로고침 완료')
+  }, 500)
+}
+</script>
+
+<style scoped>
+.search {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+</style>
+`
+
+const SmartSearchWithRefreshTemplate = (args) => ({
+  components: { SCardTable, SSmartSearch, SRefreshBtn },
+  setup() {
+    const headers = args.headers;
+    const datas = ref([...args.datas]);
+    const searchValues = ref([]);
+    const page = ref(1);
+
+    const refresh = () => {
+      const tempDatas = [...datas.value];
+      datas.value = [];
+
+      setTimeout(() => {
+        datas.value = tempDatas;
+        console.log('새로고침 완료');
+      }, 500);
+    };
+
+    const updatePage = (newPage) => {
+      if (page.value !== newPage) {
+        page.value = newPage;
+      }
+    };
+
+    return {
+      args,
+      headers,
+      datas,
+      searchValues,
+      page,
+      refresh,
+      updatePage,
+    };
+  },
+  template: `
+    <div>
+      <div class="search">
+        <SSmartSearch
+          variant="outlined"
+          density="comfortable"
+          prepend-inner-icon="mdi-magnify"
+          :items="headers"
+          :datas="datas"
+          v-model="searchValues"
+        />
+        <SRefreshBtn :on-click-refresh="refresh" />
+      </div>
+      <SCardTable
+        v-bind="args"
+        :headers="headers"
+        :datas="datas"
+        :smart-search="searchValues"
+        :page="page"
+        @update:page="updatePage"
+      />
+    </div>
+  `
+});
+
+export const WithSmartSearchAndRefresh = SmartSearchWithRefreshTemplate.bind({});
+WithSmartSearchAndRefresh.args = {
+  headers: [
+    { title: "VPC Name", key: 'vpcName', width: 300, align: 'start' },
+    { title: "VPC ID", key: 'vpcId', width: 250, align: 'center' },
+    { title: "Cloud Type", key: 'cloudType', width: 150, align: 'center' },
+    { title: "Region", key: 'regionCode', width: 170, align: 'center' }
+  ],
+  datas: [
+    {
+      "vpcName": "default-vpc",
+      "vpcId": "vpc-1001",
+      "cloudType": "AWS",
+      "regionCode": "us-west-1"
+    },
+    {
+      "vpcName": "aws-vpc",
+      "vpcId": "vpc-1002",
+      "cloudType": "AWS",
+      "regionCode": "us-west-1"
+    },
+    {
+      "vpcName": "first-vpc",
+      "vpcId": "vpc-1011",
+      "cloudType": "GCP",
+      "regionCode": "us-west-2"
+    },
+    {
+      "vpcName": "second-vpc",
+      "vpcId": "vpc-1021",
+      "cloudType": "AZURE",
+      "regionCode": "us-west-3"
+    }
+  ]
+};
+
+WithSmartSearchAndRefresh.parameters = {
+  docs: {
+    source: {
+      code: smartSearchCode,
+      language: 'vue',
+      type: 'auto',
+    },
+    description: {
+      story: `
+\`SSmartSearch\`와 \`SRefreshBtn\`을 함께 사용하는 예시입니다.
+
+**주요 기능**
+- \`SSmartSearch\`: 검색 기능 제공
+- \`SRefreshBtn\`: 새로고침 기능 제공
+- \`v-model\`: 선택된 검색 값을 관리
+- \`@click-search-null-tag\`: 미지정 태그 검색 클릭 시 이벤트 처리
+- \`@update:page\`: 페이지 변경 시 이벤트 처리
       `
     }
   }

@@ -18,8 +18,8 @@
         </ul>
       </div>
 
-      <template v-if="splitDatas.length">
-        <ul v-for="(tableItem, rIndex) in splitDatas" :key="'content-row--' + rIndex" class="s-card-table__body">
+      <template v-if="paginatedItems.length">
+        <ul v-for="(tableItem, rIndex) in paginatedItems" :key="'content-row--' + rIndex" class="s-card-table__body">
           <li class="s-card-table__body-row">
             <div :class="`s-card-table__body-item ${showExpand ? 'table-expand_header' : 'table-expand_body'}`">
               <div v-if="showExpand" class="s-card__body-icon--expand">
@@ -71,12 +71,14 @@
     </div>
     <v-pagination
       v-if="!scrolled"
-      v-model="lazyPage"
+      :model-value="currentPage"
       class="s-card-table__pagination"
       size="small"
+      rounded
+      active-color="#0D69D4"
+      variant="flat"
       :total-visible="10"
-      :length="pageCnt"
-      rounded="circle"
+      :length="options?.pageCnt || pageCnt"
       @update:model-value="onChnagePage"
     />
   </div>
@@ -134,7 +136,7 @@ const props = defineProps({
     },
     description: 'key, title 값으로 구성된 Array(Object)',
   },
-  itemPerPage: {
+  itemsPerPage: {
     type: [Number, String],
     default: 5,
     description: 'per page',
@@ -158,6 +160,11 @@ const props = defineProps({
     type: [String, Array],
     default: undefined,
     description: '항목 필터링에 사용되는 텍스트 또는 key:value Object를 포함한 텍스트 배열 입력',
+  },
+  smartSearch: {
+    type: Array,
+    default: () => [],
+    description: 'smart search 조건',
   },
   showSelect: {
     type: Boolean,
@@ -221,63 +228,93 @@ const emits = defineEmits(['update:page', 'update:selected'])
 
 /* pagination 처리 */
 const lazyPage = ref(1)
+const currentPage = computed({
+  get: () => props.page,
+  set: (value) => emits('update:page', value)
+})
 // const isPageRender = ref(props.isPageRender) // server render
 
 const filterHeaders = computed(() => {
   return props.headers.filter(item => item.key !== props.itemTitle)
 })
 
-const splitDatas = ref([])
+const paginatedItems = computed(() => {
+  if (!props.options?.pageCnt) {
+    const start = (props.page - 1) * props.itemsPerPage
+    const end = start + props.itemsPerPage
+    return filterDatas.value.slice(start, end)
+  }
+  return filterDatas.value
+})
 
 const filterDatas = computed(() => {
-  // smart search일 경우
-  if (props.search && typeof props.search === typeof []) {
-    if (props.search.length === 0) return props.datas
-
-    const filteredList = props.datas.filter(data => {
-      // 검색 결과는 OR 조건이기 때문에 some 함수 사용
-      // TODO: 동일 key 값에 대해서는 OR 조건일 것
-      // tag는 동일 값 검색
-      // tag 외의 검색은 like 검색
-      const isCorrect = props.search.some(option => {
-        if (option.key === 'undefinedTag') {
-          if (!data.tagList?.length) return true
-          return false
-        }
-        if (!`${option.value}`) {
-          return true
-        }
-
-        // s: 태그 검색 영역
-        if (option.type === 'tag' && data.tagList?.length) {
-          const result = data.tagList.some(tagObj => {
-            // const tagObj = JSON.parse(tagStr)
-            return (
-              `${tagObj.tagKey}`.toLowerCase() === `${option.key}`.toLowerCase() &&
-              `${tagObj.tagValue}`.toLowerCase() === `${option.value}`.toLowerCase()
-            )
-          })
-          return result
-        }
-        // e: 태그 검색 영역
-
-        // s: 태그 외 검색
-        if (option.type !== 'tag') {
-          if (typeof data[option.key] === typeof {} || typeof data[option.key] === typeof []) {
-            const searchData = JSON.stringify(data[option.key])
-            // 검색 결과는 like 검색이기 때문에 indexOf 사용
-            return `${searchData}`.toLowerCase().indexOf(`${option.value}`.toLowerCase()) > -1
+  if (props.search) {
+    // 일반 검색 (no smart search)
+    const keys = props.headers.map(h => h.key)
+    const filteredList = props.datas.filter(data =>
+      keys.some(key => {
+        if (data[key]) {
+          if (typeof data[key] === typeof {} || typeof data[key] === typeof []) {
+            return JSON.stringify(data[key]).indexOf(props.search) > -1
           }
-          return `${data[option.key]}`.toLowerCase().indexOf(`${option.value}`.toLowerCase()) > -1
+          return data[key].toString().indexOf(props.search) > -1
         }
         return false
-        // e: 태그 외 검색
+      }),
+    )
+    return filteredList
+  }
+
+  if (props.smartSearch.length) {
+      const filteredList = props.datas.filter(data => {
+      // 검색 조건을 key별로 그룹화
+      const groupedSearches = props.smartSearch.reduce((acc, option) => {
+        if (!acc[option.key]) {
+          acc[option.key] = []
+        }
+        acc[option.key].push(option)
+        return acc
+      }, {})
+
+      // 각 key 그룹별로 검색 (다른 key 그룹 간에는 AND 조건)
+      return Object.entries(groupedSearches).every(([key, options]) => {
+        // 미지정 태그 검색 처리
+        if (key === 'undefinedTag') {
+          return !data.tagList?.length
+        }
+
+        // 동일 key 내에서는 OR 조건으로 검색
+        return options.some(option => {
+          if (!option.value) {
+            return true
+          }
+
+          // 태그 검색
+          if (option.type === 'tag' && data.tagList?.length) {
+            return data.tagList.some(tagObj =>
+              tagObj.tagKey.toLowerCase() === option.key.toLowerCase() &&
+              tagObj.tagValue.toLowerCase() === option.value.toLowerCase()
+            )
+          }
+
+          // 일반 검색
+          if (option.type !== 'tag') {
+            if (typeof data[option.key] === 'object') {
+              const searchData = JSON.stringify(data[option.key])
+              return searchData.toLowerCase().indexOf(option.value.toLowerCase()) > -1
+            }
+            if (typeof data[option.key] === 'number') {
+              return data[option.key].toString().indexOf(option.value) > -1
+            }
+            return data[option.key].toLowerCase().indexOf(option.value.toLowerCase()) > -1
+          }
+
+          return false
+        })
       })
-      return isCorrect // 전체 조건에 맞는지 여부
     })
     return filteredList
   }
-  // TODO Pagination 컴포넌트 사용 시 Search props와 페이지 수가 맞지 않는 오류가 있음 (해결방법: vuetify 업그레이드)
   // vuetify 업그레이드 전 임시코드
   if (props.search) {
     // 일반 검색 (no smart search)
@@ -295,7 +332,7 @@ const filterDatas = computed(() => {
     )
     return filteredList
   }
-  return props.datas
+  return props.datas || []
 })
 
 const modelValue = ref([])
@@ -317,21 +354,21 @@ const onClickSelect = tableItem => {
   emits('update:selected', modelValue.value)
 }
 
-const setDatas = () => {
-  if (!props.isPageRender) {
-    const startIndex = (lazyPage.value - 1) * props.itemPerPage
-    const endIndex = lazyPage.value * props.itemPerPage
-    // console.log(startIndex, endIndex)
-    splitDatas.value = filterDatas.value.slice(startIndex, endIndex)
-  } else {
-    splitDatas.value = filterDatas.value
-  }
-}
+// const setDatas = () => {
+//   if (!props.isPageRender) {
+//     const startIndex = (currentPage.value - 1) * props.itemsPerPage
+//     const endIndex = currentPage.value * props.itemsPerPage
+//     // console.log(startIndex, endIndex)
+//     splitDatas.value = filterDatas.value.slice(startIndex, endIndex)
+//   } else {
+//     splitDatas.value = filterDatas.value
+//   }
+// }
 
 const updatePage = e => {
+  currentPage.value = e
   lazyPage.value = e
-  emits('update:page', e)
-  setDatas()
+  // setDatas()
 }
 
 const onChnagePage = e => {
@@ -339,10 +376,7 @@ const onChnagePage = e => {
 }
 
 const pageCnt = computed(() => {
-  if (props.isPageRender) {
-    return props.options.pageCnt
-  }
-  return Math.ceil(filterDatas.value.length / props.itemPerPage)
+  return props.options?.pageCnt || Math.ceil(filterDatas.value.length / props.itemsPerPage)
 })
 
 const widthStyleTranslate = computed(() => {
@@ -364,19 +398,19 @@ const onClickExpand = tableItem => {
 }
 
 watch(
-  () => props.search,
+  () => [props.search, props.smartSearch],
   () => {
-    setDatas()
+    updatePage(1)
   },
   { deep: true },
 )
 
-watch(
-  () => props.datas,
-  () => {
-    setDatas()
-  },
-)
+// watch(
+//   () => props.datas,
+//   () => {
+//     setDatas()
+//   },
+// )
 
 watch(
   () => filterDatas.value,
@@ -386,8 +420,8 @@ watch(
 )
 
 onMounted(() => {
-  // isPageRender.value = !!props.options.pageCnt
-  setDatas()
+  // setDatas()
+  lazyPage.value = props.page
 })
 </script>
 
