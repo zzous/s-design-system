@@ -889,9 +889,9 @@ const smartSearchCode = `
           variant="outlined"
           density="comfortable"
           prepend-inner-icon="mdi-magnify"
-          :items="headers"
-          :datas="items"
-          v-model="searchValues"
+          :headers="headers"
+          :items="items"
+          v-model="searchs"
         />
         <SRefreshBtn :on-click-refresh="refresh" />
       </div>
@@ -912,7 +912,8 @@ const headers = [
   { title: "VPC Name", key: 'vpcName', width: 300, align: 'start' },
   { title: "VPC ID", key: 'vpcId', width: 250, align: 'center' },
   { title: "Cloud Type", key: 'cloudType', width: 150, align: 'center' },
-  { title: "Region", key: 'regionCode', width: 170, align: 'center' }
+  { title: "Region", key: 'regionCode', width: 170, align: 'center' },
+  { title: "Count", key: 'count', width: 170, align: 'center' }
 ]
 
 const items = [
@@ -920,28 +921,19 @@ const items = [
     "vpcName": "default-vpc",
     "vpcId": "vpc-1001",
     "cloudType": "AWS",
-    "regionCode": "us-west-1"
+    "regionCode": "us-west-1",
+    "count": 1
   },
   {
     "vpcName": "first-vpc",
     "vpcId": "vpc-1011",
     "cloudType": "GCP",
-    "regionCode": "us-west-2"
+    "regionCode": "us-west-2",
+    "count": 2
   }
 ]
 
-const searchValues = ref([])
-
-const filteredItems = computed(() => {
-  if (!searchValues.value.length) return items;
-
-  return items.filter(item => {
-    return searchValues.value.some(search => {
-      const value = item[search.key];
-      return value && value.includes(search.value);
-    });
-  });
-});
+const searchs = ref([])
 </script>
 `
 
@@ -950,20 +942,9 @@ const SmartSearchWithRefreshTemplate = (args) => ({
   setup() {
     const headers = args.headers;
     const items = ref([...args.items]);
-    const searchValues = ref([]);
+    const searchs = ref([]);
     const page = ref(1);
-
-    const filteredItems = computed(() => {
-      if (!searchValues.value.length) return items.value;
-
-      return items.value.filter(item => {
-        return searchValues.value.some(search => {
-          const value = item[search.key];
-          return value && value.includes(search.value);
-        });
-      });
-    });
-
+    const refreshDate = ref(new Date());
 
     const refresh = () => {
       const tempItems = [...items.value];
@@ -984,8 +965,9 @@ const SmartSearchWithRefreshTemplate = (args) => ({
     return {
       args,
       headers,
-      items: filteredItems,
-      searchValues,
+      items,
+      searchs,
+      refreshDate,
       page,
       refresh,
       updatePage,
@@ -995,19 +977,20 @@ const SmartSearchWithRefreshTemplate = (args) => ({
     <div>
       <div class="search">
         <SSmartSearch
+          v-model="searchs"
           variant="outlined"
           density="comfortable"
           prepend-inner-icon="mdi-magnify"
-          :items="headers"
-          :datas="items"
-          v-model="searchValues"
+          :headers="headers"
+          :items="items"
         />
-        <SRefreshBtn :on-click-refresh="refresh" />
+        <SRefreshBtn :refresh-date="refreshDate" :on-click-refresh="refresh" />
       </div>
       <SDataTable
         v-bind="args"
         :headers="headers"
         :items="items"
+        :smart-search="searchs"
         :page="page"
         @update:page="updatePage"
       />
@@ -1021,20 +1004,30 @@ WithSmartSearchAndRefresh.args = {
     { title: "VPC Name", key: 'vpcName', width: 300, align: 'start' },
     { title: "VPC ID", key: 'vpcId', width: 250, align: 'center' },
     { title: "Cloud Type", key: 'cloudType', width: 150, align: 'center' },
-    { title: "Region", key: 'regionCode', width: 170, align: 'center' }
+    { title: "Region", key: 'regionCode', width: 170, align: 'center' },
+    { title: "Count", key: 'count', width: 170, align: 'center' }
   ],
   items: [
     {
       "vpcName": "default-vpc",
       "vpcId": "vpc-1001",
       "cloudType": "AWS",
-      "regionCode": "us-west-1"
+      "regionCode": "us-west-1",
+      "count": 1
     },
     {
       "vpcName": "first-vpc",
       "vpcId": "vpc-1011",
       "cloudType": "GCP",
-      "regionCode": "us-west-2"
+      "regionCode": "us-west-2",
+      "count": 2
+    },
+    {
+      "vpcName": "second-vpc",
+      "vpcId": "vpc-1021",
+      "cloudType": "AZURE",
+      "regionCode": "us-west-3",
+      "count": 0
     }
   ]
 };

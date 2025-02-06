@@ -86,7 +86,7 @@ const props = defineProps({
   },
   width: {
     type: [Number, String],
-    default: 600,
+    default: 350,
   },
   searchTag: {
     type: Boolean,
@@ -171,9 +171,9 @@ const setOptionItemFormat = (arr, type) => {
   const result = []
   arr.forEach(value => {
     if (Array.isArray(value)) {
-      result.push({ title: value, value, type })
+      result.push({ title: String(value), value: String(value), type })
     } else {
-      result.push({ title: value, value, type })
+      result.push({ title: String(value), value: String(value), type })
     }
   })
   return result
@@ -203,7 +203,7 @@ const filterItems = computed(() => {
     }
     const setFilterDatas = new Set()
     props.items.forEach(item => {
-      if (item[selectedKeyItem.value]) {
+      if (item[selectedKeyItem.value] !== undefined && item[selectedKeyItem.value] !== null) {
         setFilterDatas.add(item[selectedKeyItem.value])
       }
     })

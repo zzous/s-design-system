@@ -38,11 +38,11 @@
               item.highlight,
             ]"
           >
-            {{ item[el.key] || '-' }}
+            {{ String(item[el.key]) || '-' }}
           </span>
         </template>
         <span>
-          {{ item[el.key] || '-' }}
+          {{ String(item[el.key]) || '-' }}
         </span>
       </v-tooltip>
 
@@ -53,7 +53,7 @@
         ]"
       >
         <slot :name="`item.${el.key}`" :item="item">
-          {{ item[el.key] || '-' }}
+          {{ String(item[el.key]) || '-' }}
         </slot>
       </div>
     </template>
