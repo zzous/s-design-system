@@ -59,7 +59,7 @@ import * as _ from 'lodash-es'
 import { ref, computed, reactive } from 'vue'
 
 const props = defineProps({
-  items: {
+  headers: {
     type: Array,
     default: () => [],
     description: 'data table의 경우 header 값을 의미한다. 데이터 형태: { title: "", key: "" }',
@@ -72,7 +72,7 @@ const props = defineProps({
     type: String,
     default: '검색어를 입력하세요. (Key:Value)',
   },
-  datas: {
+  items: {
     type: Array,
     default: () => [],
   },
@@ -91,7 +91,7 @@ const props = defineProps({
   searchTag: {
     type: Boolean,
     default: false,
-    description: 'tag 검색 기능을 사용할지에 대한 여부. true일 경우 datas의 모든 tag 값들을 items에 추가한다.',
+    description: 'tag 검색 기능을 사용할지에 대한 여부. true일 경우 items의 모든 tag 값들을 headers에 추가한다.',
   },
   prependInnerIcon: {
     type: String,
@@ -130,10 +130,10 @@ const updateModelValue = (event) => {
 }
 
 const filterTagKeys = (type) => {
-  // 전체 datas에서 tag의 key 값 추출
+  // 전체 items에서 tag의 key 값 추출
   const setFilterDatas = new Set()
-  if (props.datas?.length) {
-    props.datas.forEach(data => {
+  if (props.items?.length) {
+    props.items.forEach(data => {
       if (data.tagList?.length) {
         data.tagList.forEach(tagObj => {
           if (tagObj[type] !== null) {
@@ -147,10 +147,10 @@ const filterTagKeys = (type) => {
 }
 
 const filterTagValues = (keyName, valueName) => {
-  // 전체 datas에서 tag의 key 값 추출
+  // 전체 items에서 tag의 key 값 추출
   const setFilterDatas = new Map()
-  if (props.datas?.length) {
-    props.datas.forEach(data => {
+  if (props.items?.length) {
+    props.items.forEach(data => {
       if (data.tagList?.length) {
         data.tagList.forEach(tagObj => {
           const appendData = setFilterDatas.get(tagObj[keyName]) || []
@@ -198,11 +198,11 @@ const filterItems = computed(() => {
   }
 
   if (isValueSearch.value) {
-    if (!props.datas.length) {
+    if (!props.items.length) {
       return []
     }
     const setFilterDatas = new Set()
-    props.datas.forEach(item => {
+    props.items.forEach(item => {
       if (item[selectedKeyItem.value]) {
         setFilterDatas.add(item[selectedKeyItem.value])
       }
@@ -222,7 +222,7 @@ const filterItems = computed(() => {
 
   optionItems.push({ subheader: '속성', title: '' })
 
-  props.items.forEach(item => {
+  props.headers.forEach(item => {
     if (item.align !== 'd-none' && item.title) {
       optionItems.push(item)
     }
@@ -264,7 +264,7 @@ const onFindTitle = (title) => {
   let findTitle = ''
   let findKey = ''
   title = title.toString()?.split(':')[0].trim().toLowerCase()
-  const sortItems = props.items
+  const sortItems = props.headers
   _.sortBy(sortItems, 'title')
   const result = sortItems.some(item => {
     // 직접 입력(string)과 list item(ref object) 선택에 따른 분기처리
@@ -357,7 +357,7 @@ const onEnter = (event, title, type) => {
         // 추가된 아이템 이벤트
         emit('update:target-item', addItem)
 
-        // 이벤트 delay => 너무 빨라서 select items 목록이 안닫힘
+        // 이벤트 delay => 너무 빨라서 select headers 목록이 안닫힘
         setTimeout(() => {
           menuProps.closeOnClick = false
           menuProps.closeOnContentClick = false
@@ -371,7 +371,7 @@ const onEnter = (event, title, type) => {
     menuProps.closeOnClick = true
     menuProps.closeOnContentClick = true
 
-    selectedKeyItem.value = props.items.find(item => item.title === title)?.key
+    selectedKeyItem.value = props.headers.find(item => item.title === title)?.key
     isValueSearch.value = true
     if (type === 'tag') {
       isTagSearching.value = true
@@ -381,7 +381,7 @@ const onEnter = (event, title, type) => {
       return
     }
 
-    // 이벤트 delay => 너무 빨라서 select items 목록이 안닫힘
+    // 이벤트 delay => 너무 빨라서 select headers 목록이 안닫힘
     setTimeout(() => {
       menuProps.closeOnClick = false
       menuProps.closeOnContentClick = false
