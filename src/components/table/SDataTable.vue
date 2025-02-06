@@ -38,11 +38,11 @@
               item.highlight,
             ]"
           >
-            {{ String(item[el.key]) || '-' }}
+            {{ isEmpty(item[el.key]) ? '-' : item[el.key] }}
           </span>
         </template>
         <span>
-          {{ String(item[el.key]) || '-' }}
+          {{ isEmpty(item[el.key]) ? '-' : item[el.key] }}
         </span>
       </v-tooltip>
 
@@ -53,7 +53,7 @@
         ]"
       >
         <slot :name="`item.${el.key}`" :item="item">
-          {{ String(item[el.key]) || '-' }}
+          {{ isEmpty(item[el.key]) ? '-' : item[el.key] }}
         </slot>
       </div>
     </template>
@@ -137,6 +137,9 @@
 
 <script setup>
 import { ref, watch, computed, onMounted } from 'vue'
+import stringUtil from '@/utils/stringUtil.js'
+
+const { isEmpty } = stringUtil
 
 const emit = defineEmits([
   'update:page',
