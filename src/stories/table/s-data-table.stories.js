@@ -1005,7 +1005,8 @@ WithSmartSearchAndRefresh.args = {
     { title: "VPC ID", key: 'vpcId', width: 250, align: 'center' },
     { title: "Cloud Type", key: 'cloudType', width: 150, align: 'center' },
     { title: "Region", key: 'regionCode', width: 170, align: 'center' },
-    { title: "Count", key: 'count', width: 170, align: 'center' }
+    { title: "Count", key: 'count', width: 170, align: 'center' },
+    { title: "Test", key: 'test', width: 170, align: 'center' }
   ],
   items: [
     {
@@ -1013,21 +1014,34 @@ WithSmartSearchAndRefresh.args = {
       "vpcId": "vpc-1001",
       "cloudType": "AWS",
       "regionCode": "us-west-1",
-      "count": 1
+      "count": 1,
+      "test": {
+        "namespace": "default"
+      }
     },
     {
       "vpcName": "first-vpc",
       "vpcId": "vpc-1011",
       "cloudType": "GCP",
       "regionCode": "us-west-2",
-      "count": 2
+      "count": 2,
+      "test": {
+        "namespace": "default"
+      }
     },
     {
       "vpcName": "second-vpc",
       "vpcId": "vpc-1021",
       "cloudType": "AZURE",
       "regionCode": "us-west-3",
-      "count": 0
+      "count": 0,
+      "test": {
+        "namespace": "default",
+        "array": [{
+          "name": "test",
+          "value": "test"
+        }]
+      }
     }
   ]
 };

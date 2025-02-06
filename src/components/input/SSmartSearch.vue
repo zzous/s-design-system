@@ -175,11 +175,16 @@ const filterTagValues = (keyName, valueName) => {
 const setOptionItemFormat = (arr, type) => {
   const result = []
   arr.forEach(value => {
-    if (Array.isArray(value)) {
-      result.push({ title: String(value), value: String(value), type })
-    } else {
-      result.push({ title: String(value), value: String(value), type })
+    let formattedValue = value
+    // object나 array 타입인 경우 JSON 문자열로 변환
+    if (typeof value === 'object' || Array.isArray(value)) {
+      formattedValue = JSON.stringify(value)
     }
+    result.push({
+      title: String(formattedValue),
+      value: String(formattedValue),
+      type
+    })
   })
   return result
 }
