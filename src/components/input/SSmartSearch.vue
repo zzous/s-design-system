@@ -64,6 +64,11 @@ const props = defineProps({
     default: () => [],
     description: 'data table의 경우 header 값을 의미한다. 데이터 형태: { title: "", key: "" }',
   },
+  excludeSearchHeaders: {
+    type: Array,
+    default: () => [],
+    description: '검색에서 제외할 헤더 키 목록',
+  },
   multiple: {
     type: Boolean,
     default: true,
@@ -223,7 +228,7 @@ const filterItems = computed(() => {
   optionItems.push({ subheader: '속성', title: '' })
 
   props.headers.forEach(item => {
-    if (item.align !== 'd-none' && item.title) {
+    if (item.align !== 'd-none' && item.title && !props.excludeSearchHeaders.includes(item.key)) {
       optionItems.push(item)
     }
   })
