@@ -1,0 +1,136 @@
+.s-notification {
+  $this: 'notification';
+  width: 400px;
+  height: 350px;
+  padding: 15px;
+  padding-bottom: 11px;
+  border: 1px solid #DBDFE1;
+  border-radius: 5px;
+  background-color: #fff;
+  @include box-shadow(5px, 5px, 10px, 0, #8a8a8a1a);
+
+  &.more {
+    height: 380px;
+  }
+  .#{$this}__header-box {
+    padding-top: 6px;
+    padding-bottom: 10px;
+    height: calc(21px + 26px);
+    @include set-text(bold, 17, rgba($color: #14142b, $alpha: 1));
+    border-bottom: 1px solid #dbdfe1;
+  }
+  .#{$this}__contents-box {
+    width: 100%;
+    height: calc(100% - 39px - 41px);
+    overflow: hidden;
+    &.more {
+      @include scroll();
+      overflow-y: auto;
+    }
+    .#{$this}__content {
+      padding: 10px 0;
+      border-bottom: 1px solid #dbdfe1;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+
+      &:hover {
+        background-color: darken(#F7F9FB, 5%);
+      }
+
+      .#{$this}__prefix {
+        text-align: right;
+        width: 30px;
+        &.redDot::before {
+          content: '';
+          display: inline-block;
+          width: 6px;
+          height: 6px;
+          margin: 0 5px 0 0;
+          vertical-align: middle;
+          border-radius: 50%;
+          background-color: #B80303;
+        }
+      }
+
+      .#{$this}__title {
+        display: flex;
+        justify-content: space-between;
+        @include set-text(500, 14, rgba($color: #2F3E4E, $alpha: 1));
+
+        .created {
+          margin-left: 10px;
+          @include set-text(
+            normal,
+            12,
+            rgba($color: #999999, $alpha: 1)
+          ); // 포탈은 $sp-grey-400
+        }
+      }
+      .#{$this}__message-box {
+        max-width: 100%;
+        display: flex;
+        justify-content: space-between;
+        @include set-text(normal, 12, rgba($color: #2F3E4E, $alpha: 1));
+
+        .type {
+          margin-left: 10px;
+          @include set-text(normal, 12, black);
+        }
+        .#{$this}__message {
+          max-width: 92%;
+        }
+        .#{$this}__delete-box {
+          width: 8%;
+        }
+      }
+
+      .#{$this}__title-wrapper {
+        width: 85%;
+      }
+      .#{$this}__check-wrapper {
+        width: 17px;
+        height: 17px;
+        border-radius: 150px;
+        background-color: #32b931;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        .#{$this}__check-icon {
+          @include set-text(normal, 14, rgba($color: #fff, $alpha: 1));
+        }
+      }
+      .#{$this}__delete-wrapper {
+        width: 17px;
+        height: 17px;
+        border-radius: 150px;
+        background-color: #999999; // 포탈은 $sp-grey-300
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        .#{$this}__delete-icon {
+          @include set-text(normal, 14, rgba($color: #fff, $alpha: 1));
+          font-size: 1rem;
+        }
+      }
+    }
+  }
+  .#{$this}-no-item {
+    display: flex;
+    height: 85%;
+    align-items: center;
+    justify-content: center;
+  }
+  .#{$this}__footer-box {
+    display: block;
+    width: 100%;
+    height: calc(11px + 28px);
+    text-align: center;
+    padding-top: 10px;
+    border-top: 1px solid #DBDFE1;
+    text-decoration: none;
+    cursor: pointer;
+    @include set-text(bold, 15, rgba($color: #036EB8, $alpha: 1));
+  }
+}
