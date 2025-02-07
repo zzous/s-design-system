@@ -38,25 +38,25 @@
 ## 스토리북 개발 서버 실행
 
 ```bash
-   npm run sb
+   yarn run sb
 ```
 
 ## 스토리북 빌드
 
 ```bash
-   npm run sb-build
+   yarn run sb-build
 ```
 
 ## NPM 배포
 
 ```bash
-   npm run build && npm run publish
+   yarn run build && yarn publish
 ```
 
 ## 개발 서버 실행
 
 ```bash
-   npm run dev
+   yarn run dev
 ```
 
 ## 컴포넌트 문서화
