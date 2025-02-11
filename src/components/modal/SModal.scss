@@ -1,13 +1,16 @@
 .s-modal {
   &[size="x-large"] {
     width: 1450px;
+    --s-form-item-label-width: 170px;
+    --s-text-field-min-width: 1068px;
+    --s-text-select-min-width: 1068px;
   }
 
   &[size="large"] {
     width: 1300px;
     --s-form-item-label-width: 170px;
-    --s-text-field-min-width: 618px;
-    --s-text-select-min-width: 618px;
+    --s-text-field-min-width: 918px;
+    --s-text-select-min-width: 918px;
   }
 
   &[size="medium"] {

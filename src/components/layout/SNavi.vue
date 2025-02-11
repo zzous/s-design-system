@@ -42,6 +42,7 @@
                     ? 'mdi-chevron-up'
                     : 'mdi-chevron-down'
               "
+              @click="handleMenuClick($event, menu)"
               >
               <template v-if="!menu.subMenus || menu.subMenus.length === 0" #title>
                 <RouterLink class="navi-inner-menu-title" :to="menu.menuUrl">
