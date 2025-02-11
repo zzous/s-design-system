@@ -1171,7 +1171,7 @@ const footers = {
 2. 푸터 슬롯 사용
 \`\`\`vue
 <template #footer.{column_key}="{ props }">
-  <!-- props를 통해 전체 푸터 데이터에 접근 가능 -->
+  // props를 통해 전체 푸터 데이터에 접근 가능 -->
   Average: {{ (props.total / props.quantity).toFixed(2) }}
 </template>
 \`\`\`
@@ -1294,6 +1294,109 @@ TableWithHighlight.parameters = {
 - \`s-highlight-error\`: 에러 스타일 (빨간색)
 - \`s-highlight-success\`: 성공 스타일 (초록색)
       `
+        }
+    }
+};
+
+const fixedTableCode = `
+<template>
+  <div class=>
+    <SDataTable
+      :headers="headers"
+      :items="items"
+      fixed-table
+    />
+  </div>
+</template>
+
+<script setup>
+const headers = [
+  { title: "Name", key: 'name', width: 400, align: 'start' },
+  { title: "Description", key: 'description', width: 800, align: 'start' },
+  { title: "Status", key: 'status', width: 250, align: 'center' }
+]
+
+const items = [
+  {
+    name: 'Item with normal text',
+    description: 'Short description',
+    status: 'Active'
+  },
+  {
+    name: 'Item with very long name that needs to be truncated automatically to prevent layout issues',
+    description: 'This is a very long description text that will be automatically wrapped and displayed properly without breaking the table layout. The text will break into multiple lines if necessary.',
+    status: 'Pending'
+  },
+  {
+    name: 'Item with icon',
+    description: 'Description with material icon',
+    status: 'Completed',
+    icon: 'info'  // Material icon name
+  }
+]
+</script>
+`
+
+export const FixedTable = Template.bind({});
+FixedTable.args = {
+    headers: [
+        { title: "Name", key: 'name', minWidth: 400, align: 'start' },
+        { title: "Description", key: 'description', minWidth: 1000, align: 'start' },
+        { title: "Status", key: 'status', minWidth: 250, align: 'center' }
+    ],
+    items: [
+        {
+            name: 'Item with normal text',
+            description: 'Short description',
+            status: 'Active'
+        },
+        {
+            name: 'Item with very long name that needs to be truncated automatically to prevent layout issues',
+            description: 'This is a very long description text that will be automatically wrapped and displayed properly without breaking the table layout. The text will break into multiple lines if necessary.',
+            status: 'Pending'
+        },
+        {
+            name: 'Item with icon',
+            description: 'Description with material icon',
+            status: 'Completed',
+            icon: 'info'  // Material icon name
+        }
+    ],
+};
+
+FixedTable.parameters = {
+    docs: {
+        source: {
+            code: fixedTableCode,
+            language: 'vue',
+            type: 'auto',
+        },
+        description: {
+            story: `
+fixed-table props를 사용하는 테이블 예시입니다.
+
+**주요 기능**
+- 테이블 레이아웃이 고정되어 컨텐츠 길이에 따라 변형되지 않습니다.
+- 긴 텍스트는 자동으로 줄바꿈되어 표시됩니다.
+- 아이콘이 있는 경우 텍스트 영역이 자동으로 조정됩니다.
+
+**사용 방법**
+1. 테이블에 'fixed-table' props를 추가합니다.
+2. 각 컬럼의 width를 지정하여 고정 너비를 설정합니다.
+
+\`\`\`vue
+<SDataTable
+  :headers="headers"
+  :items="items"
+  fixed-table
+/>
+\`\`\`
+
+**스타일링 특징**
+- table-layout: fixed 속성 적용
+- 텍스트는 word-break: break-all로 처리
+- 아이콘이 있는 경우 텍스트 최대 너비가 자동 조정됨
+            `
         }
     }
 };
