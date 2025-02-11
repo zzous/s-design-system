@@ -1,6 +1,6 @@
 .s-notification {
   $this: 'notification';
-  width: 400px;
+  width: 430px;
   height: 350px;
   padding: 15px;
   padding-bottom: 11px;
@@ -57,26 +57,26 @@
       .#{$this}__title {
         display: flex;
         justify-content: space-between;
-        @include set-text(500, 14, rgba($color: $s-primary, $alpha: 1));
+        @include set-text(500, 13, rgba($color: $s-primary, $alpha: 1));
 
         .created {
           margin-left: 10px;
           @include set-text(
             normal,
-            12,
+            11,
             rgba($color: $s-default--gray-7, $alpha: 1)
-          ); // 포탈은 $sp-grey-400
+          );
         }
       }
       .#{$this}__message-box {
         max-width: 100%;
         display: flex;
         justify-content: space-between;
-        @include set-text(normal, 12, rgba($color: $s-primary, $alpha: 1));
+        @include set-text(normal, 11, rgba($color: $s-primary, $alpha: 1));
 
         .type {
           margin-left: 10px;
-          @include set-text(normal, 12, black);
+          @include set-text(normal, 11, black);
         }
         .#{$this}__message {
           max-width: 92%;
@@ -84,6 +84,10 @@
         .#{$this}__delete-box {
           width: 8%;
         }
+      }
+      .#{$this}__additional-box {
+        max-width: 100%;
+        @include set-text(normal, 11, rgba($color: #2F3E4E, $alpha: 1));
       }
 
       .#{$this}__title-wrapper {

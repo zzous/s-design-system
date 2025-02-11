@@ -3,7 +3,6 @@
     <div class="notification__header-box">{{ notificationName }}</div>
     <template v-if="items.length">
       <div class="notification__contents-box" :class="isMore ? 'more' : ''">
-        <!-- @click="onClickNotification(noti)" -->
         <div
           class="notification__content"
           v-for="noti in items"
@@ -14,12 +13,14 @@
           @keyup.enter="onClickContent(noti)"
         >
           <div class="notification__prefix">
-            <v-icon>mdi-alert-circle</v-icon>
+            <v-icon>{{ setItemIcon(noti) }}</v-icon>
           </div>
           <div class="notification__title-wrapper">
             <div class="title--left">
               <div class="notification__title">
-                <span> {{ noti.msgTitle }}</span>
+                <span>
+                  {{ setEnglishNoti(noti, 'msgTitle') }}
+                </span>
                 <span class="created">{{
                   createdAt(noti.createdAt) || '-'
                 }}</span>
@@ -27,7 +28,7 @@
               <div class="notification__message-box">
                 <div class="notification__message">
                   <div>
-                    <span>{{ noti.msgContent }}</span>
+                    <span>{{ setEnglishNoti(noti, 'msgContent') }}</span>
                   </div>
                 </div>
                 <div class="notification__delete-box">
@@ -42,8 +43,8 @@
                   </div>
                 </div>
               </div>
-              <div>
-                <p>{{ noti.msgAdditional }}</p>
+              <div class="notification__additional-box">
+                <p>{{ setEnglishNoti(noti, 'msgAdditional') }}</p>
               </div>
             </div>
           </div>
@@ -63,10 +64,9 @@
 </template>
 
 <script setup>
-import { ref, watchEffect, computed } from 'vue';
-import SBtn from '../button/SBtn.vue';
+import { ref, computed } from 'vue';
 
-const emits = defineEmits(['onToggleNoti', 'onClickDeleteNoti', 'onClickContent'])
+const emits = defineEmits(['click:delete', 'click:content'])
 
 const props = defineProps({
   notificationName:{
@@ -83,6 +83,10 @@ const props = defineProps({
     type: String,
     default: '알림 내역이 없습니다.',
   },
+  languageCode: {
+    type: String,
+    default: 'ko',
+  },
 })
 
 const isMore = ref(false)
@@ -93,6 +97,17 @@ const createdAt = computed(() => {
   return value => value
 })
 
+const setItemIcon = noti => {
+  switch (noti.notificationType) {
+    case 'SUCCESS':
+      return 'mdi-check-circle'
+    case 'ERROR':
+      return 'mdi-close-octagon'
+    default:
+      return 'mdi-alert-circle'
+  }
+}
+
 const onClickMore = () => {
   isMore.value = true
 }
@@ -102,11 +117,20 @@ const toggleDeleteButton = notiIdx => {
 }
 
 const onClickContent = noti => {
-  emits('onClickContent', noti)
+  emits('click:content', noti)
 }
 
 const onClickDeleteNoti = noti => {
-  emits('onClickDeleteNoti', noti)
+  emits('click:delete', noti)
+}
+
+// 영문 버전이 없는 경우 한글 버전을 반환
+const setEnglishNoti = (noti, item) => {
+  if (props.languageCode === 'en') {
+    const enItem = `${item}En`
+    return noti[enItem] || noti[item]
+  }
+  return noti[item]
 }
 
 </script>
