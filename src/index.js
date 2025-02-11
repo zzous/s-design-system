@@ -28,6 +28,7 @@ export {default as SSubHeader} from './components/layout/SSubHeader.vue';
 export {default as SAccordionMenu} from './components/accordion/SAccordionMenu.vue';
 export {default as SNavi} from './components/layout/SNavi.vue';
 export {default as SSmartSearch} from './components/input/SSmartSearch.vue';
+export {default as SSmartSearchServer} from './components/input/SSmartSearchServer.vue';
 export {default as SProgressStages} from './components/progress/SProgressStages.vue';
 export {default as SNotification} from './components/notification/SNotification.vue';
 

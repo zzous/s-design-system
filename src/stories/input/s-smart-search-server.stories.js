@@ -1,9 +1,9 @@
-import { SSmartSearch } from '@'
-import { ref } from 'vue'
+import { SSmartSearchServer } from '@';
+import { ref } from 'vue';
 
 export default {
-  title: 'input/SSmartSearch',
-  component: SSmartSearch,
+  title: 'input/SSmartSearchServer',
+  component: SSmartSearchServer,
   tags: ['autodocs'],
   argTypes: {
     headers: {
@@ -11,10 +11,10 @@ export default {
       description: 'data table의 경우 header 값을 의미합니다. 데이터 형태: { title: "", key: "" }',
       defaultValue: []
     },
-    label: {
-      control: 'text',
-      description: '입력 필드의 레이블',
-      defaultValue: undefined
+    items: {
+      control: 'object',
+      description: '검색 대상이 되는 데이터 배열',
+      defaultValue: []
     },
     multiple: {
       control: 'boolean',
@@ -26,14 +26,19 @@ export default {
       description: '입력 필드의 플레이스홀더',
       defaultValue: 'Input key:value'
     },
-    values: {
+    modelValue: {
       control: 'object',
       description: '선택된 값들의 배열',
       defaultValue: []
     },
-    items: {
+    valueItems: {
       control: 'object',
-      description: '검색 대상이 되는 데이터 배열',
+      description: '서버에서 제공된 값들의 배열',
+      defaultValue: []
+    },
+    tagItems: {
+      control: 'object',
+      description: '서버에서 제공된 태그 값들의 배열',
       defaultValue: []
     },
     density: {
@@ -55,14 +60,14 @@ export default {
     },
     searchTag: {
       control: 'boolean',
-      description: 'tag 검색 기능 사용 여부. true일 경우 datas의 모든 tag 값들을 items에 추가합니다.',
+      description: 'tag 검색 기능 사용 여부. true일 경우 items의 모든 tag 값들을 headers에 추가합니다.',
       defaultValue: false
     }
   }
 }
 
 const Template = (args) => ({
-  components: { SSmartSearch },
+  components: { SSmartSearchServer },
   setup() {
     const values = ref([]);
     const handleSearchNullTag = () => {
@@ -74,9 +79,9 @@ const Template = (args) => ({
     return { args, values, handleSearchNullTag, handleDeleteItem };
   },
   template: `
-    <SSmartSearch
+    <SSmartSearchServer
       v-bind="args"
-      v-model:values="values"
+      v-model:modelValue="values"
       @click-search-null-tag="handleSearchNullTag"
       @delete-search-item="handleDeleteItem"
     />
@@ -109,6 +114,14 @@ Default.args = {
         { tagKey: 'Project', tagValue: 'API' }
       ]
     }
+  ],
+  valueItems: [
+    { title: 'Running', value: 'Running' },
+    { title: 'Stopped', value: 'Stopped' }
+  ],
+  tagItems: [
+    { title: 'Production', value: 'Production' },
+    { title: 'Development', value: 'Development' }
   ]
 }
 
@@ -137,7 +150,7 @@ CustomStyle.args = {
   width: 400,
   density: 'comfortable',
   variant: 'filled',
-  label: '리소스 검색'
+  placeholder: '리소스 검색'
 }
 CustomStyle.parameters = {
   docs: {
@@ -147,7 +160,7 @@ CustomStyle.parameters = {
 - \`width\`: 입력 필드의 너비를 조절할 수 있습니다.
 - \`density\`: 입력 필드의 밀도를 조절할 수 있습니다.
 - \`variant\`: 입력 필드의 스타일을 변경할 수 있습니다.
-- \`label\`: 입력 필드의 레이블을 설정할 수 있습니다.
+- \`placeholder\`: 입력 필드의 플레이스홀더를 설정할 수 있습니다.
       `
     }
   }

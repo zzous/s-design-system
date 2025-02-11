@@ -77,21 +77,20 @@ const props = defineProps({
     type: String,
     default: '검색어를 입력하세요. (Key:Value)',
   },
-  items: {
-    type: Array,
-    default: () => [],
-  },
   density: {
     type: String,
     default: 'default',
+    description: 'input 밀도',
   },
   variant: {
     type: String,
     default: 'filled',
+    description: 'input 스타일',
   },
   width: {
     type: [Number, String],
     default: 350,
+    description: 'input 너비',
   },
   searchTag: {
     type: Boolean,
@@ -101,10 +100,22 @@ const props = defineProps({
   prependInnerIcon: {
     type: String,
     default: undefined,
+    description: 'prependInnerIcon 값',
   },
   modelValue: {
     type: Array,
     default: () => [],
+    description: '선택된 값 배열',
+  },
+  valueItems: {
+    type: Array,
+    default: () => [],
+    description: '서버에서 제공된 검색 대상이 되는 데이터 배열',
+  },
+  tagItems: {
+    type: Array,
+    default: () => [],
+    description: '검색 대상이 되는 태그 배열',
   },
 })
 
@@ -137,8 +148,8 @@ const updateModelValue = (event) => {
 const filterTagKeys = (type) => {
   // 전체 items에서 tag의 key 값 추출
   const setFilterDatas = new Set()
-  if (props.items?.length) {
-    props.items.forEach(data => {
+  if (props.tagItems?.length) {
+    props.tagItems.forEach(data => {
       if (data.tagList?.length) {
         data.tagList.forEach(tagObj => {
           if (tagObj[type] !== null) {
@@ -154,8 +165,8 @@ const filterTagKeys = (type) => {
 const filterTagValues = (keyName, valueName) => {
   // 전체 items에서 tag의 key 값 추출
   const setFilterDatas = new Map()
-  if (props.items?.length) {
-    props.items.forEach(data => {
+  if (props.tagItems?.length) {
+    props.tagItems.forEach(data => {
       if (data.tagList?.length) {
         data.tagList.forEach(tagObj => {
           const appendData = setFilterDatas.get(tagObj[keyName]) || []
@@ -180,6 +191,7 @@ const setOptionItemFormat = (arr, type) => {
     if (typeof value === 'object' || Array.isArray(value)) {
       formattedValue = JSON.stringify(value)
     }
+    console.log('formattedValue', formattedValue)
     result.push({
       title: String(formattedValue),
       value: String(formattedValue),
@@ -187,6 +199,27 @@ const setOptionItemFormat = (arr, type) => {
     })
   })
   return result
+}
+
+const sortByTitle = (arr) => {
+  // Y, N 여부 정렬
+  if (
+    arr.length === 2 &&
+    (arr[0].title === 'Y' || arr[0].title === 'N')
+  ) {
+    return items.sort((a, b) => b.title.localeCompare(a.title))
+  }
+  // 숫자와 문자열을 분리
+  const stringItems = arr.filter(item => typeof item.title === 'string')
+  const numberItems = arr.filter(item => typeof item.title === 'number')
+  // 문자열은 오름차순 정렬
+  stringItems.sort((a, b) =>
+    a.title.localeCompare(b.title, undefined, { sensitivity: 'base' }),
+  )
+  // 숫자는 내림차순 정렬
+  numberItems.sort((a, b) => b.title - a.title)
+  // 문자열 먼저, 숫자 나중에 배치(이거 해도 숫자가 문자열로 된 경우도 있음)
+  return [...stringItems, ...numberItems]
 }
 
 const filterItems = computed(() => {
@@ -208,17 +241,13 @@ const filterItems = computed(() => {
   }
 
   if (isValueSearch.value) {
-    if (!props.items.length) {
+    if (!props.valueItems.length) {
       return []
     }
     const setFilterDatas = new Set()
-    props.items.forEach(item => {
-      if (item[selectedKeyItem.value] !== undefined && item[selectedKeyItem.value] !== null) {
-        setFilterDatas.add(item[selectedKeyItem.value])
-      }
+    props.valueItems.forEach(item => {
+      setFilterDatas.add(item.value)
     })
-    console.log('setFilterDatas', setFilterDatas)
-    const uniqueArr = _.cloneDeep(setFilterDatas)
     const keyItem = searchValue.value?.split(':')[0]
     if (keyItem) {
       optionItems.push({
@@ -226,7 +255,12 @@ const filterItems = computed(() => {
         title: '',
       })
     }
-    optionItems = optionItems.concat(setOptionItemFormat(uniqueArr))
+
+    console.log('setFilterDatas', setFilterDatas)
+
+    const uniqueArr = _.cloneDeep(setFilterDatas)
+    const sortItems = sortByTitle(setOptionItemFormat(uniqueArr))
+    optionItems = optionItems.concat(sortItems)
 
     return optionItems
   }
@@ -246,6 +280,7 @@ const filterItems = computed(() => {
     )
   }
 
+  console.log(optionItems)
   return optionItems
 })
 
