@@ -20,10 +20,10 @@ const config = {
         },
     ],
     framework: { name: '@storybook/vue3-vite' },
-    
+
     async viteFinal(config) {
         // Merge custom configuration into the default config
-        
+
         return mergeConfig(config, {
             resolve: {alias: {'@': path.resolve('src')}},
             css: {
@@ -36,5 +36,12 @@ const config = {
             },
         });
     },
+    webpackFinal: async (config) => {
+        config.module.rules.push({
+            test: /\.json$/,
+            type: 'json'
+        });
+        return config;
+    }
 };
 export default config;

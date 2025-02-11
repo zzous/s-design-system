@@ -1,4 +1,5 @@
 import { Meta } from "@storybook/blocks";
+import { getVersion } from './utils/version.js';
 
 <Meta title="Documents" />
 
@@ -6,33 +7,35 @@ import { Meta } from "@storybook/blocks";
   <div className='sb-section-title'>
     # Strato StoryBook
     <br/>
-      ## 📦 Nexus Initialize(`.npmrc`)
-      ```bash
-      registry=https://registry.npmjs.org/
-      @strato:registry=http://210.217.178.150:8081/repository/strato-ui/
-      ```
+    ## 📦 Current Version: {getVersion()}
+    <br/>
+    ## 📦 Nexus Initialize(`.npmrc`)
+    ```bash
+    registry=https://registry.npmjs.org/
+    @strato:registry=http://210.217.178.150:8081/repository/strato-ui/
+    ```
 
-      ## 📦 Install Library
-      ```bash
-      npm install @strato/components
-      yarn add @strato/components
-      ```
+    ## 📦 Install Library
+    ```bash
+    npm install @strato/components
+    yarn add @strato/components
+    ```
 
-      ## 📌 Initialize(`main.js`)
-      ```javascript
-      import { createApp } from 'vue';
-      import { createVuetify } from 'vuetify';
-      import * as components from 'vuetify/components';
-      import * as directives from 'vuetify/directives';
-      import { customTheme } from '@strato/components';
+    ## 📌 Initialize(`main.js`)
+    ```javascript
+    import { createApp } from 'vue';
+    import { createVuetify } from 'vuetify';
+    import * as components from 'vuetify/components';
+    import * as directives from 'vuetify/directives';
+    import { customTheme } from '@strato/components';
 
-      // styles
-      import '@mdi/font/css/materialdesignicons.css';
-      import '@strato/components/lib/style.css'; // Vuetify 스타일 포함
+    // styles
+    import '@mdi/font/css/materialdesignicons.css';
+    import '@strato/components/lib/style.css'; // Vuetify 스타일 포함
 
-      const Vuetify = createVuetify({components, directives, theme: { ...customTheme }});
-      createApp(App).use(Vuetify).mount('#app')
-      ```
+    const Vuetify = createVuetify({components, directives, theme: { ...customTheme }});
+    createApp(App).use(Vuetify).mount('#app')
+    ```
   </div>
 </div>
 <style>
