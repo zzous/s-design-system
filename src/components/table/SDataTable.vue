@@ -409,9 +409,9 @@ const filterDatas = computed(() => {
       keys.some(key => {
         if (data[key]) {
           if (typeof data[key] === typeof {} || typeof data[key] === typeof []) {
-            return JSON.stringify(data[key]).indexOf(props.search) > -1
+            return JSON.stringify(data[key]).toLowerCase().indexOf(props.search.toLowerCase()) > -1
           }
-          return data[key].toString().indexOf(props.search) > -1
+          return data[key].toString().toLowerCase().indexOf(props.search.toLowerCase()) > -1
         }
         return false
       }),
