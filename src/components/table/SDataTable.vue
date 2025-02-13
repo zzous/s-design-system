@@ -473,11 +473,14 @@ const filterDatas = computed(() => {
 })
 
 const pageCnt = computed(() => {
+  if(props.itemsPerPage !== -1) {
   return props.options?.pageCnt || Math.ceil(filterDatas.value.length / props.itemsPerPage)
+  }
+  return props.options?.pageCnt || Math.ceil(filterDatas.value.length)
 })
 
 const paginatedItems = computed(() => {
-  if (!props.options?.pageCnt) {
+  if (!props.options?.pageCnt && props.itemsPerPage !== -1) {
     const start = (props.page - 1) * props.itemsPerPage
     const end = start + props.itemsPerPage
     return filterDatas.value.slice(start, end)
