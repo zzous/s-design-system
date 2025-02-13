@@ -136,6 +136,7 @@
   height: calc(100% - 68px);
   border-right: 1px solid $s-default--gray-5;
   background-color: white;
+  overflow-y: auto;
 }
 
 .s-navi-inner-menu {
