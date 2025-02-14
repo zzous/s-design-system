@@ -1,0 +1,123 @@
+.s-filter-select {
+  // border-radius: 10px;
+  border-radius: 5px;
+
+  :deep(.v-input__control) {
+    :deep(.v-input__slot) {
+      min-height: 35px !important;
+    }
+    :deep(.v-select__selection),
+    :deep(.v-label) {
+      font-size: 12px !important;
+    }
+
+    :deep(.v-select__selection) {
+      align-items: center;
+    }
+
+    :deep(.v-field) {
+      font-size: toRem(13);
+    }
+  }
+
+  :deep(.v-field__outline) {
+    --v-field-border-opacity: 0.17;
+  }
+
+  :deep(.v-list) {
+    .v-list-item {
+      &.v-list-item--density-compact.v-list-item--one-line {
+        min-height: 30px;
+        font-size: 12px;
+        .v-list-item__prepend .v-list-item-title {
+          font-size: 14px;
+        }
+      }
+    }
+  }
+}
+
+/* select item list의 item 스타일 */
+.s-filter-select
+  :deep(.s-select__item)
+  :deep(.v-list-item--density-default.v-list-item--one-line) {
+  min-height: 35px;
+  padding-inline-start: 0;
+  padding-inline-end: 0;
+
+  .v-list-item-title {
+    font-size: 0.8rem;
+  }
+
+  // .v-selection-control--density-default {
+  //   --v-selection-control-size: 30px;
+  // }
+}
+
+  .v-menu .v-overlay__content > .v-list:has(.s-input__inner) {
+    padding: 0;
+  }
+
+  .s-filter-select .s-text-field.s-input__inner {
+    padding: 5px 10px 0;
+
+    &:deep(.v-input--horizontal .v-input__prepend) {
+      margin-inline-end: 0;
+    }
+
+    :deep(.v-input__control) {
+      height: 36px !important;
+      border: none;
+
+      .v-field .v-field__input {
+        min-height: 36px;
+      }
+    }
+  }
+
+  .s-filter-select__filter {
+    position: sticky;
+    background-color: #fff;
+    width: 100%;
+    z-index: 1;
+    top: 0;
+  }
+
+.s-filter-select {
+  :deep(.v-field .v-field__input) {
+    > .v-select__selection,
+    input::placeholder {
+      color: #333;
+      font-size: 12px;
+      opacity: 1;
+      align-self: center;
+    }
+  }
+}
+
+.s-filter-select__button {
+  color: #333;
+  background-color: #fff;
+  width: 200px;
+  justify-content: space-between;
+
+  &.v-btn--variant-outlined {
+    border: thin solid $s-default--gray-5;
+  }
+
+  &:nth-child(n + 1) {
+    margin-left: 10px;
+  }
+
+  &.v-btn.v-btn--density-compact {
+    --v-btn-height: 42px;
+  }
+
+  &.v-btn.v-btn--density-comfortable {
+    --v-btn-height: 52px;
+  }
+
+  :deep(.v-btn__content) {
+    grid-area: prepend;
+  }
+}
