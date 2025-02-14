@@ -51,8 +51,7 @@
       </div>
       <v-virtual-scroll
         :items="filterItems"
-        height="350"
-        item-height="40"
+        max-height="350"
       >
         <template v-slot="{ item }">
           <div class="v-virtual-scroll__item">
