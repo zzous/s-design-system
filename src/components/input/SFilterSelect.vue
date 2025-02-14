@@ -5,7 +5,7 @@
         v-bind="props"
         :width="width"
         class="s-filter-select__button"
-        :variant="variant"
+        variant="outlined"
         :density="density"
         :append-icon="isActive ? 'mdi-menu-up' : 'mdi-menu-down'"
       >
@@ -25,7 +25,7 @@
         <v-text-field
           class="s-input__inner my-1 pl-3"
           :density="density"
-          variant="text"
+          variant="plain"
           hide-details
           :placeholder="placeholder"
           v-model="searchWord"
@@ -38,52 +38,59 @@
           @click="toggle"
         >
           <template v-slot:prepend>
-            <v-checkbox-btn
-              :indeterminate="someChecked && !allChecked"
-              :model-value="allChecked"
-              :density="density"
-            ></v-checkbox-btn>
+            <v-list-item-action start>
+              <v-checkbox-btn
+                :indeterminate="someChecked && !allChecked"
+                :model-value="allChecked"
+                :density="density"
+              ></v-checkbox-btn>
+            </v-list-item-action>
           </template>
         </v-list-item>
         <v-divider class="my-1"></v-divider>
       </div>
       <v-virtual-scroll
         :items="filterItems"
-        :visibleItems="Math.min(20, filterItems.length)"
-        max-height="350"
-        :width="width"
-        renderless
+        height="350"
+        item-height="40"
       >
-        <template v-slot="{ item, isActive }">
-          <slot name="null-data" v-if="hasNullValue">
+        <template v-slot="{ item }">
+          <div class="v-virtual-scroll__item">
+            <slot name="null-data" v-if="hasNullValue">
+              <v-list-item
+                v-if="[null, 'NULL'].includes(item[props.itemValue])"
+                :value="nullValue"
+                :density="density"
+              >
+                <template v-slot:prepend="{ isActive }">
+                  <v-list-item-action start>
+                    <v-checkbox-btn :model-value="isActive" :density="density"></v-checkbox-btn>
+                  </v-list-item-action>
+                </template>
+                <v-list-item-title :selected="isActive" :title="nullTitle" :density="density">
+                  {{ nullTitle }}
+                </v-list-item-title>
+              </v-list-item>
+            </slot>
             <v-list-item
-              v-if="[null, 'NULL'].includes(item[props.itemValue])"
-              :value="nullValue"
-              ><template v-slot:prepend="{ isActive }">
+              v-if="![null, 'NULL'].includes(item[props.itemValue])"
+              :value="item[props.itemValue]"
+              :density="density"
+            >
+              <template v-slot:prepend="{ isActive }">
                 <v-list-item-action start>
                   <v-checkbox-btn :model-value="isActive" :density="density"></v-checkbox-btn>
                 </v-list-item-action>
               </template>
-              <v-list-item-title :selected="isActive" :title="nullTitle" :density="density">{{
-                nullTitle
-              }}</v-list-item-title></v-list-item
-            >
-          </slot>
-          <v-list-item
-            :value="item[props.itemValue]"
-            v-if="![null, 'NULL'].includes(item[props.itemValue])"
-          >
-            <template v-slot:prepend="{ isActive }">
-              <v-list-item-action start>
-                <v-checkbox-btn :model-value="isActive" :density="density"></v-checkbox-btn>
-              </v-list-item-action>
-            </template>
-            <v-list-item-title
-              :selected="isActive"
-              :title="item[props.itemTitle]"
-              >{{ item[props.itemTitle] }}</v-list-item-title
-            >
-          </v-list-item>
+              <v-list-item-title
+                :selected="isActive"
+                :title="item[props.itemTitle]"
+                :density="density"
+              >
+                {{ item[props.itemTitle] }}
+              </v-list-item-title>
+            </v-list-item>
+          </div>
         </template>
       </v-virtual-scroll>
     </v-list>

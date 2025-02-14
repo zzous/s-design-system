@@ -33,6 +33,14 @@
           font-size: 14px;
         }
       }
+
+      &.v-list-item--density-comfortable.v-list-item--one-line {
+        min-height: 40px;
+        font-size: 14px;
+        .v-list-item__prepend .v-list-item-title {
+          font-size: 16px;
+        }
+      }
     }
   }
 }

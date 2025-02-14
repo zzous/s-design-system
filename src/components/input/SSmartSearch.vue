@@ -2,7 +2,7 @@
   <div class="s-smart-search">
     <v-autocomplete
       ref="autoComp"
-      class="s-autocomplete"
+      class="s-smart-search"
       :style="{ width: width + 'px' }"
       closable-chips
       :multiple="multiple"

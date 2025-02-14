@@ -5,7 +5,7 @@ import {
     VSnackbar, VSheet, VFileInput, VMenu, VImg, VDialog, VCard, VCardText, VCardActions, VIcon,
     VPagination, VDataTable, VFooter, VApp, VAppBar, VAppBarTitle, VAvatar, VOverlay, VMain,
     VCheckboxBtn, VTooltip, VSelect, VAutocomplete, VChipGroup, VChip, VListSubheader, VProgressCircular, VExpandTransition,
-    VVirtualScroll, VDivider
+    VVirtualScroll, VDivider, VListItemAction
 } from 'vuetify/components';
 import * as directives from 'vuetify/directives';
 import {aliases, mdi} from 'vuetify/iconsets/mdi';
@@ -19,7 +19,7 @@ export default createVuetify(
             VCard, VCardText, VCardActions, VIcon, VPagination, VDataTable, VFooter,
             VApp, VAppBar, VAppBarTitle, VAvatar, VOverlay, VMain, VCheckboxBtn, VTooltip,
             VSelect, VAutocomplete, VChipGroup, VChip, VListSubheader, VProgressCircular, VExpandTransition,
-            VVirtualScroll, VDivider
+            VVirtualScroll, VDivider, VListItemAction
         },
         directives,
         icons: {
