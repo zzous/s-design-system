@@ -2,6 +2,9 @@
   <v-data-table
     ref="sDataTableRef"
     class="s-data-table"
+    :class="{
+      'fixed-table': fixedTable,
+    }"
     v-bind="$attrs"
     :headers="lazyHeaders"
     :items="paginatedItems"
@@ -383,6 +386,11 @@ const props = defineProps({
     type: Boolean,
     default: false,
     description: 'hover 상태',
+  },
+  fixedTable: {
+    type: Boolean,
+    default: false,
+    description: '테이블 고정 여부',
   },
 })
 
