@@ -561,8 +561,16 @@ watch(
     lazyHeaders.value = nv
   },
 )
+
+watch(
+  () => props.modelValue,
+  nv => {
+    selected.value = nv
+  },
+  { immediate: true }
+)
+
 onMounted(() => {
-  selected.value = props.modelValue
   lazyPage.value = props.page
   lazyHeaders.value = [...props.headers]
 
