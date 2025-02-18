@@ -19,6 +19,7 @@
       :items="filterItems"
       :selected="modelValue"
       :density="density"
+      min-width="360px"
       @update:selected="onUpdateModelValue"
     >
       <div class="s-filter-select__filter">
