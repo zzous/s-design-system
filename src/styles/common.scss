@@ -223,3 +223,27 @@ html * {
         }
     }
 }
+
+.selected__chip {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 5px;
+
+    .v-chip {
+        min-width: 45px;
+        height: 24px;
+        padding: 8px 15px !important;
+        font-size: 12px;
+        font-weight: 500;
+        background: #EAF3F9;
+
+        .v-chip__underlay {
+            --v-activated-opacity: 0;
+        }
+
+        .v-chip__close {
+            color: $s-blue;
+        }
+    }
+}
