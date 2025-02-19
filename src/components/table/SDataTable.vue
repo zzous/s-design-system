@@ -85,27 +85,29 @@
         {{ noDataText }}
       </div>
     </template>
-    <template v-if="footers && Object.keys(footers).length" #[`tfoot`]>
-      <tfoot>
-        <tr class="v-data-table__tr">
-          <td
-            class="v-data-table__td"
-            v-for="(head, hIndex) in headers"
-            :key="'foot__' + hIndex"
-            :width="head.width"
-            :style="{ textAlign: head.align || 'start' }"
-          >
-            <template v-if="$slots[`footer.${head.key}`]">
-              <span :class="[footers.highlight]">
-                <slot :name="`footer.${head.key}`" :props="footers" />
-              </span>
-            </template>
-            <template v-else>
-              <span :class="[footers.highlight]">{{ footers[head.key] }}</span>
-            </template>
-          </td>
-        </tr>
-      </tfoot>
+    <template #[`tfoot`]="bind">
+      <slot name="tfoot" v-bind="bind">
+        <tfoot v-if="footers && Object.keys(footers).length">
+          <tr class="v-data-table__tr">
+            <td
+              class="v-data-table__td"
+              v-for="(head, hIndex) in headers"
+              :key="'foot__' + hIndex"
+              :width="head.width"
+              :style="{ textAlign: head.align || 'start' }"
+            >
+              <template v-if="$slots[`footer.${head.key}`]">
+                <span :class="[footers.highlight]">
+                  <slot :name="`footer.${head.key}`" :props="footers" />
+                </span>
+              </template>
+              <template v-else>
+                <span :class="[footers.highlight]">{{ footers[head.key] }}</span>
+              </template>
+            </td>
+          </tr>
+        </tfoot>
+      </slot>
     </template>
     <template #item="bind" v-if="$slots.item">
       <slot name="item" v-bind="bind" />
