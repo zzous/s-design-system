@@ -7,6 +7,7 @@
     }"
     v-bind="$attrs"
     :headers="lazyHeaders"
+    :height="height"
     :items="paginatedItems"
     :page="lazyPage"
     :items-per-page="itemsPerPage"
