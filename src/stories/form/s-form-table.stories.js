@@ -16,7 +16,91 @@ export default {
         docs: {
             description: {
                 component: 'Form table component with various layouts and modal integration'
-            }
+            },
+            source: {
+                code: `
+<template>
+  <div class="view-wrapper">
+    <div class="form-wrapper">
+      <s-sub-header :show-cnt="false" title="기본 정보" class-name="sub-title" />
+      <vee-form ref="formRef" :validation-schema="schema" :initial-values="formValues">
+        <s-form-table>
+          <s-form-item label="이름">
+            <v-text-field v-model="info.name" variant="outlined" density="compact" hide-details="auto" type="text" placeholder="이름을 입력하세요" />
+          </s-form-item>
+          <s-form-item label="설명">
+            <v-text-field v-model="info.description" variant="outlined" density="compact" hide-details="auto" type="text" placeholder="설명을 입력하세요" />
+          </s-form-item>
+          <vee-field v-slot="{ errors }" name="services">
+            <s-form-item label="서비스">
+              <s-btn height="30" variant="outlined" title="서비스 선택" />
+              <template v-if="formValues.services.length">
+                <div class="selected__chip">
+                  <v-chip v-for="service in formValues.services" :key="service.id" class="chip" closable size="small" @click:close="onCloseChip(service.id, 'SERVICE')">
+                    {{ service.name }}
+                  </v-chip>
+                </div>
+              </template>
+              <template v-if="errors.length" #outer-append>
+                <span class="error-text-color">{{ errors.at(0) }}</span>
+              </template>
+            </s-form-item>
+          </vee-field>
+          <vee-field v-slot="{ errors }" name="skus">
+            <s-form-item label="SKU">
+              <s-btn height="30" variant="outlined" title="SKU 선택" />
+              <template v-if="formValues.skus.length">
+                <div class="selected__chip">
+                  <v-chip v-for="sku in formValues.skus" :key="sku.id" class="chip" closable size="small" @click:close="onCloseChip(sku.id, 'SKU')">
+                    {{ sku.name }}
+                  </v-chip>
+                </div>
+              </template>
+              <template v-if="errors.length" #outer-append>
+                <span class="error-text-color">{{ errors.at(0) }}</span>
+              </template>
+            </s-form-item>
+          </vee-field>
+        </s-form-table>
+      </vee-form>
+    </div>
+  </div>
+</template>
+
+<script setup>
+import { ref } from 'vue';
+import * as yup from 'yup';
+import { Field as VeeField, Form as VeeForm } from 'vee-validate';
+
+const info = ref({
+  name: 'Sample Name',
+  description: 'Description 1',
+});
+
+const formValues = ref({
+  services: [
+    { id: 1, name: 'Service 1' },
+    { id: 2, name: 'Service 2' }
+  ],
+  skus: [
+    { id: 1, name: 'SKU 1' },
+    { id: 2, name: 'SKU 2' }
+  ]
+});
+
+const schema = ref({
+  services: yup.array().of(yup.object({ id: yup.number().required(), name: yup.string().required() })),
+  skus: yup.array().of(yup.object({ id: yup.number().required(), name: yup.string().required() }))
+});
+
+const onClickAddService = () => {
+  console.log('onClickAddService');
+};
+</script>
+        `,
+                language: 'html',
+                type: 'auto',
+            },
         }
     }
 };
