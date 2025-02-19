@@ -73,7 +73,7 @@
     <template v-for="(el, index) in headers" #[`item.${el.key}`]="{ item }" :key="index">
       <v-tooltip v-if="tooltip" location="bottom">
         <template #activator="{ props: dataProps }">
-          <span v-bind="dataProps" class="d-inline-block text-truncate sp-table-column__text">
+          <span v-bind="dataProps" class="d-inline-block text-truncate s-table-column__text">
             {{ item[el.key] || '-' }}
           </span>
         </template>

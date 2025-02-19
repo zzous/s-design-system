@@ -23,6 +23,7 @@
     :expanded="expanded"
     :expand-on-click="expandOnClick"
     :item-class="getItemClass"
+    @update:sort-by="updateSortBy"
     @update:model-value="updateModelValue"
     @update:options="$emit('update:options', $event)"
     @update:expanded="$emit('update:expanded', $event)"
@@ -36,7 +37,7 @@
         <template #activator="{ props: dataProps }">
           <span
             v-bind="dataProps"
-            class="d-inline-block text-truncate sp-table-column__text"
+            class="d-inline-block text-truncate s-table-column__text"
             :class="[
               item.highlight,
             ]"
@@ -305,12 +306,12 @@ const props = defineProps({
     default: false,
     description: '머리글과 행 모두에서 선택 확인란을 표시합니다(기본 행을 사용하는 경우).',
   },
-  // sortBy: {
-  //   type: Array,
-  //   default: () => [],
-  //   description:
-  //     '정렬 순서에 사용해야 하는 항목 속성을 변경합니다. .sync수정자 와 함께 사용할 수 있습니다.',
-  // },
+  sortBy: {
+    type: Array,
+    default: () => [],
+    description:
+      '정렬 순서에 사용해야 하는 항목 속성을 변경합니다. .sync수정자 와 함께 사용할 수 있습니다.',
+  },
   selectStrategy: {
     type: String,
     default: 'page',
@@ -516,6 +517,7 @@ const updatePage = (newPage) => {
 const updateSortBy = e => {
   sortBy.value = e
   lazyPage.value = 1
+  emit('update:sort-by', e)
   emit('update:page', 1)
 }
 const onClickSortBy = el => {
