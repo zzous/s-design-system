@@ -7,6 +7,7 @@
     }"
     v-bind="$attrs"
     :headers="lazyHeaders"
+    :fixed-header="fixedHeader"
     :height="height"
     :items="paginatedItems"
     :page="lazyPage"
@@ -33,32 +34,32 @@
       <slot name="headers" v-bind="bind"></slot>
     </template>
 
-    <template v-for="(el, index) in headers" #[`item.${el.key}`]="{ item }" :key="index">
+    <template v-for="(el, index) in headers" #[`item.${el.key}`]="bind" :key="index">
       <v-tooltip v-if="tooltip" location="bottom">
         <template #activator="{ props: dataProps }">
           <span
             v-bind="dataProps"
             class="d-inline-block text-truncate s-table-column__text"
             :class="[
-              item.highlight,
+              bind.item.highlight,
             ]"
           >
-            {{ isEmpty(item[el.key]) ? '-' : item[el.key] }}
+            {{ isEmpty(bind.item[el.key]) ? '-' : bind.item[el.key] }}
           </span>
         </template>
         <span>
-          {{ isEmpty(item[el.key]) ? '-' : item[el.key] }}
+          {{ isEmpty(bind.item[el.key]) ? '-' : bind.item[el.key] }}
         </span>
       </v-tooltip>
 
       <div
         v-else
         :class="[
-          item.highlight,
+          bind.item.highlight,
         ]"
       >
-        <slot :name="`item.${el.key}`" :item="item">
-          {{ isEmpty(item[el.key]) ? '-' : item[el.key] }}
+        <slot :name="`item.${el.key}`" v-bind="bind">
+          {{ isEmpty(bind.item[el.key]) ? '-' : bind.item[el.key] }}
         </slot>
       </div>
     </template>

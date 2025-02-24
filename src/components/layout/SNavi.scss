@@ -23,6 +23,8 @@
   width: 300px;
   padding-right: 30px;
   padding-left: 30px;
+  height: inherit;
+  overflow-y: auto;
 
   :deep(.v-list) {
     padding: 0;

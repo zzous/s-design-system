@@ -119,7 +119,7 @@ const props = defineProps({
   },
 })
 
-const emit = defineEmits(['update:model-value'])
+const emit = defineEmits(['update:model-value', 'update:key', 'update:target-item'])
 
 const searchValue = ref(null)
 const isValueSearch = ref(false)
