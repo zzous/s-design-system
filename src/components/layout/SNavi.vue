@@ -161,7 +161,15 @@ const onChangeProject = value => {
 
 const goFirstMenu = () => {
   if (props.firstMenuPath) {
-    emits('click:service-name', { path: props.firstMenuPath })
+    try {
+      // 도메인이 포함된 경로인 경우
+      const path = new URL(props.firstMenuPath)
+      emits('click:service-name', { path: path.pathname })
+    } catch (error) {
+      // console.error('goFirstMenu error', error)
+      // 도메인이 포함되지 않은 경로인 경우
+      emits('click:service-name', { path: props.firstMenuPath })
+    }
   } else {
     // if (props.menuPath) {
     //   emits('click:service-name', { path: props.menuPath.menuUrl || '/' })
