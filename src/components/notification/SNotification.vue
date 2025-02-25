@@ -1,10 +1,10 @@
 <template>
   <div class="s-notification" :class="isMore ? 'more' : ''">
-    <div class="notification__header-box">{{ notificationName }}</div>
+    <div class="s-notification__header-box">{{ notificationName }}</div>
     <template v-if="items.length">
-      <div class="notification__contents-box" :class="isMore ? 'more' : ''">
+      <div class="s-notification__contents-box" :class="isMore ? 'more' : ''">
         <div
-          class="notification__content"
+          class="s-notification__content"
           v-for="noti in items"
           :key="noti.idx"
           @mouseenter="toggleDeleteButton(noti.notificationIdx)"
@@ -12,12 +12,12 @@
           @click="onClickContent(noti)"
           @keyup.enter="onClickContent(noti)"
         >
-          <div class="notification__prefix">
+          <div class="s-notification__prefix">
             <v-icon>{{ setItemIcon(noti) }}</v-icon>
           </div>
-          <div class="notification__title-wrapper">
+          <div class="s-notification__title-wrapper">
             <div class="title--left">
-              <div class="notification__title">
+              <div class="s-notification__title">
                 <span>
                   {{ setEnglishNoti(noti, 'msgTitle') }}
                 </span>
@@ -25,25 +25,25 @@
                   createdAt(noti.createdAt) || '-'
                 }}</span>
               </div>
-              <div class="notification__message-box">
-                <div class="notification__message">
+              <div class="s-notification__message-box">
+                <div class="s-notification__message">
                   <div>
                     <span>{{ setEnglishNoti(noti, 'msgContent') }}</span>
                   </div>
                 </div>
-                <div class="notification__delete-box">
+                <div class="s-notification__delete-box">
                   <div
                     v-if="showDeleteButtonIdx === noti.notificationIdx"
-                    class="notification__delete-wrapper"
+                    class="s-notification__delete-wrapper"
                     @click.stop="onClickDeleteNoti(noti)"
                   >
-                    <v-icon class="notification__delete-icon" contain
+                    <v-icon class="s-notification__delete-icon" contain
                       >mdi-close</v-icon
                     >
                   </div>
                 </div>
               </div>
-              <div class="notification__additional-box">
+              <div class="s-notification__additional-box">
                 <p>{{ setEnglishNoti(noti, 'msgAdditional') }}</p>
               </div>
             </div>
@@ -51,7 +51,7 @@
         </div>
       </div>
       <div
-        class="notification__footer-box"
+        class="s-notification__footer-box"
         v-if="!isMore"
         @click="onClickMore"
         @keypress="onClickMore"
@@ -59,7 +59,7 @@
         ...
       </div>
     </template>
-    <div class="notification-no-item" v-else>{{ noItemText }}</div>
+    <div class="s-notification-no-item" v-else>{{ noItemText }}</div>
   </div>
 </template>
 

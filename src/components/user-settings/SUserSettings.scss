@@ -1,0 +1,86 @@
+.s-user-setting {
+  $this: 's-user-setting';
+  width: 260px;
+  height: 385px;
+  padding: 15px;
+  padding-bottom: 11px;
+  border: 1px solid $s-default--gray-5;
+  border-radius: 5px;
+  background-color: #fff;
+  @include box-shadow(5px, 5px, 10px, 0, #8a8a8a1a);
+
+  .#{$this}__header-box {
+    padding-top: 6px;
+    padding-bottom: 10px;
+    height: calc(21px + 26px);
+    @include set-text(bold, 17, rgba($color: $s-primary, $alpha: 1));
+    border-bottom: 1px solid $s-default--gray-5;
+  }
+  .#{$this}__contents-box {
+    width: 100%;
+    height: calc(100% - 39px - 41px);
+
+    .#{$this}__content {
+      padding: 10px 0;
+      border-bottom: 1px solid $s-default--gray-5;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+
+      .#{$this}__title-wrapper {
+        width: 95%;
+
+        .#{$this}__title {
+          margin-top: 5px;
+          display: flex;
+          justify-content: space-between;
+          @include set-text(500, 14, rgba($color: $s-primary, $alpha: 1));
+        }
+
+        .#{$this}__checkbox-wrapper {
+          display: flex;
+          justify-content: space-between;
+          height: 50px;
+        }
+
+        .#{$this}__select-wrapper {
+          margin-top: 15px;
+          display: flex;
+          justify-content: space-between;
+          @include set-text(normal, 12, rgba($color: $s-primary, $alpha: 1));
+
+          .v-select {
+            .v-field {
+              border: solid 1px $s-default--gray-5;
+              border-radius: 5px;
+              padding: 0 8px;
+              height: 32px;
+            }
+            .v-field .v-field__input {
+              min-height: 32px !important;
+              padding: 0;
+              line-height: 28px;
+              min-width: 250px;
+            }
+            .v-field__append-inner {
+              padding-top: 3px;
+            }
+            .v-select--active-menu .v-field {
+              border-color: #1297f2;
+            }
+            .v-field.v-field--error {
+              border: solid 1px #b80303;
+            }
+            .v-input__details {
+              min-height: 5px;
+            }
+            .v-input__details .v-messages {
+              min-height: 5px;
+            }
+          }
+        }
+      }
+    }
+  }
+}

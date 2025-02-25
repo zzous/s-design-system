@@ -32,6 +32,7 @@ export {default as SSmartSearchServer} from './components/input/SSmartSearchServ
 export {default as SProgressStages} from './components/progress/SProgressStages.vue';
 export {default as SNotification} from './components/notification/SNotification.vue';
 export {default as SFilterSelect} from './components/input/SFilterSelect.vue';
+export {default as SUserSettings} from './components/user-settings/SUserSettings.vue';
 
 // Utils
 export {default as stringUtil} from './utils/stringUtil.js'
