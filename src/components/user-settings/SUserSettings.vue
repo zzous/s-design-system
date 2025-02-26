@@ -72,7 +72,7 @@
 <script setup>
 import { computed, onMounted, ref } from 'vue'
 
-const emits = defineEmits(['update:language', 'update:currency', 'update:email', 'update:slack'])
+const emits = defineEmits(['update:language', 'update:currency', 'update:email', 'update:slack', 'get-company-slack-enabled'])
 
 const props = defineProps({
   languageCode: {
@@ -152,6 +152,11 @@ const setFieldSetLanguage = languageCode => {
   }
 }
 
+const checkCompanySlackEnabled = () => {
+  emits('get-company-slack-enabled')
+  console.log('checkCompanySlackEnabled')
+}
+
 onMounted(() => {
   userSettings.value = {
     languageCode: props.languageCode || 'ko',
@@ -161,6 +166,7 @@ onMounted(() => {
   }
 
   setFieldSetLanguage(props.languageCode)
+  checkCompanySlackEnabled()
 })
 </script>
 
