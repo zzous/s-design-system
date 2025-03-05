@@ -35,7 +35,7 @@
   <SCardTable
     :headers="headers"
     :datas="items"
-    :item-per-page="5"
+    :items-per-page="5"
     show-select
     @update:selected="onSelect"
   >
