@@ -7,25 +7,27 @@
         </div>
       </a>
     </div>
-    <div v-if="projectList && projectList.length" id="project_select_wrapper">
-      <div class="project_select">
-        <v-select
-          width="238px"
-          :model-value="selectedProject"
-          variant="outlined"
-          density="comfortable"
-          :items="totalProjectList"
-          item-title="projectName"
-          item-value="projectId"
-          label="Select"
-          hide-details
-          persistent-hint
-          return-object
-          single-line
-          @update:model-value="onChangeProject"
-        />
+    <slot name="default">
+      <div v-if="projectList && projectList.length" id="project_select_wrapper">
+        <div class="project_select">
+          <v-select
+            width="238px"
+            :model-value="selectedProject"
+            variant="outlined"
+            density="comfortable"
+            :items="totalProjectList"
+            item-title="projectName"
+            item-value="projectId"
+            label="Select"
+            hide-details
+            persistent-hint
+            return-object
+            single-line
+            @update:model-value="onChangeProject"
+          />
+        </div>
       </div>
-    </div>
+    </slot>
     <div id="s-menu-wrapper">
       <v-list v-model:opened="open" class="navi-menu" v-if="menuPath && menuPath.subMenus && menuPath.subMenus.length">
         <v-list-group v-for="menu in menuPath.subMenus" :key="menu.idx" :value="menu.idx">
