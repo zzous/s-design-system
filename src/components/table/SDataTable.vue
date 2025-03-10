@@ -22,6 +22,7 @@
     :loading="loading"
     :hover="hover"
     :show-expand="showExpand"
+    :disable-sort="disableSort"
     :expanded="expanded"
     :expand-on-click="expandOnClick"
     :item-class="getItemClass"
@@ -574,6 +575,13 @@ watch(
     selected.value = nv
   },
   { immediate: true }
+)
+
+watch(
+  () => props.smartSearch,
+  () => {
+    emit('update:page', 1)
+  }
 )
 
 onMounted(() => {

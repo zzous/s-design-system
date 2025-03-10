@@ -215,7 +215,59 @@ const Template = (args) => ({
 
 export const Default = Template.bind({});
 
+const HalfFormTemplateStr = `
+<div class="form-wrapper">
+    <s-sub-header class="sub-title" :show-cnt="false" title="리소스 정보"></s-sub-header>
+    <SFormTable>
+        <SFormItem label="Requests" content-class="w-100">
+            <div class="form-item--half">
+                <VTextField
+                    v-model="resource.requestCpu"
+                    variant="outlined"
+                    density="compact"
+                    hide-details="auto"
+                    type="number"
+                    placeholder="CPU를 입력하세요"
+                />
+                <VTextField
+                    v-model="resource.requestMemory"
+                    variant="outlined"
+                    density="compact"
+                    hide-details="auto"
+                    type="number"
+                    placeholder="Memory를 입력하세요"
+                />
+                <SBtn
+                    color="black"
+                    size="small"
+                    title="버튼"
+                />
+            </div>
+        </SFormItem>
 
+        <SFormItem label="Limits" content-class="w-100">
+            <div class="form-item--half">
+                <VTextField
+                    v-model="resource.limitCpu"
+                    variant="outlined"
+                    density="compact"
+                    hide-details="auto"
+                    type="number"
+                    placeholder="CPU를 입력하세요"
+                />
+                <VTextField
+                    v-model="resource.limitMemory"
+                    variant="outlined"
+                    density="compact"
+                    hide-details="auto"
+                    type="number"
+                    placeholder="Memory를 입력하세요"
+                />
+            </div>
+        </SFormItem>
+    </SFormTable>
+</div>
+`
 
 const HalfFormTemplate = () => ({
     components: { SSubHeader, SFormTable, SFormItem, SBtn },
@@ -229,59 +281,7 @@ const HalfFormTemplate = () => ({
             }
         };
     },
-    template: `
-        <div class="form-wrapper">
-            <s-sub-header class="sub-title" :show-cnt="false" title="리소스 정보"></s-sub-header>
-            <SFormTable>
-                <SFormItem label="Requests" content-class="w-100">
-                    <div class="form-item--half">
-                        <VTextField
-                            v-model="resource.requestCpu"
-                            variant="outlined"
-                            density="compact"
-                            hide-details="auto"
-                            type="number"
-                            placeholder="CPU를 입력하세요"
-                        />
-                        <VTextField
-                            v-model="resource.requestMemory"
-                            variant="outlined"
-                            density="compact"
-                            hide-details="auto"
-                            type="number"
-                            placeholder="Memory를 입력하세요"
-                        />
-                        <SBtn
-                            color="black"
-                            size="small"
-                            title="버튼"
-                        />
-                    </div>
-                </SFormItem>
-
-                <SFormItem label="Limits" content-class="w-100">
-                    <div class="form-item--half">
-                        <VTextField
-                            v-model="resource.limitCpu"
-                            variant="outlined"
-                            density="compact"
-                            hide-details="auto"
-                            type="number"
-                            placeholder="CPU를 입력하세요"
-                        />
-                        <VTextField
-                            v-model="resource.limitMemory"
-                            variant="outlined"
-                            density="compact"
-                            hide-details="auto"
-                            type="number"
-                            placeholder="Memory를 입력하세요"
-                        />
-                    </div>
-                </SFormItem>
-            </SFormTable>
-        </div>
-    `
+    template: HalfFormTemplateStr
 });
 
 export const HalfFormFormItems = HalfFormTemplate.bind({});
@@ -313,8 +313,107 @@ HalfFormFormItems.parameters = {
 - info-text-color: CPU/Memory 레이블 색상
             `
         }
+    },
+    source: {
+        code: `<template>${HalfFormTemplateStr}</template>`,
+        language: 'html',
+        type: 'auto',
     }
 };
+
+const ModalFormTemplateStr = `
+<div>
+    <SBtn @click="openModal">리소스 설정</SBtn>
+
+    <SModal
+        v-model="isOpen"
+        title="리소스 설정"
+        size="large"
+        teleport-id="destination"
+    >
+        <div class="form-wrapper">
+            <s-sub-header class="sub-title" :show-cnt="false" title="기본 정보"></s-sub-header>
+            <SFormTable>
+                <SFormItem label="Requests" content-class="w-100">
+                    <div class="form-item--half">
+                        <dl class="d-flex">
+                            <dt><span class="info-text-color">CPU</span></dt>
+                            <dd class="pl-1">단위: MilliCPU/1Core = 1000 MilliCPU</dd>
+                        </dl>
+                        <dl class="d-flex">
+                            <dt><span class="info-text-color">Memory</span></dt>
+                            <dd class="pl-1">단위: MiB</dd>
+                        </dl>
+                    </div>
+                    <div class="form-item--half">
+                        <VTextField
+                            v-model="resource.requestCpu"
+                            variant="outlined"
+                            density="compact"
+                            hide-details="auto"
+                            type="number"
+                            placeholder="CPU를 입력하세요"
+                        />
+                        <VTextField
+                            v-model="resource.requestMemory"
+                            variant="outlined"
+                            density="compact"
+                            hide-details="auto"
+                            type="number"
+                            placeholder="Memory를 입력하세요"
+                        />
+                    </div>
+                </SFormItem>
+
+                <SFormItem label="Limits" content-class="w-100">
+                    <div class="form-item--half">
+                        <dl class="d-flex">
+                            <dt><span class="info-text-color">CPU</span></dt>
+                            <dd class="pl-1">단위: MilliCPU/1Core = 1000 MilliCPU</dd>
+                        </dl>
+                        <dl class="d-flex">
+                            <dt><span class="info-text-color">Memory</span></dt>
+                            <dd class="pl-1">단위: MiB</dd>
+                        </dl>
+                    </div>
+                    <div class="form-item--half">
+                        <VTextField
+                            v-model="resource.limitCpu"
+                            variant="outlined"
+                            density="compact"
+                            hide-details="auto"
+                            type="number"
+                            placeholder="CPU를 입력하세요"
+                        />
+                        <VTextField
+                            v-model="resource.limitMemory"
+                            variant="outlined"
+                            density="compact"
+                            hide-details="auto"
+                            type="number"
+                            placeholder="Memory를 입력하세요"
+                        />
+                    </div>
+                </SFormItem>
+            </SFormTable>
+        </div>
+
+        <template #footer>
+            <div class="form__btn-wrapper">
+                <SBtn
+                    title="저장"
+                    @click="onSubmit"
+                />
+                <SBtn
+                    variant="outlined"
+                    title="취소"
+                    @click="isOpen = false"
+                />
+            </div>
+        </template>
+    </SModal>
+</div>
+`
 
 const ModalFormTemplate = () => ({
     components: { SModal, SFormTable, SFormItem, SSubHeader, SBtn },
@@ -342,99 +441,7 @@ const ModalFormTemplate = () => ({
             onSubmit
         }
     },
-    template: `
-        <div>
-            <SBtn @click="openModal">리소스 설정</SBtn>
-
-            <SModal
-                v-model="isOpen"
-                title="리소스 설정"
-                size="large"
-                teleport-id="destination"
-            >
-                <div class="form-wrapper">
-                    <s-sub-header class="sub-title" :show-cnt="false" title="기본 정보"></s-sub-header>
-                    <SFormTable>
-                        <SFormItem label="Requests" content-class="w-100">
-                            <div class="form-item--half">
-                                <dl class="d-flex">
-                                    <dt><span class="info-text-color">CPU</span></dt>
-                                    <dd class="pl-1">단위: MilliCPU/1Core = 1000 MilliCPU</dd>
-                                </dl>
-                                <dl class="d-flex">
-                                    <dt><span class="info-text-color">Memory</span></dt>
-                                    <dd class="pl-1">단위: MiB</dd>
-                                </dl>
-                            </div>
-                            <div class="form-item--half">
-                                <VTextField
-                                    v-model="resource.requestCpu"
-                                    variant="outlined"
-                                    density="compact"
-                                    hide-details="auto"
-                                    type="number"
-                                    placeholder="CPU를 입력하세요"
-                                />
-                                <VTextField
-                                    v-model="resource.requestMemory"
-                                    variant="outlined"
-                                    density="compact"
-                                    hide-details="auto"
-                                    type="number"
-                                    placeholder="Memory를 입력하세요"
-                                />
-                            </div>
-                        </SFormItem>
-
-                        <SFormItem label="Limits" content-class="w-100">
-                            <div class="form-item--half">
-                                <dl class="d-flex">
-                                    <dt><span class="info-text-color">CPU</span></dt>
-                                    <dd class="pl-1">단위: MilliCPU/1Core = 1000 MilliCPU</dd>
-                                </dl>
-                                <dl class="d-flex">
-                                    <dt><span class="info-text-color">Memory</span></dt>
-                                    <dd class="pl-1">단위: MiB</dd>
-                                </dl>
-                            </div>
-                            <div class="form-item--half">
-                                <VTextField
-                                    v-model="resource.limitCpu"
-                                    variant="outlined"
-                                    density="compact"
-                                    hide-details="auto"
-                                    type="number"
-                                    placeholder="CPU를 입력하세요"
-                                />
-                                <VTextField
-                                    v-model="resource.limitMemory"
-                                    variant="outlined"
-                                    density="compact"
-                                    hide-details="auto"
-                                    type="number"
-                                    placeholder="Memory를 입력하세요"
-                                />
-                            </div>
-                        </SFormItem>
-                    </SFormTable>
-                </div>
-
-                <template #footer>
-                    <div class="form__btn-wrapper">
-                        <SBtn
-                            title="저장"
-                            @click="onSubmit"
-                        />
-                        <SBtn
-                            variant="outlined"
-                            title="취소"
-                            @click="isOpen = false"
-                        />
-                    </div>
-                </template>
-            </SModal>
-        </div>
-    `
+    template: ModalFormTemplateStr
 });
 
 export const ModalFormExample = ModalFormTemplate.bind({});
@@ -466,6 +473,11 @@ ModalFormExample.parameters = {
 - 버튼 영역 중앙 정렬
 - 버튼 최소 너비: 110px
             `
+        },
+        source: {
+            code: `<template>${ModalFormTemplateStr}</template>`,
+            language: 'html',
+            type: 'auto',
         }
     }
 };

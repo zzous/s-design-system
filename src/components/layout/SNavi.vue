@@ -36,6 +36,7 @@
               v-bind="itemProps"
               height="50px"
               active-class="menu-active"
+              :active="isMenuActive(menu.menuUrl)"
               :title="menu.menuName || menu.menuNameKr"
               :append-icon="
                 !menu.subMenus || menu.subMenus.length === 0
@@ -60,10 +61,11 @@
               class="s-navi-inner-menu"
               :class="{
                 disabled: !clickableMenu(subMenu),
-                active: selectedProject?.projectId > 0 || subMenu.dependency !== 'PROJECT',
+                active: selectedProject?.projectId > 0 || subMenu.dependency !== 'PROJECT'
               }"
               :value="subMenu.idx"
               active-class="menu-active"
+              :active="isMenuActive(subMenu.menuUrl)"
               prepend-icon="mdi-circle-small"
               @click="handleMenuClick($event, subMenu)"
             >
@@ -181,21 +183,58 @@ const goFirstMenu = () => {
   }
 }
 
+const isMenuPathMatched = (menuUrl, routerPath) => {
+  // 기본 경로가 없는 경우 처리
+  if (!menuUrl || !routerPath) return false;
+
+  // 정확히 일치하는 경우
+  if (menuUrl === routerPath) return true;
+
+  // route parameter를 포함하는 경우 처리
+  const menuParts = menuUrl.split('/').filter(Boolean);
+  const routerParts = routerPath.split('/').filter(Boolean);
+
+  // 경로 부분의 길이가 다르면 매칭되지 않음
+  if (menuParts.length !== routerParts.length) return false;
+
+  // 각 부분을 비교하면서 parameter 부분은 무시
+  return menuParts.every((part, index) => {
+    // parameter 부분(':' 으로 시작하는 경우)은 항상 true
+    if (part.startsWith(':')) return true;
+    return part === routerParts[index];
+  });
+};
+
 watch(
   () => props.routerPath,
   () => {
-    const menus = props.menuPath?.subMenus || []
-    const nowPath = props.routerPath
+    const menus = props.menuPath?.subMenus || [];
+    const nowPath = props.routerPath;
     for (const idx in menus) {
-      const pathIdx = nowPath.indexOf(menus[idx].menuUrl)
-      if (pathIdx >= 0) {
-        open.value = [menus[idx].idx]
-        break
+      // route parameter를 고려한 경로 매칭 검사
+      if (isMenuPathMatched(menus[idx].menuUrl, nowPath)) {
+        open.value = [menus[idx].idx];
+        break;
+      }
+      // 서브메뉴에 대해서도 검사
+      if (menus[idx].subMenus) {
+        const subMenuMatch = menus[idx].subMenus.some(subMenu =>
+          isMenuPathMatched(subMenu.menuUrl, nowPath)
+        );
+        if (subMenuMatch) {
+          open.value = [menus[idx].idx];
+          break;
+        }
       }
     }
   },
-  { immediate: true },
-)
+  { immediate: true }
+);
+
+// v-list-item의 active 상태를 결정하는 computed 속성 추가
+const isMenuActive = (menuUrl) => {
+  return isMenuPathMatched(menuUrl, props.routerPath);
+};
 
 const handleMenuClick = (event, subMenu) => {
   if (clickableMenu(subMenu)) {

@@ -114,7 +114,8 @@
       span {
         max-width: 100%;
         display: inline-block;
-        word-break: break-all;
+        word-break: keep-all;
+        white-space: normal;
       }
 
       &:has(span + i) {
