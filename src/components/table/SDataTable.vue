@@ -64,19 +64,19 @@
         </slot>
       </div>
     </template>
-    <template #[`header.data-table-select`]="{ allSelected, selectAll, someSelected }">
-      <slot name="header.data-table-select" :select-all="selectAll">
+    <template #[`header.data-table-select`]="bind" v-if="$slots['header.data-table-select']">
+      <slot name="header.data-table-select" v-bind="bind">
         <v-checkbox-btn
-          :indeterminate="someSelected && !allSelected"
-          :model-value="allSelected"
-          @update:model-value="selectAll(!allSelected)"
+          :indeterminate="bind.someSelected && !bind.allSelected"
+          :model-value="bind.allSelected"
+          @update:model-value="bind.selectAll(!bind.allSelected)"
         ></v-checkbox-btn>
       </slot>
     </template>
-    <template #[`item.data-table-select`]="{ internalItem, isSelected, toggleSelect }">
-      <slot name="item.data-table-select" :internalItem="internalItem" :isSelected="isSelected" :toggleSelect="toggleSelect" >
-        <template v-if="internalItem.selectable">
-          <v-checkbox-btn :model-value="isSelected(internalItem)" @update:model-value="toggleSelect(internalItem)" />
+    <template #[`item.data-table-select`]="bind" v-if="$slots['item.data-table-select']">
+      <slot name="item.data-table-select" v-bind="bind">
+        <template v-if="bind.item.selectable">
+          <v-checkbox-btn :model-value="bind.isSelected(bind.item)" @update:model-value="bind.toggleSelect(bind.item)" />
         </template>
         <template v-else>
         </template>
