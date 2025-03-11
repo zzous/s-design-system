@@ -387,7 +387,7 @@ const onEnter = (event, title, type) => {
   // key 값이 있을 때
   if (isValueSearch.value && setValue) {
     if (setValue) {
-      emit('update:model-value', valuesItem)
+      // emit('update:model-value', valuesItem)
 
       // 선택된 key, value, title 정보 저장
       const addItem = {
