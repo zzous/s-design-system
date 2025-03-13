@@ -161,6 +161,7 @@ const emit = defineEmits([
   'update:options',
   'update:model-value',
   'get-checkedbox-item',
+  'update:filtered-cnt',
 ])
 
 const props = defineProps({
@@ -430,6 +431,7 @@ const filterDatas = computed(() => {
         return false
       }),
     )
+    emit('update:filtered-cnt', filteredList.length)
     return filteredList
   }
 
@@ -481,8 +483,10 @@ const filterDatas = computed(() => {
         })
       })
     })
+    emit('update:filtered-cnt', filteredList.length)
     return filteredList
   }
+  emit('update:filtered-cnt', props.items?.length || 0)
   return props.items || []
 })
 
