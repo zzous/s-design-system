@@ -89,6 +89,10 @@
     width: 100%;
     z-index: 1;
     top: 0;
+
+    :deep(.v-input .v-input__prepend) {
+      --v-input-padding-top: 6px;
+    }
   }
 
 .s-filter-select {
@@ -128,4 +132,8 @@
   :deep(.v-btn__content) {
     grid-area: prepend;
   }
+}
+
+.s-filter-select__button.v-btn.v-btn--density-comfortable {
+  --v-btn-height: 48px;
 }

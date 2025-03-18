@@ -58,7 +58,7 @@
           <div class="v-virtual-scroll__item">
             <slot name="null-data" v-if="hasNullValue">
               <v-list-item
-                v-if="[null, 'NULL'].includes(item[props.itemValue])"
+                v-if="[null, props.nullValue].includes(item[props.itemValue])"
                 :value="nullValue"
                 :density="density"
               >
@@ -67,13 +67,13 @@
                     <v-checkbox-btn :model-value="isActive" :density="density"></v-checkbox-btn>
                   </v-list-item-action>
                 </template>
-                <v-list-item-title :selected="isActive" :title="nullTitle" :density="density">
-                  {{ nullTitle }}
-                </v-list-item-title>
+                <v-list-item-title :title="nullTitle" :density="density">
+                    {{ nullTitle }}
+                  </v-list-item-title>
               </v-list-item>
             </slot>
             <v-list-item
-              v-if="![null, 'NULL'].includes(item[props.itemValue])"
+              v-if="![null, props.nullValue].includes(item[props.itemValue])"
               :value="item[props.itemValue]"
               :density="density"
             >
@@ -83,7 +83,6 @@
                 </v-list-item-action>
               </template>
               <v-list-item-title
-                :selected="isActive"
                 :title="item[props.itemTitle]"
                 :density="density"
               >
@@ -178,9 +177,21 @@ const setAllChecked = () => {
 watch(
   () => props.items,
   () => {
-    filterItems.value = props.items
+    filterItems.value = props.items.map(item => {
+      if (item[props.itemValue] === null) {
+        return {
+          ...item,
+          [props.itemTitle]: props.nullTitle,
+          [props.itemValue]: props.nullValue,
+        }
+      }
+      return item
+    })
     setAllChecked()
   },
+  {
+    immediate: true,
+  }
 )
 
 watch(
@@ -189,16 +200,15 @@ watch(
   {
     if (searchWord.value) {
       filterItems.value = props.items.filter(item => {
-        // if (item[props.itemTitle] === null) return false
         if (
           item[props.itemTitle] === props.nullTitle ||
-          (item[props.itemTitle] === null && item[props.itemValue] === null)
+          (item[props.itemTitle] === props.nullValue && item[props.itemValue] === props.nullValue)
         ) {
           return props.hasNullValue
             ? props.nullTitle.includes(searchWord.value.trim().toLowerCase())
             : false
         }
-        if (item[props.itemTitle] !== null) {
+        if (item[props.itemTitle] !== props.nullValue) {
           if (
             item[props.itemTitle]
               .toLowerCase()
@@ -209,7 +219,7 @@ watch(
         }
         // ID 검색 허용 (기존에는 Name 검색만 허용이었으나 Id 검색도 추가)
         // ID 에는 Null Title이 없음
-        if (item[props.itemValue] !== null) {
+        if (item[props.itemValue] !== props.nullValue) {
           return item[props.itemValue]
             .toLowerCase()
             .includes(searchWord.value.trim().toLowerCase())
@@ -218,12 +228,12 @@ watch(
       })
 
       filterValues.value = props.modelValue.filter(value => {
-        if (value === props.nullValue || value === null) {
+        if (value === props.nullValue || value === props.nullValue) {
           return props.hasNullValue
             ? props.nullValue.includes(searchWord.value.trim().toLowerCase())
             : false
         }
-        if (value !== props.nullValue || value !== null) {
+        if (value !== props.nullValue || value !== props.nullValue) {
           const mapItems = filterItems.value.map(
             mItem => mItem[props.itemValue],
           )
@@ -247,6 +257,7 @@ watch(
 )
 
 const onChangeFilterValue = values => {
+  // 중복 제거
   const map = new Map(
     filterItems.value.map(item => [item[props.itemValue], item]),
   )
@@ -259,18 +270,22 @@ const someChecked = computed(() => {
   return filterValues.value.length > 0
 })
 
+const changeNullValue = (value) => {
+  return value.map(value => value === props.nullValue ? null : value)
+}
+
 const toggle = () => {
   const setData = new Set(props.modelValue)
   if (allChecked.value) {
     filterValues.value.forEach(item => {
       if (item !== null) setData.delete(item)
-      else setData.delete('NULL')
+      else setData.delete(props.nullValue)
     })
   } else {
     try {
       filterItems.value.forEach(item => {
         if (item[props.itemValue]) setData.add(item[props.itemValue])
-        else setData.add('NULL')
+        else setData.add(props.nullValue)
       })
     } catch (e) {
       console.warn(e)
@@ -278,12 +293,12 @@ const toggle = () => {
   }
   const result = Array.from(setData)
   onChangeFilterValue(result)
-  emits('update:model-value', result)
+  emits('update:model-value', changeNullValue(result))
 }
 
 const onUpdateModelValue = value => {
   onChangeFilterValue(value)
-  emits('update:model-value', value)
+  emits('update:model-value', changeNullValue(value))
 }
 </script>
 
