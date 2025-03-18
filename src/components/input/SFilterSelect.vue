@@ -1,16 +1,20 @@
 <template>
   <v-menu class="s-filter-select" :close-on-content-click="false">
     <template v-slot:activator="{ props, isActive }">
-      <v-btn
-        v-bind="props"
-        :width="width"
-        class="s-filter-select__button"
-        variant="outlined"
-        :density="density"
-        :append-icon="isActive ? 'mdi-menu-up' : 'mdi-menu-down'"
-      >
-        {{ displayText }}
-      </v-btn>
+      <v-tooltip :text="displayText" location="end">
+        <template v-slot:activator="{ props: tooltipProps }">
+          <v-btn
+            v-bind="{ ...props, ...tooltipProps }"
+            :width="width"
+            class="s-filter-select__button"
+            variant="outlined"
+            :density="density"
+            :append-icon="isActive ? 'mdi-menu-up' : 'mdi-menu-down'"
+          >
+            {{ displayText }}
+          </v-btn>
+        </template>
+      </v-tooltip>
     </template>
     <v-list
       select-strategy="classic"

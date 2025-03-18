@@ -110,7 +110,6 @@
 .s-filter-select__button {
   color: #333;
   background-color: #fff;
-  width: 200px;
   justify-content: space-between;
 
   &.v-btn--variant-outlined {
@@ -131,6 +130,13 @@
 
   :deep(.v-btn__content) {
     grid-area: prepend;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    display: inline-block;
+    width: 173px;
+    text-align: left;
+    text-transform: initial;
   }
 }
 
