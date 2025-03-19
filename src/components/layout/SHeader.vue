@@ -67,7 +67,7 @@
               :key="index"
               class="side-menu"
               :active="item.menuCode === activeMenuCode"
-              :title="item.menuName"
+              :title="menuNameLang(item)"
               @click="onClickServiceItem(item)"
             />
           </template>
@@ -141,7 +141,11 @@ const props = defineProps({
     type: String,
     default: '',
     description: '선택된 메뉴코드'
-  }
+  },
+  lang: {
+    type: String,
+    default: 'ko',
+  },
 })
 
 const emits = defineEmits([
@@ -172,6 +176,13 @@ const onClickMenuItem = value => {
 
 const onClickServiceItem = value => {
   emits('click:service-item', value)
+}
+
+const menuNameLang = (menu) => {
+  if (props.lang?.toLowerCase() === 'en') {
+    return menu.menuNameEn || menu.menuName
+  }
+  return menu.menuNameKr || menu.menuName
 }
 
 watch(

@@ -2,21 +2,25 @@
   color: #ffffff;
   margin-top: 20px;
   padding-right: 10px;
-  height: 52px;
+  min-height: 52px;
   line-height: 50px;
+  width: 300px;
 }
 #s-menu-title-wrapper a {
   text-decoration: none;
 }
 
 #s-menu-title {
-  padding-left: 20px;
   background: $main-color;
   border-radius: 0 10px 10px 0;
   font-size: 20px;
   font-weight: 700;
   color: #fff;
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  padding: 6px 20px;
+  line-height: 40px;
 }
 
 #s-menu-wrapper {
@@ -25,15 +29,18 @@
   padding-left: 30px;
   height: inherit;
   overflow-y: auto;
+  padding-bottom: 30px;
 
   :deep(.v-list) {
     padding: 0;
     .v-list-item-title {
+      text-transform: capitalize;
       @include set-text(300, 18, $s-default--gray-9);
     }
 
     .v-list-group__items {
       .v-list-item-title {
+        text-transform: capitalize;
         @include set-text(300, 16, $s-default--gray-9);
       }
     }
@@ -46,6 +53,7 @@
       .navi-inner-menu-title {
         text-decoration: none;
         color: $s-default--gray-9;
+        text-transform: capitalize;
       }
 
       &:has(.router-link-active) {
@@ -53,6 +61,7 @@
         .router-link-active {
           color: $active-font-color;
           font-weight: 600;
+          text-transform: capitalize;
         }
       }
     }
@@ -139,6 +148,7 @@
   border-right: 1px solid $s-default--gray-5;
   background-color: white;
   z-index: 1;
+  padding-bottom: 30px;
 }
 
 .s-navi-inner-menu {
@@ -154,7 +164,9 @@
   font-weight: 300;
   text-decoration: none;
   color: $s-default--gray-9;
+  text-transform: capitalize;
 }
 .s-navi-inner-menu.active:hover .s-navi-inner-menu-title {
   color: $active-font-color;
+  text-transform: capitalize;
 }

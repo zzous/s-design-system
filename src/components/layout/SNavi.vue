@@ -37,7 +37,7 @@
               height="50px"
               active-class="menu-active"
               :active="isMenuActive(menu.menuUrl)"
-              :title="menu.menuName || menu.menuNameKr"
+              :title="menuNameLang(menu)"
               :append-icon="
                 !menu.subMenus || menu.subMenus.length === 0
                   ? ''
@@ -49,7 +49,7 @@
               >
               <template v-if="!menu.subMenus || menu.subMenus.length === 0" #title>
                 <RouterLink class="navi-inner-menu-title" :to="menu.menuUrl">
-                  {{ menu.menuName || menu.menuNameKr }}
+                  {{ menuNameLang(menu) }}
                 </RouterLink>
               </template>
             </v-list-item>
@@ -76,11 +76,11 @@
                   :to="subMenu.menuUrl"
                   ref="menuLink"
                 >
-                  {{ subMenu.menuName || subMenu.menuNameKr }}
+                  {{ menuNameLang(subMenu) }}
                 </RouterLink>
                 <template v-else>
                   <span class="s-navi-inner-menu-title">
-                    {{ subMenu.menuName || subMenu.menuNameKr }}
+                    {{ menuNameLang(subMenu) }}
                     <v-tooltip v-if="subMenu.dependency === 'PROJECT'" activator="parent" location="start">
                       {{ dependencyTooltipMessage }}
                     </v-tooltip>
@@ -145,7 +145,11 @@ const props = defineProps({
     type: String,
     default: '',
     description: 'Service Name 클릭 시 이동할 메뉴의 path'
-  }
+  },
+  lang: {
+    type: String,
+    default: 'ko',
+  },
 })
 
 const emits = defineEmits(['change:project', 'click:service-name'])
@@ -181,6 +185,13 @@ const goFirstMenu = () => {
       emits('click:service-name', { path: '/' })
     // }
   }
+}
+
+const menuNameLang = (menu) => {
+  if (props.lang?.toLowerCase() === 'en') {
+    return menu.menuNameEn || menu.menuName
+  }
+  return menu.menuNameKr || menu.menuName
 }
 
 const isMenuPathMatched = (menuUrl, routerPath) => {
