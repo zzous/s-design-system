@@ -35,7 +35,7 @@
       <slot name="headers" v-bind="bind"></slot>
     </template>
 
-    <template v-for="(el, index) in headers" #[`item.${el.key}`]="bind" :key="index">
+    <template v-for="(el, index) in lazyHeaders" #[`item.${el.key}`]="bind" :key="index">
       <v-tooltip v-if="tooltip" location="bottom">
         <template #activator="{ props: dataProps }">
           <span
@@ -91,12 +91,12 @@
       <slot name="tfoot" v-bind="bind">
         <tfoot v-if="footers && Object.keys(footers).length">
           <tr class="v-data-table__tr">
-            <td
-              class="v-data-table__td"
-              v-for="(head, hIndex) in headers"
-              :key="'foot__' + hIndex"
-              :width="head.width"
-              :style="{ textAlign: head.align || 'start' }"
+            <template v-for="(head, hIndex) in lazyHeaders" :key="'foot__' + hIndex">
+              <td
+                v-if="head.align !== 'd-none'"
+                class="v-data-table__td"
+                :width="head.width"
+                :style="{ textAlign: head.align || 'start' }"
             >
               <template v-if="$slots[`footer.${head.key}`]">
                 <span :class="[footers.highlight]">
@@ -105,8 +105,9 @@
               </template>
               <template v-else>
                 <span :class="[footers.highlight]">{{ footers[head.key] }}</span>
-              </template>
-            </td>
+                </template>
+              </td>
+            </template>
           </tr>
         </tfoot>
       </slot>
@@ -569,8 +570,9 @@ const currentPage = computed({
 watch(
   () => props.headers,
   nv => {
-    lazyHeaders.value = nv
+    lazyHeaders.value = nv.filter(h => h.align !== 'd-none')
   },
+  { immediate: true }
 )
 
 watch(
@@ -590,8 +592,6 @@ watch(
 
 onMounted(() => {
   lazyPage.value = props.page
-  lazyHeaders.value = [...props.headers]
-
   // console.log(sDataTableRef.value)
 })
 

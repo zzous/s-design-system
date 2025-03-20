@@ -1,4 +1,4 @@
-import { SModal, SBtn, SSubHeader } from '@';
+import { SModal, SBtn, SSubHeader, SFormTable, SFormItem } from '@';
 import { ref } from 'vue';
 
 export default {
@@ -107,13 +107,19 @@ const editModalTemplate = `
       <div class="view-wrapper">
         <div class="form-wrapper">
           <SSubHeader title="기본 정보" :show-cnt="false" class-name="sub-title" />
+          <SFormTable>
+            <SFormItem label="이름">
+              <VTextField v-model="name" variant="outlined" density="compact" hide-details="auto" v-if="editMode" />
+              <div v-else>{{ name }}</div>
+            </SFormItem>
+          </SFormTable>
         </div>
       </div>
       <template #footer>
         <div class="form__btn-wrapper">
-          <SBtn title="수정" v-if="!editBtn" @click="editBtn = true" />
-          <SBtn title="저장" v-else @click="editBtn = false" />
-          <SBtn title="취소" variant="outlined" @click="isOpen = false" />
+          <SBtn title="수정" v-if="!editMode" @click="editMode = true" />
+          <SBtn title="저장" v-else @click="editMode = false" />
+          <SBtn title="취소" variant="outlined" @click="onClose" />
         </div>
       </template>
     </SModal>
@@ -125,16 +131,36 @@ const editModalScript = `
 import { ref } from 'vue'
 
 const isOpen = ref(false);
-const editBtn = ref(false);
+const editMode = ref(false);
+const name = ref('이름');
+
+const onClose = () => {
+  if (editMode.value) {
+    editMode.value = false;
+  } else {
+   editMode.value = false;
+    isOpen.value = false;
+  }
+}
 </script>
 `;
 
 export const DetailEditModal = (args) => ({
-  components: { SModal, SBtn, SSubHeader },
+  components: { SModal, SBtn, SSubHeader, SFormTable, SFormItem },
   setup() {
     const isOpen = ref(false);
-    const editBtn = ref(false);
-    return { args, isOpen, editBtn };
+    const editMode = ref(false);
+    const name = ref('이름');
+
+    const onClose = () => {
+      if (editMode.value) {
+        editMode.value = false;
+      } else {
+        editMode.value = false;
+        isOpen.value = false;
+      }
+    }
+    return { args, isOpen, editMode, onClose, name };
   },
   template: editModalTemplate,
 });
