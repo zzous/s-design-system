@@ -166,10 +166,6 @@ const emit = defineEmits([
 ])
 
 const props = defineProps({
-  clickRow: {
-    type: Function,
-    default: null,
-  },
   // search: String,
   options: {
     type: Object,

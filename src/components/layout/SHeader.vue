@@ -4,7 +4,7 @@
       <div class="s-logo">
         <a href.prevent.stop="#" @click="$emit('click:logo')">
           <span class="d-none">main-logo</span>
-          <img v-if="logoSrc" class="s-logo__img" :src="logoSrc" alt="logo" />
+          <img v-if="logoSrc" class="s-logo__img" :src="logoSrc" alt="logo" :logo-style="logoStyle" />
           <Logo class="s-logo__img" v-else />
         </a>
       </div>
@@ -145,6 +145,14 @@ const props = defineProps({
   lang: {
     type: String,
     default: 'ko',
+  },
+  logoStyle: {
+    type: Object,
+    default: () => ({
+      height: '30px',
+      paddingLeft: '20px',
+    }),
+    description: '로고 스타일 객체',
   },
 })
 
