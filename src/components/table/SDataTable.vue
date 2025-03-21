@@ -586,6 +586,13 @@ watch(
   }
 )
 
+watch(
+  () => props.itemsPerPage,
+  () => {
+    emit('update:page', 1)
+  }
+)
+
 onMounted(() => {
   lazyPage.value = props.page
   // console.log(sDataTableRef.value)
