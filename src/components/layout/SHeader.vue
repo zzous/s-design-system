@@ -4,7 +4,7 @@
       <div class="s-logo">
         <a href.prevent.stop="#" @click="$emit('click:logo')">
           <span class="d-none">main-logo</span>
-          <img v-if="logoSrc" class="s-logo__img" :src="logoSrc" alt="logo" :logo-style="logoStyle" />
+          <img v-if="logoSrc" class="s-logo__img" :src="logoSrc" alt="logo" :style="logoStyle" />
           <Logo class="s-logo__img" v-else />
         </a>
       </div>

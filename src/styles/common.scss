@@ -35,9 +35,12 @@ html * {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
-    width: 100%;
     align-items: center;
-    margin-bottom: 10px;
+    width: 100%;
+
+    &:has(.list-controls) {
+        align-items: flex-start;
+    }
 
     .search--half {
         display: flex;
@@ -52,6 +55,13 @@ html * {
 
     .v-field .v-field__prepend-inner .v-icon {
         --v-medium-emphasis-opacity: 1;
+    }
+
+    .list-controls {
+        display: flex;
+        gap: 10px;
+        height: 42px;
+        align-items: center;
     }
 }
 
