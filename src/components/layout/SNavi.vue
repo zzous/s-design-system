@@ -3,7 +3,7 @@
     <div id="s-menu-title-wrapper">
       <a href.stop="#" @click="goFirstMenu">
         <div id="s-menu-title">
-          {{ serviceName }}
+          {{ serviceNameText }}
         </div>
       </a>
     </div>
@@ -131,7 +131,7 @@ const props = defineProps({
   },
   serviceName: {
     type: String,
-    default: 'Service',
+    default: '',
   },
   dependencyTooltipMessage: {
     type: String,
@@ -167,6 +167,7 @@ const onChangeProject = value => {
   emits('change:project', value)
 }
 
+
 const goFirstMenu = () => {
   if (props.firstMenuPath) {
     try {
@@ -193,6 +194,11 @@ const menuNameLang = (menu) => {
   }
   return menu.menuNameKr || menu.menuName
 }
+
+
+const serviceNameText = computed(() => {
+  return props.serviceName || menuNameLang(props.menuPath)
+})
 
 const isMenuPathMatched = (menuUrl, routerPath) => {
   // 기본 경로가 없는 경우 처리

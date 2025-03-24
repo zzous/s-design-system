@@ -9,7 +9,7 @@
         </a>
       </div>
       <v-app-bar-title density="compact" variant="flat" size="small" background-color="white">
-        <v-btn v-if="showMenuBtn" class="s-btn__menu" text="서비스" @click="toggleMenu">
+        <v-btn v-if="showMenuBtn" class="s-btn__menu" :text="serviceBtnText" @click="toggleMenu">
           <template #prepend>
             <v-icon class="s-btn__menu__icon" variant="text" density="compact" icon="mdi-menu" />
           </template>
@@ -153,6 +153,10 @@ const props = defineProps({
       paddingLeft: '20px',
     }),
     description: '로고 스타일 객체',
+  },
+  serviceBtnText: {
+    type: String,
+    default: '서비스',
   },
 })
 
