@@ -35,12 +35,11 @@ html * {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
-    align-items: center;
-    margin-bottom: 10px;
     width: 100%;
 
-    &:has(.list-controls) {
-        align-items: flex-start;
+    > span:last-child {
+        align-self: baseline;
+        top: 13px;
     }
 
     .search--half {
@@ -242,19 +241,59 @@ html * {
     gap: 5px;
 
     .v-chip {
-        min-width: 45px;
-        height: 24px;
+        min-width: 45px !important;
+        height: 24px !important;
         padding: 8px 15px !important;
-        font-size: 12px;
-        font-weight: 500;
-        background: #EAF3F9;
+        font-size: 12px !important;
 
         .v-chip__underlay {
-            --v-activated-opacity: 0;
+            background: $s-blue;
         }
 
         .v-chip__close {
             color: $s-blue;
         }
+    }
+}
+
+
+.v-tabs--density-compact {
+    --v-tabs-height: 40px !important;
+}
+
+.v-slide-group__content {
+    .v-tab.v-tab {
+        background: $s-default--gray-1;
+        border-left: solid 1px $s-default--gray-5;
+        border-right: solid 1px $s-default--gray-5;
+        border-bottom: solid 1px $s-default--gray-5;
+        border-top: solid 1px $s-default--gray-5;
+
+        .v-btn__content {
+            font-size: 14px;
+            color: $s-default--gray-7;
+            font-weight: 700;
+
+            .v-tab__slider {
+                top: 0;
+                bottom: initial;
+            }
+        }
+
+        &.v-tab--selected {
+            background: #fff;
+            border-top: none;
+
+            .v-btn__content {
+                font-size: 14px;
+                color: $s-blue;
+            }
+        }
+    }
+}
+
+.v-window {
+    .view-wrapper {
+        padding-top: 10px;
     }
 }
