@@ -67,10 +67,11 @@
   .s-modal__content {
     scrollbar-gutter: stable both-edges;
     padding: 20px 10px;
-    max-height: 700px;
+    max-height: calc(100vh - 175px);
     @include scroll();
     overflow-y: auto;
     background-color: $s-base-background;
+    -webkit-overflow-scrolling: touch;
   }
   .s-modal__footer {
     width: 100%;

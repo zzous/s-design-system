@@ -43,12 +43,10 @@ defineProps({
     default: true,
   },
   onClick: {
-      type: Function,
-      description: 'description 클릭 이벤트',
-      default: () => {
-        return () => {}
-      },
-    },
+    type: Function,
+    description: 'description 클릭 이벤트',
+    default: undefined,
+  },
 })
 </script>
 

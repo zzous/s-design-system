@@ -3,11 +3,12 @@
     <v-dialog
       :model-value="isActive"
       :width="modalWidth"
-      scroll-strategy="none"
+      scroll-strategy="block"
       class="s-modal"
       :class="className"
       :size="size"
       persistent
+      scrim
       @update:model-value="onUpdateModalValue"
     >
       <template #activator="{ props }">
@@ -52,7 +53,7 @@
 </template>
 
 <script setup>
-import { watch, ref } from 'vue'
+import { watch, ref, onMounted, onBeforeUnmount } from 'vue'
 import { SBtn } from '@/index.js'
 
 const props = defineProps({
@@ -115,21 +116,36 @@ const props = defineProps({
 
 const emits = defineEmits(['update:model-value'])
 
+const isActive = ref(props.modelValue)
+
+const controlBodyScroll = (shouldLock) => {
+  if (shouldLock) {
+    document.body.style.overflow = 'hidden'
+    document.body.style.paddingRight = 'var(--v-scrollbar-offset)'
+  } else {
+    document.body.style.overflow = ''
+    document.body.style.paddingRight = ''
+  }
+}
+
+watch(() => props.modelValue, value => {
+  isActive.value = value
+  controlBodyScroll(value)
+})
+
+onBeforeUnmount(() => {
+  controlBodyScroll(false)
+})
+
 const onClickCloseModal = () => {
-  // console.log(tag, 'onClickCloseModal')
   isActive.value = false
   emits('update:model-value', false)
 }
+
 const onUpdateModalValue = value => {
   isActive.value = value
   emits('update:model-value', value)
 }
-
-const isActive = ref(props.modelValue)
-
-watch(() => props.modelValue, value => {
-  isActive.value = value
-})
 </script>
 
 <style lang="scss" scoped>

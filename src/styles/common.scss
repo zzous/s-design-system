@@ -31,6 +31,43 @@ html * {
     background-color: $s-base-background;
 }
 
+.show-header {
+    position: relative;
+    top: 0;
+    height: 100%;
+    width: 100%;
+    padding: 68px 0;
+}
+
+.base-layout {
+    width: 100%;
+    padding: 0 35px;
+    padding-top: 0;
+    background-color: #f7f9fa;
+    position: absolute;
+    overflow-x: auto;
+    @include scroll();
+
+    .show-navi {
+        margin-left: 300px;
+        min-width: 1100px;
+        min-height: calc(100vh - 136px);
+        position: relative;
+    }
+
+    &:has(.show-navi) {
+        .footer-wrapper {
+            margin-left: 300px;
+        }
+    }
+}
+
+.s-global-select:deep(.v-input) {
+    .v-field__overlay {
+        background-color: #1c2536 !important;
+    }
+}
+
 .search {
     display: flex;
     flex-wrap: wrap;

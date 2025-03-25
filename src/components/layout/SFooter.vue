@@ -8,9 +8,8 @@
 
 <style lang="scss">
 .footer-wrapper {
-  position: absolute;
+  position: relative;
   height: 50px;
-  width: 100%;
   bottom: 0px;
 }
 .footer-contents {
@@ -22,4 +21,3 @@
   background: transparent;
 }
 </style>
->

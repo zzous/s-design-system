@@ -1,6 +1,6 @@
 <template>
   <div class="progress-stages">
-    <div v-for="stage in stages" :key="stage.id" class="stage-item">
+    <div v-for="(stage, stageIndex) in stages" :key="stageIndex" class="stage-item">
       <div class="stage-header" :class="getStageHeaderClass(stage)">
         <div class="d-flex align-center">
           <v-icon :icon="getStatusIcon(stage.status)" :color="getStatusColor(stage.status)" size="small" class="mr-2" />
@@ -10,28 +10,28 @@
 
       <div class="sub-stages">
         <div
-          v-for="(subStage, index) in stage.subStages"
-          :key="subStage.id"
+          v-for="(subStage, subStageIndex) in stage.subStages"
+          :key="`${stageIndex}-${subStageIndex}`"
           class="sub-stage-item"
           :class="getStageStatusClass(subStage)"
         >
           <div class="d-flex align-center justify-space-between">
             <span :style="{ color: getTextColor(subStage.status) }">
-              {{ `${stage.id}-${index + 1}. ${subStage.title}` }}
+              {{ subStage.title }}
             </span>
             <v-icon
               v-if="subStage.children?.length"
-              :icon="expanded.includes(subStage.id) ? 'mdi-chevron-up' : 'mdi-chevron-down'"
+              :icon="expanded.includes(`${stageIndex}-${subStageIndex}`) ? 'mdi-chevron-up' : 'mdi-chevron-down'"
               size="small"
-              @click.stop="toggleSubStage(subStage)"
+              @click.stop="toggleSubStage(`${stageIndex}-${subStageIndex}`)"
             />
           </div>
 
           <v-expand-transition>
-            <div v-if="expanded.includes(subStage.id) && subStage.children?.length" class="sub-stage-children">
+            <div v-if="expanded.includes(`${stageIndex}-${subStageIndex}`) && subStage.children?.length" class="sub-stage-children">
               <div
-                v-for="child in subStage.children"
-                :key="child.id"
+                v-for="(child, index) in subStage.children"
+                :key="index"
                 class="sub-stage-child"
                 :class="getStageStatusClass(child)"
               >
@@ -57,10 +57,10 @@ const { stages } = defineProps({
 
 const expanded = ref([])
 
-const toggleSubStage = subStage => {
-  const index = expanded.value.indexOf(subStage.id)
+const toggleSubStage = key => {
+  const index = expanded.value.indexOf(key)
   if (index === -1) {
-    expanded.value.push(subStage.id)
+    expanded.value.push(key)
   } else {
     expanded.value.splice(index, 1)
   }
