@@ -72,6 +72,7 @@ html * {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
+    min-height: 40px;
     width: 100%;
 
     > span:last-child {
