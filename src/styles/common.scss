@@ -310,7 +310,7 @@ html * {
         .v-btn__content {
             font-size: 14px;
             color: $s-default--gray-7;
-            font-weight: 700;
+            font-weight: 600;
 
             .v-tab__slider {
                 top: 0;
@@ -324,7 +324,7 @@ html * {
 
             .v-btn__content {
                 font-size: 14px;
-                color: $s-blue;
+                color: $active-font-color;
             }
         }
     }
