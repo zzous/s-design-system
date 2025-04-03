@@ -109,5 +109,9 @@
     margin: 0;
     // width: var(--s-modal-width);
     max-width: inherit;
+
+    .v-card {
+      overflow-y: hidden;
+    }
   }
 }
