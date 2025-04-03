@@ -1,34 +1,44 @@
 .s-modal {
   &[size="x-large"] {
-    width: 1450px;
+    // width: 1450px;
+    --s-modal-width: 1450px;
     --s-form-item-label-width: 170px;
     --s-text-field-min-width: 1068px;
     --s-text-select-min-width: 1068px;
   }
 
   &[size="large"] {
-    width: 1300px;
+    // width: 1300px;
+    --s-modal-width: 1300px;
+    max-width: var(--s-modal-width);
     --s-form-item-label-width: 170px;
     --s-text-field-min-width: 918px;
     --s-text-select-min-width: 918px;
   }
 
   &[size="medium"] {
-    width: 1000px;
+    // width: 1000px;
+    --s-modal-width: 1000px;
+    max-width: var(--s-modal-width);
     --s-form-item-label-width: 170px;
     --s-text-field-min-width: 618px;
     --s-text-select-min-width: 618px;
   }
 
   &[size="small"] {
-    width: 500px;
+    // width: 500px;
+    --s-modal-width: 500px;
     --s-form-item-label-width: 120px;
     --s-text-field-min-width: 270px;
     --s-text-select-min-width: 270px;
   }
 
   &[size="x-small"] {
-    width: 460px;
+    // width: 460px;
+    --s-modal-width: 460px;
+    --s-form-item-label-width: 120px;
+    --s-text-field-min-width: 270px;
+    --s-text-select-min-width: 270px;
   }
 
   .s-modal__title {
@@ -69,9 +79,9 @@
     padding: 20px 10px;
     max-height: calc(100vh - 175px);
     @include scroll();
-    overflow-y: auto;
     background-color: $s-base-background;
     -webkit-overflow-scrolling: touch;
+    width: calc(var(--s-modal-width) - 48px);
   }
   .s-modal__footer {
     width: 100%;
@@ -89,10 +99,15 @@
       padding-inline-end: 0;
       width: 100%;
     }
+
+    .v-card-item__content {
+      overflow: auto;
+    }
   }
 
   :deep(.v-overlay__content) {
-    width: inherit;
+    margin: 0;
+    // width: var(--s-modal-width);
     max-width: inherit;
   }
 }

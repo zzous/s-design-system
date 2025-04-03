@@ -8,7 +8,7 @@
       </a>
     </div>
     <slot name="default">
-      <div v-if="projectList && projectList.length" id="project_select_wrapper">
+      <div v-if="useProject" id="project_select_wrapper">
         <div class="project_select">
           <v-select
             width="238px"
