@@ -1,0 +1,17 @@
+stages:
+  - release
+
+release_notes:
+  stage: release
+  script:
+    - LATEST_TAG=$(git tag --sort=-v:refname | head -n 1)
+    - PREV_TAG=$(git tag --sort=-v:refname | sed -n '2p')
+    - NOTES=$(git log --pretty=format:"- %s (%an)" ${PREV_TAG}..${LATEST_TAG})
+    - |
+      curl --request POST --header "PRIVATE-TOKEN: $GITLAB_TOKEN" \
+           --data "name=$LATEST_TAG" \
+           --data "tag_name=$LATEST_TAG" \
+           --data "description=$NOTES" \
+           "https://gitlab.com/api/v4/projects/$CI_PROJECT_ID/releases"
+  only:
+    - main
