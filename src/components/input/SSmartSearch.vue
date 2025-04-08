@@ -217,7 +217,7 @@ const filterItems = computed(() => {
         setFilterDatas.add(item[selectedKeyItem.value])
       }
     })
-    console.log('setFilterDatas', setFilterDatas)
+    // console.log('setFilterDatas', setFilterDatas)
     const uniqueArr = _.cloneDeep(setFilterDatas)
     const keyItem = searchValue.value?.split(':')[0]
     if (keyItem) {
@@ -330,10 +330,7 @@ const onEnter = (event, title, type) => {
 
   // value 값
   const searchValueSplit = searchValue.value?.split(':') || []
-  const setValue =
-    searchValueSplit?.length > 1 && searchValueSplit[1]?.trim()
-      ? searchValue.value.replace(`${searchValue.value?.split(':')[0]}:`, '')
-      : title?.toString().trim()
+  const setValue = title?.toString().trim()
   if (!isValueSearch.value) {
     inputValue =
       searchValueSplit.length && searchValueSplit[0].trim()
