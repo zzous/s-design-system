@@ -75,13 +75,10 @@
   }
 
   .s-modal__content {
-    scrollbar-gutter: stable both-edges;
-    padding: 20px 10px;
+    padding: 20px 10px 20px 0px;
     max-height: calc(100vh - 175px);
-    @include scroll();
     background-color: $s-base-background;
-    -webkit-overflow-scrolling: touch;
-    width: calc(var(--s-modal-width) - 48px);
+    width: calc(var(--s-modal-width) - 20px);
   }
   .s-modal__footer {
     width: 100%;
@@ -102,13 +99,20 @@
 
     .v-card-item__content {
       overflow: auto;
+      scrollbar-gutter: stable both-edges;
+      @include scroll();
+      -webkit-overflow-scrolling: touch;
+      background-color: $s-base-background;
+    }
+    .v-card-item__append {
+      background-color: $s-base-background;
     }
   }
 
   :deep(.v-overlay__content) {
     margin: 0;
-    // width: var(--s-modal-width);
-    max-width: inherit;
+    width: calc(100% - 8px);
+    max-width: fit-content;
 
     .v-card {
       overflow-y: hidden;
