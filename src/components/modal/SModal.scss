@@ -5,6 +5,8 @@
     --s-form-item-label-width: 170px;
     --s-text-field-min-width: 1068px;
     --s-text-select-min-width: 1068px;
+    --s-text-field-max-width: 100%;
+    --s-text-select-max-width: 100%;
   }
 
   &[size="large"] {
@@ -14,6 +16,8 @@
     --s-form-item-label-width: 170px;
     --s-text-field-min-width: 918px;
     --s-text-select-min-width: 918px;
+    --s-text-field-max-width: 100%;
+    --s-text-select-max-width: 100%;
   }
 
   &[size="medium"] {
@@ -23,6 +27,8 @@
     --s-form-item-label-width: 170px;
     --s-text-field-min-width: 618px;
     --s-text-select-min-width: 618px;
+    --s-text-field-max-width: 100%;
+    --s-text-select-max-width: 100%;
   }
 
   &[size="small"] {
@@ -31,6 +37,8 @@
     --s-form-item-label-width: 120px;
     --s-text-field-min-width: 270px;
     --s-text-select-min-width: 270px;
+    --s-text-field-max-width: 100%;
+    --s-text-select-max-width: 100%;
   }
 
   &[size="x-small"] {
@@ -39,6 +47,8 @@
     --s-form-item-label-width: 120px;
     --s-text-field-min-width: 270px;
     --s-text-select-min-width: 270px;
+    --s-text-field-max-width: 100%;
+    --s-text-select-max-width: 100%;
   }
 
   .s-modal__title {
@@ -74,11 +84,15 @@
     }
   }
 
+  .s-modal__content-wrapper {
+    width: calc(var(--s-modal-width) - 20px);
+  }
+
   .s-modal__content {
-    padding: 20px 10px 20px 0px;
+    padding: 20px 0px 20px 10px;
     max-height: calc(100vh - 175px);
     background-color: $s-base-background;
-    width: calc(var(--s-modal-width) - 20px);
+    width: calc(var(--s-modal-width) - 30px);
   }
   .s-modal__footer {
     width: 100%;
@@ -111,7 +125,7 @@
 
   :deep(.v-overlay__content) {
     margin: 0;
-    width: calc(100% - 8px);
+    width: 100%;
     max-width: fit-content;
 
     .v-card {

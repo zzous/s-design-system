@@ -38,8 +38,10 @@
         </template>
 
         <template v-if="modelValue" #item>
-          <div class="s-modal__content">
-            <slot name="default" />
+          <div class="s-modal__content-wrapper">
+            <div class="s-modal__content">
+              <slot name="default" />
+            </div>
           </div>
         </template>
         <template #append>
