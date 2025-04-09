@@ -110,7 +110,7 @@
   &.fixed-table :deep(table) {
     table-layout: fixed;
 
-    .v-data-table__td {
+    tbody .v-data-table__td {
       > * {
         width: 100%;
         max-width: 100%;
