@@ -44,6 +44,9 @@
             :class="[
               bind.item.highlight,
             ]"
+            :style="{
+              maxWidth: tableColumnWidth(el.width),
+            }"
           >
             {{ isEmpty(bind.item[el.key]) ? '-' : bind.item[el.key] }}
           </span>
@@ -601,6 +604,15 @@ onMounted(() => {
 // tr class를 결정하는 함수 추가
 const getItemClass = (item) => {
   return item.highlight || ''  // highlight 속성이 있으면 해당 클래스를 반환
+}
+
+const tableColumnWidth = (width) => {
+  if (width && (width?.toString()?.endsWith('%') || width?.toString()?.endsWith('px'))) {
+    return width
+  } else if (width) {
+    return `${width}px`
+  }
+  return '250px'
 }
 </script>
 

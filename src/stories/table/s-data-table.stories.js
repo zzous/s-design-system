@@ -219,6 +219,7 @@ const Template = (args) => ({
             :headers="headers"
             :items="items"
             :page="page"
+            tooltip
             :search="searchValue"
             @update:page="updatePage"
         />
@@ -256,7 +257,7 @@ Default.args = {
     ],
     items: [
         {
-            "vpcName": "default-vpc",
+            "vpcName": "default-vpcasdfklajshflkasjdfhlaksjdfhlaksdjfhlaksjdfhlaksjdhflaksjdfhlaksjdfhlaksjdfhlaksdjfh",
             "vpcId": "vpc-1001",
             "cloudType": "AWS",
             "regionCode": "us-west-1"
