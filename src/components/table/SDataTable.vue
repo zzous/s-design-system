@@ -39,6 +39,7 @@
       <v-tooltip v-if="tooltip" location="bottom">
         <template #activator="{ props: dataProps }">
           <span
+            v-if="!$slots[`item.${el.key}`]"
             v-bind="dataProps"
             class="d-inline-block text-truncate s-table-column__text"
             :class="[
@@ -49,6 +50,11 @@
             }"
           >
             {{ isEmpty(bind.item[el.key]) ? '-' : bind.item[el.key] }}
+          </span>
+          <span v-else>
+            <slot :name="`item.${el.key}`" v-bind="bind">
+              {{ isEmpty(bind.item[el.key]) ? '-' : bind.item[el.key] }}
+            </slot>
           </span>
         </template>
         <span>
