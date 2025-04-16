@@ -45,6 +45,7 @@
           <template v-slot:prepend>
             <v-list-item-action start>
               <v-checkbox-btn
+                class="s-filter-select__checkbox-btn"
                 :indeterminate="someChecked && !allChecked"
                 :model-value="allChecked"
                 :density="density"
@@ -68,12 +69,12 @@
               >
                 <template v-slot:prepend="{ isActive }">
                   <v-list-item-action start>
-                    <v-checkbox-btn :model-value="isActive" :density="density"></v-checkbox-btn>
+                    <v-checkbox-btn class="s-filter-select__checkbox-btn" :model-value="isActive" :density="density"></v-checkbox-btn>
                   </v-list-item-action>
                 </template>
                 <v-list-item-title :title="nullTitle" :density="density">
-                    {{ nullTitle }}
-                  </v-list-item-title>
+                  {{ nullTitle }}
+                </v-list-item-title>
               </v-list-item>
             </slot>
             <v-list-item

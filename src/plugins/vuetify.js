@@ -19,7 +19,7 @@ export default createVuetify(
             VCard, VCardText, VCardActions, VIcon, VPagination, VDataTable, VFooter,
             VApp, VAppBar, VAppBarTitle, VAvatar, VOverlay, VMain, VCheckboxBtn, VTooltip,
             VSelect, VAutocomplete, VChipGroup, VChip, VListSubheader, VProgressCircular, VExpandTransition,
-            VVirtualScroll, VDivider, VListItemAction
+            VVirtualScroll, VDivider, VListItemAction, VListItemAction
         },
         directives,
         icons: {

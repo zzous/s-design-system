@@ -9,6 +9,7 @@ export {default as SRefreshBtn} from './components/button/SRefreshBtn.vue';
 export {default as STextCheckBoxInput} from './components/input/STextCheckBoxInput.vue';
 export {default as SShellScriptInput} from './components/input/SShellScriptInput.vue';
 export {default as SFileInputBtn} from './components/input/SFileInputBtn.vue';
+export {default as SKeyValueSelect} from './components/input/SKeyValueSelect.vue';
 export {default as SAlert} from './components/alert/SAlert.vue';
 export {default as SEmpty} from './components/containment/SEmpty.vue';
 export {default as SScriptEditor} from './components/editor/SScriptEditor.vue';

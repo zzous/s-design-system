@@ -139,6 +139,24 @@ html * {
             @include set-text(500, 12, $s-default--gray-9);
         }
     }
+
+    .v-list-item--density-comfortable.v-list-item--one-line {
+        min-height: 24px;
+
+        .v-list-item-title {
+            @include set-text(500, 14, $s-default--gray-9);
+        }
+    }
+
+    .v-virtual-scroll__container {
+        .v-virtual-scroll__item {
+            margin:0 5px;
+        }
+
+        .v-virtual-scroll__item + .v-virtual-scroll__item {
+            margin-top: 5px;
+        }
+    }
 }
 
 .v-input {
