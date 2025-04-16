@@ -13,9 +13,11 @@
     <template v-slot:activator="{ props, isActive }">
       <s-btn
         v-bind="props"
+        :width="width"
         class="s-key-value-selector__button"
         variant="outlined"
         color="black"
+        :density="density"
         :append-icon="isActive ? 'mdi-menu-up' : 'mdi-menu-down'"
       >
         {{ displayText }}
@@ -112,7 +114,7 @@
                     </s-btn>
                   </template>
 
-                  <v-list>
+                  <v-list :density="density">
                     <v-list-item
                       class="s-key-value-selector__list-item"
                       :title="allSelectButtonText"
@@ -274,9 +276,17 @@ const props = defineProps({
     type: String,
     default: '전체 선택',
   },
-  getAvailableValues: {
+  getValueList: {
     type: Function,
     default: () => [],
+  },
+  density: {
+    type: String,
+    default: 'comfortable',
+  },
+  width: {
+    type: [String, Number],
+    default: 316,
   },
 })
 const emits = defineEmits([
@@ -301,7 +311,7 @@ const fetchValueListsForKey = async keys => {
       const reqUseKeyValueList = { keys: [key] }
       let valueList = []
 
-      valueList = await props.getAvailableValues(key)
+      valueList = await props.getValueList(props.type, reqUseKeyValueList)
 
       let processedValues = []
       if (
@@ -399,6 +409,10 @@ const displayText = computed(() => {
 })
 
 const getAvailableKeys = () => {
+  const keyType = props.keyList.at(0)
+  if (keyType === typeof {}) {
+    return props.keyList.map(item => item.key)
+  }
   return props.keyList
 }
 
@@ -597,10 +611,6 @@ const handleValueApply = index => {
       border: thin solid $s-default--gray-5;
     }
 
-    &:nth-child(n + 1) {
-      margin-left: 10px;
-    }
-
     &.v-btn.v-btn--density-compact {
       --v-btn-height: 42px;
     }
@@ -767,6 +777,10 @@ const handleValueApply = index => {
       color: #1976d2 !important;
     }
   }
+}
+
+.s-key-value-selector__button.v-btn.v-btn--density-comfortable {
+  --v-btn-height: 48px;
 }
 
 </style>
