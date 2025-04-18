@@ -176,3 +176,9 @@
     }
   }
 }
+
+.s-data-table-pagination {
+  :deep(.v-btn__overlay) {
+    background-color: #0D69D4;
+  }
+}
