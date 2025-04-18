@@ -140,7 +140,7 @@
           :model-value="currentPage"
           size="small"
           rounded
-          active-color="#0D69D4"
+          active-color="#1B75BB"
           variant="flat"
           :total-visible="10"
           :length="options?.pageCnt || pageCnt"
