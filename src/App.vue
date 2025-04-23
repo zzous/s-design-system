@@ -1,5 +1,6 @@
 <script setup>
-import { SBtn, SDataTable } from './index.js';
+import { SBtn, SDataTable, SFilterSelect } from './index.js';
+import { ref } from 'vue';
 
 const headers = [
   {
@@ -21,8 +22,15 @@ const items = [
     name: '이순신',
     age: 30,
   },
-
+  {
+    name: null,
+    age: null,
+  },
 ];
+
+const selected = ref([]);
+
+const nullTitle = '빈 값';
 
 const handleSortBy = (key) => {
   console.log(key);
@@ -34,6 +42,25 @@ const handleSortBy = (key) => {
   <s-btn>버튼</s-btn>
 
   <s-data-table :headers="headers" :items="items" @update:sortBy="handleSortBy" />
+
+  <hr />
+
+  <br />
+
+  <s-filter-select
+    v-model="selected"
+    density="comfortable"
+    variant="outlined"
+    hide-details
+    multiple
+    width="230px"
+    :items="items"
+    item-title="name"
+    item-value="age"
+    :null-title="nullTitle"
+    has-null-value
+    :display-text="`선택된 항목 ${selected.length}개`"
+  />
 </div>
 </template>
 

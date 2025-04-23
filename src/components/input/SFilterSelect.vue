@@ -21,7 +21,7 @@
       :item-title="props.itemTitle"
       :item-value="props.itemValue"
       :items="filterItems"
-      :selected="modelValue"
+      :selected="filterValues"
       :density="density"
       min-width="360px"
       @update:selected="onUpdateModelValue"
@@ -166,7 +166,7 @@ const props = defineProps({
 const emits = defineEmits(['update:model-value'])
 
 const searchWord = ref(null)
-const filterItems = ref(props.items)
+const filterItems = ref([])
 const filterValues = ref([])
 
 const allChecked = ref(false)
@@ -198,6 +198,27 @@ watch(
     immediate: true,
   }
 )
+
+const setNullValues = () => {
+  if (props.hasNullValue) {
+    filterValues.value = props.modelValue.filter(value => {
+    if (value === props.nullValue || value === props.nullValue) {
+      return props.hasNullValue
+        ? props.nullValue.includes(searchWord.value.trim().toLowerCase())
+        : false
+    }
+    if (value !== props.nullValue || value !== props.nullValue) {
+      const mapItems = filterItems.value.map(
+        mItem => mItem[props.itemValue],
+      )
+      return mapItems.includes(value)
+    }
+      return false
+    })
+  } else {
+    filterValues.value = props.modelValue
+  }
+}
 
 watch(
   () => searchWord.value,
@@ -232,26 +253,13 @@ watch(
         return false
       })
 
-      filterValues.value = props.modelValue.filter(value => {
-        if (value === props.nullValue || value === props.nullValue) {
-          return props.hasNullValue
-            ? props.nullValue.includes(searchWord.value.trim().toLowerCase())
-            : false
-        }
-        if (value !== props.nullValue || value !== props.nullValue) {
-          const mapItems = filterItems.value.map(
-            mItem => mItem[props.itemValue],
-          )
-          return mapItems.includes(value)
-        }
-        return false
-      })
+      setNullValues()
     } else {
       filterItems.value = props.items
-      filterValues.value = props.modelValue
+      setNullValues()
     }
     setAllChecked()
-  },
+  }
 )
 
 watch(
