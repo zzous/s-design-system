@@ -288,7 +288,7 @@ const changeNullValue = (value) => {
 }
 
 const toggle = () => {
-  const setData = new Set(props.modelValue)
+  const setData = new Set(filterValues.value)
   if (allChecked.value) {
     filterValues.value.forEach(item => {
       if (item !== null) setData.delete(item)
