@@ -36,6 +36,7 @@ export {default as SFilterSelect} from './components/input/SFilterSelect.vue';
 export {default as SUserSettings} from './components/user-settings/SUserSettings.vue';
 export {default as SDetailTooltip} from './components/tooltip/SDetailTooltip.vue';
 export {default as SSimpleTooltip} from './components/tooltip/SSimpleTooltip.vue';
+export {default as SListInput} from './components/input/SListInput.vue';
 
 // Utils
 export {default as stringUtil} from './utils/stringUtil.js'
