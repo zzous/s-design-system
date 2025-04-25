@@ -340,3 +340,110 @@ DynamicSelect.parameters = {
         }
     }
 }
+
+const dynamicItemsCode = `
+<template>
+  <SListInput
+    v-model="items"
+    :headers="headers"
+  />
+</template>
+
+<script setup>
+import { ref } from 'vue'
+
+const headers = [
+  {
+    title: '카테고리',
+    key: 'category',
+    type: 'select',
+    items: (rowIndex) => {
+      // 행 인덱스에 따라 다른 옵션 제공
+      return rowIndex === 0
+        ? [
+            { title: '전자제품', value: 'electronics' },
+            { title: '의류', value: 'clothing' }
+          ]
+        : [
+            { title: '식품', value: 'food' },
+            { title: '생활용품', value: 'daily' }
+          ]
+    },
+    itemTitle: 'title',
+    itemValue: 'value',
+    placeholder: '카테고리를 선택하세요'
+  },
+  {
+    title: '상품명',
+    key: 'name',
+    placeholder: '상품명을 입력하세요'
+  }
+]
+
+const items = ref([
+  { category: 'electronics', name: '스마트폰' },
+  { category: 'food', name: '과일' }
+])
+</script>
+`
+
+export const DynamicItems = Template.bind({})
+DynamicItems.args = {
+    headers: [
+        {
+            title: '카테고리',
+            key: 'category',
+            type: 'select',
+            items: (rowIndex) => {
+                return rowIndex === 0
+                    ? [
+                        { title: '전자제품', value: 'electronics' },
+                        { title: '의류', value: 'clothing' }
+                    ]
+                    : [
+                        { title: '식품', value: 'food' },
+                        { title: '생활용품', value: 'daily' }
+                    ]
+            },
+            itemTitle: 'title',
+            itemValue: 'value',
+            placeholder: '카테고리를 선택하세요'
+        },
+        {
+            title: '상품명',
+            key: 'name',
+            placeholder: '상품명을 입력하세요'
+        }
+    ]
+}
+
+DynamicItems.parameters = {
+    docs: {
+        source: {
+            code: dynamicItemsCode,
+            language: 'vue',
+            type: 'auto'
+        },
+        description: {
+            story: `
+행 인덱스에 따라 다른 선택 옵션을 제공하는 예시입니다.
+
+**주요 기능**
+- 첫 번째 행: 전자제품, 의류 카테고리 선택 가능
+- 두 번째 행: 식품, 생활용품 카테고리 선택 가능
+- 동적 데이터 바인딩
+- 입력값 유효성 검사
+
+**컴포넌트 구성**
+- 헤더 영역
+- 동적 선택 입력 영역
+- 텍스트 입력 영역
+
+**데이터 바인딩**
+- \`v-model\`: 입력 데이터
+- \`headers\`: 동적 선택 옵션 설정
+  - \`items\`를 함수로 설정하여 행 인덱스에 따라 다른 옵션 제공
+            `
+        }
+    }
+}

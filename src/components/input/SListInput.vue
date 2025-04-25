@@ -30,7 +30,7 @@
               hide-details
               :item-title="header.itemTitle"
               :item-value="header.itemValue"
-              :items="typeof header.items === 'function' ? header.items(rowIndex) : header.items"
+              :items="getSelectItems(header, rowIndex)"
               :placeholder="header.placeholder"
               :rules="header.rules"
             />
@@ -101,6 +101,13 @@ const initialModel = computed(() => {
     ...result,
   }
 })
+
+const getSelectItems = (header, rowIndex) => {
+  if (typeof header.items === 'function') {
+    return header.items(rowIndex)
+  }
+  return header.items
+}
 
 const onClickRemoveRow = idx => {
   const findIdx = model.value.findIndex(item => item.idx === idx)
