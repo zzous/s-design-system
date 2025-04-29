@@ -124,10 +124,6 @@
     border: thin solid $s-default--gray-5;
   }
 
-  &:nth-child(n + 1) {
-    margin-left: 10px;
-  }
-
   &.v-btn.v-btn--density-compact {
     --v-btn-height: 42px;
   }
