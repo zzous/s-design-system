@@ -10,7 +10,11 @@ export default {
         variant: {control: {type: 'select'}, options: ["elevated", "outlined"], description: '버튼 타입'},
         size: {control: {type: 'select'}, options: [undefined, 'x-small', 'small', 'large', 'x-large'], description: '버튼 사이즈'},
         height: { control: { type: 'text' }, description: '버튼 높이'},
-        color: {control: {type: 'select'}, options: ["blue", "red", "black"], description: '버튼 색상'},
+        color: {
+            control: {type: 'select'},
+            options: ["blue", "red", "black", "violet"],
+            description: '버튼 색상\n- blue: 주요 액션\n- red: 삭제/취소 액션\n- black: 기본 액션\n- violet: 목록 내부의 버튼에 사용'
+        },
         icon: {control: {type: 'text'}, description: '아이콘 버튼'},
     },
 };
@@ -96,6 +100,8 @@ const iconTemplate = `
         <SBtn class="mr-5" size="small" color="blue" icon="mdi-plus" />
         <SBtn class="mr-5" size="x-small" variant="outlined" color="red" icon="mdi-plus" />
         <SBtn class="mr-5" size="small" color="red" icon="mdi-plus" />
+        <SBtn class="mr-5" size="x-small" variant="outlined" color="violet" icon="mdi-plus" />
+        <SBtn class="mr-5" size="small" color="violet" icon="mdi-plus" />
     </div>
 `;
 
@@ -118,6 +124,23 @@ ButtonIcon.parameters = {
             code: `<template>${iconTemplate}</template>`,
             language: 'html',
             type: 'auto',
+        },
+        description: {
+            story: `
+아이콘 버튼 사용 예시입니다.
+
+**색상별 사용 용도**
+- blue: 주요 액션 버튼
+- red: 삭제/취소 액션 버튼
+- black: 기본 액션 버튼
+- violet: 목록 내부의 버튼에 사용
+
+**사이즈별 사용 예시**
+- x-small: 작은 공간에서 사용
+- small: 일반적인 사용
+- large: 강조가 필요한 경우
+- x-large: 매우 강조가 필요한 경우
+            `
         }
     },
 };

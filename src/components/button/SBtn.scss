@@ -36,9 +36,22 @@
         background: $s-btn--red-1;
       }
     }
+
+    &[s-color='violet'] {
+      border-color: $s-btn--violet-1;
+      color: $s-btn--violet-1;
+      &:hover .v-btn__overlay {
+        background: $s-btn--violet-1;
+      }
+    }
     &:disabled {
       border-color: $s-default--gray-5;
       color: $s-default--gray-5;
     }
+  }
+
+  &.v-btn--size-small {
+    font-size: 14px;
+    --v-btn-height: 30px;
   }
 }
