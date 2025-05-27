@@ -477,12 +477,12 @@ const filterDatas = computed(() => {
           if (option.type !== 'tag') {
             if (typeof data[option.key] === 'object') {
               const searchData = JSON.stringify(data[option.key])
-              return searchData.toLowerCase().indexOf(option.value.toLowerCase()) > -1
+              return searchData.toLowerCase() === option.value.toLowerCase()
             }
             if (typeof data[option.key] === 'number') {
-              return data[option.key].toString().indexOf(option.value) > -1
+              return data[option.key].toString() === option.value
             }
-            return data[option.key].toLowerCase().indexOf(option.value.toLowerCase()) > -1
+            return data[option.key].toLowerCase() === option.value.toLowerCase()
           }
 
           return false

@@ -8,12 +8,21 @@
             v-for="(header, index) in filterHeaders"
             :key="'header-key--' + index"
             class="s-card-table__header-item-title"
+            :class="{ 'sortable': !header.disableSort }"
+            :data-sorted="!!props.sortBy.find(sort => sort.key === header.key)"
             :style="{
               width: widthStyleTranslate(header.width),
               justifyContent: header.align,
             }"
+            @click="!header.disableSort && onSort(header)"
           >
             {{ header.title }}
+            <v-icon
+              v-if="!header.disableSort"
+              :icon="getSortIcon(header)"
+              size="small"
+              class="ml-1 sort-icon"
+            />
           </li>
         </ul>
       </div>
@@ -123,7 +132,7 @@ const props = defineProps({
     default: false,
     description: '',
   },
-  datas: {
+  items: {
     type: Array,
     default: () => {
       return []
@@ -221,10 +230,25 @@ const props = defineProps({
     type: String,
     default: 'single',
     description: 'select strategy 가능한 값 single, all (page는 아직 작업이 되지 않았습니다.)',
+  },
+  disableSort: {
+    type: Boolean,
+    default: false,
+    description: '정렬 기능 비활성화 여부',
+  },
+  sortBy: {
+    type: Array,
+    default: () => [],
+    description: '정렬 상태를 관리하는 배열'
   }
 })
 
-const emits = defineEmits(['update:page', 'update:selected'])
+const emits = defineEmits([
+  'update:page',
+  'update:selected',
+  'update:filtered-cnt',
+  'update:sort-by'
+])
 
 /* pagination 처리 */
 const lazyPage = ref(1)
@@ -238,35 +262,48 @@ const filterHeaders = computed(() => {
   return props.headers.filter(item => item.key !== props.itemTitle)
 })
 
-const paginatedItems = computed(() => {
-  if (!props.options?.pageCnt) {
-    const start = (props.page - 1) * props.itemsPerPage
-    const end = start + props.itemsPerPage
-    return filterDatas.value.slice(start, end)
+// 정렬 관련 상태
+const onSort = (header) => {
+  if (props.disableSort) return
+
+  let newSortBy = [...props.sortBy]
+  const existingSort = newSortBy.find(sort => sort.key === header.key)
+
+  if (existingSort) {
+    if (existingSort.order === 'asc') {
+      existingSort.order = 'desc'
+    } else if (existingSort.order === 'desc') {
+      newSortBy = newSortBy.filter(sort => sort.key !== header.key)
+    }
+  } else {
+    newSortBy = [{ key: header.key, order: 'asc' }]
   }
-  return filterDatas.value
-})
+
+  emits('update:sort-by', newSortBy)
+}
 
 const filterDatas = computed(() => {
+  // console.log(props.items, 'props.items')
   if (props.search) {
     // 일반 검색 (no smart search)
     const keys = props.headers.map(h => h.key)
-    const filteredList = props.datas.filter(data =>
+    const filteredList = props.items.filter(data =>
       keys.some(key => {
         if (data[key]) {
           if (typeof data[key] === typeof {} || typeof data[key] === typeof []) {
-            return JSON.stringify(data[key]).indexOf(props.search) > -1
+            return JSON.stringify(data[key]).toLowerCase().indexOf(props.search.toLowerCase()) > -1
           }
-          return data[key].toString().indexOf(props.search) > -1
+          return data[key].toString().toLowerCase().indexOf(props.search.toLowerCase()) > -1
         }
         return false
       }),
     )
+    emits('update:filtered-cnt', filteredList.length)
     return filteredList
   }
 
   if (props.smartSearch.length) {
-      const filteredList = props.datas.filter(data => {
+    const filteredList = props.items.filter(data => {
       // 검색 조건을 key별로 그룹화
       const groupedSearches = props.smartSearch.reduce((acc, option) => {
         if (!acc[option.key]) {
@@ -301,38 +338,61 @@ const filterDatas = computed(() => {
           if (option.type !== 'tag') {
             if (typeof data[option.key] === 'object') {
               const searchData = JSON.stringify(data[option.key])
-              return searchData.toLowerCase().indexOf(option.value.toLowerCase()) > -1
+              return searchData.toLowerCase() === option.value.toLowerCase()
             }
             if (typeof data[option.key] === 'number') {
-              return data[option.key].toString().indexOf(option.value) > -1
+              return data[option.key].toString() === option.value
             }
-            return data[option.key].toLowerCase().indexOf(option.value.toLowerCase()) > -1
+            return data[option.key].toLowerCase() === option.value.toLowerCase()
           }
 
           return false
         })
       })
     })
+    emits('update:filtered-cnt', filteredList.length)
     return filteredList
   }
-  // vuetify 업그레이드 전 임시코드
-  if (props.search) {
-    // 일반 검색 (no smart search)
-    const keys = props.headers.map(h => h.key)
-    const filteredList = props.datas.filter(data =>
-      keys.some(key => {
-        if (data[key]) {
-          if (typeof data[key] === typeof {} || typeof data[key] === typeof []) {
-            return JSON.stringify(data[key]).indexOf(props.search) > -1
-          }
-          return data[key].toString().indexOf(props.search) > -1
-        }
-        return false
-      }),
-    )
-    return filteredList
+  emits('update:filtered-cnt', props.items?.length || 0)
+  return props.items || []
+})
+
+// 정렬된 데이터 계산
+const sortedDatas = computed(() => {
+  if (!filterDatas.value.length || !props.sortBy.length) return filterDatas.value
+
+  return [...filterDatas.value].sort((a, b) => {
+    const sortConfig = props.sortBy[0] // 현재는 단일 정렬만 지원
+    const key = sortConfig.key
+    const aValue = a[key]
+    const bValue = b[key]
+
+    // null, undefined 처리
+    if (aValue === null || aValue === undefined) return 1
+    if (bValue === null || bValue === undefined) return -1
+
+    // 숫자 비교
+    if (typeof aValue === 'number' && typeof bValue === 'number') {
+      return sortConfig.order === 'asc' ? aValue - bValue : bValue - aValue
+    }
+
+    // 문자열 비교
+    const aStr = String(aValue).toLowerCase()
+    const bStr = String(bValue).toLowerCase()
+    return sortConfig.order === 'asc'
+      ? aStr.localeCompare(bStr)
+      : bStr.localeCompare(aStr)
+  })
+})
+
+// paginatedItems를 sortedDatas를 사용하도록 수정
+const paginatedItems = computed(() => {
+  if (!props.options?.pageCnt) {
+    const start = (props.page - 1) * props.itemsPerPage
+    const end = start + props.itemsPerPage
+    return sortedDatas.value.slice(start, end)
   }
-  return props.datas || []
+  return sortedDatas.value
 })
 
 const modelValue = ref([])
@@ -354,17 +414,6 @@ const onClickSelect = tableItem => {
   emits('update:selected', modelValue.value)
 }
 
-// const setDatas = () => {
-//   if (!props.isPageRender) {
-//     const startIndex = (currentPage.value - 1) * props.itemsPerPage
-//     const endIndex = currentPage.value * props.itemsPerPage
-//     // console.log(startIndex, endIndex)
-//     splitDatas.value = filterDatas.value.slice(startIndex, endIndex)
-//   } else {
-//     splitDatas.value = filterDatas.value
-//   }
-// }
-
 const updatePage = e => {
   currentPage.value = e
   lazyPage.value = e
@@ -376,7 +425,10 @@ const onChnagePage = e => {
 }
 
 const pageCnt = computed(() => {
+  if(props.itemsPerPage !== -1) {
   return props.options?.pageCnt || Math.ceil(filterDatas.value.length / props.itemsPerPage)
+  }
+  return props.options?.pageCnt || Math.ceil(filterDatas.value.length)
 })
 
 const widthStyleTranslate = computed(() => {
@@ -393,7 +445,7 @@ const widthStyleTranslate = computed(() => {
 
 // const childRef = ref(null)
 const onClickExpand = tableItem => {
-  console.log('onClickExpand')
+  // console.log('onClickExpand')
   tableItem.showExpandRow = !tableItem.showExpandRow
 }
 
@@ -406,7 +458,7 @@ watch(
 )
 
 // watch(
-//   () => props.datas,
+//   () => props.items,
 //   () => {
 //     setDatas()
 //   },
@@ -423,6 +475,12 @@ onMounted(() => {
   // setDatas()
   lazyPage.value = props.page
 })
+
+const getSortIcon = (header) => {
+  const sortConfig = props.sortBy.find(sort => sort.key === header.key)
+  if (!sortConfig) return 'mdi-arrow-up'
+  return sortConfig.order === 'asc' ? 'mdi-arrow-up' : 'mdi-arrow-down'
+}
 </script>
 
 <style lang="scss">
@@ -442,6 +500,35 @@ onMounted(() => {
       height: 38px;
       padding: 0 10px;
       @include set-text(600, 14, $s-default--gray-9);
+
+      &.sortable {
+        cursor: pointer;
+        user-select: none;
+
+        .sort-icon {
+          opacity: 0;
+          transition: opacity 0.2s ease;
+        }
+
+        &:hover {
+          .sort-icon {
+            opacity: 0.5;
+          }
+        }
+
+        &:active {
+          .sort-icon {
+            opacity: 1;
+          }
+        }
+
+        // 정렬 상태일 때는 항상 아이콘 표시
+        &[data-sorted="true"] {
+          .sort-icon {
+            opacity: 1;
+          }
+        }
+      }
     }
   }
 

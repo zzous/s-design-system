@@ -13,9 +13,15 @@ export default {
 const Template = (args) => ({
     components: { SCardTable },
     setup() {
-        return { args };
+        const sortBy = ref([]);
+        const updateSortBy = (newSortBy) => {
+            if (sortBy.value !== newSortBy) {
+                sortBy.value = newSortBy;
+            }
+        };
+        return { args, sortBy, updateSortBy };
     },
-    template: `<SCardTable v-bind="args" />`,
+    template: `<SCardTable v-bind="args" :sort-by="sortBy" @update:sort-by="updateSortBy" />`,
 });
 
 export const Default = Template.bind({});
@@ -52,7 +58,7 @@ Default.args = {
             align: 'd-none',
         },
     ],
-    datas: [
+    items: [
         {
             "vpcName": "default-vpc",
             "vpcId": "vpc-1001",
@@ -70,11 +76,26 @@ Default.args = {
     ]
 };
 
+Default.parameters = {
+    docs: {
+        description: {
+            story: `
+\`SCardTable\` 컴포넌트의 기본 사용 예시입니다.
+
+**주요 기능**
+- 헤더 클릭 시 정렬 기능 (오름차순 -> 내림차순 -> 정렬 해제)
+- 정렬 상태는 \`:sort-by\`를 통해 관리
+- 정렬 가능한 컬럼에 마우스 오버 시 정렬 아이콘 표시
+            `
+        }
+    }
+};
+
 const selectTemplateCode = `
     <div>
         <s-card-table
             :headers="headers"
-            :datas="datas"
+            :items="items"
             show-select
             select-strategy="single"
             :selected="selected"
@@ -88,7 +109,7 @@ const SelectedTemplate = (args) => ({
     components: { SCardTable },
     setup() {
         const selected = ref([]);
-        return { args, headers: args.headers, datas: args.datas, selected };
+        return { args, headers: args.headers, items: args.items, selected };
     },
     template: selectTemplateCode,
 });
@@ -128,7 +149,7 @@ SelectedTable.args = {
             align: 'd-none',
         },
     ],
-    datas: [
+    items: [
         {
             "vpcName": "default-vpc",
             "vpcId": "vpc-1001",
@@ -161,7 +182,7 @@ const expandableCode = `
   <div>
     <SCardTable
       :headers="headers"
-      :datas="datas"
+      :items="items"
       :show-expand="true"
       :item-value="itemValue"
       :expand-on-click="true"
@@ -217,7 +238,7 @@ const headers = [
   }
 ]
 
-const datas = [
+const items = [
   {
     "vpcName": "default-vpc",
     "vpcId": "vpc-1001",
@@ -329,7 +350,7 @@ ExpandableCardTable.args = {
       align: 'center',
     }
   ],
-  datas: [
+  items: [
     {
       "vpcName": "default-vpc",
       "vpcId": "vpc-1001",
@@ -392,8 +413,8 @@ const smartSearchCode = `
         variant="outlined"
         density="comfortable"
         prepend-inner-icon="mdi-magnify"
-        :items="headers"
-        :datas="datas"
+        :headers="headers"
+        :items="items"
         v-model="searchValues"
       />
       <SRefreshBtn :on-click-refresh="refresh" />
@@ -401,7 +422,7 @@ const smartSearchCode = `
     <SCardTable
       v-bind="args"
       :headers="headers"
-      :datas="datas"
+      :items="items"
       :smart-search="searchValues"
       :page="page"
       @update:page="updatePage"
@@ -419,7 +440,7 @@ const headers = [
   { title: "Region", key: 'regionCode', width: 170, align: 'center' }
 ]
 
-const datas = [
+const items = [
   {
     "vpcName": "default-vpc",
     "vpcId": "vpc-1001",
@@ -444,11 +465,11 @@ const updatePage = (newPage) => {
 }
 
 const refresh = () => {
-  const tempDatas = [...datas]
-  datas.length = 0
+  const tempDatas = [...items]
+  items.length = 0
 
   setTimeout(() => {
-    datas.push(...tempDatas)
+    items.push(...tempDatas)
     console.log('새로고침 완료')
   }, 500)
 }
@@ -467,16 +488,17 @@ const SmartSearchWithRefreshTemplate = (args) => ({
   components: { SCardTable, SSmartSearch, SRefreshBtn },
   setup() {
     const headers = args.headers;
-    const datas = ref([...args.datas]);
+    const items = ref([...args.items]);
     const searchValues = ref([]);
     const page = ref(1);
+    const sortBy = ref([]);
 
     const refresh = () => {
-      const tempDatas = [...datas.value];
-      datas.value = [];
+      const tempDatas = [...items.value];
+      items.value = [];
 
       setTimeout(() => {
-        datas.value = tempDatas;
+        items.value = tempDatas;
         console.log('새로고침 완료');
       }, 500);
     };
@@ -487,14 +509,22 @@ const SmartSearchWithRefreshTemplate = (args) => ({
       }
     };
 
+    const updateSortBy = (newSortBy) => {
+      if (sortBy.value !== newSortBy) {
+        sortBy.value = newSortBy;
+      }
+    };
+
     return {
       args,
       headers,
-      datas,
+      items,
       searchValues,
       page,
+      sortBy,
       refresh,
       updatePage,
+      updateSortBy
     };
   },
   template: `
@@ -504,8 +534,8 @@ const SmartSearchWithRefreshTemplate = (args) => ({
           variant="outlined"
           density="comfortable"
           prepend-inner-icon="mdi-magnify"
-          :items="headers"
-          :datas="datas"
+          :headers="headers"
+          :items="items"
           v-model="searchValues"
         />
         <SRefreshBtn :on-click-refresh="refresh" />
@@ -513,10 +543,12 @@ const SmartSearchWithRefreshTemplate = (args) => ({
       <SCardTable
         v-bind="args"
         :headers="headers"
-        :datas="datas"
+        :items="items"
         :smart-search="searchValues"
         :page="page"
+        :sort-by="sortBy"
         @update:page="updatePage"
+        @update:sort-by="updateSortBy"
       />
     </div>
   `
@@ -530,7 +562,7 @@ WithSmartSearchAndRefresh.args = {
     { title: "Cloud Type", key: 'cloudType', width: 150, align: 'center' },
     { title: "Region", key: 'regionCode', width: 170, align: 'center' }
   ],
-  datas: [
+  items: [
     {
       "vpcName": "default-vpc",
       "vpcId": "vpc-1001",

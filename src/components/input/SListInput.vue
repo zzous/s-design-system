@@ -115,10 +115,8 @@ const onClickRemoveRow = idx => {
 }
 
 const onClickAddRow = () => {
-  console.log('onClickAddRow')
   model.value.push(initialModel.value)
   idx.value += 1
-  console.log('model.value', model.value)
 }
 
 const formRef = ref(null)
@@ -134,7 +132,6 @@ onMounted(() => {
 watch(
   () => model.value,
   value => {
-    console.log('model.value', value)
     emit('update:model-value', value)
   },
   { deep: true },
