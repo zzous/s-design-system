@@ -263,7 +263,7 @@ Default.args = {
             "regionCode": "us-west-1"
         },
         {
-            "vpcName": "first-vpc",
+            "vpcName": null,
             "vpcId": "vpc-1011",
             "cloudType": "GCP",
             "regionCode": "us-west-2"

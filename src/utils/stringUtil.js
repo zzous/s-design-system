@@ -3,13 +3,8 @@ import regexUtil from '@/utils/regexUtil.js'
 const emptyCheckList = [undefined, null, '', 'undefined']
 
 const isEmpty = val => {
-  if (typeof val !== typeof 'string') {
-    return false
-  }
-  const value = val.trim()
-  // eslint-disable-next-line consistent-return
+  const value = val?.toString()?.trim()
   if (emptyCheckList.includes(value)) return true
-  // eslint-disable-next-line consistent-return
   return false
 }
 
