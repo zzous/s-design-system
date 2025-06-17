@@ -430,9 +430,9 @@ const filterDatas = computed(() => {
       keys.some(key => {
         if (data[key]) {
           if (typeof data[key] === typeof {} || typeof data[key] === typeof []) {
-            return JSON.stringify(data[key]).toLowerCase().indexOf(props.search.toLowerCase()) > -1
+            return JSON.stringify(data[key])?.toLowerCase()?.indexOf(props.search?.toLowerCase()) > -1
           }
-          return data[key].toString().toLowerCase().indexOf(props.search.toLowerCase()) > -1
+          return data[key]?.toString()?.toLowerCase()?.indexOf(props.search?.toLowerCase()) > -1
         }
         return false
       }),
@@ -468,8 +468,8 @@ const filterDatas = computed(() => {
           // 태그 검색
           if (option.type === 'tag' && data.tagList?.length) {
             return data.tagList.some(tagObj =>
-              tagObj.tagKey.toLowerCase() === option.key.toLowerCase() &&
-              tagObj.tagValue.toLowerCase() === option.value.toLowerCase()
+              tagObj.tagKey?.toLowerCase() === option.key?.toLowerCase() &&
+              tagObj.tagValue?.toLowerCase() === option.value?.toLowerCase()
             )
           }
 
@@ -477,12 +477,12 @@ const filterDatas = computed(() => {
           if (option.type !== 'tag') {
             if (typeof data[option.key] === 'object') {
               const searchData = JSON.stringify(data[option.key])
-              return searchData.toLowerCase() === option.value.toLowerCase()
+              return searchData?.toLowerCase() === option.value?.toLowerCase()
             }
             if (typeof data[option.key] === 'number') {
-              return data[option.key].toString() === option.value
+              return data[option.key]?.toString() === option.value
             }
-            return data[option.key].toLowerCase() === option.value.toLowerCase()
+            return data[option.key]?.toLowerCase() === option.value?.toLowerCase()
           }
 
           return false
