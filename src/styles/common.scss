@@ -263,9 +263,10 @@ html * {
 }
 
 .form-item--half {
+    --half-width: calc((var(--s-text-field-min-width, 618px) - 10px) / 2);
     width: 100%;
     display: grid;
-    grid-template-columns: 1fr 1fr 110px;
+    grid-template-columns: var(--half-width) var(--half-width) 110px;
     gap: 10px;
 
     .v-text-field {
