@@ -265,6 +265,11 @@ watch(
 watch(
   () => props.modelValue,
   () => {
+    if (props.modelValue.length) {
+      filterValues.value = props.modelValue
+    } else {
+      filterValues.value = []
+    }
     setAllChecked()
   },
 )
