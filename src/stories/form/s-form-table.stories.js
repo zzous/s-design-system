@@ -334,7 +334,7 @@ const ModalFormTemplateStr = `
         <div class="form-wrapper">
             <s-sub-header class="sub-title" :show-cnt="false" title="기본 정보"></s-sub-header>
             <SFormTable>
-                <SFormItem label="Requests" content-class="w-100">
+                <SFormItem label="Requests" content-class="w-100" class-name="s-form__item--2line">
                     <div class="form-item--half">
                         <dl class="d-flex">
                             <dt><span class="info-text-color">CPU</span></dt>
@@ -365,7 +365,7 @@ const ModalFormTemplateStr = `
                     </div>
                 </SFormItem>
 
-                <SFormItem label="Limits" content-class="w-100">
+                <SFormItem label="Limits" content-class="w-100" class-name="s-form__item--2line">
                     <div class="form-item--half">
                         <dl class="d-flex">
                             <dt><span class="info-text-color">CPU</span></dt>
