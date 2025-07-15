@@ -1,0 +1,55 @@
+.s-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  vertical-align: middle;
+  transition: all 0.2s ease;
+
+  &:hover {
+    cursor: pointer;
+  }
+
+  // 색상 변경을 위한 currentColor 지원
+  &[color="currentColor"] {
+    color: inherit;
+  }
+
+  // 크기별 스타일
+  &.small {
+    width: 16px;
+    height: 16px;
+  }
+
+  &.medium {
+    width: 24px;
+    height: 24px;
+  }
+
+  &.large {
+    width: 32px;
+    height: 32px;
+  }
+
+  // 클릭 가능한 아이콘
+  &.clickable {
+    cursor: pointer;
+
+    &:hover {
+      opacity: 0.8;
+    }
+
+    &:active {
+      transform: scale(0.95);
+    }
+  }
+
+  // 비활성화된 아이콘
+  &.disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+
+    &:hover {
+      opacity: 0.4;
+    }
+  }
+}

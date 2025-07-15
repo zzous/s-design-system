@@ -1,4 +1,5 @@
 import { SBtn } from '@';
+import { SIcon } from '@';
 
 export default {
     title: 'Button/SBtn',
@@ -140,6 +141,68 @@ ButtonIcon.parameters = {
 - small: 일반적인 사용
 - large: 강조가 필요한 경우
 - x-large: 매우 강조가 필요한 경우
+            `
+        }
+    },
+};
+
+const IconButtonTemplate = `
+    <div class="d-flex align-center flex-wrap">
+        <SBtn class="mr-5 mb-3" color="blue" v-bind="args">
+            <SIcon name="save" :size="16" class="mr-2" />
+            저장
+        </SBtn>
+        <SBtn class="mr-5 mb-3" color="blue" variant="outlined">
+            <SIcon name="save" :size="16" class="mr-2" />
+            저장
+        </SBtn>
+        <SBtn class="mr-5 mb-3" color="black" size="small">
+            <SIcon name="save" :size="14" class="mr-2" />
+            저장
+        </SBtn>
+        <SBtn class="mr-5 mb-3" color="black" variant="outlined" size="small">
+            <SIcon name="save" :size="14" class="mr-2" />
+            저장
+        </SBtn>
+        <SBtn class="mr-5 mb-3" color="blue" size="large">
+            <SIcon name="save" :size="18" class="mr-2" />
+            저장
+        </SBtn>
+    </div>
+`;
+
+export const IconButton = (args) => ({
+    components: { SBtn, SIcon },
+    setup() {
+        return { args };
+    },
+    template: IconButtonTemplate,
+});
+
+IconButton.args = {
+    color: 'blue',
+};
+
+IconButton.parameters = {
+    docs: {
+        source: {
+            code: `<template>${IconButtonTemplate}</template>`,
+            language: 'html',
+            type: 'auto',
+        },
+        description: {
+            story: `
+아이콘이 포함된 버튼 예시입니다.
+
+**사용 방법**
+- SIcon 컴포넌트를 사용하여 아이콘 표시
+- 아이콘과 텍스트를 함께 표시하기 위해 슬롯 활용
+- 버튼 크기에 따라 아이콘 크기도 조정
+
+**크기별 아이콘 사이즈 가이드**
+- small: 14px
+- default: 16px
+- large: 18px
             `
         }
     },

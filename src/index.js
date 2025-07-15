@@ -17,6 +17,7 @@ export {default as SFormTable} from './components/form/SFormTable.vue';
 export {default as SFormItem} from './components/form/SFormItem.vue';
 export {default as SAvatar} from './components/images/SAvatar.vue';
 export {default as SImg} from './components/images/SImg.vue';
+export {default as SIcon} from './components/images/SIcon.vue';
 export {default as SConfirm} from './components/modal/SConfirm.vue';
 export {default as SModal} from './components/modal/SModal.vue';
 export {default as SProgressCircular} from './components/progress/SProgressCircular.vue';
