@@ -94,45 +94,98 @@ const page = ref(1)
 const searchValue = ref('')
 
 const headers = [
-  {
-    title: "VPC Name",
-    key: 'vpcName',
-    width: 300,
-    align: 'start',
-  },
-  {
-    title: "VPC ID",
-    key: 'vpcId',
-    width: 250,
-    align: 'center',
-  },
-  {
-    title: "Cloud Type",
-    key: 'cloudType',
-    width: 150,
-    align: 'center',
-  },
-  {
-    title: "Region",
-    key: 'regionCode',
-    width: 170,
-    align: 'center',
-  }
+    {
+        title: "VPC Name",
+        key: 'vpcName',
+        width: 300,
+        align: 'start',
+    },
+    {
+        title: "VPC ID",
+        key: 'vpcId',
+        width: 250,
+        align: 'center',
+    },
+    {
+        title: "Cloud Type",
+        key: 'cloudType',
+        width: 150,
+        align: 'center',
+    },
+    {
+        title: "Region",
+        key: 'regionCode',
+        width: 170,
+        align: 'center',
+    }
 ]
-
 const items = [
-  {
-    "vpcName": "default-vpc",
-    "vpcId": "vpc-1001",
-    "cloudType": "AWS",
-    "regionCode": "us-west-1"
-  },
-  {
-    "vpcName": "first-vpc",
-    "vpcId": "vpc-1011",
-    "cloudType": "GCP",
-    "regionCode": "us-west-2"
-  }
+    {
+        "vpcName": "default-vpcasdfklajshflkasjdfhlaksjdfhlaksdjfhlaksjdfhlaksjdhflaksjdfhlaksjdfhlaksjdfhlaksdjfh",
+        "vpcId": "vpc-1001",
+        "cloudType": "AWS",
+        "regionCode": "us-west-1"
+    },
+    {
+        "vpcName": "default-vpc3",
+        "vpcId": "vpc-1003",
+        "cloudType": "AWS",
+        "regionCode": "us-west-1"
+    },
+    {
+        "vpcName": "default-vpc4",
+        "vpcId": "vpc-1004",
+        "cloudType": "AWS",
+        "regionCode": "us-west-1"
+    },
+    {
+        "vpcName": null,
+        "vpcId": "vpc-1002",
+        "cloudType": "GCP",
+        "regionCode": "us-west-2"
+    },
+    {
+        "vpcName": "default-vpc5",
+        "vpcId": "vpc-1005",
+        "cloudType": "AWS",
+        "regionCode": "us-west-1"
+    },
+    {
+        "vpcName": "default-vpc6",
+        "vpcId": "vpc-1006",
+        "cloudType": "AWS",
+        "regionCode": "us-west-1"
+    },
+    {
+        "vpcName": "default-vpc7",
+        "vpcId": "vpc-1007",
+        "cloudType": "AWS",
+        "regionCode": "us-west-1"
+    },
+    {
+        "vpcName": "default-vpc8",
+        "vpcId": "vpc-1008",
+        "cloudType": "AWS",
+        "regionCode": "us-west-1"
+    },
+    {
+        "vpcName": "default-vpc9",
+        "vpcId": "vpc-1009",
+        "cloudType": "AWS",
+        "regionCode": "us-west-1"
+    },
+    {
+        "vpcName": "default-vpc10",
+        "vpcId": "vpc-1010",
+        "cloudType": "AWS",
+        "regionCode": "us-west-1"
+    },
+    {
+        "vpcName": "default-vpc11",
+        "vpcId": "vpc-1011",
+        "cloudType": "AWS",
+        "regionCode": "us-west-1"
+    },
 ]
 
 const updatePage = (newPage) => {
@@ -173,12 +226,6 @@ const Template = (args) => ({
         const items = ref([...args.items]);
         const searchValue = ref('');
 
-        const updatePage = (newPage) => {
-            if (page.value !== newPage) {
-                page.value = newPage;
-            }
-        };
-
         const refresh = (pageNum) => {
             const tempItems = [...items.value];
             items.value = [];
@@ -193,7 +240,6 @@ const Template = (args) => ({
         return {
             args,
             page,
-            updatePage,
             refresh,
             headers,
             items,
@@ -221,7 +267,7 @@ const Template = (args) => ({
             :page="page"
             tooltip
             :search="searchValue"
-            @update:page="updatePage"
+            @update:page="page = $event"
         />
     </div>
     `,
@@ -263,11 +309,65 @@ Default.args = {
             "regionCode": "us-west-1"
         },
         {
+            "vpcName": "default-vpc3",
+            "vpcId": "vpc-1003",
+            "cloudType": "AWS",
+            "regionCode": "us-west-1"
+        },
+        {
+            "vpcName": "default-vpc4",
+            "vpcId": "vpc-1004",
+            "cloudType": "AWS",
+            "regionCode": "us-west-1"
+        },
+        {
             "vpcName": null,
-            "vpcId": "vpc-1011",
+            "vpcId": "vpc-1002",
             "cloudType": "GCP",
             "regionCode": "us-west-2"
-        }
+        },
+        {
+            "vpcName": "default-vpc5",
+            "vpcId": "vpc-1005",
+            "cloudType": "AWS",
+            "regionCode": "us-west-1"
+        },
+        {
+            "vpcName": "default-vpc6",
+            "vpcId": "vpc-1006",
+            "cloudType": "AWS",
+            "regionCode": "us-west-1"
+        },
+        {
+            "vpcName": "default-vpc7",
+            "vpcId": "vpc-1007",
+            "cloudType": "AWS",
+            "regionCode": "us-west-1"
+        },
+        {
+            "vpcName": "default-vpc8",
+            "vpcId": "vpc-1008",
+            "cloudType": "AWS",
+            "regionCode": "us-west-1"
+        },
+        {
+            "vpcName": "default-vpc9",
+            "vpcId": "vpc-1009",
+            "cloudType": "AWS",
+            "regionCode": "us-west-1"
+        },
+        {
+            "vpcName": "default-vpc10",
+            "vpcId": "vpc-1010",
+            "cloudType": "AWS",
+            "regionCode": "us-west-1"
+        },
+        {
+            "vpcName": "default-vpc11",
+            "vpcId": "vpc-1011",
+            "cloudType": "AWS",
+            "regionCode": "us-west-1"
+        },
     ]
 };
 

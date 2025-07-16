@@ -9,8 +9,8 @@
     :headers="lazyHeaders"
     :fixed-header="fixedHeader"
     :height="height"
-    :items="paginatedItems"
-    :page="lazyPage"
+    :items="filterDatas"
+    :page="currentPage"
     :items-per-page="itemsPerPage"
     :search="search"
     :sort-by="sortBy"
@@ -408,8 +408,6 @@ const props = defineProps({
 })
 
 const selected = ref([])
-const lazyPage = ref(1)
-const tempPage = ref(1)
 const sortBy = ref([])
 const lazyHeaders = ref([])
 
@@ -503,15 +501,6 @@ const pageCnt = computed(() => {
   return props.options?.pageCnt || Math.ceil(filterDatas.value.length)
 })
 
-const paginatedItems = computed(() => {
-  if (!props.options?.pageCnt && props.itemsPerPage !== -1) {
-    const start = (props.page - 1) * props.itemsPerPage
-    const end = start + props.itemsPerPage
-    return filterDatas.value.slice(start, end)
-  }
-  return filterDatas.value
-})
-
 const sDataTableRef = ref()
 // const getChipColor = (status) => {
 //   // console.log(tag, 'getChipColor')
@@ -531,7 +520,6 @@ const updatePage = (newPage) => {
 }
 const updateSortBy = e => {
   sortBy.value = e
-  lazyPage.value = 1
   emit('update:sort-by', e)
   emit('update:page', 1)
 }
@@ -603,7 +591,6 @@ watch(
 )
 
 onMounted(() => {
-  lazyPage.value = props.page
   // console.log(sDataTableRef.value)
 })
 
