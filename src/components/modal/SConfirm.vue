@@ -12,8 +12,14 @@
           {{ contents }}
         </v-card-text>
         <v-card-actions class="button-wrapper">
-          <s-btn variant="elevated" color="blue" @click.stop="onConfirm" :title="confirmButtonText" />
-          <s-btn variant="outlined" color="blue" @click="onCancel" :title="cancelButtonText" v-if="!noCancel" />
+          <s-btn variant="elevated" color="blue" @click.stop="onConfirm">
+            <s-icon name="check" :size="16" class="mr-1" />
+            {{ confirmButtonText }}
+          </s-btn>
+          <s-btn variant="outlined" color="blue" @click="onCancel" v-if="!noCancel">
+            <s-icon name="close" :size="16" class="mr-1" />
+            {{ cancelButtonText }}
+          </s-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -21,7 +27,7 @@
 </template>
 
 <script setup>
-import { SBtn } from '@'
+import { SBtn, SIcon } from '@'
 const emits = defineEmits(['update:model-value', 'click:confirm', 'click:cancel'])
 
 defineProps({

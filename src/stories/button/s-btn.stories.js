@@ -149,23 +149,23 @@ ButtonIcon.parameters = {
 const IconButtonTemplate = `
     <div class="d-flex align-center flex-wrap">
         <SBtn class="mr-5 mb-3" color="blue" v-bind="args">
-            <SIcon name="save" :size="16" class="mr-2" />
+            <SIcon name="save" :size="16" class="mr-1" />
             저장
         </SBtn>
         <SBtn class="mr-5 mb-3" color="blue" variant="outlined">
-            <SIcon name="save" :size="16" class="mr-2" />
+            <SIcon name="save" :size="16" class="mr-1" />
             저장
         </SBtn>
         <SBtn class="mr-5 mb-3" color="black" size="small">
-            <SIcon name="save" :size="14" class="mr-2" />
+            <SIcon name="save" :size="14" class="mr-1" />
             저장
         </SBtn>
         <SBtn class="mr-5 mb-3" color="black" variant="outlined" size="small">
-            <SIcon name="save" :size="14" class="mr-2" />
+            <SIcon name="save" :size="14" class="mr-1" />
             저장
         </SBtn>
         <SBtn class="mr-5 mb-3" color="blue" size="large">
-            <SIcon name="save" :size="18" class="mr-2" />
+            <SIcon name="save" :size="18" class="mr-1" />
             저장
         </SBtn>
     </div>

@@ -78,7 +78,8 @@ SingleButton.args = {
     contents: '확인 버튼만 있는 모달입니다.',
     confirmButtonText: '확인',
     teleportId: 'storybook-root',
-    hideCancel: true
+    hideCancel: true,
+    noCancel: true
 };
 
 export const LongContent = Template.bind({});
