@@ -1570,6 +1570,61 @@ const icons = {
       'stroke-width': '2',
       'stroke-linejoin': 'round'
     })
+  ]),
+
+  'recall': () => h('svg', {
+    width: '100%',
+    height: '100%',
+    viewBox: '0 0 25 24',
+    fill: 'none',
+    xmlns: 'http://www.w3.org/2000/svg'
+  }, [
+    h('path', {
+      d: 'M10.7398 21.5998H4.73983C3.41435 21.5998 2.33984 20.5253 2.33984 19.1998L2.33994 4.79989C2.33995 3.47441 3.41446 2.3999 4.73994 2.3999H15.5402C16.8657 2.3999 17.9402 3.47442 17.9402 4.7999V9.5999M6.54022 7.1999H13.7402M6.54022 10.7999H13.7402M6.54022 14.3999H10.1402M15.5828 20.3999L13.1402 17.9456M13.1402 17.9456L15.4724 15.5999M13.1402 17.9456H20.3674C21.3465 17.9456 22.1402 17.1519 22.1402 16.1728C22.1402 15.1936 21.3465 14.3999 20.3674 14.3999H17.9402',
+      stroke: 'currentColor',
+      'stroke-width': '2',
+      'stroke-linecap': 'round',
+      'stroke-linejoin': 'round'
+    })
+  ]),
+
+  'list': () => h('svg', {
+    width: '100%',
+    height: '100%',
+    viewBox: '0 0 25 24',
+    fill: 'none',
+    xmlns: 'http://www.w3.org/2000/svg'
+  }, [
+    h('path', {
+      d: 'M8.95984 6H21.8398M8.95984 12.48H21.8398M8.95984 18.96H21.8398M3.83984 6V6.0128M3.83984 12.48V12.4928M3.83984 18.96V18.9728',
+      stroke: 'currentColor',
+      'stroke-width': '2',
+      'stroke-linecap': 'round',
+      'stroke-linejoin': 'round'
+    })
+  ]),
+
+  'approvalHistory': () => h('svg', {
+    width: '100%',
+    height: '100%',
+    viewBox: '0 0 25 24',
+    fill: 'none',
+    xmlns: 'http://www.w3.org/2000/svg'
+  }, [
+    h('path', {
+      d: 'M7.43985 16.7999L12.4219 16.7999M7.43985 11.9999L16.7005 11.9999M7.43985 7.1999L17.0398 7.1999M21.8398 11.9999L21.8398 4.7999C21.8398 3.47442 20.7653 2.3999 19.4398 2.3999L5.03985 2.3999C3.71436 2.3999 2.63985 3.47442 2.63985 4.7999L2.63985 19.1999C2.63985 20.5254 3.71436 21.5999 5.03985 21.5999L16.7005 21.5999',
+      stroke: 'currentColor',
+      'stroke-width': '2',
+      'stroke-linecap': 'round',
+      'stroke-linejoin': 'round'
+    }),
+    h('path', {
+      d: 'M18.3086 17.3901L19.5086 18.5901L23.7086 14.3901',
+      stroke: 'currentColor',
+      'stroke-width': '2',
+      'stroke-linecap': 'round',
+      'stroke-linejoin': 'round'
+    })
   ])
 
 }
