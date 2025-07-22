@@ -51,6 +51,9 @@
       flex-wrap: wrap;
       font-size:14px;
       font-weight: 400;
+      white-space: normal;
+      word-break: break-all;
+      overflow-wrap: break-word;
 
       :deep(.s-btn):not(.v-btn--icon) {
         width: 110px;
