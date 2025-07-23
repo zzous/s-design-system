@@ -132,4 +132,12 @@
       overflow-y: hidden;
     }
   }
+
+  // SModal 내부에서 SSubHeader 컴포넌트의 글씨 크기 조정
+  :deep(.s-title-area) {
+    .s-title-area__title {
+      font-weight: 700;
+      font-size: 14px;
+    }
+  }
 }

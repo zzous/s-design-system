@@ -11,13 +11,14 @@
       :placeholder="placeholder"
     />
     <SBtn height="30" variant="outlined" :disabled="btnDisabled" @click="$refs.importFile.click()">
+      <SIcon name="file" :size="16" class="mr-1" />
       {{buttonText}}
     </SBtn>
   </div>
 </template>
 
 <script setup>
-import { SBtn } from '@';
+import { SBtn, SIcon } from '@';
 import { ref, onMounted } from 'vue'
 const props = defineProps({
   placeholder: {

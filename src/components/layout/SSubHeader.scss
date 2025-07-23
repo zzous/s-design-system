@@ -8,10 +8,10 @@
     &.sub-title {
         display: block;
         margin-top: 0;
-        margin-bottom:10px;
-        font-size: 13px;
+        margin-bottom: 10px;
+        font-size: 18px;
         height: inherit;
-        font-weight:700;
+        font-weight: 800;
         color:#000;
         padding: 0;
         border: none;
@@ -23,16 +23,15 @@
 
         .s-title-area__title{
             background: url('/public/assets/images/popuptitlebg.svg') no-repeat left center ;
-            padding-left:22px;
-            background-size:16px;
-            font-size:14px;
+            padding-left: 22px;
+            background-size: 16px;
         }
     }
 
     .s-title-area__title{
         background: url('/public/assets/images/title_bg.svg') no-repeat left center;
-        padding-left:34px;
-        font-size:18px;
+        padding-left: 34px;
+        font-size: 18px;
         color:#1C2536;
         font-weight: 700;
         display: flex;
