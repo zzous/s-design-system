@@ -44,6 +44,7 @@
         v-for="(item, index) in valuesItem"
         :key="'smart-search__value--' + item.title + '__' + item.value"
         closable
+        @mousedown.prevent
         @click:close="onDeleteSearchItem(index)"
       ><strong>{{ item.title }}</strong> : {{ item.value }}</v-chip>
     </v-chip-group>

@@ -11,3 +11,30 @@
     }
   }
 }
+
+.s-smart-search .v-chip-group {
+  display: flex;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  align-items: center;
+  gap: 6px;
+  padding-bottom: 4px;
+  max-width: 100%;
+  background: transparent;
+  box-shadow: none;
+  position: relative;
+}
+
+.s-smart-search .v-chip {
+  flex: 0 0 auto;
+  margin: 0;
+  pointer-events: auto;
+  position: relative;
+  z-index: 1;
+}
+
+.s-smart-search .v-chip .v-chip__close {
+  z-index: 2;
+  pointer-events: auto;
+  position: relative;
+}

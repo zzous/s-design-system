@@ -1,10 +1,7 @@
 <template>
   <v-data-table
     ref="sDataTableRef"
-    class="s-data-table"
-    :class="{
-      'fixed-table': fixedTable,
-    }"
+    :class="['s-data-table', { 'disable-sort': disableSort, 'fixed-table': fixedTable }]"
     v-bind="$attrs"
     :headers="lazyHeaders"
     :fixed-header="fixedHeader"
@@ -27,7 +24,7 @@
     :expand-on-click="expandOnClick"
     :item-class="getItemClass"
     :custom-sort="customSort"
-    @update:sort-by="updateSortBy"
+    @update:sort-by="onSortBy"
     @update:model-value="updateModelValue"
     @update:options="$emit('update:options', $event)"
     @update:expanded="$emit('update:expanded', $event)"
@@ -524,6 +521,10 @@ const updateSortBy = e => {
   emit('update:sort-by', e)
   emit('update:page', 1)
 }
+const onSortBy = (e) => {
+  if (props.disableSort) return
+  updateSortBy(e)
+}
 const onClickSortBy = el => {
   // DataTable 업데이트 이슈로 인해 아래의 코드 삽입
   if (el.order && el.order === 'asc') {
@@ -581,6 +582,9 @@ watch(
   () => props.smartSearch,
   () => {
     emit('update:page', 1)
+  },
+  {
+    deep: true,
   }
 )
 
@@ -646,4 +650,9 @@ const customSort = (items, sortBy, sortDesc, locale, customSorters) => {
 
 <style lang="scss" scoped>
 @import url('./SDataTable.scss');
+
+.s-data-table.disable-sort thead th {
+  pointer-events: none;
+  user-select: none;
+}
 </style>
