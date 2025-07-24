@@ -26,6 +26,7 @@
     :expanded="expanded"
     :expand-on-click="expandOnClick"
     :item-class="getItemClass"
+    :custom-sort="customSort"
     @update:sort-by="updateSortBy"
     @update:model-value="updateModelValue"
     @update:options="$emit('update:options', $event)"
@@ -606,6 +607,40 @@ const tableColumnWidth = (width) => {
     return `${width}px`
   }
   return '250px'
+}
+
+// customSort 함수 추가
+const customSort = (items, sortBy, sortDesc, locale, customSorters) => {
+  if (!sortBy.length) return items
+
+  return [...items].sort((a, b) => {
+    for (let i = 0; i < sortBy.length; i++) {
+      const key = sortBy[i].key || sortBy[i]
+      const desc = sortDesc[i]
+      // headers에서 type 찾기
+      const header = props.headers.find(h => h.key === key || h.value === key)
+      const type = header?.type || 'string'
+      let aValue = a[key]
+      let bValue = b[key]
+
+      if (type === 'number') {
+        // 콤마 제거 및 숫자 변환
+        aValue = Number(String(aValue).replace(/,/g, ''))
+        bValue = Number(String(bValue).replace(/,/g, ''))
+        // NaN 방지
+        if (isNaN(aValue)) aValue = 0
+        if (isNaN(bValue)) bValue = 0
+        if (aValue < bValue) return desc ? 1 : -1
+        if (aValue > bValue) return desc ? -1 : 1
+      } else {
+        if (aValue == null) aValue = ''
+        if (bValue == null) bValue = ''
+        const result = aValue.toString().localeCompare(bValue.toString(), locale, { numeric: true })
+        if (result !== 0) return desc ? -result : result
+      }
+    }
+    return 0
+  })
 }
 </script>
 
