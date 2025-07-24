@@ -16,7 +16,7 @@
         </v-btn>
       </v-app-bar-title>
     </template>
-    <template #append>
+    <template #append v-if="!loading">
       <div v-if="!isLoggedIn" class="s-item-group">
         <a class="s-sign__btn" @keypress.ctrl.i="$emit('click:log-in')" @click.stop="$emit('click:log-in')">
           {{ loginText }}
@@ -157,6 +157,10 @@ const props = defineProps({
   serviceBtnText: {
     type: String,
     default: '서비스',
+  },
+  loading: {
+    type: Boolean,
+    default: false,
   },
 })
 
