@@ -268,39 +268,50 @@ const customFilter = (item, queryText, itemText) => {
 }
 
 const onFindTitle = (title) => {
-
   if (!title) {
     return { result: false, findTitle: '', findKey: '' }
   }
+
   let findTitle = ''
   let findKey = ''
-  title = title.toString()?.split(':')[0].trim().toLowerCase()
-  const sortItems = props.headers
-  _.sortBy(sortItems, 'title')
-  const result = sortItems.some(item => {
-    // 직접 입력(string)과 list item(ref object) 선택에 따른 분기처리
-    const itemTitle =
-      typeof item.title === typeof {} ? item.title.value : item.title
-    const itemKey =
-      typeof item.key === typeof {} ? item.key.value : item.key
-    if (itemTitle.toLowerCase() === title) {
+  const searchTitle = title.toString()?.split(':')[0].trim().toLowerCase()
+
+  const sortItems = [...props.headers]
+
+  let result = false
+
+  result = sortItems.some(item => {
+    const itemTitle = typeof item.title === typeof {} ? item.title.value : item.title
+    const itemKey = typeof item.key === typeof {} ? item.key.value : item.key
+
+    if (itemTitle.toLowerCase() === searchTitle) {
       findTitle = itemTitle
       findKey = itemKey
-      return item
-    }
-    if (itemTitle.toLowerCase().indexOf(title) > -1) {
-      findTitle = itemTitle
-      findKey = itemKey
-      return item
+      return true
     }
     return false
   })
 
   if (!result) {
-    findTitle = title
-    findKey = title
+    result = sortItems.some(item => {
+      const itemTitle = typeof item.title === typeof {} ? item.title.value : item.title
+      const itemKey = typeof item.key === typeof {} ? item.key.value : item.key
+
+      if (itemTitle.toLowerCase().indexOf(searchTitle) > -1 && searchTitle.length >= 2) {
+        findTitle = itemTitle
+        findKey = itemKey
+        return true
+      }
+      return false
+    })
+  }
+
+  if (!result) {
+    findTitle = title.toString()?.split(':')[0].trim()
+    findKey = title.toString()?.split(':')[0].trim()
     isTagSearching.value = true
   }
+
   return { result, findTitle, findKey }
 }
 

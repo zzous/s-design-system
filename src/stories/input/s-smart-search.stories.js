@@ -88,13 +88,17 @@ Default.args = {
   headers: [
     { title: 'Name', key: 'name', align: 'start' },
     { title: 'Status', key: 'status', align: 'center' },
-    { title: 'Type', key: 'type', align: 'center' }
+    { title: 'Type', key: 'type', align: 'center' },
+    { title: 'Storage', key: 'storage', align: 'center' },
+    { title: 'Age', key: 'age', align: 'center' }
   ],
   items: [
     {
       name: 'Instance-1',
       status: 'Running',
       type: 't2.micro',
+      age: 10,
+      storage: 100,
       tagList: [
         { tagKey: 'Environment', tagValue: 'Production' },
         { tagKey: 'Project', tagValue: 'Web' }
@@ -104,6 +108,8 @@ Default.args = {
       name: 'Instance-2',
       status: 'Stopped',
       type: 't2.small',
+      age: 20,
+      storage: 200,
       tagList: [
         { tagKey: 'Environment', tagValue: 'Development' },
         { tagKey: 'Project', tagValue: 'API' }
