@@ -1,4 +1,4 @@
-import {STextCheckBoxInput} from '@';
+import {STextCheckBoxInput} from '@/components';
 
 export default {
     title: 'input/STextCheckBoxInput',

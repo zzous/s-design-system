@@ -1,4 +1,4 @@
-import {SGlobalProgress} from '@';
+import {SGlobalProgress} from '@/components';
 
 export default {
     title: 'Progress/SGlobalProgress',

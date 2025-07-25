@@ -1,4 +1,4 @@
-import { SShellScriptInput } from '@';
+import { SShellScriptInput } from '@/components';
 
 export default {
     title: 'input/SShellScriptInput',

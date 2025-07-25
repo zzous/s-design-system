@@ -1,4 +1,4 @@
-import { SNotification } from '@';
+import { SNotification } from '@/components';
 
 export default {
     title: 'Notification/SNotification',

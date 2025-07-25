@@ -6,7 +6,7 @@
 </template>
 <script setup>
 import { computed } from 'vue'
-import { SImg} from '@';
+import { SImg} from '@/components';
 import refreshIcon from '/public/assets/images/icon_refresh.svg'
 
 const props = defineProps({

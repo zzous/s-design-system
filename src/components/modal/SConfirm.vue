@@ -27,7 +27,7 @@
 </template>
 
 <script setup>
-import { SBtn, SIcon } from '@'
+import { SBtn, SIcon } from '@/components'
 const emits = defineEmits(['update:model-value', 'click:confirm', 'click:cancel'])
 
 defineProps({

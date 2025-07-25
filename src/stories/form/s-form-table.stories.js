@@ -1,4 +1,4 @@
-import { SFormTable, SFormItem, SBtn, SSubHeader, SModal } from '@';
+import { SFormTable, SFormItem, SBtn, SSubHeader, SModal } from '@/components';
 import { ref, computed } from 'vue';
 import * as yup from 'yup';
 import { Field as VeeField, Form as VeeForm } from 'vee-validate';

@@ -1,5 +1,5 @@
 <script setup>
-import { SBtn, SDataTable, SFilterSelect } from './index.js';
+import { SBtn, SDataTable, SFilterSelect, SNavi } from '@/components.js';
 import { ref } from 'vue';
 
 const headers = [

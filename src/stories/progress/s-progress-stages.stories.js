@@ -1,4 +1,4 @@
-import { SProgressStages } from '@'
+import { SProgressStages } from '@/components'
 
 export default {
   title: 'Progress/SProgressStages',

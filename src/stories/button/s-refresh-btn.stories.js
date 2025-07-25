@@ -1,4 +1,4 @@
-import { SRefreshBtn } from '@';
+import { SRefreshBtn } from '@/components';
 
 export default {
     title: 'Button/SRefreshBtn',

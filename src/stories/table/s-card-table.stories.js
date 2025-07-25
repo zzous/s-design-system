@@ -1,4 +1,4 @@
-import { SCardTable, SRefreshBtn, SSmartSearch } from '@';
+import { SCardTable, SRefreshBtn, SSmartSearch } from '@/components';
 import { ref, computed } from 'vue'
 
 export default {

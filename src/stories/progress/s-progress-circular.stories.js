@@ -1,4 +1,4 @@
-import {SProgressCircular} from '@';
+import {SProgressCircular} from '@/components';
 
 export default {
     title: 'Progress/SProgressCircular',

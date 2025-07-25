@@ -1,4 +1,4 @@
-import {SAccordionMenu} from '@';
+import {SAccordionMenu} from '@/components';
 
 export default {
     title: 'Accordion/SAccordionMenu',

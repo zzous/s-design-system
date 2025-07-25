@@ -1,4 +1,4 @@
-import { SDataTable, SRefreshBtn, SSmartSearch } from '@';
+import { SDataTable, SRefreshBtn, SSmartSearch } from '@/components';
 import { ref, computed } from 'vue';
 
 export default {

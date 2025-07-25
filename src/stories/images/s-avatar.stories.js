@@ -1,4 +1,4 @@
-import {SAvatar} from '@';
+import {SAvatar} from '@/components';
 
 export default {
     title: 'Images/SAvatar',

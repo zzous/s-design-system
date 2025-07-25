@@ -1,4 +1,4 @@
-import { SScriptEditor } from '@';
+import { SScriptEditor } from '@/components';
 
 export default {
     title: 'Editor/SScriptEditor',

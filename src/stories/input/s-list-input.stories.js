@@ -1,4 +1,4 @@
-import { SListInput } from '@';
+import { SListInput } from '@/components';
 import { ref } from 'vue';
 
 export default {

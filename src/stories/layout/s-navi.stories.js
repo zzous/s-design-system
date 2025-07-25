@@ -1,4 +1,4 @@
-import {SNavi} from '@';
+import {SNavi} from '@/components';
 import { ref } from 'vue';
 
 export default {

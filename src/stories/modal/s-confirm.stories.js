@@ -1,4 +1,4 @@
-import {SConfirm} from '@';
+import {SConfirm} from '@/components';
 import {ref} from 'vue';
 import SBtn from '@/components/button/SBtn.vue';
 export default {

@@ -1,4 +1,4 @@
-import {SHeader} from '@';
+import {SHeader} from '@/components';
 
 export default {
     title: 'Layout/SHeader',

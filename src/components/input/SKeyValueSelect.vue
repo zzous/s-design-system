@@ -225,7 +225,7 @@
 
 <script setup>
 import { computed, ref, onMounted, watch } from 'vue'
-import { SBtn } from '@'
+import { SBtn } from '@/components'
 
 const props = defineProps({
   items: {

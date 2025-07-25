@@ -1,4 +1,4 @@
-import { SAlert } from '@';
+import { SAlert } from '@/components';
 
 export default {
     title: 'Alert/SAlert',

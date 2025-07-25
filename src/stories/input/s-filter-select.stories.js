@@ -1,5 +1,5 @@
 import { ref } from 'vue';
-import { SFilterSelect } from '@';
+import { SFilterSelect } from '@/components';
 
 export default {
   title: 'input/SFilterSelect',

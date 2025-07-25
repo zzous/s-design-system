@@ -1,4 +1,4 @@
-import { SUserSettings } from '@';
+import { SUserSettings } from '@/components';
 
 export default {
   title: 'UserSettings/SUserSettings',

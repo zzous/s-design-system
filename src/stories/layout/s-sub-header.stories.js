@@ -1,4 +1,4 @@
-import {SSubHeader} from '@';
+import {SSubHeader} from '@/components';
 
 export default {
     title: 'Layout/SSubHeader',

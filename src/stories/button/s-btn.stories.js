@@ -1,5 +1,4 @@
-import { SBtn } from '@';
-import { SIcon } from '@';
+import { SBtn, SIcon } from '@/components';
 
 export default {
     title: 'Button/SBtn',

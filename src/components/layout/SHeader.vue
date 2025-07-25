@@ -82,7 +82,7 @@
 
 <script setup>
 import {watch, ref} from 'vue'
-import {SAvatar, SImg} from '@';
+import {SAvatar, SImg} from '@/components';
 import Logo from "./Logo.vue";
 
 const props = defineProps({

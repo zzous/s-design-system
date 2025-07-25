@@ -4,9 +4,10 @@ import * as directives from 'vuetify/directives';
 import * as components from 'vuetify/components'
 import {aliases, mdi} from 'vuetify/iconsets/mdi';
 import customTheme from '@/plugins/customTheme.js';
+import * as sComponents from '@/components.js';
 
 export default createVuetify({
-    components,
+    components: { ...components, ...sComponents },
     directives,
     icons: {
         defaultSet: 'mdi',

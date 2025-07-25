@@ -1,4 +1,4 @@
-import {SFormItem} from '@';
+import {SFormItem} from '@/components';
 import SBtn from '../../components/button/SBtn.vue';
 
 export default {

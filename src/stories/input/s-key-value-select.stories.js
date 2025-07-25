@@ -1,4 +1,4 @@
-import { SKeyValueSelect } from '@';
+import { SKeyValueSelect } from '@/components';
 import { ref } from 'vue';
 
 export default {

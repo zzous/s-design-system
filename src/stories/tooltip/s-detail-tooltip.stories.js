@@ -1,4 +1,4 @@
-import { SDetailTooltip } from '@';
+import { SDetailTooltip } from '@/components';
 import { ref } from 'vue';
 
 export default {

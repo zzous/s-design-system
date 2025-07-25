@@ -1,4 +1,4 @@
-import { SModal, SBtn, SSubHeader, SFormTable, SFormItem } from '@';
+import { SModal, SBtn, SSubHeader, SFormTable, SFormItem } from '@/components';
 import { ref } from 'vue';
 
 export default {

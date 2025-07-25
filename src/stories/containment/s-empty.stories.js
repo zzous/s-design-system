@@ -1,4 +1,4 @@
-import { SEmpty } from '@';
+import { SEmpty } from '@/components';
 
 export default {
     title: 'Containment/SEmpty',

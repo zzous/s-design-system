@@ -1,4 +1,4 @@
-import {SFooter} from '@';
+import {SFooter} from '@/components';
 
 export default {
     title: 'Layout/SFooter',

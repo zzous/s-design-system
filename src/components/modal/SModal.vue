@@ -55,8 +55,8 @@
 </template>
 
 <script setup>
-import { watch, ref, onMounted, onBeforeUnmount } from 'vue'
-import { SBtn } from '@/index.js'
+import {onBeforeUnmount, ref, watch} from 'vue'
+import {SBtn} from '@/components.js'
 
 const props = defineProps({
   title: {

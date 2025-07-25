@@ -1,4 +1,4 @@
-import { SSmartSearchServer } from '@';
+import { SSmartSearchServer } from '@/components';
 import { ref } from 'vue';
 
 export default {

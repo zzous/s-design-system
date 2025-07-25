@@ -1,4 +1,4 @@
-import { SSimpleTooltip } from '@';
+import { SSimpleTooltip } from '@/components';
 
 export default {
     title: 'tooltip/SSimpleTooltip',
