@@ -18,7 +18,7 @@
 </template>
 
 <script setup>
-import { SBtn, SIcon } from '@/components';
+import { SBtn, SIcon } from '@';
 import { ref, onMounted } from 'vue'
 const props = defineProps({
   placeholder: {
