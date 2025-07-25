@@ -1,5 +1,5 @@
 <template>
-  <v-app-bar class="s-header" color="#1C2536" :height="68">
+  <v-app-bar class="s-header" color="#1C2536" :height="68" :elevation="0">
     <template #prepend>
       <div class="s-logo">
         <a href.prevent.stop="#" @click="$emit('click:logo')">
