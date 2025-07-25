@@ -1,32 +1,24 @@
 // Vuetify
 import {createVuetify} from 'vuetify';
-import {
-    VBtn, VTextField, VLabel, VCol, VRow, VCheckbox, VList, VListItem, VListItemTitle, VListGroup,
-    VSnackbar, VSheet, VFileInput, VMenu, VImg, VDialog, VCard, VCardText, VCardActions, VIcon,
-    VPagination, VDataTable, VFooter, VApp, VAppBar, VAppBarTitle, VAvatar, VOverlay, VMain,
-    VCheckboxBtn, VTooltip, VSelect, VAutocomplete, VChipGroup, VChip, VListSubheader, VProgressCircular, VExpandTransition,
-    VVirtualScroll, VDivider, VListItemAction
-} from 'vuetify/components';
 import * as directives from 'vuetify/directives';
+import * as components from 'vuetify/components'
 import {aliases, mdi} from 'vuetify/iconsets/mdi';
 import customTheme from '@/plugins/customTheme.js';
 
-export default createVuetify(
-    {
-        components: {
-            VBtn, VTextField, VLabel, VCol, VRow, VCheckbox, VList, VListItem, VListGroup,
-            VListItemTitle, VSnackbar, VSheet, VFileInput, VMenu, VImg, VDialog,
-            VCard, VCardText, VCardActions, VIcon, VPagination, VDataTable, VFooter,
-            VApp, VAppBar, VAppBarTitle, VAvatar, VOverlay, VMain, VCheckboxBtn, VTooltip,
-            VSelect, VAutocomplete, VChipGroup, VChip, VListSubheader, VProgressCircular, VExpandTransition,
-            VVirtualScroll, VDivider, VListItemAction, VListItemAction
-        },
-        directives,
-        icons: {
-            defaultSet: 'mdi',
-            aliases,
-            sets: {mdi},
-        },
-        theme: {...customTheme},
+export default createVuetify({
+    components,
+    directives,
+    icons: {
+        defaultSet: 'mdi',
+        aliases,
+        sets: { mdi },
     },
-);
+    theme: { ...customTheme },
+    defaults: {
+        VTextField: {
+            variant: 'outlined',
+            density: 'compact',
+            hideDetails: 'auto',
+        },
+    },
+});
