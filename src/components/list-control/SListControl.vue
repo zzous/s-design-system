@@ -10,6 +10,9 @@
         :items="perPageList || PER_PAGES"
         item-title="text"
         item-value="value"
+        variant='outlined'
+        density='compact'
+        hideDetails='auto'
         @update:model-value="onChangePerPages"
     />
   </div>
