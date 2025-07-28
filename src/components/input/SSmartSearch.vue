@@ -84,11 +84,11 @@ const props = defineProps({
   },
   density: {
     type: String,
-    default: 'default',
+    default: 'comfortable',
   },
   variant: {
     type: String,
-    default: 'filled',
+    default: 'outlined',
   },
   width: {
     type: [Number, String],
