@@ -1,0 +1,790 @@
+import { Meta } from "@storybook/blocks";
+
+<Meta title="Documents/Styles" />
+
+<div className="sb-container">
+  <div className='sb-section-title'>
+    # 🎨 Style Guide
+
+    ## 📋 Color Palette
+
+    ### Primary Colors
+    <div className="color-grid">
+      <div className="color-item">
+        <div className="color-box primary-blue"></div>
+        <div className="color-info">
+          <span className="color-name">Primary Blue</span>
+          <span className="color-code">#1B75BB</span>
+        </div>
+      </div>
+      <div className="color-item">
+        <div className="color-box secondary-blue"></div>
+        <div className="color-info">
+          <span className="color-name">Secondary Blue</span>
+          <span className="color-code">#2C5AA0</span>
+        </div>
+      </div>
+      <div className="color-item">
+        <div className="color-box light-blue"></div>
+        <div className="color-info">
+          <span className="color-name">Light Blue</span>
+          <span className="color-code">#E3F2FD</span>
+        </div>
+      </div>
+    </div>
+
+    #### Primary Colors 사용법
+    - **Primary Blue ($s-primary)**: 메인 액션 버튼, 링크, 브랜드 요소, 중요한 UI 요소
+    - **Secondary Blue ($s-secondary)**: 보조 액션, 호버 상태, 선택된 항목
+    - **Light Blue ($s-light-blue)**: 배경, 강조 영역, 알림 배경
+
+    ```scss
+    // SCSS 변수 사용
+    .primary-element {
+      background-color: $s-primary;
+      color: white;
+    }
+
+    .secondary-element {
+      background-color: $s-secondary;
+      color: white;
+    }
+
+    .highlight-area {
+      background-color: $s-light-blue;
+      border: 1px solid $s-primary;
+    }
+    ```
+
+    ```vue
+    <!-- Vue 컴포넌트에서 사용 -->
+    <template>
+      <div class="primary-element">
+        <v-icon>mdi-check</v-icon>
+        주요 액션
+      </div>
+      <div class="secondary-element">
+        <v-icon>mdi-plus</v-icon>
+        보조 액션
+      </div>
+      <div class="highlight-area">
+        <v-icon>mdi-information</v-icon>
+        알림 또는 강조 영역
+      </div>
+    </template>
+    ```
+
+    ### Gray Scale
+    <div className="color-grid">
+      <div className="color-item">
+        <div className="color-box gray-1"></div>
+        <div className="color-info">
+          <span className="color-name">Gray 1</span>
+          <span className="color-code">$s-gray-1</span>
+        </div>
+      </div>
+      <div className="color-item">
+        <div className="color-box gray-2"></div>
+        <div className="color-info">
+          <span className="color-name">Gray 2</span>
+          <span className="color-code">$s-gray-2</span>
+        </div>
+      </div>
+      <div className="color-item">
+        <div className="color-box gray-3"></div>
+        <div className="color-info">
+          <span className="color-name">Gray 3</span>
+          <span className="color-code">$s-gray-3</span>
+        </div>
+      </div>
+      <div className="color-item">
+        <div className="color-box gray-4"></div>
+        <div className="color-info">
+          <span className="color-name">Gray 4</span>
+          <span className="color-code">$s-gray-4</span>
+        </div>
+      </div>
+      <div className="color-item">
+        <div className="color-box gray-5"></div>
+        <div className="color-info">
+          <span className="color-name">Gray 5</span>
+          <span className="color-code">$s-gray-5</span>
+        </div>
+      </div>
+      <div className="color-item">
+        <div className="color-box gray-6"></div>
+        <div className="color-info">
+          <span className="color-name">Gray 6</span>
+          <span className="color-code">$s-gray-6</span>
+        </div>
+      </div>
+      <div className="color-item">
+        <div className="color-box gray-7"></div>
+        <div className="color-info">
+          <span className="color-name">Gray 7</span>
+          <span className="color-code">$s-gray-7</span>
+        </div>
+      </div>
+      <div className="color-item">
+        <div className="color-box gray-8"></div>
+        <div className="color-info">
+          <span className="color-name">Gray 8</span>
+          <span className="color-code">$s-gray-8</span>
+        </div>
+      </div>
+      <div className="color-item">
+        <div className="color-box gray-9"></div>
+        <div className="color-info">
+          <span className="color-name">Gray 9</span>
+          <span className="color-code">$s-gray-9</span>
+        </div>
+      </div>
+    </div>
+
+    #### Gray Scale 사용법
+    - **Gray 1-2 ($s-gray-1, $s-gray-2)**: 배경색, 구분선, 비활성 상태
+    - **Gray 3-4 ($s-gray-3, $s-gray-4)**: 보더, 구분선, 플레이스홀더
+    - **Gray 5-6 ($s-gray-5, $s-gray-6)**: 보조 텍스트, 설명 텍스트
+    - **Gray 7-8 ($s-gray-7, $s-gray-8)**: 본문 텍스트, 제목
+    - **Gray 9 ($s-gray-9)**: 주요 텍스트, 헤더
+
+    ```scss
+    // Gray Scale 사용 예시
+    .card-container {
+      background-color: $s-gray-1;
+      border: 1px solid $s-gray-3;
+    }
+
+    .card-title {
+      color: $s-gray-9;
+      font-weight: 600;
+    }
+
+    .card-content {
+      color: $s-gray-7;
+    }
+
+    .card-description {
+      color: $s-gray-6;
+      font-size: 14px;
+    }
+
+    .disabled-element {
+      background-color: $s-gray-2;
+      color: $s-gray-5;
+      cursor: not-allowed;
+    }
+    ```
+
+    ### Status Colors
+    <div className="color-grid">
+      <div className="color-item">
+        <div className="color-box success"></div>
+        <div className="color-info">
+          <span className="color-name">Success</span>
+          <span className="color-code">$s-success</span>
+        </div>
+      </div>
+      <div className="color-item">
+        <div className="color-box warning"></div>
+        <div className="color-info">
+          <span className="color-name">Warning</span>
+          <span className="color-code">$s-warning</span>
+        </div>
+      </div>
+      <div className="color-item">
+        <div className="color-box error"></div>
+        <div className="color-info">
+          <span className="color-name">Error</span>
+          <span className="color-code">$s-error</span>
+        </div>
+      </div>
+      <div className="color-item">
+        <div className="color-box info"></div>
+        <div className="color-info">
+          <span className="color-name">Info</span>
+          <span className="color-code">$s-info</span>
+        </div>
+      </div>
+    </div>
+
+    #### Status Colors 사용법
+    - **Success ($s-success)**: 성공 메시지, 완료 상태, 긍정적 피드백
+    - **Warning ($s-warning)**: 경고 메시지, 주의사항, 임시 상태
+    - **Error ($s-error)**: 오류 메시지, 삭제 액션, 위험 상태
+    - **Info ($s-info)**: 정보 메시지, 도움말, 알림
+
+    ```scss
+    // Status Colors 사용 예시
+    .success-element {
+      background-color: $s-success;
+      color: white;
+
+      &:hover {
+        background-color: darken($s-success, 10%);
+      }
+    }
+
+    .error-element {
+      background-color: $s-error;
+      color: white;
+
+      &:hover {
+        background-color: darken($s-error, 10%);
+      }
+    }
+    ```
+
+    ```vue
+    <!-- Status Colors 사용 예시 -->
+    <template>
+      <div class="success-element">
+        <v-icon>mdi-check</v-icon>
+        저장
+      </div>
+      <div class="error-element">
+        <v-icon>mdi-delete</v-icon>
+        삭제
+      </div>
+      <div class="success-message">
+        <v-icon>mdi-check-circle</v-icon>
+        작업이 완료되었습니다.
+      </div>
+      <div class="error-message">
+        <v-icon>mdi-alert-circle</v-icon>
+        오류가 발생했습니다.
+      </div>
+    </template>
+    ```
+
+
+    #### 🎨 색상 조합 예시
+    ```scss
+    // 기본 요소 조합
+    .element-group {
+      display: flex;
+      gap: 8px;
+
+      .primary-element {
+        background-color: $s-primary;
+        color: white;
+      }
+
+      .secondary-element {
+        background-color: transparent;
+        border: 1px solid $s-secondary;
+        color: $s-secondary;
+      }
+
+      .cancel-element {
+        background-color: transparent;
+        color: $s-gray-6;
+      }
+    }
+
+    // 상태별 카드 조합
+    .status-card {
+      border-radius: 4px;
+      padding: 16px;
+
+      &.success {
+        border-left: 4px solid $s-success;
+        background-color: rgba($s-success, 0.05);
+      }
+
+      &.error {
+        border-left: 4px solid $s-error;
+        background-color: rgba($s-error, 0.05);
+      }
+
+      &.warning {
+        border-left: 4px solid $s-warning;
+        background-color: rgba($s-warning, 0.05);
+      }
+
+      &.info {
+        border-left: 4px solid $s-info;
+        background-color: rgba($s-info, 0.05);
+      }
+    }
+    ```
+
+    #### 📋 SCSS 변수 정의
+    ```scss
+    // _variables.scss
+    $s-primary: #1B75BB;
+    $s-secondary: #2C5AA0;
+    $s-light-blue: #E3F2FD;
+
+    $s-gray-1: #F8F9FA;
+    $s-gray-2: #E9ECEF;
+    $s-gray-3: #DEE2E6;
+    $s-gray-4: #CED4DA;
+    $s-gray-5: #ADB5BD;
+    $s-gray-6: #6C757D;
+    $s-gray-7: #495057;
+    $s-gray-8: #343A40;
+    $s-gray-9: #212529;
+
+    $s-success: #28A745;
+    $s-warning: #FFC107;
+    $s-error: #DC3545;
+    $s-info: #17A2B8;
+    ```
+
+    ## 📐 Typography
+
+    ### Font Family
+    - **Primary**: Paperlogy (Custom Font)
+    - **Fallback**: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif
+
+    ### Font Weights
+    <div className="font-weight-demo">
+      <div className="font-weight-item">
+        <span className="font-weight-label">Thin:</span>
+        <span className="font-weight-text thin">The quick brown fox jumps over the lazy dog</span>
+      </div>
+      <div className="font-weight-item">
+        <span className="font-weight-label">Light:</span>
+        <span className="font-weight-text light">The quick brown fox jumps over the lazy dog</span>
+      </div>
+      <div className="font-weight-item">
+        <span className="font-weight-label">Regular:</span>
+        <span className="font-weight-text regular">The quick brown fox jumps over the lazy dog</span>
+      </div>
+      <div className="font-weight-item">
+        <span className="font-weight-label">Medium:</span>
+        <span className="font-weight-text medium">The quick brown fox jumps over the lazy dog</span>
+      </div>
+      <div className="font-weight-item">
+        <span className="font-weight-label">Semi Bold:</span>
+        <span className="font-weight-text semibold">The quick brown fox jumps over the lazy dog</span>
+      </div>
+      <div className="font-weight-item">
+        <span className="font-weight-label">Bold:</span>
+        <span className="font-weight-text bold">The quick brown fox jumps over the lazy dog</span>
+      </div>
+    </div>
+
+    ### Font Sizes
+    <div className="font-size-demo">
+      <div className="font-size-item">
+        <span className="font-size-label">Small (12px):</span>
+        <span className="font-size-text small">The quick brown fox jumps over the lazy dog</span>
+      </div>
+      <div className="font-size-item">
+        <span className="font-size-label">Base (14px):</span>
+        <span className="font-size-text base">The quick brown fox jumps over the lazy dog</span>
+      </div>
+      <div className="font-size-item">
+        <span className="font-size-label">Medium (16px):</span>
+        <span className="font-size-text medium">The quick brown fox jumps over the lazy dog</span>
+      </div>
+      <div className="font-size-item">
+        <span className="font-size-label">Large (18px):</span>
+        <span className="font-size-text large">The quick brown fox jumps over the lazy dog</span>
+      </div>
+      <div className="font-size-item">
+        <span className="font-size-label">Extra Large (20px):</span>
+        <span className="font-size-text xlarge">The quick brown fox jumps over the lazy dog</span>
+      </div>
+      <div className="font-size-item">
+        <span className="font-size-label">Title (24px):</span>
+        <span className="font-size-text title">The quick brown fox jumps over the lazy dog</span>
+      </div>
+    </div>
+
+    ## 🎯 Spacing
+
+    ### Margin & Padding
+    <div className="spacing-demo">
+      <div className="spacing-item">
+        <div className="spacing-box xs"></div>
+        <span>XS: 4px</span>
+      </div>
+      <div className="spacing-item">
+        <div className="spacing-box s"></div>
+        <span>S: 8px</span>
+      </div>
+      <div className="spacing-item">
+        <div className="spacing-box m"></div>
+        <span>M: 16px</span>
+      </div>
+      <div className="spacing-item">
+        <div className="spacing-box l"></div>
+        <span>L: 24px</span>
+      </div>
+      <div className="spacing-item">
+        <div className="spacing-box xl"></div>
+        <span>XL: 32px</span>
+      </div>
+      <div className="spacing-item">
+        <div className="spacing-box xxl"></div>
+        <span>XXL: 48px</span>
+      </div>
+    </div>
+
+    ## 📦 Component Spacing
+
+    ### Button
+    - **Height**: 36px (default), 40px (large)
+    - **Padding**: 0 16px
+    - **Border Radius**: 4px
+
+    ### Input
+    - **Height**: 40px
+    - **Padding**: 0 12px
+    - **Border Radius**: 4px
+
+    ### Modal
+    - **Border Radius**: 8px
+    - **Shadow**: 0 4px 20px rgba(0, 0, 0, 0.15)
+
+    ## 🎨 Icons
+
+    ### Available Icons
+    This project uses Material Design Icons (MDI). Here are some commonly used icons:
+
+    #### Navigation
+    - `mdi-menu` - Hamburger menu
+    - `mdi-close` - Close/X button
+    - `mdi-arrow-left` - Back arrow
+    - `mdi-arrow-right` - Forward arrow
+    - `mdi-chevron-down` - Dropdown arrow
+    - `mdi-chevron-up` - Up arrow
+
+    #### Actions
+    - `mdi-plus` - Add/Plus
+    - `mdi-minus` - Remove/Minus
+    - `mdi-edit` - Edit
+    - `mdi-delete` - Delete
+    - `mdi-save` - Save
+    - `mdi-refresh` - Refresh
+    - `mdi-search` - Search
+    - `mdi-filter` - Filter
+
+    #### Status
+    - `mdi-check` - Success/Check
+    - `mdi-alert` - Warning
+    - `mdi-alert-circle` - Error
+    - `mdi-information` - Info
+
+    #### Data
+    - `mdi-download` - Download
+    - `mdi-upload` - Upload
+    - `mdi-file` - File
+    - `mdi-folder` - Folder
+    - `mdi-table` - Table
+    - `mdi-chart-line` - Chart
+
+    #### Communication
+    - `mdi-email` - Email
+    - `mdi-phone` - Phone
+    - `mdi-message` - Message
+    - `mdi-bell` - Notification
+
+    ### Icon Usage
+    ```vue
+    <v-icon>mdi-check</v-icon>
+    <v-icon color="primary">mdi-alert</v-icon>
+    <v-icon size="large">mdi-refresh</v-icon>
+    ```
+
+    ## 📱 Responsive Design
+
+    ### Breakpoints
+    - **Mobile**: < 768px
+    - **Tablet**: 768px - 1024px
+    - **Desktop**: > 1024px
+
+    ### Container Max Widths
+    - **Small**: 540px
+    - **Medium**: 720px
+    - **Large**: 960px
+    - **Extra Large**: 1140px
+
+    ## 🎭 Animation
+
+    ### Transitions
+    - **Fast**: 150ms
+    - **Normal**: 250ms
+    - **Slow**: 350ms
+
+    ### Easing
+    - **Ease In**: `cubic-bezier(0.4, 0, 1, 1)`
+    - **Ease Out**: `cubic-bezier(0, 0, 0.2, 1)`
+    - **Ease In Out**: `cubic-bezier(0.4, 0, 0.2, 1)`
+
+    ## 📋 CSS Variables
+
+    ### Custom Properties
+    ```css
+    :root {
+      --s-primary: #1B75BB;
+      --s-secondary: #2C5AA0;
+      --s-success: #28A745;
+      --s-warning: #FFC107;
+      --s-error: #DC3545;
+      --s-info: #17A2B8;
+
+      --s-gray-1: #F8F9FA;
+      --s-gray-2: #E9ECEF;
+      --s-gray-3: #DEE2E6;
+      --s-gray-4: #CED4DA;
+      --s-gray-5: #ADB5BD;
+      --s-gray-6: #6C757D;
+      --s-gray-7: #495057;
+      --s-gray-8: #343A40;
+      --s-gray-9: #212529;
+
+      --s-border-radius: 4px;
+      --s-border-radius-lg: 8px;
+      --s-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      --s-shadow-lg: 0 4px 20px rgba(0, 0, 0, 0.15);
+    }
+    ```
+
+    ## 🎨 Component Theming
+
+    ### Button Variants
+    - **Primary**: Blue background, white text
+    - **Secondary**: Gray background, dark text
+    - **Outline**: Transparent background, colored border
+    - **Text**: Transparent background, colored text
+
+    ### Input States
+    - **Default**: Gray border
+    - **Focus**: Blue border
+    - **Error**: Red border
+    - **Success**: Green border
+    - **Disabled**: Gray background, reduced opacity
+
+    ### Modal Types
+    - **Light**: White header, dark text
+    - **Dark**: Blue header, white text
+
+    ## 📖 Best Practices
+
+    ### Accessibility
+    - Use semantic HTML elements
+    - Provide alt text for images
+    - Ensure sufficient color contrast (4.5:1 minimum)
+    - Support keyboard navigation
+    - Use ARIA labels where appropriate
+
+    ### Performance
+    - Minimize CSS bundle size
+    - Use CSS variables for theming
+    - Optimize images and icons
+    - Lazy load non-critical resources
+
+    ### Maintainability
+    - Follow BEM naming convention
+    - Use CSS variables for consistent values
+    - Document component APIs
+    - Keep styles modular and reusable
+  </div>
+</div>
+
+<style>
+  {`
+  .sb-container {
+    margin-bottom: 48px;
+  }
+
+  .sb-section-title {
+    line-height: 1.6;
+  }
+
+  .sb-section-title h1 {
+    color: #1B75BB;
+    border-bottom: 2px solid #1B75BB;
+    padding-bottom: 8px;
+    margin-bottom: 24px;
+  }
+
+  .sb-section-title h2 {
+    color: #2C5AA0;
+    margin-top: 32px;
+    margin-bottom: 16px;
+  }
+
+  .sb-section-title h3 {
+    color: #495057;
+    margin-top: 24px;
+    margin-bottom: 12px;
+  }
+
+  /* Color Grid Styles */
+  .color-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 16px;
+    margin: 16px 0 32px 0;
+  }
+
+  .color-item {
+    display: flex;
+    align-items: center;
+    padding: 12px;
+    border: 1px solid #E9ECEF;
+    border-radius: 8px;
+    background: white;
+    transition: all 0.2s ease;
+  }
+
+  .color-item:hover {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  .color-box {
+    width: 48px;
+    height: 48px;
+    border-radius: 6px;
+    margin-right: 12px;
+    border: 1px solid #E9ECEF;
+  }
+
+  .color-info {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .color-name {
+    font-weight: 600;
+    color: #212529;
+    margin-bottom: 4px;
+  }
+
+  .color-code {
+    font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+    font-size: 12px;
+    color: #6C757D;
+  }
+
+  /* Color Definitions */
+  .primary-blue { background-color: #1B75BB; }
+  .secondary-blue { background-color: #2C5AA0; }
+  .light-blue { background-color: #E3F2FD; }
+
+  .gray-1 { background-color: #F8F9FA; }
+  .gray-2 { background-color: #E9ECEF; }
+  .gray-3 { background-color: #DEE2E6; }
+  .gray-4 { background-color: #CED4DA; }
+  .gray-5 { background-color: #ADB5BD; }
+  .gray-6 { background-color: #6C757D; }
+  .gray-7 { background-color: #495057; }
+  .gray-8 { background-color: #343A40; }
+  .gray-9 { background-color: #212529; }
+
+  .success { background-color: #28A745; }
+  .warning { background-color: #FFC107; }
+  .error { background-color: #DC3545; }
+  .info { background-color: #17A2B8; }
+
+  /* Font Weight Demo */
+  .font-weight-demo {
+    margin: 16px 0 32px 0;
+  }
+
+  .font-weight-item {
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+  }
+
+  .font-weight-label {
+    min-width: 100px;
+    font-weight: 600;
+    color: #495057;
+  }
+
+  .font-weight-text {
+    font-family: 'Paperlogy', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  }
+
+  .thin { font-weight: 100; }
+  .light { font-weight: 300; }
+  .regular { font-weight: 400; }
+  .medium { font-weight: 500; }
+  .semibold { font-weight: 600; }
+  .bold { font-weight: 700; }
+
+  /* Font Size Demo */
+  .font-size-demo {
+    margin: 16px 0 32px 0;
+  }
+
+  .font-size-item {
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+  }
+
+  .font-size-label {
+    min-width: 120px;
+    font-weight: 600;
+    color: #495057;
+  }
+
+  .font-size-text {
+    font-family: 'Paperlogy', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  }
+
+  .small { font-size: 12px; }
+  .base { font-size: 14px; }
+  .medium { font-size: 16px; }
+  .large { font-size: 18px; }
+  .xlarge { font-size: 20px; }
+  .title { font-size: 24px; }
+
+  /* Spacing Demo */
+  .spacing-demo {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    margin: 16px 0 32px 0;
+    align-items: center;
+  }
+
+  .spacing-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .spacing-box {
+    background-color: #1B75BB;
+    border-radius: 2px;
+  }
+
+  .xs { width: 4px; height: 16px; }
+  .s { width: 8px; height: 16px; }
+  .m { width: 16px; height: 16px; }
+  .l { width: 24px; height: 16px; }
+  .xl { width: 32px; height: 16px; }
+  .xxl { width: 48px; height: 16px; }
+
+  .sb-section-title code {
+    background-color: #F8F9FA;
+    padding: 2px 4px;
+    border-radius: 3px;
+    font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+  }
+
+  .sb-section-title pre {
+    background-color: #F8F9FA;
+    padding: 16px;
+    border-radius: 4px;
+    overflow-x: auto;
+  }
+
+  .sb-section-title ul {
+    padding-left: 20px;
+  }
+
+  .sb-section-title li {
+    margin-bottom: 4px;
+  }
+  `}
+</style>
