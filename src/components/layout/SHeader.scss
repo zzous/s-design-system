@@ -15,6 +15,10 @@
     margin-inline: 0;
 
     .s-btn__menu {
+      font-size: 16px;
+      font-weight: 500;
+      line-height: 24px;
+
       &:hover > .v-btn__overlay,
       &:focus-visible > .v-btn__overlay {
         opacity: 0;
@@ -35,6 +39,15 @@
         font-size: 1rem;
         width: 18px;
         height: 18px;
+      }
+
+      &.s-btn__menu--active {
+        color: rgba(27, 117, 187, 1) !important;
+        font-weight: 700;
+
+        .s-btn__menu__icon {
+          background-color: rgba(27, 117, 187, 1) !important;
+        }
       }
     }
   }
@@ -98,13 +111,17 @@
 }
 #side_menu_background {
   width: 420px;
-  font-size: 16px;
-  font-weight: bold;
+  font-size: 18px;
+  line-height: 24px;
+  font-weight: 300;
   height: 100%;
   background: $main-color;
   color: #fff;
   overflow: hidden;
-  padding: 0 30px;
+  padding: 0 10px;
+  .text-right {
+    margin: 10px 0px 0px 0px;
+  }
 }
 
 /**
@@ -142,25 +159,46 @@
 #side_menu_wrapper,
 .side-menu-footer {
   :deep(.side-menu) {
+    position: relative;
     cursor: pointer;
-    width: 300px;
     height: 52px;
-    padding: 0;
+    padding: 0 20px;
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: rgba(255, 255, 255, 0.1);
+      border-radius: 100px;
+      opacity: 0;
+      transition: linear 0.1s;
+    }
+
+    &:hover {
+      &::before {
+        opacity: 1;
+        top: 6px;
+        bottom: 6px;
+      }
+    }
 
     &.v-list-item {
       margin-top: 0 !important;
-      font-weight: 300;
+      font-weight: 400;
 
       .v-list-item-title {
-        font-size: 18px;
-        font-weight: 300;
+        font-size: 16px;
+        font-weight: 400;
       }
 
       &.v-list-item--active {
         color: $active-font-color;
 
         .v-list-item-title {
-          font-size: 18px;
+          font-size: 16px;
           font-weight: 700;
         }
       }
