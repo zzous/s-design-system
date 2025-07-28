@@ -5,3 +5,4 @@ export {default as regexUtil} from './utils/regexUtil.js'
 
 // Vuetify
 export {default as StratoVuetify} from './plugins/vuetify.js'
+export {default as Vuetify} from './plugins/vuetify.js'
