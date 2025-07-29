@@ -1,4 +1,4 @@
-import { SDataTable, SRefreshBtn, SSmartSearch } from '@/components';
+import { SDataTable, SRefreshBtn, SSmartSearch, SListControl } from '@/components';
 import { ref, computed } from 'vue';
 
 export default {
@@ -1497,6 +1497,314 @@ fixed-table props를 사용하는 테이블 예시입니다.
 - table-layout: fixed 속성 적용
 - 텍스트는 word-break: break-all로 처리
 - 아이콘이 있는 경우 텍스트 최대 너비가 자동 조정됨
+            `
+        }
+    }
+};
+
+const listControlCode = `
+<template>
+  <div>
+    <div class="search">
+      <v-text-field
+        v-model="searchValue"
+        class="search__text-field"
+        variant="outlined"
+        density="comfortable"
+        hide-details
+        placeholder="리소스 명으로 검색"
+        prepend-inner-icon="mdi-magnify"
+      />
+      <SListControl
+        :list="items"
+        :per-pages="perPages"
+        @on-refresh="refresh"
+        @set-per-pages="setPerPages"
+      />
+    </div>
+    <div>
+      <SDataTable
+        :headers="headers"
+        :items="items"
+        :page="page"
+        :search="searchValue"
+        :items-per-page="perPages"
+        @update:page="updatePage"
+      />
+    </div>
+  </div>
+</template>
+
+<script setup>
+import { ref } from 'vue'
+
+const page = ref(1)
+const searchValue = ref('')
+const perPages = ref(10)
+
+const headers = [
+  {
+    title: "VPC Name",
+    key: 'vpcName',
+    width: 300,
+    align: 'start',
+  },
+  {
+    title: "VPC ID",
+    key: 'vpcId',
+    width: 250,
+    align: 'center',
+  },
+  {
+    title: "Cloud Type",
+    key: 'cloudType',
+    width: 150,
+    align: 'center',
+  },
+  {
+    title: "Region",
+    key: 'regionCode',
+    width: 170,
+    align: 'center',
+  }
+]
+
+const items = [
+  {
+    "vpcName": "default-vpc",
+    "vpcId": "vpc-1001",
+    "cloudType": "AWS",
+    "regionCode": "us-west-1"
+  },
+  {
+    "vpcName": "first-vpc",
+    "vpcId": "vpc-1002",
+    "cloudType": "GCP",
+    "regionCode": "us-west-2"
+  },
+  {
+    "vpcName": "second-vpc",
+    "vpcId": "vpc-1003",
+    "cloudType": "AWS",
+    "regionCode": "us-east-1"
+  },
+  {
+    "vpcName": "third-vpc",
+    "vpcId": "vpc-1004",
+    "cloudType": "AZURE",
+    "regionCode": "east-us"
+  },
+  {
+    "vpcName": "fourth-vpc",
+    "vpcId": "vpc-1005",
+    "cloudType": "AWS",
+    "regionCode": "us-west-1"
+  }
+]
+
+const updatePage = (newPage) => {
+  if (page.value !== newPage) {
+    page.value = newPage
+  }
+}
+
+const refresh = () => {
+  const tempItems = [...items]
+  items.length = 0
+
+  setTimeout(() => {
+    items.push(...tempItems)
+    updatePage(1)
+  }, 500)
+}
+
+const setPerPages = (newPerPages) => {
+  perPages.value = newPerPages
+  page.value = 1 // 페이지당 항목 수가 변경되면 첫 페이지로 이동
+}
+</script>
+
+<style scoped>
+.search {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 16px;
+  align-items: center;
+}
+
+.search__text-field {
+  width: 300px;
+}
+</style>
+`
+
+const ListControlTemplate = (args) => ({
+    components: { SDataTable, SListControl },
+    setup() {
+        const headers = args.headers;
+        const page = ref(1);
+        const items = ref([...args.items]);
+        const searchValue = ref('');
+        const perPages = ref(10);
+
+        const refresh = () => {
+            const tempItems = [...items.value];
+            items.value = [];
+
+            setTimeout(() => {
+                items.value = tempItems;
+                page.value = 1;
+                console.log('새로고침 완료');
+            }, 500);
+        };
+
+        const setPerPages = (newPerPages) => {
+            perPages.value = newPerPages;
+            page.value = 1;
+        };
+
+        const updatePage = (newPage) => {
+            if (page.value !== newPage) {
+                page.value = newPage;
+            }
+        };
+
+        return {
+            args,
+            page,
+            refresh,
+            setPerPages,
+            updatePage,
+            headers,
+            items,
+            searchValue,
+            perPages
+        };
+    },
+    template: `
+    <div class="search">
+        <v-text-field
+            v-model="searchValue"
+            class="search__text-field"
+            variant="outlined"
+            density="comfortable"
+            hide-details
+            placeholder="리소스 명으로 검색"
+            prepend-inner-icon="mdi-magnify"
+        />
+        <SListControl
+            :list="items"
+            :per-pages="perPages"
+            @on-refresh="refresh"
+            @set-per-pages="setPerPages"
+        />
+    </div>
+    <div>
+        <SDataTable
+            v-bind="args"
+            :headers="headers"
+            :items="items"
+            :page="page"
+            :search="searchValue"
+            :items-per-page="perPages"
+            @update:page="updatePage"
+        />
+    </div>
+    `,
+});
+
+export const WithListControl = ListControlTemplate.bind({});
+WithListControl.args = {
+    headers: [
+        {
+            title: "VPC Name",
+            key: 'vpcName',
+            width: 300,
+            align: 'start',
+        },
+        {
+            title: "VPC ID",
+            key: 'vpcId',
+            width: 250,
+            align: 'center',
+        },
+        {
+            title: "Cloud Type",
+            key: 'cloudType',
+            width: 150,
+            align: 'center',
+        },
+        {
+            title: "Region",
+            key: 'regionCode',
+            width: 170,
+            align: 'center',
+        }
+    ],
+    items: [
+        {
+            "vpcName": "default-vpc",
+            "vpcId": "vpc-1001",
+            "cloudType": "AWS",
+            "regionCode": "us-west-1"
+        },
+        {
+            "vpcName": "first-vpc",
+            "vpcId": "vpc-1002",
+            "cloudType": "GCP",
+            "regionCode": "us-west-2"
+        },
+        {
+            "vpcName": "second-vpc",
+            "vpcId": "vpc-1003",
+            "cloudType": "AWS",
+            "regionCode": "us-east-1"
+        },
+        {
+            "vpcName": "third-vpc",
+            "vpcId": "vpc-1004",
+            "cloudType": "AZURE",
+            "regionCode": "east-us"
+        },
+        {
+            "vpcName": "fourth-vpc",
+            "vpcId": "vpc-1005",
+            "cloudType": "AWS",
+            "regionCode": "us-west-1"
+        }
+    ]
+};
+
+WithListControl.parameters = {
+    docs: {
+        source: {
+            code: listControlCode,
+            language: 'vue',
+            type: 'auto',
+        },
+        description: {
+            story: `
+SListControl 컴포넌트를 사용하는 테이블 예시입니다.
+
+**SListControl 주요 기능**
+- **새로고침 버튼**: 데이터를 새로고침할 수 있습니다.
+- **페이지당 항목 수 선택**: 10, 15, 20개 중 선택 가능합니다.
+- **자동 날짜 업데이트**: 리스트가 변경될 때마다 새로고침 날짜가 자동으로 업데이트됩니다.
+
+**Props**
+- \`list\`: 리스트 데이터 (새로고침 날짜 업데이트용)
+- \`perPages\`: 현재 페이지당 항목 수
+- \`perPageList\`: 커스텀 페이지당 항목 수 옵션 (기본값: [10, 15, 20])
+- \`refreshDateTitle\`: 새로고침 날짜 툴팁 제목 (기본값: 'Date')
+
+**Events**
+- \`@on-refresh\`: 새로고침 버튼 클릭 시 발생
+- \`@set-per-pages\`: 페이지당 항목 수 변경 시 발생
+
+**사용 시 주의사항**
+- SDataTable의 \`items-per-page\` prop과 연동하여 사용합니다.
+- 페이지당 항목 수가 변경되면 첫 페이지로 이동하는 것이 일반적입니다.
+- 새로고침 시에도 첫 페이지로 이동하는 것이 좋습니다.
             `
         }
     }
