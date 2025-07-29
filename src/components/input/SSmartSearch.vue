@@ -101,7 +101,7 @@ const props = defineProps({
   },
   prependInnerIcon: {
     type: String,
-    default: undefined,
+    default: 'mdi-magnify',
   },
   modelValue: {
     type: Array,
