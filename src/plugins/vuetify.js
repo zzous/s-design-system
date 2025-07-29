@@ -22,5 +22,10 @@ export default createVuetify({
             density: 'compact',
             hideDetails: 'auto',
         },
+        VSelect: {
+            variant: 'outlined',
+            density: 'compact',
+            hideDetails: 'auto',
+        },
     },
 });
