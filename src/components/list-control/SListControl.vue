@@ -11,7 +11,7 @@
         item-title="text"
         item-value="value"
         variant='outlined'
-        density='compact'
+        :density="density"
         hideDetails='auto'
         @update:model-value="onChangePerPages"
     />
@@ -32,7 +32,8 @@ const props = defineProps({
   list: { type: Array, default: () => [] },
   perPages: { type: Number, default: 10 },
   perPageList: { type: Array, default: () => null },
-  refreshDateTitle: { type: String, default: 'Date' }
+  refreshDateTitle: { type: String, default: 'Date' },
+  density: { type: String, default: 'comfortable' }
 })
 
 const refreshDate = ref(new Date())
