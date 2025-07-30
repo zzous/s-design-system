@@ -259,7 +259,7 @@ const filterItems = computed(() => {
   optionItems.push({ subheader: '속성', title: '' })
 
   props.headers.forEach(item => {
-    if (item.align !== 'd-none' && item.title && !props.excludeSearchHeaders.includes(item.key)) {
+    if (item.title && !props.excludeSearchHeaders.includes(item.key)) {
       optionItems.push(item)
     }
   })

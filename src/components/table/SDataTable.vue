@@ -422,7 +422,7 @@ const filterDatas = computed(() => {
   if (props.search) {
     // 일반 검색 (no smart search)
     const keys = props.headers.map(h => h.key)
-    const searchValue = props.search?.toLowerCase()
+    const searchValue = props.search
     const filteredList = props.items.filter(data =>
       keys.some(key => {
                 const value = data[key]
@@ -437,9 +437,9 @@ const filterDatas = computed(() => {
         // 일반 값 검색
         if (!isEmpty(value)) {
           if (typeof value === typeof {} || typeof value === typeof []) {
-            return JSON.stringify(value)?.toLowerCase()?.indexOf(searchValue) > -1
+            return JSON.stringify(value)?.indexOf(searchValue) > -1
           }
-          return value?.toString()?.toLowerCase()?.indexOf(searchValue) > -1
+          return value?.toString()?.indexOf(searchValue) > -1
         }
 
         return false
@@ -476,14 +476,14 @@ const filterDatas = computed(() => {
           // 태그 검색
           if (option.type === 'tag' && data.tagList?.length) {
             return data.tagList.some(tagObj => {
-              const tagKeyMatch = tagObj.tagKey?.toLowerCase() === option.key?.toLowerCase()
+              const tagKeyMatch = tagObj.tagKey === option.key
 
               // null, undefined, 빈 문자열을 동일한 값으로 간주
               if (option.value === '-' || option.value === 'null' || option.value === 'undefined' || option.value === '') {
                 return tagKeyMatch && isEmpty(tagObj.tagValue)
               }
 
-              return tagKeyMatch && tagObj.tagValue?.toLowerCase() === option.value?.toLowerCase()
+              return tagKeyMatch && tagObj.tagValue === option.value
             })
           }
 
@@ -496,12 +496,12 @@ const filterDatas = computed(() => {
 
             if (typeof data[option.key] === 'object') {
               const searchData = JSON.stringify(data[option.key])
-              return searchData?.toLowerCase() === option.value?.toLowerCase()
+              return searchData === option.value
             }
             if (typeof data[option.key] === 'number') {
               return data[option.key]?.toString() === option.value
             }
-            return data[option.key]?.toLowerCase() === option.value?.toLowerCase()
+            return data[option.key] === option.value
           }
 
           return false
