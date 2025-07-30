@@ -116,7 +116,7 @@ const props = defineProps({
   }
 })
 
-const emits = defineEmits(['update:model-value'])
+const emits = defineEmits(['update:model-value', 'on-fetch'])
 
 const isActive = ref(props.modelValue)
 
@@ -131,6 +131,7 @@ const controlBodyScroll = (shouldLock) => {
 }
 
 watch(() => props.modelValue, value => {
+  if (value) { emits('on-fetch') }
   isActive.value = value
   controlBodyScroll(value)
 })
