@@ -10,7 +10,6 @@
     :page="currentPage"
     :items-per-page="itemsPerPage"
     :search="search"
-    :sort-by="sortBy"
     :item-value="itemValue"
     :show-select="showSelect"
     :return-object="returnObject"
@@ -23,7 +22,7 @@
     :expanded="expanded"
     :expand-on-click="expandOnClick"
     :item-class="getItemClass"
-    :custom-sort="customSort"
+    :sort-by="[]"
     @update:sort-by="onSortBy"
     @update:model-value="updateModelValue"
     @update:options="$emit('update:options', $event)"
@@ -407,6 +406,7 @@ const props = defineProps({
 
 const selected = ref([])
 const sortBy = ref([])
+const sortDesc = ref([])
 const lazyHeaders = ref([])
 
 const updateModelValue = item => {
@@ -511,8 +511,53 @@ const filterDatas = computed(() => {
     emit('update:filtered-cnt', filteredList.length)
     return filteredList
   }
-  emit('update:filtered-cnt', props.items?.length || 0)
-  return props.items || []
+
+  let result = props.items || []
+  emit('update:filtered-cnt', result.length)
+
+  // 정렬 로직 추가
+  if (sortBy.value.length > 0) {
+    result = [...result].sort((a, b) => {
+      for (let i = 0; i < sortBy.value.length; i++) {
+        const sortItem = sortBy.value[i]
+        const key = sortItem.key || sortItem
+        const desc = sortDesc.value[i] || false
+
+        // headers에서 type과 sortKey 찾기
+        const header = props.headers.find(h => h.key === key || h.value === key)
+        // sortKey가 있으면 sortKey를 사용, 없으면 원래 key 사용
+        const sortKey = header?.sortKey || key
+        let aValue = a[sortKey]
+        let bValue = b[sortKey]
+
+        // 명시적으로 설정된 type을 우선 사용, 없으면 sortKey 유무에 따라 결정
+        const type = header?.type || (header?.sortKey ? 'number' : 'string')
+
+        if (type === 'number') {
+          // 콤마 제거 및 숫자 변환
+          aValue = Number(String(aValue).replace(/,/g, ''))
+          bValue = Number(String(bValue).replace(/,/g, ''))
+          // NaN 방지
+          if (isNaN(aValue)) aValue = 0
+          if (isNaN(bValue)) bValue = 0
+
+          // 디버깅 로그
+          console.log(`Sorting ${sortKey}: aValue=${aValue}, bValue=${bValue}, desc=${desc}`)
+
+          if (aValue < bValue) return desc ? 1 : -1
+          if (aValue > bValue) return desc ? -1 : 1
+        } else {
+          if (aValue == null) aValue = ''
+          if (bValue == null) bValue = ''
+          const result = aValue.toString().localeCompare(bValue.toString(), undefined, { numeric: true })
+          if (result !== 0) return desc ? -result : result
+        }
+      }
+      return 0
+    })
+  }
+
+  return result
 })
 
 const pageCnt = computed(() => {
@@ -540,50 +585,52 @@ const updatePage = (newPage) => {
   emit('update:page', newPage)
 }
 const updateSortBy = e => {
-  sortBy.value = e
-  emit('update:sort-by', e)
+  // Vuetify 3의 정렬 이벤트 구조에 맞게 처리
+  if (Array.isArray(e) && e.length > 0) {
+    console.log('e[0]:', e[0])
+    const sortItem = e[0]
+
+    // 현재 정렬 상태 확인
+    const currentSort = sortBy.value.find(item => item.key === sortItem.key)
+    let newOrder = 'asc'
+
+    if (!currentSort) {
+      // 처음 정렬하는 경우
+      newOrder = 'asc'
+    } else if (currentSort.order === 'asc') {
+      // asc → desc
+      newOrder = 'desc'
+    } else if (currentSort.order === 'desc') {
+      // desc → 정렬 해제
+      newOrder = null
+    }
+
+    if (newOrder === null) {
+      // 정렬 해제
+      sortBy.value = []
+      sortDesc.value = []
+    } else {
+      // 정렬 설정
+      sortBy.value = [{ key: sortItem.key, order: newOrder }]
+      sortDesc.value = [newOrder === 'desc']
+    }
+  } else {
+    sortBy.value = []
+    sortDesc.value = []
+  }
+  // Vuetify에는 빈 배열을 전달해서 자동 정렬을 방지
+  emit('update:sort-by', [])
   emit('update:page', 1)
 }
 const onSortBy = (e) => {
   if (props.disableSort) return
   updateSortBy(e)
 }
-const onClickSortBy = el => {
-  // DataTable 업데이트 이슈로 인해 아래의 코드 삽입
-  if (el.order && el.order === 'asc') {
-    el.order = 'desc'
-    sortBy.value = [{ key: el.key, order: 'desc' }]
-  } else if (el.order && el.order === 'desc') {
-    el.order = ''
-    sortBy.value = []
-  } else {
-    el.order = 'asc'
-    sortBy.value = [{ key: el.key, order: 'asc' }]
-  }
-
-  props.lazyHeaders.map(item => {
-    if (item.key !== el.key) {
-      item.order = null
-    }
-    return item
-  })
-}
 
 const currentPage = computed({
   get: () => props.page,
   set: (value) => emit('update:page', value)
 })
-
-// watch 제거 - readonly 오류 해결
-// watch(
-//   () => props.page,
-//   (newPage) => {
-//     if (sDataTableRef.value) {
-//       sDataTableRef.value.page = newPage
-//     }
-//   },
-//   { immediate: true }
-// )
 
 watch(
   () => props.headers,
@@ -636,39 +683,7 @@ const tableColumnWidth = (width) => {
   return '250px'
 }
 
-// customSort 함수 추가
-const customSort = (items, sortBy, sortDesc, locale, customSorters) => {
-  if (!sortBy.length) return items
 
-  return [...items].sort((a, b) => {
-    for (let i = 0; i < sortBy.length; i++) {
-      const key = sortBy[i].key || sortBy[i]
-      const desc = sortDesc[i]
-      // headers에서 type 찾기
-      const header = props.headers.find(h => h.key === key || h.value === key)
-      const type = header?.type || 'string'
-      let aValue = a[key]
-      let bValue = b[key]
-
-      if (type === 'number') {
-        // 콤마 제거 및 숫자 변환
-        aValue = Number(String(aValue).replace(/,/g, ''))
-        bValue = Number(String(bValue).replace(/,/g, ''))
-        // NaN 방지
-        if (isNaN(aValue)) aValue = 0
-        if (isNaN(bValue)) bValue = 0
-        if (aValue < bValue) return desc ? 1 : -1
-        if (aValue > bValue) return desc ? -1 : 1
-      } else {
-        if (aValue == null) aValue = ''
-        if (bValue == null) bValue = ''
-        const result = aValue.toString().localeCompare(bValue.toString(), locale, { numeric: true })
-        if (result !== 0) return desc ? -result : result
-      }
-    }
-    return 0
-  })
-}
 </script>
 
 <style lang="scss" scoped>

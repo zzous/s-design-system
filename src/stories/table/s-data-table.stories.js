@@ -1844,6 +1844,166 @@ WithListControl.args = {
     ]
 };
 
+const sortKeyCode = `
+<template>
+  <SDataTable
+    :headers="headers"
+    :items="items"
+  />
+</template>
+
+<script setup>
+const headers = [
+  { title: "Name", key: 'displayName', width: 200, align: 'start' },
+  { title: "CPU", key: 'displayCpu', sortKey: 'sortCpu', width: 120, align: 'end', type: 'number' },
+  { title: "Memory", key: 'displayMemory', sortKey: 'sortMemory', width: 120, align: 'end', type: 'number' },
+  { title: "Disk", key: 'displayDisk', sortKey: 'sortDisk', width: 120, align: 'end', type: 'number' },
+  { title: "Created", key: 'displayCreatedAt', width: 200, align: 'start' }
+]
+
+const items = [
+  {
+    displayName: "Server-1",
+    displayCpu: "2.5 GHz",
+    sortCpu: 2.5,
+    displayMemory: "8 GB",
+    sortMemory: 8,
+    displayDisk: "500 GB",
+    sortDisk: 500,
+    displayCreatedAt: "2024-01-15 10:30:00"
+  },
+  {
+    displayName: "Server-2",
+    displayCpu: "3.2 GHz",
+    sortCpu: 3.2,
+    displayMemory: "16 GB",
+    sortMemory: 16,
+    displayDisk: "1 TB",
+    sortDisk: 1024,
+    displayCreatedAt: "2024-01-10 14:20:00"
+  },
+  {
+    displayName: "Server-3",
+    displayCpu: "1.8 GHz",
+    sortCpu: 1.8,
+    displayMemory: "4 GB",
+    sortMemory: 4,
+    displayDisk: "250 GB",
+    sortDisk: 250,
+    displayCreatedAt: "2024-01-20 09:15:00"
+  }
+]
+</script>
+`
+
+const SortKeyTemplate = (args) => ({
+  components: { SDataTable },
+  setup() {
+    const headers = [
+      { title: "Name", key: 'displayName', width: 200, align: 'start' },
+      { title: "CPU", key: 'displayCpu', sortKey: 'sortCpu', width: 120, align: 'end', type: 'number' },
+      { title: "Memory", key: 'displayMemory', sortKey: 'sortMemory', width: 120, align: 'end', type: 'number' },
+      { title: "Disk", key: 'displayDisk', sortKey: 'sortDisk', width: 120, align: 'end', type: 'number' },
+      { title: "Created", key: 'displayCreatedAt', width: 200, align: 'start' }
+    ]
+
+    const items = [
+      {
+        displayName: "Server-1",
+        displayCpu: "2.5 GHz",
+        sortCpu: 2.5,
+        displayMemory: "8 GB",
+        sortMemory: 8,
+        displayDisk: "500 GB",
+        sortDisk: 500,
+        displayCreatedAt: "2024-01-15 10:30:00"
+      },
+      {
+        displayName: "Server-2",
+        displayCpu: "3.2 GHz",
+        sortCpu: 3.2,
+        displayMemory: "16 GB",
+        sortMemory: 16,
+        displayDisk: "1 TB",
+        sortDisk: 1024,
+        displayCreatedAt: "2024-01-10 14:20:00"
+      },
+      {
+        displayName: "Server-3",
+        displayCpu: "1.8 GHz",
+        sortCpu: 1.8,
+        displayMemory: "4 GB",
+        sortMemory: 4,
+        displayDisk: "250 GB",
+        sortDisk: 250,
+        displayCreatedAt: "2024-01-20 09:15:00"
+      }
+    ]
+
+    return {
+      headers,
+      items
+    }
+  },
+  template: `
+    <SDataTable
+      :headers="headers"
+      :items="items"
+    />
+  `
+})
+
+export const WithSortKey = SortKeyTemplate.bind({});
+
+WithSortKey.parameters = {
+  docs: {
+    source: {
+      code: sortKeyCode,
+      language: 'vue',
+      type: 'auto',
+    },
+    description: {
+      story: `
+\`sortKey\`를 사용하여 표시용 값과 정렬용 값을 분리하는 예시입니다.
+
+**sortKey 사용 방법**
+헤더에 \`sortKey\` 속성을 추가하면 정렬 시 해당 키를 사용합니다:
+
+\`\`\`js
+const headers = [
+  { title: "CPU", key: 'displayCpu', sortKey: 'sortCpu', width: 120 },
+  { title: "Memory", key: 'displayMemory', sortKey: 'sortMemory', width: 120 }
+]
+\`\`\`
+
+**데이터 구조**
+표시용 값과 정렬용 값을 분리하여 저장:
+
+\`\`\`js
+const items = [
+  {
+    displayCpu: "2.5 GHz",    // 표시용 값
+    sortCpu: 2.5,            // 정렬용 값
+    displayMemory: "8 GB",   // 표시용 값
+    sortMemory: 8            // 정렬용 값
+  }
+]
+\`\`\`
+
+**정렬 동작**
+- CPU 컬럼 클릭 시: \`displayCpu\` 값이 아닌 \`sortCpu\` 값으로 정렬
+- Memory 컬럼 클릭 시: \`displayMemory\` 값이 아닌 \`sortMemory\` 값으로 정렬
+- \`sortKey\`가 없는 컬럼은 기존처럼 \`key\` 값으로 정렬
+
+**사용 사례**
+- 단위가 포함된 값 (예: "2.5 GHz", "8 GB")
+- 날짜/시간 형식이 다른 값 (예: "2024-01-15", "2024/01/15")
+- 복잡한 표시 형식 (예: "Active (3)", "Inactive (0)")
+      `
+    }
+  }
+};
+
 WithListControl.parameters = {
     docs: {
         source: {
