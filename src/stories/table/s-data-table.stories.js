@@ -560,6 +560,7 @@ SelectableTable.parameters = {
   - true: 선택된 항목의 전체 객체를 반환합니다.
   - false: 선택된 항목의 \`itemValue\` 값만 반환합니다.
   - 예시) return-object가 true일 때:
+
     \`\`\`json
     [{
       "vpcName": "default-vpc",
@@ -1107,7 +1108,8 @@ WithSmartSearchAndRefresh.args = {
     { title: "Cloud Type", key: 'cloudType', width: 150, align: 'center' },
     { title: "Region", key: 'regionCode', width: 170, align: 'center' },
     { title: "Count", key: 'count', width: 170, align: 'center' },
-    { title: "Test", key: 'test', width: 170, align: 'center' }
+    { title: "Description", key: 'description', width: 200, align: 'start' },
+    { title: "Status", key: 'status', width: 150, align: 'center' }
   ],
   items: [
     {
@@ -1116,19 +1118,29 @@ WithSmartSearchAndRefresh.args = {
       "cloudType": "AWS",
       "regionCode": "us-west-1",
       "count": 1,
-      "test": {
-        "namespace": "default"
-      }
+      "description": "Production VPC",
+      "status": "Active",
+      "tagList": [
+        { "tagKey": "Environment", "tagValue": "Production" },
+        { "tagKey": "Project", "tagValue": "Web" },
+        { "tagKey": "Owner", "tagValue": null },
+        { "tagKey": "Cost", "tagValue": undefined }
+      ]
     },
     {
-      "vpcName": "first-vpc",
+      "vpcName": null,
       "vpcId": "vpc-1011",
       "cloudType": "GCP",
       "regionCode": "us-west-2",
       "count": 2,
-      "test": {
-        "namespace": "default"
-      }
+      "description": "",
+      "status": "Pending",
+      "tagList": [
+        { "tagKey": "Environment", "tagValue": "Development" },
+        { "tagKey": "Project", "tagValue": "API" },
+        { "tagKey": "Team", "tagValue": "" },
+        { "tagKey": "Priority", "tagValue": null }
+      ]
     },
     {
       "vpcName": "second-vpc",
@@ -1136,13 +1148,41 @@ WithSmartSearchAndRefresh.args = {
       "cloudType": "AZURE",
       "regionCode": "us-west-3",
       "count": 0,
-      "test": {
-        "namespace": "default",
-        "array": [{
-          "name": "test",
-          "value": "test"
-        }]
-      }
+      "description": "Test VPC",
+      "status": undefined,
+      "tagList": [
+        { "tagKey": null, "tagValue": "Test" },
+        { "tagKey": "Category", "tagValue": undefined },
+        { "tagKey": "", "tagValue": "Empty key" }
+      ]
+    },
+    {
+      "vpcName": "third-vpc",
+      "vpcId": "vpc-1031",
+      "cloudType": null,
+      "regionCode": "us-east-1",
+      "count": undefined,
+      "description": null,
+      "status": "Stopped",
+      "tagList": [
+        { "tagKey": "Environment", "tagValue": "Staging" },
+        { "tagKey": "Project", "tagValue": "Mobile" },
+        { "tagKey": "Department", "tagValue": "" }
+      ]
+    },
+    {
+      "vpcName": "",
+      "vpcId": "vpc-1041",
+      "cloudType": "AWS",
+      "regionCode": undefined,
+      "count": 5,
+      "description": "Empty name VPC",
+      "status": "Active",
+      "tagList": [
+        { "tagKey": "Environment", "tagValue": "Production" },
+        { "tagKey": "Project", "tagValue": "Backend" },
+        { "tagKey": "Manager", "tagValue": null }
+      ]
     }
   ]
 };
@@ -1159,6 +1199,33 @@ WithSmartSearchAndRefresh.parameters = {
 - \`v-model\`: 선택된 검색 값을 관리
 - \`@click-search-null-tag\`: 미지정 태그 검색 클릭 시 이벤트 처리
 - \`@update:page\`: 페이지 변경 시 이벤트 처리
+
+**빈 값 검색 기능**
+이 예시에는 다양한 빈 값들이 포함되어 있어 빈 값 검색 기능을 테스트할 수 있습니다:
+
+**일반 필드 빈 값**
+- \`vpcName: null\` (null 값)
+- \`vpcName: ""\` (빈 문자열)
+- \`cloudType: null\` (null 값)
+- \`count: undefined\` (undefined 값)
+- \`description: null\` (null 값)
+- \`status: undefined\` (undefined 값)
+
+**태그 빈 값**
+- \`Owner: null\` (태그 값이 null)
+- \`Cost: undefined\` (태그 값이 undefined)
+- \`Team: ""\` (태그 값이 빈 문자열)
+- \`Priority: null\` (태그 값이 null)
+- \`Category: undefined\` (태그 값이 undefined)
+- \`Department: ""\` (태그 값이 빈 문자열)
+
+**검색 방법**
+- \`VPC Name:- \` (null/undefined/빈 값 검색)
+- \`Cloud Type:- \` (null 값 검색)
+- \`Owner:- \` (태그의 null 값 검색)
+- \`Team:- \` (태그의 빈 문자열 검색)
+
+모든 빈 값들은 테이블에서 '-'로 표시되며, Smart Search를 통해 검색할 수 있습니다.
       `
     }
   }
@@ -1259,6 +1326,7 @@ TableWithFooter.parameters = {
 **푸터 설정 방법**
 
 1. 기본 푸터 데이터 설정
+
 \`\`\`js
 const footers = {
   product: 'Total',      // 일반 텍스트
@@ -1270,6 +1338,7 @@ const footers = {
 \`\`\`
 
 2. 푸터 슬롯 사용
+
 \`\`\`vue
 <template #footer.{column_key}="{ props }">
   // props를 통해 전체 푸터 데이터에 접근 가능 -->

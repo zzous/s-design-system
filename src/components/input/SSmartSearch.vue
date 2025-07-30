@@ -142,8 +142,12 @@ const filterTagKeys = (type) => {
     props.items.forEach(data => {
       if (data.tagList?.length) {
         data.tagList.forEach(tagObj => {
-          if (tagObj[type] !== null) {
-            setFilterDatas.add(tagObj[type])
+          // null, undefined, 빈 문자열, '-'를 모두 같은 값으로 간주
+          const value = tagObj[type]
+          if (value === null || value === undefined || value === '' || value === '-') {
+            setFilterDatas.add('-')
+          } else {
+            setFilterDatas.add(value)
           }
         })
       }
@@ -159,13 +163,16 @@ const filterTagValues = (keyName, valueName) => {
     props.items.forEach(data => {
       if (data.tagList?.length) {
         data.tagList.forEach(tagObj => {
-          const appendData = setFilterDatas.get(tagObj[keyName]) || []
-          if (tagObj[valueName] !== null) {
-            appendData.push(tagObj[valueName])
-            setFilterDatas.set(tagObj[keyName], appendData)
-          } else {
-            setFilterDatas.set(tagObj[keyName], appendData)
-          }
+          // null, undefined, 빈 문자열, '-'를 모두 같은 값으로 간주
+          const keyValue = tagObj[keyName]
+          const valueValue = tagObj[valueName]
+
+          const normalizedKey = (keyValue === null || keyValue === undefined || keyValue === '' || keyValue === '-') ? '-' : keyValue
+          const normalizedValue = (valueValue === null || valueValue === undefined || valueValue === '' || valueValue === '-') ? '-' : valueValue
+
+          const appendData = setFilterDatas.get(normalizedKey) || []
+          appendData.push(normalizedValue)
+          setFilterDatas.set(normalizedKey, appendData)
         })
       }
     })
@@ -175,17 +182,29 @@ const filterTagValues = (keyName, valueName) => {
 
 const setOptionItemFormat = (arr, type) => {
   const result = []
+  const processedValues = new Set() // 중복 제거를 위한 Set
+
   arr.forEach(value => {
     let formattedValue = value
+
+    // null, undefined, 빈 문자열, '-'를 모두 같은 값으로 간주
+    if (value === null || value === undefined || value === '' || value === '-') {
+      formattedValue = '-'
+    }
     // object나 array 타입인 경우 JSON 문자열로 변환
-    if (typeof value === 'object' || Array.isArray(value)) {
+    else if (typeof value === 'object' || Array.isArray(value)) {
       formattedValue = JSON.stringify(value)
     }
-    result.push({
-      title: String(formattedValue),
-      value: String(formattedValue),
-      type
-    })
+
+    // 중복 제거
+    if (!processedValues.has(formattedValue)) {
+      processedValues.add(formattedValue)
+      result.push({
+        title: String(formattedValue),
+        value: String(formattedValue),
+        type
+      })
+    }
   })
   return result
 }
@@ -214,8 +233,13 @@ const filterItems = computed(() => {
     }
     const setFilterDatas = new Set()
     props.items.forEach(item => {
-      if (item[selectedKeyItem.value] !== undefined && item[selectedKeyItem.value] !== null) {
-        setFilterDatas.add(item[selectedKeyItem.value])
+      // null, undefined, 빈 문자열, '-'를 모두 같은 값으로 간주
+      const value = item[selectedKeyItem.value]
+      // undefined 값도 포함하도록 조건 수정
+      if (value === null || value === undefined || value === '' || value === '-') {
+        setFilterDatas.add('-')
+      } else {
+        setFilterDatas.add(value)
       }
     })
     // console.log('setFilterDatas', setFilterDatas)

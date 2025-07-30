@@ -158,3 +158,76 @@ CustomStyle.parameters = {
     }
   }
 }
+
+export const WithEmptyValues = Template.bind({})
+WithEmptyValues.args = {
+  headers: [
+    { title: 'Name', key: 'name', align: 'start' },
+    { title: 'Status', key: 'status', align: 'center' },
+    { title: 'Type', key: 'type', align: 'center' },
+    { title: 'Storage', key: 'storage', align: 'center' },
+    { title: 'Age', key: 'age', align: 'center' },
+    { title: 'Description', key: 'description', align: 'center' }
+  ],
+  items: [
+    {
+      name: 'Instance-1',
+      status: 'Running',
+      type: 't2.micro',
+      age: 10,
+      storage: 100,
+      description: null,
+      tagList: [
+        { tagKey: 'Environment', tagValue: 'Production' },
+        { tagKey: 'Project', tagValue: null },
+        { tagKey: 'Team', tagValue: '' },
+        { tagKey: 'Cost', tagValue: undefined }
+      ]
+    },
+    {
+      name: 'Instance-2',
+      status: null,
+      type: 't2.small',
+      age: 20,
+      storage: undefined,
+      description: '',
+      tagList: [
+        { tagKey: 'Environment', tagValue: 'Development' },
+        { tagKey: 'Project', tagValue: 'API' },
+        { tagKey: 'Owner', tagValue: null },
+        { tagKey: 'Priority', tagValue: '' }
+      ]
+    },
+    {
+      name: '',
+      status: 'Stopped',
+      type: null,
+      age: undefined,
+      storage: 300,
+      description: 'Test instance',
+      tagList: [
+        { tagKey: null, tagValue: 'Test' },
+        { tagKey: 'Category', tagValue: undefined },
+        { tagKey: '', tagValue: 'Empty key' }
+      ]
+    }
+  ],
+  searchTag: true
+}
+WithEmptyValues.parameters = {
+  docs: {
+    description: {
+      story: `
+빈 값(null, undefined, 빈 문자열)이 포함된 데이터 예시입니다.
+- 일반 필드에서 null, undefined, 빈 문자열 값들이 '-'로 표시됩니다.
+- 태그에서도 null, undefined, 빈 문자열 값들이 검색 대상에 포함됩니다.
+- 검색 시 "필드명:-" 또는 "태그키:-"로 빈 값을 검색할 수 있습니다.
+- 예시 검색어:
+  - \`Status:- \` (null 값 검색)
+  - \`Description:- \` (빈 문자열 검색)
+  - \`Project:- \` (태그의 null 값 검색)
+  - \`Team:- \` (태그의 빈 문자열 검색)
+      `
+    }
+  }
+}
