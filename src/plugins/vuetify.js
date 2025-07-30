@@ -7,6 +7,12 @@ import {aliases, mdi} from 'vuetify/iconsets/mdi';
 import customTheme from '@/plugins/customTheme.js';
 import * as sComponents from '@/components.js';
 
+const defaultOptions = {
+    variant: 'outlined',
+    density: 'compact',
+    hideDetails: 'auto',
+}
+
 export default createVuetify({
     components: { ...components, ...sComponents },
     directives,
@@ -17,15 +23,11 @@ export default createVuetify({
     },
     theme: { ...customTheme },
     defaults: {
-        VTextField: {
-            variant: 'outlined',
-            density: 'compact',
-            hideDetails: 'auto',
-        },
-        VSelect: {
-            variant: 'outlined',
-            density: 'compact',
-            hideDetails: 'auto',
-        },
+        VTextField: { ... defaultOptions },
+        VSelect: { ... defaultOptions },
+        VTextarea: { ... defaultOptions },
+        VSwitch: { ... defaultOptions },
+        VCheckbox: { ... defaultOptions },
+        VRadio: { ... defaultOptions },
     },
 });
