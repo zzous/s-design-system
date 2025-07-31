@@ -624,6 +624,16 @@ const updateSortBy = e => {
 }
 const onSortBy = (e) => {
   if (props.disableSort) return
+
+  // sortable: false인 컬럼은 정렬하지 않음
+  if (Array.isArray(e) && e.length > 0) {
+    const sortItem = e[0]
+    const header = props.headers.find(h => h.key === sortItem.key)
+    if (header && header.sortable === false) {
+      return
+    }
+  }
+
   updateSortBy(e)
 }
 

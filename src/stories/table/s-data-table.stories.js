@@ -2004,6 +2004,143 @@ const items = [
   }
 };
 
+const sortableFalseCode = `
+<template>
+  <SDataTable
+    :headers="headers"
+    :items="items"
+  />
+</template>
+
+<script setup>
+const headers = [
+  { title: "Name", key: 'name', width: 200, align: 'start' },
+  { title: "ID", key: 'id', width: 120, align: 'center', sortable: false },
+  { title: "Status", key: 'status', width: 150, align: 'center' },
+  { title: "Created Date", key: 'createdDate', width: 200, align: 'start', sortable: false },
+  { title: "Value", key: 'value', width: 120, align: 'end' }
+]
+
+const items = [
+  {
+    name: "Server Alpha",
+    id: "SRV-001",
+    status: "Active",
+    createdDate: "2024-01-15",
+    value: 100
+  },
+  {
+    name: "Server Beta",
+    id: "SRV-002",
+    status: "Inactive",
+    createdDate: "2024-01-10",
+    value: 250
+  },
+  {
+    name: "Server Gamma",
+    id: "SRV-003",
+    status: "Active",
+    createdDate: "2024-01-20",
+    value: 75
+  }
+]
+</script>
+`
+
+const SortableFalseTemplate = (args) => ({
+  components: { SDataTable },
+  setup() {
+    const headers = [
+      { title: "Name", key: 'name', width: 200, align: 'start' },
+      { title: "ID", key: 'id', width: 120, align: 'center', sortable: false },
+      { title: "Status", key: 'status', width: 150, align: 'center' },
+      { title: "Created Date", key: 'createdDate', width: 200, align: 'start', sortable: false },
+      { title: "Value", key: 'value', width: 120, align: 'end' }
+    ]
+
+    const items = [
+      {
+        name: "Server Alpha",
+        id: "SRV-001",
+        status: "Active",
+        createdDate: "2024-01-15",
+        value: 100
+      },
+      {
+        name: "Server Beta",
+        id: "SRV-002",
+        status: "Inactive",
+        createdDate: "2024-01-10",
+        value: 250
+      },
+      {
+        name: "Server Gamma",
+        id: "SRV-003",
+        status: "Active",
+        createdDate: "2024-01-20",
+        value: 75
+      }
+    ]
+
+    return {
+      headers,
+      items
+    }
+  },
+  template: `
+    <SDataTable
+      :headers="headers"
+      :items="items"
+    />
+  `
+})
+
+export const WithSortableFalse = SortableFalseTemplate.bind({});
+
+WithSortableFalse.parameters = {
+  docs: {
+    source: {
+      code: sortableFalseCode,
+      language: 'vue',
+      type: 'auto',
+    },
+    description: {
+      story: `
+\`sortable: false\`를 사용하여 특정 컬럼의 정렬을 비활성화하는 예시입니다.
+
+**sortable 속성 사용 방법**
+헤더에 \`sortable: false\` 속성을 추가하면 해당 컬럼의 정렬이 비활성화됩니다:
+
+\`\`\`js
+const headers = [
+  { title: "Name", key: 'name', width: 200, align: 'start' },
+  { title: "ID", key: 'id', width: 120, align: 'center', sortable: false },
+  { title: "Status", key: 'status', width: 150, align: 'center' },
+  { title: "Created Date", key: 'createdDate', width: 200, align: 'start', sortable: false }
+]
+\`\`\`
+
+**정렬 동작**
+- **Name 컬럼**: 정렬 가능 (기본값)
+- **ID 컬럼**: 정렬 불가 (\`sortable: false\`)
+- **Status 컬럼**: 정렬 가능 (기본값)
+- **Created Date 컬럼**: 정렬 불가 (\`sortable: false\`)
+- **Value 컬럼**: 정렬 가능 (기본값)
+
+**사용 사례**
+- 고유 식별자 (ID, UUID 등)
+- 생성 날짜/시간 (정렬이 의미가 없는 경우)
+- 상태 코드나 상수 값
+- 외부 시스템에서 관리되는 값
+
+**주의사항**
+- \`sortable\` 속성이 없으면 기본적으로 \`true\`로 설정됩니다.
+- \`disableSort\` prop과는 다르게 개별 컬럼별로 정렬을 제어할 수 있습니다.
+      `
+    }
+  }
+};
+
 WithListControl.parameters = {
     docs: {
         source: {
