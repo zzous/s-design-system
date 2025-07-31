@@ -28,7 +28,7 @@
         <v-list-item
           v-else
           :title="item?.props?.title"
-          @click="onEnter($event, item?.raw.title, item?.raw.type)"
+          @click="onEnter($event, item?.raw.title, item?.raw.type, item?.raw.value)"
         ></v-list-item>
       </template>
       <template v-slot:append-item v-if="searchTag">
@@ -356,17 +356,17 @@ const setInputKey = (value) => {
   isValueSearch.value = true
 }
 
-const onEnter = (event, title, type) => {
-  console.log(event.key, title, type)
+const onEnter = (event, title, type, value) => {
+  console.log(event.key, title, type, value)
   let inputValue = ''
 
   if (!title) {
     return
   }
 
-  // value 값
+  // value 값 - 선택한 options의 value 사용
   const searchValueSplit = searchValue.value?.split(':') || []
-  const setValue = title?.toString().trim()
+  const setValue = value || title?.toString().trim()
   if (!isValueSearch.value) {
     inputValue =
       searchValueSplit.length && searchValueSplit[0].trim()
@@ -387,10 +387,10 @@ const onEnter = (event, title, type) => {
     if (setValue) {
       // emit('update:model-value', valuesItem)
 
-      // 선택된 key, value, title 정보 저장
+      // 선택된 key, value, title 정보 저장 - options의 value 사용
       const addItem = {
           title: findTitle,
-          value: setValue.trim(),
+          value: setValue, // 선택한 options의 value 사용
           key: findKey,
           type: isTagSearching.value ? 'tag' : null,
         }
