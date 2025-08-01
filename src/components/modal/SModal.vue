@@ -1,15 +1,15 @@
 <template>
   <teleport :to="`#${teleportId}`">
     <v-dialog
-      :model-value="isActive"
-      :width="modalWidth"
-      scroll-strategy="block"
-      class="s-modal"
-      :class="className"
-      :size="size"
-      persistent
-      scrim
-      @update:model-value="onUpdateModalValue"
+        :model-value="modelValue"
+        :width="modalWidth"
+        scroll-strategy="block"
+        class="s-modal"
+        :class="className"
+        :size="size"
+        persistent
+        scrim
+        @update:model-value="onUpdateModalValue"
     >
       <template #activator="{ props }">
         <slot name="buttons" v-on="props" />
@@ -17,19 +17,17 @@
       <v-card class="card-box" :class="popupCardClass" :height="modalHeight" :min-height="modalHeight" no-line>
         <template v-if="!hideHeader" #prepend>
           <div class="s-modal__title" :class="{ 's-modal__title--light': isWhite, 's-modal__title--dark': !isWhite }">
-            <span>
-              {{ title }}
-            </span>
+            <span>{{ title }}</span>
             <div class="button-wrapper">
               <slot name="header-btn-append" />
               <SBtn
-                class="modal--cancel"
-                elevation="0"
-                dense
-                variant="text"
-                max-width="24px"
-                height="24px"
-                @click="onClickCloseModal"
+                  class="modal--cancel"
+                  elevation="0"
+                  dense
+                  variant="text"
+                  max-width="24px"
+                  height="24px"
+                  @click="onClickCloseModal"
               >
                 <v-icon :color="isWhite ? '#1A3350' : '#fff'" size="x-large">mdi-close</v-icon>
               </SBtn>
@@ -37,7 +35,7 @@
           </div>
         </template>
 
-        <template v-if="modelValue" #item>
+        <template #item>
           <div class="s-modal__content-wrapper">
             <div class="s-modal__content">
               <slot name="default" />
@@ -55,8 +53,8 @@
 </template>
 
 <script setup>
-import {onBeforeUnmount, ref, watch} from 'vue'
-import {SBtn} from '@/components.js'
+import { onBeforeUnmount, watch } from 'vue'
+import SBtn from '@/components/button/SBtn.vue'
 
 const props = defineProps({
   title: {
@@ -91,7 +89,7 @@ const props = defineProps({
   },
   bodyStyle: {
     type: Object,
-    default: () => {},
+    default: () => ({}),
     description: 'card-body Div의 스타일 설정',
   },
   popupCardClass: {
@@ -118,8 +116,6 @@ const props = defineProps({
 
 const emits = defineEmits(['update:model-value', 'on-fetch'])
 
-const isActive = ref(props.modelValue)
-
 const controlBodyScroll = (shouldLock) => {
   if (shouldLock) {
     document.body.style.overflow = 'hidden'
@@ -130,10 +126,9 @@ const controlBodyScroll = (shouldLock) => {
   }
 }
 
-watch(() => props.modelValue, value => {
-  if (value) { emits('on-fetch') }
-  isActive.value = value
-  controlBodyScroll(value)
+watch(() => props.modelValue, (val) => {
+  if (val) emits('on-fetch')
+  controlBodyScroll(val)
 })
 
 onBeforeUnmount(() => {
@@ -141,12 +136,10 @@ onBeforeUnmount(() => {
 })
 
 const onClickCloseModal = () => {
-  isActive.value = false
   emits('update:model-value', false)
 }
 
-const onUpdateModalValue = value => {
-  isActive.value = value
+const onUpdateModalValue = (value) => {
   emits('update:model-value', value)
 }
 </script>
