@@ -37,3 +37,4 @@ export {default as SDetailTooltip} from './components/tooltip/SDetailTooltip.vue
 export {default as SSimpleTooltip} from './components/tooltip/SSimpleTooltip.vue';
 export {default as SListInput} from './components/input/SListInput.vue';
 export {default as SListControl} from './components/list-control/SListControl.vue';
+export {default as SDropdownButton} from './components/dropdown-button/SDropdownButton.vue';
