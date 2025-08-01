@@ -246,8 +246,8 @@ const props = defineProps({
   },
   type: {
     type: String,
-    default: 'label',
-    validator: value => ['label', 'tag'].includes(value),
+    default: 'labels',
+    validator: value => ['labels', 'tags'].includes(value),
   },
   applyButtonText: {
     type: String,
