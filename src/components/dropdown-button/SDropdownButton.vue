@@ -80,7 +80,7 @@ const isItemDisabled = (item) => {
   }
 }
 
-const handleClick = (item) => {
-  item.onClick?.()
+const handleClick = async item => {
+  await item.onClick?.()
 }
 </script>
