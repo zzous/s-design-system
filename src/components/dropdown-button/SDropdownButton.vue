@@ -64,6 +64,8 @@ const permittedItems = computed(() => {
 })
 
 const isItemDisabled = (item) => {
+  if (item.disabled === true) return true
+
   const count = props.selectedList.length
 
   switch (item.type) {
