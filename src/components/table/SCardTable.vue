@@ -109,7 +109,7 @@ import stringUtil from '@/utils/stringUtil.js'
 
 import SEmpty from '@/components/containment/SEmpty.vue'
 
-const {isEmpty } = stringUtil
+const { isEmpty } = stringUtil
 
 const props = defineProps({
   itemValue: {
@@ -287,14 +287,26 @@ const filterDatas = computed(() => {
   if (props.search) {
     // 일반 검색 (no smart search)
     const keys = props.headers.map(h => h.key)
+    const searchValue = props.search
     const filteredList = props.items.filter(data =>
       keys.some(key => {
-        if (data[key]) {
-          if (typeof data[key] === typeof {} || typeof data[key] === typeof []) {
-            return JSON.stringify(data[key]).toLowerCase().indexOf(props.search.toLowerCase()) > -1
+        const value = data[key]
+
+        // null, undefined, 빈 문자열을 동일한 값으로 간주하여 검색
+        if (searchValue === '-' || searchValue === 'null' || searchValue === 'undefined' || searchValue === '') {
+          if (isEmpty(value)) {
+            return true
           }
-          return data[key].toString().toLowerCase().indexOf(props.search.toLowerCase()) > -1
         }
+
+        // 일반 값 검색
+        if (!isEmpty(value)) {
+          if (typeof value === typeof {} || typeof value === typeof []) {
+            return JSON.stringify(value)?.indexOf(searchValue) > -1
+          }
+          return value?.toString()?.indexOf(searchValue) > -1
+        }
+
         return false
       }),
     )
@@ -328,22 +340,33 @@ const filterDatas = computed(() => {
 
           // 태그 검색
           if (option.type === 'tag' && data.tagList?.length) {
-            return data.tagList.some(tagObj =>
-              tagObj.tagKey.toLowerCase() === option.key.toLowerCase() &&
-              tagObj.tagValue.toLowerCase() === option.value.toLowerCase()
-            )
+            return data.tagList.some(tagObj => {
+              const tagKeyMatch = tagObj.tagKey === option.key
+
+              // null, undefined, 빈 문자열을 동일한 값으로 간주
+              if (option.value === '-' || option.value === 'null' || option.value === 'undefined' || option.value === '') {
+                return tagKeyMatch && isEmpty(tagObj.tagValue)
+              }
+
+              return tagKeyMatch && tagObj.tagValue === option.value
+            })
           }
 
           // 일반 검색
           if (option.type !== 'tag') {
+            // null, undefined, 빈 문자열을 동일한 값으로 간주
+            if (option.value === '-' || option.value === 'null' || option.value === 'undefined' || option.value === '') {
+              return isEmpty(data[option.key])
+            }
+
             if (typeof data[option.key] === 'object') {
               const searchData = JSON.stringify(data[option.key])
-              return searchData.toLowerCase() === option.value.toLowerCase()
+              return searchData === option.value
             }
             if (typeof data[option.key] === 'number') {
-              return data[option.key].toString() === option.value
+              return data[option.key]?.toString() === option.value
             }
-            return data[option.key].toLowerCase() === option.value.toLowerCase()
+            return data[option.key] === option.value
           }
 
           return false
@@ -362,26 +385,39 @@ const sortedDatas = computed(() => {
   if (!filterDatas.value.length || !props.sortBy.length) return filterDatas.value
 
   return [...filterDatas.value].sort((a, b) => {
-    const sortConfig = props.sortBy[0] // 현재는 단일 정렬만 지원
-    const key = sortConfig.key
-    const aValue = a[key]
-    const bValue = b[key]
+    for (let i = 0; i < props.sortBy.length; i++) {
+      const sortItem = props.sortBy[i]
+      const key = sortItem.key || sortItem
+      const desc = sortItem.order === 'desc'
 
-    // null, undefined 처리
-    if (aValue === null || aValue === undefined) return 1
-    if (bValue === null || bValue === undefined) return -1
+      // headers에서 type과 sortKey 찾기
+      const header = props.headers.find(h => h.key === key || h.value === key)
+      // sortKey가 있으면 sortKey를 사용, 없으면 원래 key 사용
+      const sortKey = header?.sortKey || key
+      let aValue = a[sortKey]
+      let bValue = b[sortKey]
 
-    // 숫자 비교
-    if (typeof aValue === 'number' && typeof bValue === 'number') {
-      return sortConfig.order === 'asc' ? aValue - bValue : bValue - aValue
+      // 명시적으로 설정된 type을 우선 사용, 없으면 sortKey 유무에 따라 결정
+      const type = header?.type || (header?.sortKey ? 'number' : 'string')
+
+      if (type === 'number') {
+        // 콤마 제거 및 숫자 변환
+        aValue = Number(String(aValue).replace(/,/g, ''))
+        bValue = Number(String(bValue).replace(/,/g, ''))
+        // NaN 방지
+        if (isNaN(aValue)) aValue = 0
+        if (isNaN(bValue)) bValue = 0
+
+        if (aValue < bValue) return desc ? 1 : -1
+        if (aValue > bValue) return desc ? -1 : 1
+      } else {
+        if (aValue == null) aValue = ''
+        if (bValue == null) bValue = ''
+        const result = aValue.toString().localeCompare(bValue.toString(), undefined, { numeric: true })
+        if (result !== 0) return desc ? -result : result
+      }
     }
-
-    // 문자열 비교
-    const aStr = String(aValue).toLowerCase()
-    const bStr = String(bValue).toLowerCase()
-    return sortConfig.order === 'asc'
-      ? aStr.localeCompare(bStr)
-      : bStr.localeCompare(aStr)
+    return 0
   })
 })
 
@@ -405,7 +441,7 @@ const onClickSelect = tableItem => {
       modelValue.value = [tableItem[props.itemValue]]
     }
   } else { // 'all'
-      if (modelValue.value.includes(tableItem[props.itemValue])) {
+    if (modelValue.value.includes(tableItem[props.itemValue])) {
       modelValue.value = modelValue.value.filter(item => item !== tableItem[props.itemValue])
     } else {
       modelValue.value.push(tableItem[props.itemValue])
