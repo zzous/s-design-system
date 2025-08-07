@@ -446,7 +446,9 @@ const filterDatas = computed(() => {
       }),
     )
     emit('update:filtered-cnt', filteredList.length)
-    updatePage(1)
+    if (!props.options?.pageCnt) {
+      updatePage(1)
+    }
     return filteredList
   }
 
@@ -511,13 +513,17 @@ const filterDatas = computed(() => {
       })
     })
     emit('update:filtered-cnt', filteredList.length)
-    updatePage(1)
+    if (!props.options?.pageCnt) {
+      updatePage(1)
+    }
     return filteredList
   }
 
   let result = props.items || []
   emit('update:filtered-cnt', result.length)
-  updatePage(1)
+  if (!props.options?.pageCnt) {
+    updatePage(1)
+  }
 
   // 정렬 로직 추가
   if (sortBy.value.length > 0) {
@@ -586,9 +592,7 @@ const sDataTableRef = ref()
 //   return text
 // }
 const updatePage = (newPage) => {
-  nextTick(() => {
-    emit('update:page', newPage)
-  })
+  emit('update:page', newPage)
 }
 const updateSortBy = e => {
   // Vuetify 3의 정렬 이벤트 구조에 맞게 처리
