@@ -481,7 +481,7 @@ const filterDatas = computed(() => {
 
               // null, undefined, 빈 문자열을 동일한 값으로 간주
               if (option.value === '-' || option.value === 'null' || option.value === 'undefined' || option.value === '') {
-                return tagKeyMatch && isEmpty(tagObj.tagValue)
+                return tagKeyMatch && (isEmpty(tagObj.tagValue) || tagObj.tagValue === '-')
               }
 
               return tagKeyMatch && tagObj.tagValue === option.value
@@ -491,9 +491,9 @@ const filterDatas = computed(() => {
           // 일반 검색
           if (option.type !== 'tag') {
             // null, undefined, 빈 문자열을 동일한 값으로 간주
-            console.log('option.value:', option.value)
+            // console.log('option.value:', option.value, 'data[option.key]:', data[option.key])
             if (option.value === '-' || option.value === 'null' || option.value === 'undefined' || option.value === '') {
-              return isEmpty(data[option.key])
+              return isEmpty(data[option.key]) || data[option.key] === '-'
             }
 
             if (typeof data[option.key] === 'object') {
