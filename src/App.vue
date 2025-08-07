@@ -23,14 +23,31 @@ const items = [
     age: 30,
   },
   {
-    name: null,
+    name: '김철수',
     age: null,
+  },
+  {
+    name: '박영희',
+    age: 50,
+  },
+  {
+    name: '김영희',
+    age: 50,
+  },
+  {
+    name: '이영희',
+    age: 50,
+  },
+  {
+    name: '최영희',
+    age: 50,
   },
 ];
 
 const selected = ref([]);
 
 const nullTitle = '빈 값';
+const pageNum = ref(1);
 
 const handleSortBy = (key) => {
   console.log(key);
@@ -41,7 +58,7 @@ const handleSortBy = (key) => {
 <div>
   <s-btn>버튼</s-btn>
 
-  <s-data-table :headers="headers" :items="items" @update:sortBy="handleSortBy" />
+  <s-data-table :headers="headers" :items="items" :page="pageNum" :items-per-page="5" @update:sortBy="handleSortBy" />
 
   <hr />
 

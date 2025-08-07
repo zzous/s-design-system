@@ -122,7 +122,7 @@
       <slot name="item" v-bind="bind" />
     </template>
     <template #body="bind" v-if="$slots.body">
-      <slot name="body" v-bind="bind" />
+      <slot name="body" v-bind="{...bind, items: filterDatas}" />
     </template>
     <template #[`body.append`]="bind" v-if="$slots['body.append']">
       <slot name="body.append" v-bind="bind" />
@@ -152,7 +152,7 @@
 </template>
 
 <script setup>
-import { ref, watch, computed, onMounted } from 'vue'
+import { ref, watch, computed, onMounted, nextTick } from 'vue'
 import stringUtil from '@/utils/stringUtil.js'
 
 const { isEmpty } = stringUtil
@@ -446,6 +446,7 @@ const filterDatas = computed(() => {
       }),
     )
     emit('update:filtered-cnt', filteredList.length)
+    updatePage(1)
     return filteredList
   }
 
@@ -490,6 +491,7 @@ const filterDatas = computed(() => {
           // 일반 검색
           if (option.type !== 'tag') {
             // null, undefined, 빈 문자열을 동일한 값으로 간주
+            console.log('option.value:', option.value)
             if (option.value === '-' || option.value === 'null' || option.value === 'undefined' || option.value === '') {
               return isEmpty(data[option.key])
             }
@@ -509,11 +511,13 @@ const filterDatas = computed(() => {
       })
     })
     emit('update:filtered-cnt', filteredList.length)
+    updatePage(1)
     return filteredList
   }
 
   let result = props.items || []
   emit('update:filtered-cnt', result.length)
+  updatePage(1)
 
   // 정렬 로직 추가
   if (sortBy.value.length > 0) {
@@ -582,7 +586,9 @@ const sDataTableRef = ref()
 //   return text
 // }
 const updatePage = (newPage) => {
-  emit('update:page', newPage)
+  nextTick(() => {
+    emit('update:page', newPage)
+  })
 }
 const updateSortBy = e => {
   // Vuetify 3의 정렬 이벤트 구조에 맞게 처리
@@ -620,7 +626,7 @@ const updateSortBy = e => {
   }
   // Vuetify에는 빈 배열을 전달해서 자동 정렬을 방지
   emit('update:sort-by', [])
-  emit('update:page', 1)
+  updatePage(1)
 }
 const onSortBy = (e) => {
   if (props.disableSort) return
@@ -639,7 +645,7 @@ const onSortBy = (e) => {
 
 const currentPage = computed({
   get: () => props.page,
-  set: (value) => emit('update:page', value)
+  set: (value) => updatePage(value)
 })
 
 watch(
@@ -661,7 +667,7 @@ watch(
 watch(
   () => props.smartSearch,
   () => {
-    emit('update:page', 1)
+    updatePage(1)
   },
   {
     deep: true,
@@ -671,7 +677,7 @@ watch(
 watch(
   () => props.itemsPerPage,
   () => {
-    emit('update:page', 1)
+    updatePage(1)
   }
 )
 
