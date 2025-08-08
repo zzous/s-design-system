@@ -162,7 +162,6 @@ const emit = defineEmits([
   'update:filter',
   'update:search',
   'update:sort-by',
-  'update:sort-desc',
   'update:group-by',
   'update:expanded',
   'update:options',
@@ -446,9 +445,6 @@ const filterDatas = computed(() => {
       }),
     )
     emit('update:filtered-cnt', filteredList.length)
-    if (!props.options?.pageCnt) {
-      updatePage(1)
-    }
     return filteredList
   }
 
@@ -513,17 +509,11 @@ const filterDatas = computed(() => {
       })
     })
     emit('update:filtered-cnt', filteredList.length)
-    if (!props.options?.pageCnt) {
-      updatePage(1)
-    }
     return filteredList
   }
 
   let result = props.items || []
   emit('update:filtered-cnt', result.length)
-  if (!props.options?.pageCnt) {
-    updatePage(1)
-  }
 
   // 정렬 로직 추가
   if (sortBy.value.length > 0) {
@@ -597,7 +587,6 @@ const updatePage = (newPage) => {
 const updateSortBy = e => {
   // Vuetify 3의 정렬 이벤트 구조에 맞게 처리
   if (Array.isArray(e) && e.length > 0) {
-    console.log('e[0]:', e[0])
     const sortItem = e[0]
 
     // 현재 정렬 상태 확인
@@ -626,10 +615,8 @@ const updateSortBy = e => {
     }
   } else {
     sortBy.value = []
-    sortDesc.value = []
   }
-  // Vuetify에는 빈 배열을 전달해서 자동 정렬을 방지
-  emit('update:sort-by', [])
+  emit('update:sort-by', sortBy.value)
   updatePage(1)
 }
 const onSortBy = (e) => {
