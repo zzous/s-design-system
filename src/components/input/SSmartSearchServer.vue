@@ -28,7 +28,7 @@
         <v-list-item
           v-else
           :title="item?.props?.title"
-          @click="onEnter($event, item?.raw.title, item?.raw.type)"
+          @click="onEnter($event, item?.raw.title, item?.raw.type, item?.raw.value)"
         ></v-list-item>
       </template>
       <template v-slot:append-item v-if="searchTag">
@@ -152,8 +152,12 @@ const filterTagKeys = (type) => {
     props.tagItems.forEach(data => {
       if (data.tagList?.length) {
         data.tagList.forEach(tagObj => {
-          if (tagObj[type] !== null) {
-            setFilterDatas.add(tagObj[type])
+          // null, undefined, 빈 문자열, '-'를 모두 같은 값으로 간주
+          const value = tagObj[type]
+          if (value === null || value === undefined || value === '' || value === '-') {
+            setFilterDatas.add('-')
+          } else {
+            setFilterDatas.add(value)
           }
         })
       }
@@ -169,13 +173,16 @@ const filterTagValues = (keyName, valueName) => {
     props.tagItems.forEach(data => {
       if (data.tagList?.length) {
         data.tagList.forEach(tagObj => {
-          const appendData = setFilterDatas.get(tagObj[keyName]) || []
-          if (tagObj[valueName] !== null) {
-            appendData.push(tagObj[valueName])
-            setFilterDatas.set(tagObj[keyName], appendData)
-          } else {
-            setFilterDatas.set(tagObj[keyName], appendData)
-          }
+          // null, undefined, 빈 문자열, '-'를 모두 같은 값으로 간주
+          const keyValue = tagObj[keyName]
+          const valueValue = tagObj[valueName]
+
+          const normalizedKey = (keyValue === null || keyValue === undefined || keyValue === '' || keyValue === '-') ? '-' : keyValue
+          const normalizedValue = (valueValue === null || valueValue === undefined || valueValue === '' || valueValue === '-') ? '-' : valueValue
+
+          const appendData = setFilterDatas.get(normalizedKey) || []
+          appendData.push(normalizedValue)
+          setFilterDatas.set(normalizedKey, appendData)
         })
       }
     })
@@ -185,18 +192,29 @@ const filterTagValues = (keyName, valueName) => {
 
 const setOptionItemFormat = (arr, type) => {
   const result = []
+  const processedValues = new Set() // 중복 제거를 위한 Set
+
   arr.forEach(value => {
     let formattedValue = value
+
+    // null, undefined, 빈 문자열, '-'를 모두 같은 값으로 간주
+    if (value === null || value === undefined || value === '' || value === '-') {
+      formattedValue = '-'
+    }
     // object나 array 타입인 경우 JSON 문자열로 변환
-    if (typeof value === 'object' || Array.isArray(value)) {
+    else if (typeof value === 'object' || Array.isArray(value)) {
       formattedValue = JSON.stringify(value)
     }
-    console.log('formattedValue', formattedValue)
-    result.push({
-      title: String(formattedValue),
-      value: String(formattedValue),
-      type
-    })
+
+    // 중복 제거
+    if (!processedValues.has(formattedValue)) {
+      processedValues.add(formattedValue)
+      result.push({
+        title: String(formattedValue),
+        value: String(formattedValue),
+        type
+      })
+    }
   })
   return result
 }
@@ -246,7 +264,13 @@ const filterItems = computed(() => {
     }
     const setFilterDatas = new Set()
     props.valueItems.forEach(item => {
-      setFilterDatas.add(item.value)
+      // null, undefined, 빈 문자열, '-'를 모두 같은 값으로 간주
+      const value = item.value
+      if (value === null || value === undefined || value === '' || value === '-') {
+        setFilterDatas.add('-')
+      } else {
+        setFilterDatas.add(value)
+      }
     })
     const keyItem = searchValue.value?.split(':')[0]
     if (keyItem) {
@@ -355,20 +379,17 @@ const setInputKey = (value) => {
   isValueSearch.value = true
 }
 
-const onEnter = (event, title, type) => {
-  console.log(event.key, title, type)
+const onEnter = (event, title, type, value) => {
+  console.log(event.key, title, type, value)
   let inputValue = ''
 
   if (!title) {
     return
   }
 
-  // value 값
+  // value 값 - 선택한 options의 value 사용
   const searchValueSplit = searchValue.value?.split(':') || []
-  const setValue =
-    searchValueSplit?.length > 1 && searchValueSplit[1]?.trim()
-      ? searchValue.value.replace(`${searchValue.value?.split(':')[0]}:`, '')
-      : title?.toString().trim()
+  const setValue = value || title?.toString().trim()
   if (!isValueSearch.value) {
     inputValue =
       searchValueSplit.length && searchValueSplit[0].trim()
@@ -389,10 +410,10 @@ const onEnter = (event, title, type) => {
     if (setValue) {
       // emit('update:model-value', valuesItem)
 
-      // 선택된 key, value, title 정보 저장
+      // 선택된 key, value, title 정보 저장 - options의 value 사용
       const addItem = {
           title: findTitle,
-          value: setValue.trim(),
+          value: setValue, // 선택한 options의 value 사용
           key: findKey,
           type: isTagSearching.value ? 'tag' : null,
         }
