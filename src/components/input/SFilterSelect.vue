@@ -61,10 +61,10 @@
       >
         <template v-slot="{ item }">
           <div class="v-virtual-scroll__item">
-            <slot name="null-data" v-if="hasNullValue">
+            <slot name="null-data" v-if="props.hasNullValue">
               <v-list-item
                 v-if="[null, props.nullValue].includes(item[props.itemValue])"
-                :value="nullValue"
+                :value="props.nullValue"
                 :density="density"
               >
                 <template v-slot:prepend="{ isActive }">
@@ -72,8 +72,8 @@
                     <v-checkbox-btn class="s-filter-select__checkbox-btn" :model-value="isActive" :density="density"></v-checkbox-btn>
                   </v-list-item-action>
                 </template>
-                <v-list-item-title :title="nullTitle" :density="density">
-                  {{ nullTitle }}
+                <v-list-item-title :title="props.nullTitle" :density="density">
+                  {{ props.nullTitle }}
                 </v-list-item-title>
               </v-list-item>
             </slot>
@@ -200,23 +200,29 @@ watch(
 )
 
 const setNullValues = () => {
+  // 먼저 null을 nullValue 문자열로 치환
+  const convertedModelValue = convertNullToString(props.modelValue)
+
   if (props.hasNullValue) {
-    filterValues.value = props.modelValue.filter(value => {
-    if (value === props.nullValue || value === props.nullValue) {
-      return props.hasNullValue
-        ? props.nullValue.includes(searchWord.value.trim().toLowerCase())
-        : false
-    }
-    if (value !== props.nullValue || value !== props.nullValue) {
-      const mapItems = filterItems.value.map(
-        mItem => mItem[props.itemValue],
-      )
+    filterValues.value = convertedModelValue.filter(value => {
+      // nullValue 문자열인 경우
+      if (value === props.nullValue) {
+        // 검색어가 있다면 nullTitle에서 검색어를 포함하는지 확인
+        if (searchWord.value) {
+          return props.nullTitle.toLowerCase().includes(searchWord.value.trim().toLowerCase())
+        }
+        // 검색어가 없다면 항상 포함
+        return true
+      }
+      // null이 아닌 값들은 현재 필터된 아이템들에 포함되어 있는지 확인
+      const mapItems = filterItems.value.map(mItem => mItem[props.itemValue])
       return mapItems.includes(value)
-    }
-      return false
     })
   } else {
-    filterValues.value = props.modelValue
+    filterValues.value = convertedModelValue.filter(value => {
+      const mapItems = filterItems.value.map(mItem => mItem[props.itemValue])
+      return mapItems.includes(value)
+    })
   }
 }
 
@@ -262,16 +268,25 @@ watch(
   }
 )
 
+// modelValue의 null을 nullValue 문자열로 치환하는 함수
+const convertNullToString = (values) => {
+  if (!props.hasNullValue) return values
+  return values.map(value => value === null ? props.nullValue : value)
+}
+
 watch(
   () => props.modelValue,
   () => {
     if (props.modelValue.length) {
-      filterValues.value = props.modelValue
+      filterValues.value = convertNullToString(props.modelValue)
     } else {
       filterValues.value = []
     }
     setAllChecked()
   },
+  {
+    immediate: true,
+  }
 )
 
 const onChangeFilterValue = values => {
@@ -295,15 +310,26 @@ const changeNullValue = (value) => {
 const toggle = () => {
   const setData = new Set(filterValues.value)
   if (allChecked.value) {
-    filterValues.value.forEach(item => {
-      if (item !== null) setData.delete(item)
-      else setData.delete(props.nullValue)
+    // 전체 해제: 현재 필터된 아이템들을 모두 제거
+    filterItems.value.forEach(item => {
+      const itemValue = item[props.itemValue]
+      if (itemValue === props.nullValue || itemValue === null) {
+        setData.delete(props.nullValue)
+        setData.delete(null)
+      } else {
+        setData.delete(itemValue)
+      }
     })
   } else {
+    // 전체 선택: 현재 필터된 아이템들을 모두 추가
     try {
       filterItems.value.forEach(item => {
-        if (item[props.itemValue]) setData.add(item[props.itemValue])
-        else setData.add(props.nullValue)
+        const itemValue = item[props.itemValue]
+        if (itemValue === props.nullValue || itemValue === null) {
+          setData.add(props.nullValue)
+        } else if (itemValue) {
+          setData.add(itemValue)
+        }
       })
     } catch (e) {
       console.warn(e)
