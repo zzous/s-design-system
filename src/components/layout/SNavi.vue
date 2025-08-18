@@ -150,13 +150,23 @@ const props = defineProps({
     type: String,
     default: 'ko',
   },
+  noProjectAllSelect: {
+    type: Boolean,
+    default: false,
+  },
 })
 
 const emits = defineEmits(['change:project', 'click:service-name'])
 
 const open = ref([]) //활성화할 메뉴의 value
 
-const totalProjectList = computed(() => [{ ...defaultProject }, ...props.projectList])
+const totalProjectList = computed(() => {
+  if (props.noProjectAllSelect) {
+    return props.projectList
+  } else {
+    return [{ ...defaultProject }, ...props.projectList]
+  }
+})
 
 const clickableMenu = subMenu => {
   return !props.useProject || (props.useProject && (props.selectedProject?.projectId > 0 || subMenu.dependency !== 'PROJECT'))
