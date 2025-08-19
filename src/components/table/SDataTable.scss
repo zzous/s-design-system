@@ -6,9 +6,39 @@
     font-weight: 600;
     font-size: toRem(14);
     background: #F7F9FA;
+    position: relative;
 
     .v-selection-control.v-checkbox-btn .v-icon--size-default {
       font-size: 1.3rem;
+    }
+
+    // 커스텀 정렬 아이콘 스타일
+    .custom-sort-icon {
+      position: absolute;
+      right: 8px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 16px;
+      opacity: 0;
+      cursor: pointer;
+    }
+
+    .custom-sort-icon.active {
+      opacity: 1;
+      color: #666;
+    }
+
+    // hover 상태일 때 아이콘 표시
+    th:hover .custom-sort-icon {
+      opacity: 1;
+    }
+
+    .custom-sort-icon.asc {
+      transform: translateY(-50%);
+    }
+
+    .custom-sort-icon.desc {
+      transform: translateY(-50%);
     }
   }
 

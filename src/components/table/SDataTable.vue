@@ -28,8 +28,24 @@
     @update:options="$emit('update:options', $event)"
     @update:expanded="$emit('update:expanded', $event)"
   >
+  <!-- sortBy Vuetify 내부 함수와 정렬 기능 충돌이 발생하여 sortBy 속성을 사용하지 않음 -->
     <template #headers="bind" v-if="$slots.headers">
       <slot name="headers" v-bind="bind"></slot>
+    </template>
+
+    <template v-for="(header, index) in lazyHeaders" #[`header.${header.key}`] :key="index">
+      <div class="d-flex align-center justify-space-between" @click="handleSortClick(header.key)">
+        <span>{{ header.title || header.value }}</span>
+        <v-icon
+          v-if="header.sortable !== false && !disableSort"
+          class="custom-sort-icon"
+          :class="{
+            'active': isColumnSorted(header.key)
+          }"
+        >
+          {{ getSortIcon(header.key) }}
+        </v-icon>
+      </div>
     </template>
 
     <template v-for="(el, index) in lazyHeaders" #[`item.${el.key}`]="bind" :key="index">
@@ -620,18 +636,9 @@ const updateSortBy = e => {
   updatePage(1)
 }
 const onSortBy = (e) => {
-  if (props.disableSort) return
-
-  // sortable: false인 컬럼은 정렬하지 않음
-  if (Array.isArray(e) && e.length > 0) {
-    const sortItem = e[0]
-    const header = props.headers.find(h => h.key === sortItem.key)
-    if (header && header.sortable === false) {
-      return
-    }
-  }
-
-  updateSortBy(e)
+  // Vuetify의 기본 정렬 기능은 사용하지 않음
+  // 커스텀 정렬 아이콘 클릭으로만 정렬 처리
+  return
 }
 
 const currentPage = computed({
@@ -688,6 +695,61 @@ const tableColumnWidth = (width) => {
     return `${width}px`
   }
   return '250px'
+}
+
+// 커스텀 정렬 관련 함수들
+const isColumnSorted = (key) => {
+  return sortBy.value.some(item => item.key === key)
+}
+
+const getSortDirection = (key) => {
+  const sortItem = sortBy.value.find(item => item.key === key)
+  return sortItem ? sortItem.order : null
+}
+
+const getSortIcon = (key) => {
+  const direction = getSortDirection(key)
+  if (direction === 'asc') {
+    return 'mdi-arrow-up'
+  } else if (direction === 'desc') {
+    return 'mdi-arrow-down'
+  } else {
+    return 'mdi-arrow-up-down'
+  }
+}
+
+const handleSortClick = (key) => {
+  if (props.disableSort) return
+
+  const header = props.headers.find(h => h.key === key)
+  if (header && header.sortable === false) return
+
+  const currentSort = sortBy.value.find(item => item.key === key)
+  let newOrder = 'asc'
+
+  if (!currentSort) {
+    // 처음 정렬하는 경우: 없음 → ASC
+    newOrder = 'asc'
+  } else if (currentSort.order === 'asc') {
+    // ASC → DESC
+    newOrder = 'desc'
+  } else if (currentSort.order === 'desc') {
+    // DESC → 없음
+    newOrder = null
+  }
+
+  if (newOrder === null) {
+    // 정렬 해제
+    sortBy.value = []
+    sortDesc.value = []
+  } else {
+    // 정렬 설정
+    sortBy.value = [{ key: key, order: newOrder }]
+    sortDesc.value = [newOrder === 'desc']
+  }
+
+  emit('update:sort-by', sortBy.value)
+  updatePage(1)
 }
 
 
