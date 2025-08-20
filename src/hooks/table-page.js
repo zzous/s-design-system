@@ -25,8 +25,8 @@ const useTablePage = onFetch => {
   }
 
   const onRefresh = () => {
-    onFetch?.()
     setPage(1)
+    onFetch?.()
     setCheckedList([])
   }
 
