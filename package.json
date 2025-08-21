@@ -30,7 +30,10 @@
     "@codemirror/theme-one-dark": "^6.1.2",
     "@codemirror/view": "^6.34.1",
     "@mdi/font": "^7.4.47",
+    "@vuepic/vue-datepicker": "^11.0.2",
     "codemirror": "^6.0.1",
+    "date-fns": "^4.1.0",
+    "dayjs": "^1.11.13",
     "lodash-es": "^4.17.21",
     "remove": "^0.1.5",
     "vee-validate": "^4.15.0",
@@ -63,5 +66,6 @@
   },
   "publishConfig": {
     "registry": "http://210.217.178.150:8081/repository/strato-ui/"
-  }
+  },
+  "packageManager": "yarn@1.22.22+sha1.ac34549e6aa8e7ead463a7407e1c7390f61a6610"
 }
