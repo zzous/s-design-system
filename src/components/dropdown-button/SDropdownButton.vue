@@ -1,5 +1,5 @@
 <template>
-  <v-menu v-if="permittedItems.length" offset-y>
+  <v-menu v-if="list.length" offset-y>
     <template #activator="{ props: menuActivatorProps }">
       <s-btn
           v-bind="menuActivatorProps"
@@ -12,7 +12,7 @@
     </template>
     <v-list>
       <v-list-item
-          v-for="(item, idx) in permittedItems"
+          v-for="(item, idx) in list"
           :key="item?.actionCode || idx"
           :disabled="isItemDisabled(item)"
           @click="handleClick(item)"
@@ -22,6 +22,7 @@
     </v-list>
   </v-menu>
 </template>
+
 
 <script setup>
 import { computed } from 'vue'
@@ -51,19 +52,13 @@ const props = defineProps({
   }
 })
 
-const permittedItems = computed(() => {
-  return props.list.filter(item => {
-    const isPermitted =
-      !props.whiteList.length || props.whiteList.includes(item.actionCode)
-
-    const hasValidConfig =
-      typeof item.onClick === 'function' && !!item.label
-
-    return isPermitted && hasValidConfig
-  })
-})
-
+// permittedItems 로직을 제거하고, isItemDisabled 함수를 수정
 const isItemDisabled = (item) => {
+  // 1. `whiteList`에 포함되지 않으면 비활성화
+  const isPermitted = props.whiteList.includes(item.actionCode)
+  if (!isPermitted) return true
+
+  // 2. 기존 로직 유지
   if (item.disabled === true) return true
 
   const count = props.selectedList.length
