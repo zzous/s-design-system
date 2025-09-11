@@ -39,3 +39,4 @@ export {default as SListInput} from './components/input/SListInput.vue';
 export {default as SListControl} from './components/list-control/SListControl.vue';
 export {default as SDropdownButton} from './components/dropdown-button/SDropdownButton.vue';
 export {default as SDatePicker} from './components/date-picker/SDatePicker.vue';
+export {default as SSlidePanel} from './components/slide-panel/SSlidePanel.vue';

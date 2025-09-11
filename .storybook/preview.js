@@ -29,9 +29,12 @@ export const decorators = [
     (story) => ({
         components: { VuetifyWrapper, story },
         template: `
-          <VuetifyWrapper>
-            <story />
-          </VuetifyWrapper>
+        <div id="destination"></div>
+        <div>
+            <VuetifyWrapper>
+                <story />
+            </VuetifyWrapper>
+        </div>
         `,
     }),
 ];

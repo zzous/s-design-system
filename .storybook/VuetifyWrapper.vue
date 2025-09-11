@@ -3,7 +3,6 @@
     <v-app :theme="themeName">
       <v-main>
         <slot />
-        <div id="destination" />
       </v-main>
     </v-app>
   </div>
