@@ -1,8 +1,7 @@
 import { ref, computed } from 'vue'
 
 
-
-export default function useSlidePanel() {
+export default function useSlidePanel(props) {
 
     const isOpen = ref(false)
 
@@ -14,13 +13,8 @@ export default function useSlidePanel() {
       isOpen.value = false
     }
 
-    const slidePanelProps = computed(() => {
-      return { isOpen: isOpen.value, onClose: closeSlidePanel }
-    })
-
-
     return {
-      slidePanelProps,
+      slidePanelProps: computed(() => ({ ...props, isOpen: isOpen.value, onClose: closeSlidePanel })),
       openSlidePanel,
       closeSlidePanel,
     }

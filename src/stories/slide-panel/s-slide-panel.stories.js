@@ -9,6 +9,25 @@ export default {
             template: '<story/>'
         })
     ],
+    parameters: {
+        docs: {
+            source: {
+                code: `
+<template>
+    <s-slide-panel v-bind="slidePanelProps">
+        슬라이드 패널 컨텐츠
+    </s-slide-panel>
+<template>
+
+<script setup>
+import { useSlidePanel } from '@strato/components'
+
+const { slidePanelProps, openSlidePanel, closeSlidePanel } = useSlidePanel({ title: '슬라이드 패널 제목' })
+</script>
+                `,
+            },
+        },
+    },
     argTypes: {
         isOpen: {
             control: 'boolean',
@@ -39,16 +58,26 @@ export default {
         },
         size: {
             control: 'text',
-            description: '패널의 너비를 설정합니다. (예: "300px", "50%").',
+            description: '패널의 너비를 설정합니다. (예: "300px").',
+            table: {
+                type: { summary: 'string' },
+            },
+        },
+        top: {
+            control: 'text',
+            description: '패널 스타일의 top 속성을 설정합니다.',
+            table: {
+                type: { summary: 'string' },
+            },
         },
     },
 };
 
 export const Default = {
     args: {
-        isOpen: true,
-        title: 'Slide Panel Title',
+        isOpen: false,
+        title: 'Title',
         isBackdrop: false,
-        size: '300px',
+        size: '480px',
     },
 };

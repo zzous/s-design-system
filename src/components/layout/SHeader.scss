@@ -1,9 +1,10 @@
 .s-header {
+  height: var(--global-nav-header-height);
   box-shadow: 0px 4px 4px 0px #00000040;
 
   .s-logo {
     width: 288px;
-    height: 68px;
+    height: 100%;
 
     .s-logo__img {
       margin-top: 17px;

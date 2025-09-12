@@ -1,7 +1,9 @@
+:root {
+    --global-nav-header-height: 68px;
+}
+
 html * {
     font-family: $s-base-font;
-    --global-nav-header-height: 68px;
-
     .mdi-checkbox-marked::before{color: #1297f2 ;}
 }
 
