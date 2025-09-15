@@ -56,7 +56,6 @@
  * TODO 남은 업무
  * 1. 선택된 값 중 중복 선택 값 제거
  */
-import * as _ from 'lodash-es'
 import { ref, computed, reactive } from 'vue'
 
 const props = defineProps({
@@ -115,7 +114,7 @@ const searchValue = ref(null)
 const isValueSearch = ref(false)
 const isTagSearching = ref(false)
 const selectedKeyItem = ref(null)
-const valuesItem = reactive(props.modelValue)
+const valuesItem = ref(props.modelValue)
 const autoComp = ref(null)
 const menuProps = reactive({
   closeOnClick: false,
@@ -224,6 +223,7 @@ const filterItems = computed(() => {
     optionItems = optionItems.concat(
       setOptionItemFormat(makedOptionItemObj[keyItem], 'tag'),
     )
+
     return optionItems
   }
 
@@ -231,8 +231,21 @@ const filterItems = computed(() => {
     if (!props.items.length) {
       return []
     }
+
+    const valuesItemMap = valuesItem.value.reduce((acc, item) => {
+      acc[item.key] = item.value;
+      return acc;
+    }, {});
+    // valuesItem 기준으로 props.items 를 필터링 함.
+    const sanitizedItems = props.items.filter(item => {
+      return Object.keys(valuesItemMap).every(key => {
+        return item[key] === valuesItemMap[key];
+      });
+    });
+
     const setFilterDatas = new Set()
-    props.items.forEach(item => {
+
+    sanitizedItems.forEach(item => {
       // null, undefined, 빈 문자열, '-'를 모두 같은 값으로 간주
       const value = item[selectedKeyItem.value]
       // undefined 값도 포함하도록 조건 수정
@@ -242,8 +255,7 @@ const filterItems = computed(() => {
         setFilterDatas.add(value)
       }
     })
-    // console.log('setFilterDatas', setFilterDatas)
-    const uniqueArr = _.cloneDeep(setFilterDatas)
+
     const keyItem = searchValue.value?.split(':')[0]
     if (keyItem) {
       optionItems.push({
@@ -251,8 +263,7 @@ const filterItems = computed(() => {
         title: '',
       })
     }
-    optionItems = optionItems.concat(setOptionItemFormat(uniqueArr))
-
+    optionItems = optionItems.concat(setOptionItemFormat(setFilterDatas))
     return optionItems
   }
 
@@ -357,7 +368,7 @@ const setInputKey = (value) => {
 }
 
 const onEnter = (event, title, type, value) => {
-  console.log(event.key, title, type, value)
+  // console.log(event.key, title, type, value)
   let inputValue = ''
 
   if (!title) {
@@ -389,28 +400,30 @@ const onEnter = (event, title, type, value) => {
 
       // 선택된 key, value, title 정보 저장 - options의 value 사용
       const addItem = {
-          title: findTitle,
-          value: setValue, // 선택한 options의 value 사용
-          key: findKey,
-          type: isTagSearching.value ? 'tag' : null,
-        }
-        valuesItem.push(addItem)
-        // 변경된 검색 데이터 목록
-        emit('update:model-value', valuesItem)
+        title: findTitle,
+        value: setValue, // 선택한 options의 value 사용
+        key: findKey,
+        type: isTagSearching.value ? 'tag' : null,
+      }
 
-        // 추가된 아이템 이벤트
-        emit('update:target-item', addItem)
+      valuesItem.value = [...new Map([...valuesItem.value, addItem].map(item => [item.key, item])).values()]
+      // 변경된 검색 데이터 목록
+      emit('update:model-value', valuesItem.value)
 
-        // 이벤트 delay => 너무 빨라서 select headers 목록이 안닫힘
-        setTimeout(() => {
-          menuProps.closeOnClick = false
-          menuProps.closeOnContentClick = false
-        }, 500)
+      // 추가된 아이템 이벤트
+      emit('update:target-item', addItem)
 
-        onClear()
-        return
+      // 이벤트 delay => 너무 빨라서 select headers 목록이 안닫힘
+      setTimeout(() => {
+        menuProps.closeOnClick = false
+        menuProps.closeOnContentClick = false
+      }, 500)
+
+      onClear()
+      return
     }
   } else {
+    console.log('key 값 세팅', menuProps)
     // key 값 세팅
     menuProps.closeOnClick = true
     menuProps.closeOnContentClick = true
@@ -438,8 +451,8 @@ const onEnter = (event, title, type, value) => {
 }
 
 const onClickSearchNullTag = () => {
-  valuesItem.push({ title: '미지정 태그', value: '-', key: 'undefinedTag', type: 'tag' })
-  emit('update:model-value', valuesItem)
+  valuesItem.value.push({ title: '미지정 태그', value: '-', key: 'undefinedTag', type: 'tag' })
+  emit('update:model-value', valuesItem.value)
 
   if (autoComp.value) {
     autoComp.value.search = ''
@@ -447,8 +460,8 @@ const onClickSearchNullTag = () => {
 }
 
 const onDeleteSearchItem = (index) => {
-  valuesItem.splice(index, 1)
-  emit('update:model-value', valuesItem)
+  valuesItem.value.splice(index, 1)
+  emit('update:model-value', valuesItem.value)
 }
 </script>
 
