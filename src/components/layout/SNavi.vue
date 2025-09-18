@@ -48,7 +48,7 @@
               @click="handleMenuClick($event, menu)"
               >
               <template v-if="!menu.subMenus || menu.subMenus.length === 0" #title>
-                <RouterLink class="navi-inner-menu-title" :to="menu.menuUrl">
+                <RouterLink class="navi-inner-menu-title" :to="updateMenuUrl(menu.menuUrl)">
                   {{ menuNameLang(menu) }}
                 </RouterLink>
               </template>
@@ -61,7 +61,7 @@
               class="s-navi-inner-menu"
               :class="{
                 disabled: !clickableMenu(subMenu),
-                active: selectedProject?.projectId > 0 || subMenu.dependency !== 'PROJECT'
+                enabled: selectedProject?.projectId > 0 || subMenu.dependency !== 'PROJECT'
               }"
               :value="subMenu.idx"
               active-class="menu-active"
@@ -73,7 +73,7 @@
                 <RouterLink
                   v-if="clickableMenu(subMenu)"
                   class="s-navi-inner-menu-title"
-                  :to="subMenu.menuUrl"
+                  :to="updateMenuUrl(subMenu.menuUrl)"
                   ref="menuLink"
                 >
                   {{ menuNameLang(subMenu) }}
@@ -210,6 +210,16 @@ const serviceNameText = computed(() => {
   return props.serviceName || menuNameLang(props.menuPath)
 })
 
+const updateMenuUrl = (menuUrl) => {
+  if (!menuUrl || !props.selectedProject?.projectId) return menuUrl;
+
+  if (menuUrl.includes('/cluster/detail/')) {
+    return menuUrl.replace(/\/cluster\/detail\/\d+\//, `/cluster/detail/${props.selectedProject.projectId}/`);
+  }
+
+  return menuUrl;
+}
+
 const isMenuPathMatched = (menuUrl, routerPath) => {
   // 기본 경로가 없는 경우 처리
   if (!menuUrl || !routerPath) return false;
@@ -264,10 +274,11 @@ watch(
   { immediate: true }
 );
 
-// v-list-item의 active 상태를 결정하는 computed 속성 추가
-const isMenuActive = (menuUrl) => {
-  return isMenuPathMatched(menuUrl, props.routerPath);
-};
+const isMenuActive = computed(() => {
+  return (menuUrl) => {
+    return isMenuPathMatched(menuUrl, props.routerPath);
+  };
+});
 
 const handleMenuClick = (event, subMenu) => {
   if (clickableMenu(subMenu)) {
