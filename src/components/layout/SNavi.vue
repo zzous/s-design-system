@@ -226,9 +226,15 @@ const isMenuPathMatched = (menuUrl, routerPath) => {
 
   // 각 부분을 비교하면서 parameter 부분은 무시
   return menuParts.every((part, index) => {
+    const routerPart = routerParts[index];
+
     // parameter 부분(':' 으로 시작하는 경우)은 항상 true
     if (part.startsWith(':')) return true;
-    return part === routerParts[index];
+
+    if (/^\d+$/.test(part) && /^\d+$/.test(routerPart)) return true;
+
+    // 일반 문자열 비교
+    return part === routerPart;
   });
 };
 
