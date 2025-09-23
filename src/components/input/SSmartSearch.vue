@@ -114,7 +114,10 @@ const searchValue = ref(null)
 const isValueSearch = ref(false)
 const isTagSearching = ref(false)
 const selectedKeyItem = ref(null)
-const valuesItem = ref(props.modelValue)
+const valuesItem = computed({
+  get: () => props.modelValue,
+  set: (val) => emit('update:model-value', Array.isArray(val) ? val : [])
+})
 const autoComp = ref(null)
 const menuProps = reactive({
   closeOnClick: false,
@@ -407,8 +410,6 @@ const onEnter = (event, title, type, value) => {
       }
 
       valuesItem.value = [...new Map([...valuesItem.value, addItem].map(item => [item.key, item])).values()]
-      // 변경된 검색 데이터 목록
-      emit('update:model-value', valuesItem.value)
 
       // 추가된 아이템 이벤트
       emit('update:target-item', addItem)
@@ -451,8 +452,7 @@ const onEnter = (event, title, type, value) => {
 }
 
 const onClickSearchNullTag = () => {
-  valuesItem.value.push({ title: '미지정 태그', value: '-', key: 'undefinedTag', type: 'tag' })
-  emit('update:model-value', valuesItem.value)
+  valuesItem.value = [...valuesItem.value, { title: '미지정 태그', value: '-', key: 'undefinedTag', type: 'tag' }]
 
   if (autoComp.value) {
     autoComp.value.search = ''
@@ -460,8 +460,9 @@ const onClickSearchNullTag = () => {
 }
 
 const onDeleteSearchItem = (index) => {
-  valuesItem.value.splice(index, 1)
-  emit('update:model-value', valuesItem.value)
+  const next = valuesItem.value.slice()
+  next.splice(index, 1)
+  valuesItem.value = next
 }
 </script>
 
