@@ -40,7 +40,6 @@
           {{ getSortIcon(header.key) }}
         </v-icon>
         <div
-          v-if="hIndex < lazyHeaders.length - 1"
           class="resize-handle"
           @mousedown="startResize($event, header.key, hIndex)"
           @click.stop
