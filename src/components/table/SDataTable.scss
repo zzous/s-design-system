@@ -147,6 +147,65 @@
     width: inherit;
   }
 
+  // 말줄임 관련 클래스들
+  .s-ellipsis {
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    white-space: nowrap !important;
+    max-width: 100% !important;
+  }
+
+  .s-ellipsis--off {
+    overflow: visible !important;
+    text-overflow: initial !important;
+    white-space: normal !important;
+    max-width: none !important;
+    -webkit-line-clamp: none !important;
+    line-clamp: none !important;
+    -webkit-box-orient: initial !important;
+    display: initial !important;
+  }
+
+  .s-ellipsis--multi-2 {
+    display: -webkit-box !important;
+    -webkit-line-clamp: 2 !important;
+    line-clamp: 2 !important;
+    -webkit-box-orient: vertical !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+  }
+
+  .s-ellipsis--multi-3 {
+    display: -webkit-box !important;
+    -webkit-line-clamp: 3 !important;
+    line-clamp: 3 !important;
+    -webkit-box-orient: vertical !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+  }
+
+  .s-table-column__text {
+    display: inline-block;
+    width: 100%;
+    box-sizing: border-box;
+
+    // 기본적으로 말줄임 적용
+    &.s-ellipsis {
+      overflow: hidden !important;
+      text-overflow: ellipsis !important;
+      white-space: nowrap !important;
+      max-width: 100% !important;
+    }
+
+    // 말줄임 비활성화
+    &.s-ellipsis--off {
+      overflow: visible !important;
+      text-overflow: initial !important;
+      white-space: normal !important;
+      max-width: none !important;
+    }
+  }
+
   &.hide-footer {
     > :deep(.v-data-table-footer) {
       display: none !important;

@@ -59,7 +59,9 @@
             {{ isEmpty(bind.item[el.key]) ? '-' : bind.item[el.key] }}
           </span>
 
-          <span v-else>
+          <span v-else
+            class="d-inline-block s-table-column__text s-ellipsis"
+            :class="[ bind.item.highlight ]">
             <slot :name="`item.${el.key}`" v-bind="bind">
               {{ isEmpty(bind.item[el.key]) ? '-' : bind.item[el.key] }}
             </slot>
@@ -68,7 +70,7 @@
         <span>{{ isEmpty(bind.item[el.key]) ? '-' : bind.item[el.key] }}</span>
       </v-tooltip>
 
-      <div v-else :class="[ bind.item.highlight ]">
+      <div v-else class="s-table-column__text s-ellipsis" :class="[ bind.item.highlight ]">
         <slot :name="`item.${el.key}`" v-bind="bind">
           {{ isEmpty(bind.item[el.key]) ? '-' : bind.item[el.key] }}
         </slot>
@@ -638,7 +640,6 @@ const initializeTableWidths = () => {
     setTableLayoutFixed()
     applyAllColumnWidths()
     tableInitialized.value = true
-    afterTableReady()
   })
 }
 
@@ -648,92 +649,8 @@ const initializeTableWidthsDebounced = () => {
   initTableTimeout = setTimeout(() => { initializeTableWidths(); initTableTimeout = null }, 100)
 }
 
-const getNumeric = v => (v ? parseFloat(v) || 0 : 0)
-
-const computeAvailableWidth = (cell, wrapper) => {
-  const cs = getComputedStyle(cell)
-  let occupied = getNumeric(cs.paddingLeft) + getNumeric(cs.paddingRight)
-
-  let sib = wrapper.nextElementSibling
-  while (sib) {
-    occupied += sib.offsetWidth
-    const s = getComputedStyle(sib)
-    occupied += Math.max(getNumeric(s.marginLeft), 0)
-    sib = sib.nextElementSibling
-  }
-
-  const safety = 4
-  return Math.max(0, cell.clientWidth - occupied - safety)
-}
-
-const adjustTruncationForColumn = (colIndex) => {
-  const table = getTableEl(); if (!table) return
-  const body = table.tBodies?.[0]; if (!body) return
-
-  for (const row of body.rows) {
-    const cell = row.cells[colIndex]; if (!cell) continue
-    const wrapper = cell.querySelector('.s-table-column__text'); if (!wrapper) continue
-
-    wrapper.classList.remove('s-ellipsis--off')
-    wrapper.classList.add('s-ellipsis')
-    wrapper.style.whiteSpace = 'nowrap'
-    wrapper.style.overflow = 'hidden'
-    wrapper.style.textOverflow = 'ellipsis'
-    wrapper.style.width = ''
-
-    const available = computeAvailableWidth(cell, wrapper)
-
-    wrapper.style.maxWidth = `${available}px`
-
-    const fits = wrapper.scrollWidth <= wrapper.clientWidth + 0.5
-
-    if (fits) {
-      wrapper.classList.add('s-ellipsis--off')
-      wrapper.classList.remove('s-ellipsis')
-      wrapper.style.maxWidth = ''
-    } else {}
-  }
-}
-
-
-let pendingCols = new Set()
-let rafAdjustId = null
-const scheduleAdjust = (colIndex) => {
-  pendingCols.add(colIndex)
-  if (rafAdjustId) return
-  rafAdjustId = requestAnimationFrame(() => {
-    for (const idx of pendingCols) adjustTruncationForColumn(idx)
-    pendingCols.clear()
-    rafAdjustId = null
-  })
-}
-
 const onTooltipToggle = (colIndex) => {
-  return () => requestAnimationFrame(() => scheduleAdjust(colIndex))
-}
-
-let headerResizeObserver = null
-const observeHeaderForEllipsis = () => {
-  const table = getTableEl(); if (!table || headerResizeObserver) return
-  const head = table.tHead; if (!head) return
-
-  headerResizeObserver = new ResizeObserver((entries) => {
-    for (const entry of entries) {
-      const th = entry.target
-      const row = th.parentElement; if (!row) continue
-      const cells = Array.from(row.children)
-      const colIndex = cells.indexOf(th)
-      if (colIndex >= 0) scheduleAdjust(colIndex)
-    }
-  })
-
-  for (const row of head.rows) {
-    for (const th of row.cells) headerResizeObserver.observe(th)
-  }
-}
-
-const disconnectHeaderObserver = () => {
-  if (headerResizeObserver) { headerResizeObserver.disconnect(); headerResizeObserver = null }
+  return () => {}
 }
 
 const updateColumnWidthDOM = (columnKey, width, isQuick = false) => {
@@ -759,8 +676,6 @@ const updateColumnWidthDOM = (columnKey, width, isQuick = false) => {
       if (isQuick) td.style.boxSizing = 'border-box'
     }
   }
-
-  scheduleAdjust(colIndex)
 
   if (!isQuick) {
     requestAnimationFrame(() => {
@@ -867,11 +782,9 @@ const stopResize = () => {
   }
 
   persistColumnWidths()
-  if (currentColumn.value) scheduleAdjust(currentColumn.value.index)
+
   currentColumn.value = null
 }
-
-const updateColumnWidth = (columnKey, width) => updateColumnWidthDOM(columnKey, width, false)
 
 const persistColumnWidths = () => {
   if (!props.persistKey) return
@@ -899,19 +812,11 @@ const restoreColumnWidths = () => {
         setTableLayoutFixed()
         applyAllColumnWidths()
         tableInitialized.value = true
-        afterTableReady()
       })
       return true
     }
   } catch {}
   return false
-}
-
-const afterTableReady = () => {
-  requestAnimationFrame(() => {
-    lazyHeaders.value.forEach((_, i) => scheduleAdjust(i))
-    observeHeaderForEllipsis()
-  })
 }
 
 onMounted(() => {
@@ -941,8 +846,6 @@ onBeforeUnmount(() => {
   if (initTableTimeout) { clearTimeout(initTableTimeout); initTableTimeout = null }
   document.removeEventListener('mousemove', onMouseMoveThrottled)
   document.removeEventListener('mouseup', stopResize)
-  disconnectHeaderObserver()
-  if (rafAdjustId) cancelAnimationFrame(rafAdjustId)
 })
 </script>
 
