@@ -28,71 +28,61 @@
     @update:options="$emit('update:options', $event)"
     @update:expanded="$emit('update:expanded', $event)"
   >
-  <!-- sortBy Vuetify 내부 함수와 정렬 기능 충돌이 발생하여 sortBy 속성을 사용하지 않음 -->
-    <template #headers="bind" v-if="$slots.headers">
-      <slot name="headers" v-bind="bind"></slot>
-    </template>
-
-    <template v-for="(header, index) in lazyHeaders" #[`header.${header.key}`] :key="index">
-      <div class="d-flex align-center justify-space-between" @click="handleSortClick(header.key)">
+    <template v-for="(header, hIndex) in lazyHeaders" #[`header.${header.key}`] :key="'h-'+hIndex">
+      <div class="header-cell d-flex align-center justify-space-between position-relative"
+           @click="handleSortClick(header.key)">
         <span>{{ header.title || header.value }}</span>
         <v-icon
           v-if="header.sortable !== false && !disableSort"
           class="custom-sort-icon"
-          :class="{
-            'active': isColumnSorted(header.key)
-          }"
+          :class="{ 'active': isColumnSorted(header.key) }"
         >
           {{ getSortIcon(header.key) }}
         </v-icon>
+        <div
+          v-if="hIndex < lazyHeaders.length - 1"
+          class="resize-handle"
+          @mousedown="startResize($event, header.key, hIndex)"
+          @click.stop
+        />
       </div>
     </template>
 
-    <template v-for="(el, index) in lazyHeaders" #[`item.${el.key}`]="bind" :key="index">
-      <v-tooltip v-if="tooltip" location="bottom">
+    <template v-for="(el, cIndex) in lazyHeaders" #[`item.${el.key}`]="bind" :key="'c-'+cIndex">
+      <v-tooltip v-if="tooltip" location="bottom" @update:model-value="onTooltipToggle(cIndex)">
         <template #activator="{ props: dataProps }">
           <span
             v-if="!$slots[`item.${el.key}`]"
             v-bind="dataProps"
-            class="d-inline-block text-truncate s-table-column__text"
-            :class="[
-              bind.item.highlight,
-            ]"
-            :style="{
-              maxWidth: tableColumnWidth(el.width),
-            }"
+            class="d-inline-block s-table-column__text s-ellipsis"
+            :class="[ bind.item.highlight ]"
           >
             {{ isEmpty(bind.item[el.key]) ? '-' : bind.item[el.key] }}
           </span>
+
           <span v-else>
             <slot :name="`item.${el.key}`" v-bind="bind">
               {{ isEmpty(bind.item[el.key]) ? '-' : bind.item[el.key] }}
             </slot>
           </span>
         </template>
-        <span>
-          {{ isEmpty(bind.item[el.key]) ? '-' : bind.item[el.key] }}
-        </span>
+        <span>{{ isEmpty(bind.item[el.key]) ? '-' : bind.item[el.key] }}</span>
       </v-tooltip>
 
-      <div
-        v-else
-        :class="[
-          bind.item.highlight,
-        ]"
-      >
+      <div v-else :class="[ bind.item.highlight ]">
         <slot :name="`item.${el.key}`" v-bind="bind">
           {{ isEmpty(bind.item[el.key]) ? '-' : bind.item[el.key] }}
         </slot>
       </div>
     </template>
+
     <template #[`header.data-table-select`]="bind" v-if="$slots['header.data-table-select']">
       <slot name="header.data-table-select" v-bind="bind">
         <v-checkbox-btn
           :indeterminate="bind.someSelected && !bind.allSelected"
           :model-value="bind.allSelected"
           @update:model-value="bind.selectAll(!bind.allSelected)"
-        ></v-checkbox-btn>
+        />
       </slot>
     </template>
     <template #[`item.data-table-select`]="bind" v-if="$slots['item.data-table-select']">
@@ -100,33 +90,32 @@
         <template v-if="bind.item.selectable">
           <v-checkbox-btn :model-value="bind.isSelected(bind.item)" @update:model-value="bind.toggleSelect(bind.item)" />
         </template>
-        <template v-else>
-        </template>
+        <template v-else />
       </slot>
     </template>
+
     <template #no-data>
-      <div class="text-center no-data">
-        {{ noDataText }}
-      </div>
+      <div class="text-center no-data">{{ noDataText }}</div>
     </template>
+
     <template #[`tfoot`]="bind">
       <slot name="tfoot" v-bind="bind">
         <tfoot v-if="footers && Object.keys(footers).length">
           <tr class="v-data-table__tr">
-            <template v-for="(head, hIndex) in lazyHeaders" :key="'foot__' + hIndex">
+            <template v-for="(head, fIndex) in lazyHeaders" :key="'foot__' + fIndex">
               <td
                 v-if="head.align !== 'd-none'"
                 class="v-data-table__td"
                 :width="head.width"
                 :style="{ textAlign: head.align || 'start' }"
-            >
-              <template v-if="$slots[`footer.${head.key}`]">
-                <span :class="[footers.highlight]">
-                  <slot :name="`footer.${head.key}`" :props="footers" />
-                </span>
-              </template>
-              <template v-else>
-                <span :class="[footers.highlight]">{{ footers[head.key] }}</span>
+              >
+                <template v-if="$slots[`footer.${head.key}`]">
+                  <span :class="[footers.highlight]">
+                    <slot :name="`footer.${head.key}`" :props="footers" />
+                  </span>
+                </template>
+                <template v-else>
+                  <span :class="[footers.highlight]">{{ footers[head.key] }}</span>
                 </template>
               </td>
             </template>
@@ -134,18 +123,12 @@
         </tfoot>
       </slot>
     </template>
-    <template #item="bind" v-if="$slots.item">
-      <slot name="item" v-bind="bind" />
-    </template>
-    <template #body="bind" v-if="$slots.body">
-      <slot name="body" v-bind="{...bind, items: filterDatas}" />
-    </template>
-    <template #[`body.append`]="bind" v-if="$slots['body.append']">
-      <slot name="body.append" v-bind="bind" />
-    </template>
-    <template #tbody="bind" v-if="$slots.tbody">
-      <slot name="tbody" v-bind="bind" />
-    </template>
+
+    <template #item="bind" v-if="$slots.item"><slot name="item" v-bind="bind" /></template>
+    <template #body="bind" v-if="$slots.body"><slot name="body" v-bind="{...bind, items: filterDatas}" /></template>
+    <template #[`body.append`]="bind" v-if="$slots['body.append']"><slot name="body.append" v-bind="bind" /></template>
+    <template #tbody="bind" v-if="$slots.tbody"><slot name="tbody" v-bind="bind" /></template>
+
     <template #bottom>
       <slot name="append-content" />
       <div v-if="!hideFooter" class="text-center s-data-table-pagination">
@@ -168,22 +151,13 @@
 </template>
 
 <script setup>
-import { ref, watch, computed, onMounted, nextTick } from 'vue'
+import { ref, watch, computed, onMounted, onBeforeUnmount, nextTick } from 'vue'
 import stringUtil from '@/utils/stringUtil.js'
-
 const { isEmpty } = stringUtil
 
 const emit = defineEmits([
-  'update:page',
-  'update:filter',
-  'update:search',
-  'update:sort-by',
-  'update:group-by',
-  'update:expanded',
-  'update:options',
-  'update:model-value',
-  'get-checkedbox-item',
-  'update:filtered-cnt',
+  'update:page','update:filter','update:search','update:sort-by','update:group-by',
+  'update:expanded','update:options','update:model-value','get-checkedbox-item','update:filtered-cnt',
 ])
 
 const props = defineProps({
@@ -407,16 +381,9 @@ const props = defineProps({
     default: false,
     description: '로딩 상태',
   },
-  hover: {
-    type: Boolean,
-    default: false,
-    description: 'hover 상태',
-  },
-  fixedTable: {
-    type: Boolean,
-    default: false,
-    description: '테이블 고정 여부',
-  },
+  hover: { type: Boolean, default: false, description: 'hover 상태' },
+
+  persistKey: { type: String, default: null, description: 'persist 키' },
 })
 
 const selected = ref([])
@@ -424,12 +391,18 @@ const sortBy = ref([])
 const sortDesc = ref([])
 const lazyHeaders = ref([])
 
-const updateModelValue = item => {
-  // console.log('updateModelValue', item)
-  emit('get-checkedbox-item', item)
-  selected.value = item
-  emit('update:model-value', selected.value)
-}
+const isResizing = ref(false)
+const startX = ref(0)
+const startWidth = ref(0)
+const currentColumn = ref(null) // { key, index }
+const currentResizeHandle = ref(null)
+const columnWidths = ref(new Map())
+const tableInitialized = ref(false)
+const initialTableWidth = ref(0)
+
+const sDataTableRef = ref(null)
+
+const updateModelValue = (item) => { emit('get-checkedbox-item', item); selected.value = item; emit('update:model-value', selected.value) }
 
 const filterDatas = computed(() => {
   // TODO Pagination 컴포넌트 사용 시 Search props와 페이지 수가 맞지 않는 오류가 있음 (해결방법: vuetify 업그레이드)
@@ -576,183 +549,402 @@ const filterDatas = computed(() => {
   return result
 })
 
-const pageCnt = computed(() => {
-  if(props.itemsPerPage !== -1) {
-  return props.options?.pageCnt || Math.ceil(filterDatas.value.length / props.itemsPerPage)
-  }
-  return props.options?.pageCnt || Math.ceil(filterDatas.value.length)
-})
-
-const sDataTableRef = ref()
-// const getChipColor = (status) => {
-//   // console.log(tag, 'getChipColor')
-
-//   return props.getChipColors(status)
-// }
-
-// // 15 글자 넘어가면 말줄임표 추가 => TODO 폭에 따라 값 변경되게 수정
-// const lessenText = (text) => {
-//   if (text?.length > 20) {
-//     text = `${text.substr(0, 18)}...`
-//   }
-//   return text
-// }
-const updatePage = (newPage) => {
-  emit('update:page', newPage)
-}
-const updateSortBy = e => {
-  // Vuetify 3의 정렬 이벤트 구조에 맞게 처리
-  if (Array.isArray(e) && e.length > 0) {
-    const sortItem = e[0]
-
-    // 현재 정렬 상태 확인
-    const currentSort = sortBy.value.find(item => item.key === sortItem.key)
-    let newOrder = 'asc'
-
-    if (!currentSort) {
-      // 처음 정렬하는 경우
-      newOrder = 'asc'
-    } else if (currentSort.order === 'asc') {
-      // asc → desc
-      newOrder = 'desc'
-    } else if (currentSort.order === 'desc') {
-      // desc → 정렬 해제
-      newOrder = null
-    }
-
-    if (newOrder === null) {
-      // 정렬 해제
-      sortBy.value = []
-      sortDesc.value = []
-    } else {
-      // 정렬 설정
-      sortBy.value = [{ key: sortItem.key, order: newOrder }]
-      sortDesc.value = [newOrder === 'desc']
-    }
-  } else {
-    sortBy.value = []
-  }
-  emit('update:sort-by', sortBy.value)
-  updatePage(1)
-}
-const onSortBy = (e) => {
-  // Vuetify의 기본 정렬 기능은 사용하지 않음
-  // 커스텀 정렬 아이콘 클릭으로만 정렬 처리
-  return
-}
-
-const currentPage = computed({
-  get: () => props.page,
-  set: (value) => updatePage(value)
-})
-
-watch(
-  () => props.headers,
-  nv => {
-    lazyHeaders.value = nv.filter(h => h.align !== 'd-none')
-  },
-  { immediate: true }
+const pageCnt = computed(() => props.itemsPerPage !== -1
+  ? (props.options?.pageCnt || Math.ceil(filterDatas.value.length / props.itemsPerPage))
+  : (props.options?.pageCnt || Math.ceil(filterDatas.value.length))
 )
 
-watch(
-  () => props.modelValue,
-  nv => {
-    selected.value = nv
-  },
-  { immediate: true }
-)
+const updatePage = (p) => emit('update:page', p)
+const onSortBy = () => {} // Vuetify 기본 정렬 비사용
+const currentPage = computed({ get: () => props.page, set: v => updatePage(v) })
 
-watch(
-  () => props.smartSearch,
-  () => {
-    updatePage(1)
-  },
-  {
-    deep: true,
-  }
-)
+watch(() => props.headers, (nv) => { lazyHeaders.value = (nv || []).filter(h => h.align !== 'd-none') }, { immediate: true })
+watch(() => props.modelValue, (nv) => { selected.value = nv }, { immediate: true })
+watch(() => props.smartSearch, () => updatePage(1), { deep: true })
+watch(() => props.itemsPerPage, () => updatePage(1))
 
-watch(
-  () => props.itemsPerPage,
-  () => {
-    updatePage(1)
-  }
-)
-
-onMounted(() => {
-  // console.log(sDataTableRef.value)
-})
-
-// tr class를 결정하는 함수 추가
-const getItemClass = (item) => {
-  return item.highlight || ''  // highlight 속성이 있으면 해당 클래스를 반환
-}
-
-const tableColumnWidth = (width) => {
-  if (width && (width?.toString()?.endsWith('%') || width?.toString()?.endsWith('px'))) {
-    return width
-  } else if (width) {
-    return `${width}px`
-  }
-  return '250px'
-}
-
-// 커스텀 정렬 관련 함수들
-const isColumnSorted = (key) => {
-  return sortBy.value.some(item => item.key === key)
-}
-
-const getSortDirection = (key) => {
-  const sortItem = sortBy.value.find(item => item.key === key)
-  return sortItem ? sortItem.order : null
-}
-
-const getSortIcon = (key) => {
-  const direction = getSortDirection(key)
-  if (direction === 'asc') {
-    return 'mdi-arrow-up'
-  } else if (direction === 'desc') {
-    return 'mdi-arrow-down'
-  } else {
-    return 'mdi-arrow-up-down'
-  }
-}
-
+const getItemClass = (item) => item.highlight || ''
+const tableColumnWidth = (w) => (w && (String(w).endsWith('%') || String(w).endsWith('px'))) ? w : (w ? `${w}px` : '250px')
+const isColumnSorted = (key) => sortBy.value.some(it => it.key === key)
+const getSortDirection = (key) => sortBy.value.find(it => it.key === key)?.order ?? null
+const getSortIcon = (key) => getSortDirection(key) === 'asc' ? 'mdi-arrow-up' : getSortDirection(key) === 'desc' ? 'mdi-arrow-down' : 'mdi-arrow-up-down'
 const handleSortClick = (key) => {
   if (props.disableSort) return
-
   const header = props.headers.find(h => h.key === key)
   if (header && header.sortable === false) return
-
-  const currentSort = sortBy.value.find(item => item.key === key)
-  let newOrder = 'asc'
-
-  if (!currentSort) {
-    // 처음 정렬하는 경우: 없음 → ASC
-    newOrder = 'asc'
-  } else if (currentSort.order === 'asc') {
-    // ASC → DESC
-    newOrder = 'desc'
-  } else if (currentSort.order === 'desc') {
-    // DESC → 없음
-    newOrder = null
-  }
-
-  if (newOrder === null) {
-    // 정렬 해제
-    sortBy.value = []
-    sortDesc.value = []
-  } else {
-    // 정렬 설정
-    sortBy.value = [{ key: key, order: newOrder }]
-    sortDesc.value = [newOrder === 'desc']
-  }
-
+  const cur = sortBy.value.find(it => it.key === key)
+  let order = 'asc'
+  if (!cur) order = 'asc'
+  else if (cur.order === 'asc') order = 'desc'
+  else if (cur.order === 'desc') order = null
+  if (order === null) { sortBy.value=[]; sortDesc.value=[] }
+  else { sortBy.value=[{ key, order }]; sortDesc.value=[order === 'desc'] }
   emit('update:sort-by', sortBy.value)
   updatePage(1)
 }
 
+/* ===== DOM Accessors ===== */
+const getRootEl = () => sDataTableRef.value?.$el || null
+const getTableEl = () => getRootEl()?.querySelector('table') || null
 
+/* ===== 초기 측정 / 적용 ===== */
+const measureAndStoreAllColumnWidths = () => {
+  const table = getTableEl(); if (!table) return 0
+  const ths = table.querySelectorAll('thead tr th'); if (!ths?.length) return 0
+  let total = 0
+  ths.forEach((th, idx) => {
+    const header = lazyHeaders.value[idx]; if (!header) return
+    const w = th.offsetWidth
+    if (w > 0) { columnWidths.value.set(header.key, w); total += w }
+  })
+  return total
+}
+
+const applyAllColumnWidths = () => {
+  const table = getTableEl(); if (!table) return
+  lazyHeaders.value.forEach((header, idx) => {
+    const width = columnWidths.value.get(header.key)
+    if (!width) return
+    const th = table.querySelector(`thead tr th:nth-child(${idx + 1})`)
+    if (th) { th.style.width = `${width}px`; th.style.minWidth = `${width}px`; th.style.maxWidth = `${width}px`; th.style.boxSizing = 'border-box' }
+    const tBody = table.tBodies?.[0]
+    if (tBody) {
+      for (const row of tBody.rows) {
+        const td = row.cells[idx]
+        if (!td) continue
+        td.style.width = `${width}px`
+        td.style.minWidth = `${width}px`
+        td.style.maxWidth = `${width}px`
+        td.style.boxSizing = 'border-box'
+      }
+    }
+  })
+}
+
+const setTableLayoutFixed = () => {
+  const table = getTableEl(); if (!table) return
+  table.style.tableLayout = 'fixed'
+  table.style.width = `${initialTableWidth.value}px`
+  table.style.minWidth = `${initialTableWidth.value}px`
+  const wrapper = getRootEl()?.querySelector('.v-table__wrapper')
+  if (wrapper) wrapper.style.overflowX = 'auto'
+}
+
+const initializeTableWidths = () => {
+  if (tableInitialized.value) return
+  nextTick(() => {
+    const total = measureAndStoreAllColumnWidths()
+    if (total === 0) return
+    initialTableWidth.value = total
+    setTableLayoutFixed()
+    applyAllColumnWidths()
+    tableInitialized.value = true
+    afterTableReady()
+  })
+}
+
+let initTableTimeout = null
+const initializeTableWidthsDebounced = () => {
+  if (initTableTimeout) clearTimeout(initTableTimeout)
+  initTableTimeout = setTimeout(() => { initializeTableWidths(); initTableTimeout = null }, 100)
+}
+
+const getNumeric = v => (v ? parseFloat(v) || 0 : 0)
+
+const computeAvailableWidth = (cell, wrapper) => {
+  const cs = getComputedStyle(cell)
+  let occupied = getNumeric(cs.paddingLeft) + getNumeric(cs.paddingRight)
+
+  let sib = wrapper.nextElementSibling
+  while (sib) {
+    occupied += sib.offsetWidth
+    const s = getComputedStyle(sib)
+    occupied += Math.max(getNumeric(s.marginLeft), 0)
+    sib = sib.nextElementSibling
+  }
+
+  const safety = 4
+  return Math.max(0, cell.clientWidth - occupied - safety)
+}
+
+const adjustTruncationForColumn = (colIndex) => {
+  const table = getTableEl(); if (!table) return
+  const body = table.tBodies?.[0]; if (!body) return
+
+  for (const row of body.rows) {
+    const cell = row.cells[colIndex]; if (!cell) continue
+    const wrapper = cell.querySelector('.s-table-column__text'); if (!wrapper) continue
+
+    wrapper.classList.remove('s-ellipsis--off')
+    wrapper.classList.add('s-ellipsis')
+    wrapper.style.whiteSpace = 'nowrap'
+    wrapper.style.overflow = 'hidden'
+    wrapper.style.textOverflow = 'ellipsis'
+    wrapper.style.width = ''
+
+    const available = computeAvailableWidth(cell, wrapper)
+
+    wrapper.style.maxWidth = `${available}px`
+
+    const fits = wrapper.scrollWidth <= wrapper.clientWidth + 0.5
+
+    if (fits) {
+      wrapper.classList.add('s-ellipsis--off')
+      wrapper.classList.remove('s-ellipsis')
+      wrapper.style.maxWidth = ''
+    } else {}
+  }
+}
+
+
+let pendingCols = new Set()
+let rafAdjustId = null
+const scheduleAdjust = (colIndex) => {
+  pendingCols.add(colIndex)
+  if (rafAdjustId) return
+  rafAdjustId = requestAnimationFrame(() => {
+    for (const idx of pendingCols) adjustTruncationForColumn(idx)
+    pendingCols.clear()
+    rafAdjustId = null
+  })
+}
+
+const onTooltipToggle = (colIndex) => {
+  return () => requestAnimationFrame(() => scheduleAdjust(colIndex))
+}
+
+let headerResizeObserver = null
+const observeHeaderForEllipsis = () => {
+  const table = getTableEl(); if (!table || headerResizeObserver) return
+  const head = table.tHead; if (!head) return
+
+  headerResizeObserver = new ResizeObserver((entries) => {
+    for (const entry of entries) {
+      const th = entry.target
+      const row = th.parentElement; if (!row) continue
+      const cells = Array.from(row.children)
+      const colIndex = cells.indexOf(th)
+      if (colIndex >= 0) scheduleAdjust(colIndex)
+    }
+  })
+
+  for (const row of head.rows) {
+    for (const th of row.cells) headerResizeObserver.observe(th)
+  }
+}
+
+const disconnectHeaderObserver = () => {
+  if (headerResizeObserver) { headerResizeObserver.disconnect(); headerResizeObserver = null }
+}
+
+const updateColumnWidthDOM = (columnKey, width, isQuick = false) => {
+  const colIndex = lazyHeaders.value.findIndex(h => h.key === columnKey)
+  if (colIndex === -1) return
+  const table = getTableEl(); if (!table) return
+
+  const th = table.querySelector(`thead tr th:nth-child(${colIndex + 1})`)
+  if (th) {
+    th.style.width = `${width}px`
+    th.style.minWidth = `${width}px`
+    th.style.maxWidth = `${width}px`
+    if (isQuick) th.style.boxSizing = 'border-box'
+  }
+
+  const body = table.tBodies?.[0]
+  if (body) {
+    for (const row of body.rows) {
+      const td = row.cells[colIndex]; if (!td) continue
+      td.style.width = `${width}px`
+      td.style.minWidth = `${width}px`
+      td.style.maxWidth = `${width}px`
+      if (isQuick) td.style.boxSizing = 'border-box'
+    }
+  }
+
+  scheduleAdjust(colIndex)
+
+  if (!isQuick) {
+    requestAnimationFrame(() => {
+      table.style.tableLayout = 'auto'
+      // eslint-disable-next-line no-unused-expressions
+      table.offsetHeight
+      table.style.tableLayout = 'fixed'
+    })
+  }
+}
+
+const startResize = (e, columnKey, columnIndex) => {
+  try {
+    e.preventDefault()
+    if (isResizing.value) return
+    if (!tableInitialized.value) initializeTableWidthsDebounced()
+    if (columnIndex < 0 || columnIndex >= lazyHeaders.value.length) return
+
+    isResizing.value = true
+    startX.value = e.clientX
+    currentColumn.value = { key: columnKey, index: columnIndex }
+    startWidth.value = columnWidths.value.get(columnKey) || 100
+
+    const handle = e.target
+    if (handle) { handle.classList.add('resizing'); currentResizeHandle.value = handle }
+
+    document.addEventListener('mousemove', onMouseMoveThrottled, { passive: true })
+    document.addEventListener('mouseup', stopResize)
+
+    document.body.style.userSelect = 'none'
+    document.body.style.cursor = 'col-resize'
+  } catch (err) { console.warn('startResize error:', err) }
+}
+
+let rafId = null
+let lastMoveEvent = null
+const onMouseMoveThrottled = (e) => {
+  if (!isResizing.value || !currentColumn.value) return
+  lastMoveEvent = e
+  if (rafId) return
+  rafId = requestAnimationFrame(() => {
+    rafId = null
+    if (!lastMoveEvent) return
+    doResize(lastMoveEvent)
+    lastMoveEvent = null
+  })
+}
+
+const doResize = (event) => {
+  if (!isResizing.value || !currentColumn.value) return
+  try {
+    const diffX = event.clientX - startX.value
+    const newWidth = Math.max(50, startWidth.value + diffX)
+    const widthDiff = newWidth - startWidth.value
+
+    columnWidths.value.set(currentColumn.value.key, newWidth)
+
+    const table = getTableEl()
+    if (table && initialTableWidth.value > 0) {
+      const newTableWidth = initialTableWidth.value + widthDiff
+      table.style.width = `${newTableWidth}px`
+      table.style.minWidth = `${newTableWidth}px`
+      table.style.tableLayout = 'fixed'
+    }
+
+    updateColumnWidthDOM(currentColumn.value.key, newWidth, true)
+
+    const wrapper = getRootEl()?.querySelector('.v-table__wrapper')
+    if (wrapper && table) {
+      if (table.offsetWidth > wrapper.clientWidth) wrapper.style.overflowX = 'auto'
+      // eslint-disable-next-line no-unused-expressions
+      table.offsetWidth
+    }
+    document.body.style.cursor = 'col-resize'
+  } catch (err) {
+    console.warn('doResize error:', err)
+    stopResize()
+  }
+}
+
+const stopResize = () => {
+  if (!currentColumn.value) return
+
+  const key = currentColumn.value.key
+  const finalWidth = columnWidths.value.get(key)
+  if (finalWidth) updateColumnWidthDOM(key, finalWidth, false)
+
+  if (currentResizeHandle.value) { currentResizeHandle.value.classList.remove('resizing'); currentResizeHandle.value = null }
+
+  isResizing.value = false
+  document.removeEventListener('mousemove', onMouseMoveThrottled)
+  document.removeEventListener('mouseup', stopResize)
+  document.body.style.userSelect = ''
+  document.body.style.cursor = ''
+
+  const total = Array.from(columnWidths.value.values()).reduce((acc, w) => acc + (w || 0), 0)
+  if (total > 0) {
+    initialTableWidth.value = total
+    const table = getTableEl()
+    if (table) {
+      table.style.width = `${total}px`
+      table.style.minWidth = `${total}px`
+    }
+  }
+
+  persistColumnWidths()
+  if (currentColumn.value) scheduleAdjust(currentColumn.value.index)
+  currentColumn.value = null
+}
+
+const updateColumnWidth = (columnKey, width) => updateColumnWidthDOM(columnKey, width, false)
+
+const persistColumnWidths = () => {
+  if (!props.persistKey) return
+  const payload = {}
+  columnWidths.value.forEach((v, k) => { payload[k] = v })
+  try { localStorage.setItem(`sdt-widths:${props.persistKey}`, JSON.stringify(payload)) } catch {}
+}
+
+const restoreColumnWidths = () => {
+  if (!props.persistKey) return false
+  let raw = null
+  try { raw = localStorage.getItem(`sdt-widths:${props.persistKey}`) } catch {}
+  if (!raw) return false
+  try {
+    const obj = JSON.parse(raw)
+    const keys = lazyHeaders.value.map(h => h.key)
+    let total = 0
+    keys.forEach(k => {
+      const w = Number(obj[k])
+      if (w && w > 0) { columnWidths.value.set(k, w); total += w }
+    })
+    if (total > 0) {
+      initialTableWidth.value = total
+      nextTick(() => {
+        setTableLayoutFixed()
+        applyAllColumnWidths()
+        tableInitialized.value = true
+        afterTableReady()
+      })
+      return true
+    }
+  } catch {}
+  return false
+}
+
+const afterTableReady = () => {
+  requestAnimationFrame(() => {
+    lazyHeaders.value.forEach((_, i) => scheduleAdjust(i))
+    observeHeaderForEllipsis()
+  })
+}
+
+onMounted(() => {
+  nextTick(() => {
+    if (props.items && props.items.length > 0) {
+      const restored = restoreColumnWidths()
+      if (!restored) initializeTableWidthsDebounced()
+    }
+  })
+})
+watch(() => props.items, (newItems) => {
+  if (newItems && newItems.length > 0 && !tableInitialized.value) {
+    nextTick(() => {
+      const restored = restoreColumnWidths()
+      if (!restored) initializeTableWidthsDebounced()
+    })
+  }
+}, { deep: true })
+onBeforeUnmount(() => {
+  if (isResizing.value) {
+    isResizing.value = false
+    currentColumn.value = null
+    if (currentResizeHandle.value) { currentResizeHandle.value.classList.remove('resizing'); currentResizeHandle.value = null }
+    document.body.style.userSelect = ''
+    document.body.style.cursor = ''
+  }
+  if (initTableTimeout) { clearTimeout(initTableTimeout); initTableTimeout = null }
+  document.removeEventListener('mousemove', onMouseMoveThrottled)
+  document.removeEventListener('mouseup', stopResize)
+  disconnectHeaderObserver()
+  if (rafAdjustId) cancelAnimationFrame(rafAdjustId)
+})
 </script>
 
 <style lang="scss" scoped>

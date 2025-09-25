@@ -40,6 +40,37 @@
     .custom-sort-icon.desc {
       transform: translateY(-50%);
     }
+
+    // 리사이즈 핸들 스타일
+    .resize-handle {
+      position: absolute;
+      right: -25px; // 세로선의 중앙에 위치하도록 조정
+      top: 0;
+      bottom: 0;
+      width: 8px;
+      cursor: col-resize;
+      background: transparent;
+      z-index: 10;
+
+      &::before {
+        content: '';
+        position: absolute;
+        right: 3px; // 핸들 중앙에 선 위치
+        top: 0;
+        bottom: 0;
+        width: 2px;
+        background: transparent;
+        transition: background-color 0.2s ease;
+      }
+
+      &:hover {
+        background: rgba(27, 117, 187, 0.1);
+      }
+
+      &:active {
+        background: rgba(27, 117, 187, 0.2);
+      }
+    }
   }
 
   :deep(tr.v-data-table__tr) {
@@ -55,6 +86,16 @@
     --v-table-row-height: 42px;
     font-size: toRem(14);
     font-weight: 400;
+
+    // 모든 셀 내용에 대한 기본 텍스트 처리
+    > * {
+      width: 100%;
+      max-width: 100%;
+      word-break: break-word;
+      white-space: normal;
+      overflow-wrap: break-word;
+      box-sizing: border-box;
+    }
 
     .v-selection-control.v-checkbox-btn {
       &.v-selection-control--disabled {
@@ -174,6 +215,13 @@
   :deep(.v-table__wrapper) {
     border-top:solid 1px #000;
     border-bottom:solid 1px #ddd;
+    overflow-x: auto; // 가로 스크롤 허용
+
+    > table {
+      table-layout: fixed;
+      width: auto; // 동적 너비 허용
+      min-width: 100%; // 최소 너비는 컨테이너 100%
+    }
 
     .material-icons{
       color:#191919;
@@ -189,6 +237,16 @@
     > table > tfoot > tr > td,
     > table > tfoot > tr > th {
       padding: 0 20px;
+      border-right: 1px solid #e0e0e0;
+      box-sizing: border-box; // 패딩과 보더를 포함한 정확한 너비 계산
+
+      // 리사이즈 중 안정적인 너비 유지
+      overflow: hidden;
+      word-wrap: break-word;
+
+      &:last-child {
+        border-right: none;
+      }
     }
 
     > table > thead > tr > th {
@@ -225,7 +283,4 @@
     }
   }
 
-  :deep(.v-btn:hover > .v-btn__overlay) {
-    background-color: #1B75BB;
-  }
 }
