@@ -565,7 +565,6 @@ watch(() => props.smartSearch, () => updatePage(1), { deep: true })
 watch(() => props.itemsPerPage, () => updatePage(1))
 
 const getItemClass = (item) => item.highlight || ''
-const tableColumnWidth = (w) => (w && (String(w).endsWith('%') || String(w).endsWith('px'))) ? w : (w ? `${w}px` : '250px')
 const isColumnSorted = (key) => sortBy.value.some(it => it.key === key)
 const getSortDirection = (key) => sortBy.value.find(it => it.key === key)?.order ?? null
 const getSortIcon = (key) => getSortDirection(key) === 'asc' ? 'mdi-arrow-up' : getSortDirection(key) === 'desc' ? 'mdi-arrow-down' : 'mdi-arrow-up-down'
@@ -603,20 +602,27 @@ const measureAndStoreAllColumnWidths = () => {
 
 const applyAllColumnWidths = () => {
   const table = getTableEl(); if (!table) return
+
+  // thead와 tbody가 모두 존재하는지 확인
+  const thead = table.tHead
+  const tbody = table.tBodies?.[0]
+  if (!thead || !tbody) return
+
+  // 깜박임 방지를 위해 !important로 강제 적용
   lazyHeaders.value.forEach((header, idx) => {
     const width = columnWidths.value.get(header.key)
     if (!width) return
+
     const th = table.querySelector(`thead tr th:nth-child(${idx + 1})`)
-    if (th) { th.style.width = `${width}px`; th.style.minWidth = `${width}px`; th.style.maxWidth = `${width}px`; th.style.boxSizing = 'border-box' }
-    const tBody = table.tBodies?.[0]
-    if (tBody) {
-      for (const row of tBody.rows) {
+    if (th) {
+      th.style.cssText += `width: ${width}px !important; min-width: ${width}px !important; max-width: ${width}px !important; box-sizing: border-box;`
+    }
+
+    if (tbody) {
+      for (const row of tbody.rows) {
         const td = row.cells[idx]
         if (!td) continue
-        td.style.width = `${width}px`
-        td.style.minWidth = `${width}px`
-        td.style.maxWidth = `${width}px`
-        td.style.boxSizing = 'border-box'
+        td.style.cssText += `width: ${width}px !important; min-width: ${width}px !important; max-width: ${width}px !important; box-sizing: border-box;`
       }
     }
   })
@@ -640,6 +646,9 @@ const initializeTableWidths = () => {
     setTableLayoutFixed()
     applyAllColumnWidths()
     tableInitialized.value = true
+
+    // 테이블 초기화 완료 후 DOM 변경 감지 시작
+    observeTableChanges()
   })
 }
 
@@ -651,6 +660,58 @@ const initializeTableWidthsDebounced = () => {
 
 const onTooltipToggle = (colIndex) => {
   return () => {}
+}
+
+// DOM 변경 감지를 위한 MutationObserver
+let tableObserver = null
+const observeTableChanges = () => {
+  if (tableObserver) {
+    tableObserver.disconnect()
+  }
+
+  const table = getTableEl()
+  if (!table || !tableInitialized.value) return
+
+  tableObserver = new MutationObserver((mutations) => {
+    let shouldReapply = false
+
+    mutations.forEach((mutation) => {
+      // tbody의 자식 노드가 변경되었는지 확인 (페이지 변경 감지)
+      if (mutation.type === 'childList' &&
+          (mutation.target.tagName === 'TBODY' ||
+           mutation.target.closest('tbody'))) {
+        shouldReapply = true
+      }
+    })
+
+    if (shouldReapply) {
+      // 즉시 컬럼 너비 재적용 (깜박임 방지)
+      applyAllColumnWidths()
+    }
+  })
+
+  // tbody와 table 전체 변경 감지
+  const tbody = table.tBodies?.[0]
+  if (tbody) {
+    tableObserver.observe(tbody, {
+      childList: true,
+      subtree: true
+    })
+  }
+
+  // table 전체도 감지 (더 포괄적인 감지)
+  tableObserver.observe(table, {
+    childList: true,
+    subtree: true,
+    attributes: false  // 속성 변경은 제외
+  })
+}
+
+const disconnectTableObserver = () => {
+  if (tableObserver) {
+    tableObserver.disconnect()
+    tableObserver = null
+  }
 }
 
 const updateColumnWidthDOM = (columnKey, width, isQuick = false) => {
@@ -812,6 +873,9 @@ const restoreColumnWidths = () => {
         setTableLayoutFixed()
         applyAllColumnWidths()
         tableInitialized.value = true
+
+        // 컬럼 너비 복원 완료 후 DOM 변경 감지 시작
+        observeTableChanges()
       })
       return true
     }
@@ -828,10 +892,16 @@ onMounted(() => {
   })
 })
 watch(() => props.items, (newItems) => {
-  if (newItems && newItems.length > 0 && !tableInitialized.value) {
+  if (newItems && newItems.length > 0) {
     nextTick(() => {
-      const restored = restoreColumnWidths()
-      if (!restored) initializeTableWidthsDebounced()
+      if (!tableInitialized.value) {
+        // 테이블이 초기화되지 않은 경우
+        const restored = restoreColumnWidths()
+        if (!restored) initializeTableWidthsDebounced()
+      } else {
+        // 테이블이 이미 초기화된 경우 (페이지 변경 등)
+        // MutationObserver가 DOM 변경을 감지하여 자동으로 처리
+      }
     })
   }
 }, { deep: true })
@@ -846,6 +916,7 @@ onBeforeUnmount(() => {
   if (initTableTimeout) { clearTimeout(initTableTimeout); initTableTimeout = null }
   document.removeEventListener('mousemove', onMouseMoveThrottled)
   document.removeEventListener('mouseup', stopResize)
+  disconnectTableObserver()
 })
 </script>
 

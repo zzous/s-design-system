@@ -280,6 +280,11 @@
       table-layout: fixed;
       width: auto; // 동적 너비 허용
       min-width: 100%; // 최소 너비는 컨테이너 100%
+
+      // 컬럼 너비 변경 시 깜박임 방지
+      th, td {
+        transition: none !important;
+      }
     }
 
     .material-icons{
