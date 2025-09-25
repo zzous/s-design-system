@@ -608,21 +608,27 @@ const applyAllColumnWidths = () => {
   const tbody = table.tBodies?.[0]
   if (!thead || !tbody) return
 
-  // 깜박임 방지를 위해 !important로 강제 적용
+  // 간단하고 확실한 스타일 적용
   lazyHeaders.value.forEach((header, idx) => {
     const width = columnWidths.value.get(header.key)
     if (!width) return
 
     const th = table.querySelector(`thead tr th:nth-child(${idx + 1})`)
     if (th) {
-      th.style.cssText += `width: ${width}px !important; min-width: ${width}px !important; max-width: ${width}px !important; box-sizing: border-box;`
+      th.style.width = `${width}px`
+      th.style.minWidth = `${width}px`
+      th.style.maxWidth = `${width}px`
+      th.style.boxSizing = 'border-box'
     }
 
     if (tbody) {
       for (const row of tbody.rows) {
         const td = row.cells[idx]
         if (!td) continue
-        td.style.cssText += `width: ${width}px !important; min-width: ${width}px !important; max-width: ${width}px !important; box-sizing: border-box;`
+        td.style.width = `${width}px`
+        td.style.minWidth = `${width}px`
+        td.style.maxWidth = `${width}px`
+        td.style.boxSizing = 'border-box'
       }
     }
   })
@@ -664,6 +670,7 @@ const onTooltipToggle = (colIndex) => {
 
 // DOM 변경 감지를 위한 MutationObserver
 let tableObserver = null
+
 const observeTableChanges = () => {
   if (tableObserver) {
     tableObserver.disconnect()
@@ -685,8 +692,13 @@ const observeTableChanges = () => {
     })
 
     if (shouldReapply) {
-      // 즉시 컬럼 너비 재적용 (깜박임 방지)
-      applyAllColumnWidths()
+      // 다음 프레임에서 실행하여 DOM이 완전히 준비되도록 함
+      requestAnimationFrame(() => {
+        const table = getTableEl()
+        if (table && table.tBodies?.[0]?.rows?.length > 0) {
+          applyAllColumnWidths()
+        }
+      })
     }
   })
 
