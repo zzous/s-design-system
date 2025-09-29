@@ -28,62 +28,73 @@
     @update:options="$emit('update:options', $event)"
     @update:expanded="$emit('update:expanded', $event)"
   >
-    <template v-for="(header, hIndex) in lazyHeaders" #[`header.${header.key}`] :key="'h-'+hIndex">
-      <div class="header-cell d-flex align-center justify-space-between position-relative"
-           @click="handleSortClick(header.key)">
+  <!-- sortBy Vuetify 내부 함수와 정렬 기능 충돌이 발생하여 sortBy 속성을 사용하지 않음 -->
+    <template #headers="bind" v-if="$slots.headers">
+      <slot name="headers" v-bind="bind"></slot>
+    </template>
+
+    <template v-for="(header, index) in lazyHeaders" #[`header.${header.key}`] :key="index">
+      <div class="header-cell d-flex align-center justify-space-between position-relative" @click="handleSortClick(header.key)">
         <span>{{ header.title || header.value }}</span>
         <v-icon
           v-if="header.sortable !== false && !disableSort"
           class="custom-sort-icon"
-          :class="{ 'active': isColumnSorted(header.key) }"
+          :class="{
+            'active': isColumnSorted(header.key)
+          }"
         >
           {{ getSortIcon(header.key) }}
         </v-icon>
         <div
           class="resize-handle"
-          @mousedown="startResize($event, header.key, hIndex)"
+          @mousedown="startResize($event, header.key, index)"
           @click.stop
         />
       </div>
     </template>
 
-    <template v-for="(el, cIndex) in lazyHeaders" #[`item.${el.key}`]="bind" :key="'c-'+cIndex">
-      <v-tooltip v-if="tooltip" location="bottom" @update:model-value="onTooltipToggle(cIndex)">
+    <template v-for="(el, index) in lazyHeaders" #[`item.${el.key}`]="bind" :key="index">
+      <v-tooltip v-if="tooltip" location="bottom">
         <template #activator="{ props: dataProps }">
           <span
             v-if="!$slots[`item.${el.key}`]"
             v-bind="dataProps"
-            class="d-inline-block s-table-column__text s-ellipsis"
-            :class="[ bind.item.highlight ]"
+            class="d-inline-block text-truncate s-table-column__text"
+            :class="[
+              bind.item.highlight,
+            ]"
           >
             {{ isEmpty(bind.item[el.key]) ? '-' : bind.item[el.key] }}
           </span>
-
-          <span v-else
-            class="d-inline-block s-table-column__text s-ellipsis"
-            :class="[ bind.item.highlight ]">
+          <span v-else>
             <slot :name="`item.${el.key}`" v-bind="bind">
               {{ isEmpty(bind.item[el.key]) ? '-' : bind.item[el.key] }}
             </slot>
           </span>
         </template>
-        <span>{{ isEmpty(bind.item[el.key]) ? '-' : bind.item[el.key] }}</span>
+        <span>
+          {{ isEmpty(bind.item[el.key]) ? '-' : bind.item[el.key] }}
+        </span>
       </v-tooltip>
 
-      <div v-else class="s-table-column__text s-ellipsis" :class="[ bind.item.highlight ]">
+      <div
+        v-else
+        :class="[
+          bind.item.highlight,
+        ]"
+      >
         <slot :name="`item.${el.key}`" v-bind="bind">
           {{ isEmpty(bind.item[el.key]) ? '-' : bind.item[el.key] }}
         </slot>
       </div>
     </template>
-
     <template #[`header.data-table-select`]="bind" v-if="$slots['header.data-table-select']">
       <slot name="header.data-table-select" v-bind="bind">
         <v-checkbox-btn
           :indeterminate="bind.someSelected && !bind.allSelected"
           :model-value="bind.allSelected"
           @update:model-value="bind.selectAll(!bind.allSelected)"
-        />
+        ></v-checkbox-btn>
       </slot>
     </template>
     <template #[`item.data-table-select`]="bind" v-if="$slots['item.data-table-select']">
@@ -91,19 +102,20 @@
         <template v-if="bind.item.selectable">
           <v-checkbox-btn :model-value="bind.isSelected(bind.item)" @update:model-value="bind.toggleSelect(bind.item)" />
         </template>
-        <template v-else />
+        <template v-else>
+        </template>
       </slot>
     </template>
-
     <template #no-data>
-      <div class="text-center no-data">{{ noDataText }}</div>
+      <div class="text-center no-data">
+        {{ noDataText }}
+      </div>
     </template>
-
     <template #[`tfoot`]="bind">
       <slot name="tfoot" v-bind="bind">
         <tfoot v-if="footers && Object.keys(footers).length">
           <tr class="v-data-table__tr">
-            <template v-for="(head, fIndex) in lazyHeaders" :key="'foot__' + fIndex">
+            <template v-for="(head, hIndex) in lazyHeaders" :key="'foot__' + hIndex">
               <td
                 v-if="head.align !== 'd-none'"
                 class="v-data-table__td"
@@ -124,12 +136,18 @@
         </tfoot>
       </slot>
     </template>
-
-    <template #item="bind" v-if="$slots.item"><slot name="item" v-bind="bind" /></template>
-    <template #body="bind" v-if="$slots.body"><slot name="body" v-bind="{...bind, items: filterDatas}" /></template>
-    <template #[`body.append`]="bind" v-if="$slots['body.append']"><slot name="body.append" v-bind="bind" /></template>
-    <template #tbody="bind" v-if="$slots.tbody"><slot name="tbody" v-bind="bind" /></template>
-
+    <template #item="bind" v-if="$slots.item">
+      <slot name="item" v-bind="bind" />
+    </template>
+    <template #body="bind" v-if="$slots.body">
+      <slot name="body" v-bind="{...bind, items: filterDatas}" />
+    </template>
+    <template #[`body.append`]="bind" v-if="$slots['body.append']">
+      <slot name="body.append" v-bind="bind" />
+    </template>
+    <template #tbody="bind" v-if="$slots.tbody">
+      <slot name="tbody" v-bind="bind" />
+    </template>
     <template #bottom>
       <slot name="append-content" />
       <div v-if="!hideFooter" class="text-center s-data-table-pagination">
@@ -154,11 +172,20 @@
 <script setup>
 import { ref, watch, computed, onMounted, onBeforeUnmount, nextTick } from 'vue'
 import stringUtil from '@/utils/stringUtil.js'
+
 const { isEmpty } = stringUtil
 
 const emit = defineEmits([
-  'update:page','update:filter','update:search','update:sort-by','update:group-by',
-  'update:expanded','update:options','update:model-value','get-checkedbox-item','update:filtered-cnt',
+  'update:page',
+  'update:filter',
+  'update:search',
+  'update:sort-by',
+  'update:group-by',
+  'update:expanded',
+  'update:options',
+  'update:model-value',
+  'get-checkedbox-item',
+  'update:filtered-cnt',
 ])
 
 const props = defineProps({
@@ -382,9 +409,16 @@ const props = defineProps({
     default: false,
     description: '로딩 상태',
   },
-  hover: { type: Boolean, default: false, description: 'hover 상태' },
-
-  persistKey: { type: String, default: null, description: 'persist 키' },
+  hover: {
+    type: Boolean,
+    default: false,
+    description: 'hover 상태',
+  },
+  fixedTable: {
+    type: Boolean,
+    default: false,
+    description: '테이블 고정 여부',
+  },
 })
 
 const selected = ref([])
@@ -392,18 +426,22 @@ const sortBy = ref([])
 const sortDesc = ref([])
 const lazyHeaders = ref([])
 
+// 리사이징 관련 상태
 const isResizing = ref(false)
 const startX = ref(0)
 const startWidth = ref(0)
 const currentColumn = ref(null) // { key, index }
-const currentResizeHandle = ref(null)
 const columnWidths = ref(new Map())
-const tableInitialized = ref(false)
-const initialTableWidth = ref(0)
-
 const sDataTableRef = ref(null)
+const tableObserver = ref(null)
+const isTableInitialized = ref(false)
 
-const updateModelValue = (item) => { emit('get-checkedbox-item', item); selected.value = item; emit('update:model-value', selected.value) }
+const updateModelValue = item => {
+  // console.log('updateModelValue', item)
+  emit('get-checkedbox-item', item)
+  selected.value = item
+  emit('update:model-value', selected.value)
+}
 
 const filterDatas = computed(() => {
   // TODO Pagination 컴포넌트 사용 시 Search props와 페이지 수가 맞지 않는 오류가 있음 (해결방법: vuetify 업그레이드)
@@ -550,136 +588,243 @@ const filterDatas = computed(() => {
   return result
 })
 
-const pageCnt = computed(() => props.itemsPerPage !== -1
-  ? (props.options?.pageCnt || Math.ceil(filterDatas.value.length / props.itemsPerPage))
-  : (props.options?.pageCnt || Math.ceil(filterDatas.value.length))
-)
+const pageCnt = computed(() => {
+  if(props.itemsPerPage !== -1) {
+  return props.options?.pageCnt || Math.ceil(filterDatas.value.length / props.itemsPerPage)
+  }
+  return props.options?.pageCnt || Math.ceil(filterDatas.value.length)
+})
 
-const updatePage = (p) => emit('update:page', p)
-const onSortBy = () => {} // Vuetify 기본 정렬 비사용
-const currentPage = computed({ get: () => props.page, set: v => updatePage(v) })
+// const getChipColor = (status) => {
+//   // console.log(tag, 'getChipColor')
 
-watch(() => props.headers, (nv) => { lazyHeaders.value = (nv || []).filter(h => h.align !== 'd-none') }, { immediate: true })
-watch(() => props.modelValue, (nv) => { selected.value = nv }, { immediate: true })
-watch(() => props.smartSearch, () => updatePage(1), { deep: true })
-watch(() => props.itemsPerPage, () => updatePage(1))
+//   return props.getChipColors(status)
+// }
 
-const getItemClass = (item) => item.highlight || ''
-const isColumnSorted = (key) => sortBy.value.some(it => it.key === key)
-const getSortDirection = (key) => sortBy.value.find(it => it.key === key)?.order ?? null
-const getSortIcon = (key) => getSortDirection(key) === 'asc' ? 'mdi-arrow-up' : getSortDirection(key) === 'desc' ? 'mdi-arrow-down' : 'mdi-arrow-up-down'
-const handleSortClick = (key) => {
-  if (props.disableSort) return
-  const header = props.headers.find(h => h.key === key)
-  if (header && header.sortable === false) return
-  const cur = sortBy.value.find(it => it.key === key)
-  let order = 'asc'
-  if (!cur) order = 'asc'
-  else if (cur.order === 'asc') order = 'desc'
-  else if (cur.order === 'desc') order = null
-  if (order === null) { sortBy.value=[]; sortDesc.value=[] }
-  else { sortBy.value=[{ key, order }]; sortDesc.value=[order === 'desc'] }
+// // 15 글자 넘어가면 말줄임표 추가 => TODO 폭에 따라 값 변경되게 수정
+// const lessenText = (text) => {
+//   if (text?.length > 20) {
+//     text = `${text.substr(0, 18)}...`
+//   }
+//   return text
+// }
+const updatePage = (newPage) => {
+  emit('update:page', newPage)
+}
+const updateSortBy = e => {
+  // Vuetify 3의 정렬 이벤트 구조에 맞게 처리
+  if (Array.isArray(e) && e.length > 0) {
+    const sortItem = e[0]
+
+    // 현재 정렬 상태 확인
+    const currentSort = sortBy.value.find(item => item.key === sortItem.key)
+    let newOrder = 'asc'
+
+    if (!currentSort) {
+      // 처음 정렬하는 경우
+      newOrder = 'asc'
+    } else if (currentSort.order === 'asc') {
+      // asc → desc
+      newOrder = 'desc'
+    } else if (currentSort.order === 'desc') {
+      // desc → 정렬 해제
+      newOrder = null
+    }
+
+    if (newOrder === null) {
+      // 정렬 해제
+      sortBy.value = []
+      sortDesc.value = []
+    } else {
+      // 정렬 설정
+      sortBy.value = [{ key: sortItem.key, order: newOrder }]
+      sortDesc.value = [newOrder === 'desc']
+    }
+  } else {
+    sortBy.value = []
+  }
   emit('update:sort-by', sortBy.value)
   updatePage(1)
 }
-
-/* ===== DOM Accessors ===== */
-const getRootEl = () => sDataTableRef.value?.$el || null
-const getTableEl = () => getRootEl()?.querySelector('table') || null
-
-/* ===== 초기 측정 / 적용 ===== */
-const measureAndStoreAllColumnWidths = () => {
-  const table = getTableEl(); if (!table) return 0
-  const ths = table.querySelectorAll('thead tr th'); if (!ths?.length) return 0
-  let total = 0
-  ths.forEach((th, idx) => {
-    const header = lazyHeaders.value[idx]; if (!header) return
-    const w = th.offsetWidth
-    if (w > 0) { columnWidths.value.set(header.key, w); total += w }
-  })
-  return total
+const onSortBy = (e) => {
+  // Vuetify의 기본 정렬 기능은 사용하지 않음
+  // 커스텀 정렬 아이콘 클릭으로만 정렬 처리
+  return
 }
 
-const applyAllColumnWidths = () => {
-  const table = getTableEl(); if (!table) return
+const currentPage = computed({
+  get: () => props.page,
+  set: (value) => updatePage(value)
+})
 
-  // thead와 tbody가 모두 존재하는지 확인
-  const thead = table.tHead
-  const tbody = table.tBodies?.[0]
-  if (!thead || !tbody) return
+// 테이블 DOM 변경 감지 중지
+const stopObservingTable = () => {
+  if (tableObserver.value) {
+    tableObserver.value.disconnect()
+    tableObserver.value = null
+  }
+}
 
-  // 간단하고 확실한 스타일 적용
-  lazyHeaders.value.forEach((header, idx) => {
-    const width = columnWidths.value.get(header.key)
-    if (!width) return
-
-    const th = table.querySelector(`thead tr th:nth-child(${idx + 1})`)
-    if (th) {
-      th.style.width = `${width}px`
-      th.style.minWidth = `${width}px`
-      th.style.maxWidth = `${width}px`
-      th.style.boxSizing = 'border-box'
+watch(
+  () => props.headers,
+  nv => {
+    lazyHeaders.value = nv.filter(h => h.align !== 'd-none')
+    // 리사이징 중이 아닐 때만 테이블 너비 초기화
+    if (!isResizing.value) {
+      // 헤더가 변경되면 Observer 중지 후 테이블 너비 다시 초기화
+      stopObservingTable()
+      nextTick(() => {
+        initializeTableWidths()
+      })
     }
+  },
+  { immediate: true }
+)
 
-    if (tbody) {
-      for (const row of tbody.rows) {
-        const td = row.cells[idx]
-        if (!td) continue
-        td.style.width = `${width}px`
-        td.style.minWidth = `${width}px`
-        td.style.maxWidth = `${width}px`
-        td.style.boxSizing = 'border-box'
+watch(
+  () => props.modelValue,
+  nv => {
+    selected.value = nv
+  },
+  { immediate: true }
+)
+
+watch(
+  () => props.smartSearch,
+  () => {
+    updatePage(1)
+  },
+  {
+    deep: true,
+  }
+)
+
+watch(
+  () => props.itemsPerPage,
+  () => {
+    updatePage(1)
+  }
+)
+
+// items가 변경될 때도 너비 재적용
+watch(
+  () => props.items,
+  (newItems) => {
+    if (newItems && newItems.length > 0 && !isResizing.value) {
+      nextTick(() => {
+        // DOM이 업데이트된 후 저장된 너비 재적용 (리사이징 중이 아닐 때만)
+        applyStoredWidths()
+      })
+    }
+  },
+  { deep: true }
+)
+
+onMounted(() => {
+  // 테이블 초기화
+  nextTick(() => {
+    initializeTableWidths()
+  })
+})
+
+// 초기 테이블 너비 설정
+const initializeTableWidths = () => {
+  const table = getTableEl()
+  if (!table) return
+
+  // 실제 DOM에서 렌더링된 너비를 사용 (한 번만 초기화)
+  if (!isTableInitialized.value) {
+    lazyHeaders.value.forEach((header, index) => {
+      if (!columnWidths.value.has(header.key)) {
+        // 실제 DOM에서 현재 너비 가져오기
+        const th = table.querySelector(`thead tr th:nth-child(${index + 1})`)
+        if (th) {
+          const actualWidth = th.offsetWidth
+          console.log(`Initializing ${header.key}: actual DOM width = ${actualWidth}, header.width = ${header.width}`)
+          columnWidths.value.set(header.key, actualWidth)
+        } else {
+          // DOM 요소를 찾을 수 없는 경우에만 헤더 width 또는 기본값 사용
+          const fallbackWidth = header.width || 150
+          console.log(`Fallback for ${header.key}: using ${fallbackWidth}`)
+          columnWidths.value.set(header.key, fallbackWidth)
+        }
+      }
+    })
+    isTableInitialized.value = true
+  }
+
+  // DOM 변경 감지 시작 (applyStoredWidths 호출하지 않음 - 이미 실제 DOM 너비를 사용했으므로)
+  startObservingTable()
+}
+
+// 저장된 너비를 테이블에 적용
+const applyStoredWidths = (force = false) => {
+  // 리사이징 중이면 실행하지 않음 (force가 true가 아닌 경우)
+  if (!force && isResizing.value) {
+    console.log('Skipping applyStoredWidths - resizing in progress')
+    return
+  }
+
+  console.log('Applying stored widths', force ? '(forced)' : '')
+  lazyHeaders.value.forEach((header, index) => {
+    const storedWidth = columnWidths.value.get(header.key)
+    console.log(`Column ${header.key}: stored width = ${storedWidth}, header.width = ${header.width}`)
+    if (storedWidth) {
+      // updateColumnWidth 대신 직접 스타일 적용 (무한 루프 방지)
+      const table = getTableEl()
+      if (!table) return
+
+      // 헤더 너비 업데이트
+      const th = table.querySelector(`thead tr th:nth-child(${index + 1})`)
+      if (th) {
+        th.style.width = `${storedWidth}px`
+        th.style.minWidth = `${storedWidth}px`
+        th.style.maxWidth = `${storedWidth}px`
+      }
+
+      // 모든 행의 해당 컬럼 너비 업데이트
+      const tbody = table.querySelector('tbody')
+      if (tbody) {
+        const rows = tbody.querySelectorAll('tr')
+        rows.forEach(row => {
+          const td = row.querySelector(`td:nth-child(${index + 1})`)
+          if (td) {
+            td.style.width = `${storedWidth}px`
+            td.style.minWidth = `${storedWidth}px`
+            td.style.maxWidth = `${storedWidth}px`
+          }
+        })
+      }
+
+      // tfoot 너비도 업데이트
+      const tfoot = table.querySelector('tfoot')
+      if (tfoot) {
+        const footerRows = tfoot.querySelectorAll('tr')
+        footerRows.forEach(row => {
+          const td = row.querySelector(`td:nth-child(${index + 1})`)
+          if (td) {
+            td.style.width = `${storedWidth}px`
+            td.style.minWidth = `${storedWidth}px`
+            td.style.maxWidth = `${storedWidth}px`
+          }
+        })
       }
     }
   })
-}
 
-const setTableLayoutFixed = () => {
-  const table = getTableEl(); if (!table) return
-  table.style.tableLayout = 'fixed'
-  table.style.width = `${initialTableWidth.value}px`
-  table.style.minWidth = `${initialTableWidth.value}px`
+  // 리사이징 모드일 때만 테이블 전체 너비 업데이트
   const wrapper = getRootEl()?.querySelector('.v-table__wrapper')
-  if (wrapper) wrapper.style.overflowX = 'auto'
-}
-
-const initializeTableWidths = () => {
-  if (tableInitialized.value) return
-  nextTick(() => {
-    const total = measureAndStoreAllColumnWidths()
-    if (total === 0) return
-    initialTableWidth.value = total
-    setTableLayoutFixed()
-    applyAllColumnWidths()
-    tableInitialized.value = true
-
-    // 테이블 초기화 완료 후 DOM 변경 감지 시작
-    observeTableChanges()
-  })
-}
-
-let initTableTimeout = null
-const initializeTableWidthsDebounced = () => {
-  if (initTableTimeout) clearTimeout(initTableTimeout)
-  initTableTimeout = setTimeout(() => { initializeTableWidths(); initTableTimeout = null }, 100)
-}
-
-const onTooltipToggle = (colIndex) => {
-  return () => {}
-}
-
-// DOM 변경 감지를 위한 MutationObserver
-let tableObserver = null
-
-const observeTableChanges = () => {
-  if (tableObserver) {
-    tableObserver.disconnect()
+  if (wrapper?.classList.contains('table-resizing')) {
+    updateTableTotalWidth()
   }
+}
 
+// 테이블 DOM 변경 감지 시작
+const startObservingTable = () => {
   const table = getTableEl()
-  if (!table || !tableInitialized.value) return
+  if (!table || tableObserver.value) return
 
-  tableObserver = new MutationObserver((mutations) => {
+  tableObserver.value = new MutationObserver((mutations) => {
     let shouldReapply = false
 
     mutations.forEach((mutation) => {
@@ -691,245 +836,265 @@ const observeTableChanges = () => {
       }
     })
 
-    if (shouldReapply) {
-      // 다음 프레임에서 실행하여 DOM이 완전히 준비되도록 함
+    if (shouldReapply && !isResizing.value) {
+      // 다음 프레임에서 실행하여 DOM이 완전히 준비되도록 함 (리사이징 중이 아닐 때만)
       requestAnimationFrame(() => {
         const table = getTableEl()
         if (table && table.tBodies?.[0]?.rows?.length > 0) {
-          applyAllColumnWidths()
+          applyStoredWidths()
         }
       })
     }
   })
 
-  // tbody와 table 전체 변경 감지
-  const tbody = table.tBodies?.[0]
+  // tbody 변경 감지
+  const tbody = table.querySelector('tbody')
   if (tbody) {
-    tableObserver.observe(tbody, {
+    tableObserver.value.observe(tbody, {
       childList: true,
       subtree: true
     })
   }
-
-  // table 전체도 감지 (더 포괄적인 감지)
-  tableObserver.observe(table, {
-    childList: true,
-    subtree: true,
-    attributes: false  // 속성 변경은 제외
-  })
 }
 
-const disconnectTableObserver = () => {
-  if (tableObserver) {
-    tableObserver.disconnect()
-    tableObserver = null
+
+// tr class를 결정하는 함수 추가
+const getItemClass = (item) => {
+  return item.highlight || ''  // highlight 속성이 있으면 해당 클래스를 반환
+}
+
+const tableColumnWidth = (width) => {
+  if (width && (width?.toString()?.endsWith('%') || width?.toString()?.endsWith('px'))) {
+    return width
+  } else if (width) {
+    return `${width}px`
+  }
+  return '250px'
+}
+
+// 커스텀 정렬 관련 함수들
+const isColumnSorted = (key) => {
+  return sortBy.value.some(item => item.key === key)
+}
+
+const getSortDirection = (key) => {
+  const sortItem = sortBy.value.find(item => item.key === key)
+  return sortItem ? sortItem.order : null
+}
+
+const getSortIcon = (key) => {
+  const direction = getSortDirection(key)
+  if (direction === 'asc') {
+    return 'mdi-arrow-up'
+  } else if (direction === 'desc') {
+    return 'mdi-arrow-down'
+  } else {
+    return 'mdi-arrow-up-down'
   }
 }
 
-const updateColumnWidthDOM = (columnKey, width, isQuick = false) => {
-  const colIndex = lazyHeaders.value.findIndex(h => h.key === columnKey)
-  if (colIndex === -1) return
-  const table = getTableEl(); if (!table) return
+const handleSortClick = (key) => {
+  if (props.disableSort) return
 
-  const th = table.querySelector(`thead tr th:nth-child(${colIndex + 1})`)
-  if (th) {
-    th.style.width = `${width}px`
-    th.style.minWidth = `${width}px`
-    th.style.maxWidth = `${width}px`
-    if (isQuick) th.style.boxSizing = 'border-box'
+  const header = props.headers.find(h => h.key === key)
+  if (header && header.sortable === false) return
+
+  const currentSort = sortBy.value.find(item => item.key === key)
+  let newOrder = 'asc'
+
+  if (!currentSort) {
+    // 처음 정렬하는 경우: 없음 → ASC
+    newOrder = 'asc'
+  } else if (currentSort.order === 'asc') {
+    // ASC → DESC
+    newOrder = 'desc'
+  } else if (currentSort.order === 'desc') {
+    // DESC → 없음
+    newOrder = null
   }
 
-  const body = table.tBodies?.[0]
-  if (body) {
-    for (const row of body.rows) {
-      const td = row.cells[colIndex]; if (!td) continue
-      td.style.width = `${width}px`
-      td.style.minWidth = `${width}px`
-      td.style.maxWidth = `${width}px`
-      if (isQuick) td.style.boxSizing = 'border-box'
-    }
+  if (newOrder === null) {
+    // 정렬 해제
+    sortBy.value = []
+    sortDesc.value = []
+  } else {
+    // 정렬 설정
+    sortBy.value = [{ key: key, order: newOrder }]
+    sortDesc.value = [newOrder === 'desc']
   }
 
-  if (!isQuick) {
-    requestAnimationFrame(() => {
-      table.style.tableLayout = 'auto'
-      // eslint-disable-next-line no-unused-expressions
-      table.offsetHeight
-      table.style.tableLayout = 'fixed'
-    })
-  }
+  emit('update:sort-by', sortBy.value)
+  updatePage(1)
 }
+
+// 리사이징 관련 함수들
+const getRootEl = () => sDataTableRef.value?.$el || null
+const getTableEl = () => getRootEl()?.querySelector('table') || null
 
 const startResize = (e, columnKey, columnIndex) => {
-  try {
-    e.preventDefault()
-    if (isResizing.value) return
-    if (!tableInitialized.value) initializeTableWidthsDebounced()
-    if (columnIndex < 0 || columnIndex >= lazyHeaders.value.length) return
+  e.preventDefault()
+  e.stopPropagation()
 
+  if (isResizing.value) return
+
+  // 짧은 지연 후 리사이징 시작 (다른 이벤트들이 완료된 후)
+  setTimeout(() => {
+    // 리사이징 플래그를 가장 먼저 설정하여 다른 함수들이 실행되지 않도록 함
     isResizing.value = true
+
+    console.log('Starting resize for column:', columnKey, 'index:', columnIndex)
     startX.value = e.clientX
     currentColumn.value = { key: columnKey, index: columnIndex }
-    startWidth.value = columnWidths.value.get(columnKey) || 100
 
-    const handle = e.target
-    if (handle) { handle.classList.add('resizing'); currentResizeHandle.value = handle }
+    // 현재 컬럼 너비 가져오기
+    const table = getTableEl()
+    if (table) {
+      const th = table.querySelector(`thead tr th:nth-child(${columnIndex + 1})`)
+      if (th) {
+        startWidth.value = th.offsetWidth
+        console.log('Initial width:', startWidth.value)
+      }
+    }
 
-    document.addEventListener('mousemove', onMouseMoveThrottled, { passive: true })
+    // 리사이징 모드로 전환 (CSS 클래스 추가)
+    const wrapper = getRootEl()?.querySelector('.v-table__wrapper')
+    if (wrapper) {
+      wrapper.classList.add('table-resizing')
+    }
+
+    // 이벤트 리스너 추가
+    document.addEventListener('mousemove', onMouseMove)
     document.addEventListener('mouseup', stopResize)
-
     document.body.style.userSelect = 'none'
     document.body.style.cursor = 'col-resize'
-  } catch (err) { console.warn('startResize error:', err) }
+  }, 10) // 10ms 지연
 }
 
-let rafId = null
-let lastMoveEvent = null
-const onMouseMoveThrottled = (e) => {
+const onMouseMove = (e) => {
   if (!isResizing.value || !currentColumn.value) return
-  lastMoveEvent = e
-  if (rafId) return
-  rafId = requestAnimationFrame(() => {
-    rafId = null
-    if (!lastMoveEvent) return
-    doResize(lastMoveEvent)
-    lastMoveEvent = null
-  })
-}
 
-const doResize = (event) => {
-  if (!isResizing.value || !currentColumn.value) return
-  try {
-    const diffX = event.clientX - startX.value
-    const newWidth = Math.max(50, startWidth.value + diffX)
-    const widthDiff = newWidth - startWidth.value
+  e.preventDefault()
 
-    columnWidths.value.set(currentColumn.value.key, newWidth)
+  const diffX = e.clientX - startX.value
+  const newWidth = Math.max(50, startWidth.value + diffX) // 최소 너비 50px
 
-    const table = getTableEl()
-    if (table && initialTableWidth.value > 0) {
-      const newTableWidth = initialTableWidth.value + widthDiff
-      table.style.width = `${newTableWidth}px`
-      table.style.minWidth = `${newTableWidth}px`
-      table.style.tableLayout = 'fixed'
-    }
+  console.log('Mouse move - diffX:', diffX, 'newWidth:', newWidth)
 
-    updateColumnWidthDOM(currentColumn.value.key, newWidth, true)
-
-    const wrapper = getRootEl()?.querySelector('.v-table__wrapper')
-    if (wrapper && table) {
-      if (table.offsetWidth > wrapper.clientWidth) wrapper.style.overflowX = 'auto'
-      // eslint-disable-next-line no-unused-expressions
-      table.offsetWidth
-    }
-    document.body.style.cursor = 'col-resize'
-  } catch (err) {
-    console.warn('doResize error:', err)
-    stopResize()
-  }
+  // 실시간으로 너비 적용
+  updateColumnWidth(currentColumn.value.key, currentColumn.value.index, newWidth)
 }
 
 const stopResize = () => {
-  if (!currentColumn.value) return
-
-  const key = currentColumn.value.key
-  const finalWidth = columnWidths.value.get(key)
-  if (finalWidth) updateColumnWidthDOM(key, finalWidth, false)
-
-  if (currentResizeHandle.value) { currentResizeHandle.value.classList.remove('resizing'); currentResizeHandle.value = null }
+  if (!isResizing.value) return
 
   isResizing.value = false
-  document.removeEventListener('mousemove', onMouseMoveThrottled)
+  currentColumn.value = null
+
+  // 리사이징 모드 해제 (CSS 클래스 제거하지 않음 - 고정 너비 유지)
+  // const wrapper = getRootEl()?.querySelector('.v-table__wrapper')
+  // if (wrapper) {
+  //   wrapper.classList.remove('table-resizing')
+  // }
+
+  document.removeEventListener('mousemove', onMouseMove)
   document.removeEventListener('mouseup', stopResize)
   document.body.style.userSelect = ''
   document.body.style.cursor = ''
+}
 
-  const total = Array.from(columnWidths.value.values()).reduce((acc, w) => acc + (w || 0), 0)
-  if (total > 0) {
-    initialTableWidth.value = total
-    const table = getTableEl()
-    if (table) {
-      table.style.width = `${total}px`
-      table.style.minWidth = `${total}px`
-    }
+const updateColumnWidth = (columnKey, columnIndex, width) => {
+  console.log('Updating column width:', columnKey, 'to', width, 'px')
+
+  columnWidths.value.set(columnKey, width)
+
+  const table = getTableEl()
+  if (!table) {
+    console.log('Table not found!')
+    return
   }
 
-  persistColumnWidths()
+  // 헤더 너비 업데이트
+  const th = table.querySelector(`thead tr th:nth-child(${columnIndex + 1})`)
+  if (th) {
+    console.log('Updating th element width to:', width)
+    th.style.width = `${width}px`
+    th.style.minWidth = `${width}px`
+    th.style.maxWidth = `${width}px`
+  } else {
+    console.log('TH element not found for index:', columnIndex + 1)
+  }
 
-  currentColumn.value = null
-}
-
-const persistColumnWidths = () => {
-  if (!props.persistKey) return
-  const payload = {}
-  columnWidths.value.forEach((v, k) => { payload[k] = v })
-  try { localStorage.setItem(`sdt-widths:${props.persistKey}`, JSON.stringify(payload)) } catch {}
-}
-
-const restoreColumnWidths = () => {
-  if (!props.persistKey) return false
-  let raw = null
-  try { raw = localStorage.getItem(`sdt-widths:${props.persistKey}`) } catch {}
-  if (!raw) return false
-  try {
-    const obj = JSON.parse(raw)
-    const keys = lazyHeaders.value.map(h => h.key)
-    let total = 0
-    keys.forEach(k => {
-      const w = Number(obj[k])
-      if (w && w > 0) { columnWidths.value.set(k, w); total += w }
-    })
-    if (total > 0) {
-      initialTableWidth.value = total
-      nextTick(() => {
-        setTableLayoutFixed()
-        applyAllColumnWidths()
-        tableInitialized.value = true
-
-        // 컬럼 너비 복원 완료 후 DOM 변경 감지 시작
-        observeTableChanges()
-      })
-      return true
-    }
-  } catch {}
-  return false
-}
-
-onMounted(() => {
-  nextTick(() => {
-    if (props.items && props.items.length > 0) {
-      const restored = restoreColumnWidths()
-      if (!restored) initializeTableWidthsDebounced()
-    }
-  })
-})
-watch(() => props.items, (newItems) => {
-  if (newItems && newItems.length > 0) {
-    nextTick(() => {
-      if (!tableInitialized.value) {
-        // 테이블이 초기화되지 않은 경우
-        const restored = restoreColumnWidths()
-        if (!restored) initializeTableWidthsDebounced()
-      } else {
-        // 테이블이 이미 초기화된 경우 (페이지 변경 등)
-        // MutationObserver가 DOM 변경을 감지하여 자동으로 처리
+  // 모든 행의 해당 컬럼 너비 업데이트
+  const tbody = table.querySelector('tbody')
+  if (tbody) {
+    const rows = tbody.querySelectorAll('tr')
+    rows.forEach(row => {
+      const td = row.querySelector(`td:nth-child(${columnIndex + 1})`)
+      if (td) {
+        td.style.width = `${width}px`
+        td.style.minWidth = `${width}px`
+        td.style.maxWidth = `${width}px`
       }
     })
   }
-}, { deep: true })
+
+  // tfoot 너비도 업데이트
+  const tfoot = table.querySelector('tfoot')
+  if (tfoot) {
+    const footerRows = tfoot.querySelectorAll('tr')
+    footerRows.forEach(row => {
+      const td = row.querySelector(`td:nth-child(${columnIndex + 1})`)
+      if (td) {
+        td.style.width = `${width}px`
+        td.style.minWidth = `${width}px`
+        td.style.maxWidth = `${width}px`
+      }
+    })
+  }
+
+  // 테이블 전체 너비 동적 조정
+  updateTableTotalWidth()
+}
+
+// 테이블 전체 너비를 모든 컬럼 너비의 합으로 조정
+const updateTableTotalWidth = () => {
+  const table = getTableEl()
+  const wrapper = getRootEl()?.querySelector('.v-table__wrapper')
+  if (!table) return
+
+  // 리사이징 모드인지 확인
+  const isResizingMode = wrapper?.classList.contains('table-resizing')
+
+  if (isResizingMode) {
+    // 리사이징 모드일 때만 고정 너비 적용
+    let totalWidth = 0
+    lazyHeaders.value.forEach((header) => {
+      const width = columnWidths.value.get(header.key) || header.width || 150
+      totalWidth += width
+    })
+
+    // 테이블 전체 너비 설정
+    table.style.width = `${totalWidth}px`
+    table.style.minWidth = `${totalWidth}px`
+  }
+
+  // 컨테이너에 가로 스크롤 허용
+  if (wrapper) {
+    wrapper.style.overflowX = 'auto'
+  }
+}
+
+// 컴포넌트 언마운트 시 이벤트 리스너 정리
 onBeforeUnmount(() => {
   if (isResizing.value) {
-    isResizing.value = false
-    currentColumn.value = null
-    if (currentResizeHandle.value) { currentResizeHandle.value.classList.remove('resizing'); currentResizeHandle.value = null }
+    document.removeEventListener('mousemove', onMouseMove)
+    document.removeEventListener('mouseup', stopResize)
     document.body.style.userSelect = ''
     document.body.style.cursor = ''
   }
-  if (initTableTimeout) { clearTimeout(initTableTimeout); initTableTimeout = null }
-  document.removeEventListener('mousemove', onMouseMoveThrottled)
-  document.removeEventListener('mouseup', stopResize)
-  disconnectTableObserver()
+  stopObservingTable()
 })
+
 </script>
 
 <style lang="scss" scoped>

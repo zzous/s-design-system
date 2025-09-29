@@ -7,6 +7,11 @@
     font-size: toRem(14);
     background: #F7F9FA;
     position: relative;
+    border-right: 1px solid #e0e0e0 !important; // 헤더 세로선 강제 적용
+
+    &:last-child {
+      border-right: none !important; // 마지막 헤더는 세로선 제거
+    }
 
     .v-selection-control.v-checkbox-btn .v-icon--size-default {
       font-size: 1.3rem;
@@ -44,7 +49,7 @@
     // 리사이즈 핸들 스타일
     .resize-handle {
       position: absolute;
-      right: -25px; // 세로선의 중앙에 위치하도록 조정
+      right: -20px; // 세로선의 중앙에 위치하도록 조정
       top: 0;
       bottom: 0;
       width: 8px;
@@ -86,6 +91,12 @@
     --v-table-row-height: 42px;
     font-size: toRem(14);
     font-weight: 400;
+    overflow: hidden; // 셀 자체에서 오버플로우 숨김
+    border-right: 1px solid #e0e0e0 !important; // 세로선 강제 적용
+
+    &:last-child {
+      border-right: none !important; // 마지막 셀은 세로선 제거
+    }
 
     // 모든 셀 내용에 대한 기본 텍스트 처리
     > * {
@@ -187,7 +198,15 @@
   .s-table-column__text {
     display: inline-block;
     width: 100%;
+    max-width: 100%;
     box-sizing: border-box;
+
+    // Vuetify의 text-truncate 클래스와 함께 사용될 때
+    &.text-truncate {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
 
     // 기본적으로 말줄임 적용
     &.s-ellipsis {
@@ -258,6 +277,20 @@
         overflow-wrap: break-word;
       }
 
+      // 말줄임표 처리를 위한 스타일
+      .s-table-column__text {
+        width: 100%;
+        max-width: 100%;
+        display: inline-block;
+        box-sizing: border-box;
+
+        &.text-truncate {
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+        }
+      }
+
       &:has(span + i) {
         span {
           max-width: calc(100% - 30px);
@@ -274,18 +307,26 @@
   :deep(.v-table__wrapper) {
     border-top:solid 1px #000;
     border-bottom:solid 1px #ddd;
-    overflow-x: auto; // 가로 스크롤 허용
+    overflow-x: hidden; // 초기에는 스크롤 숨김 (컨테이너에 맞게 조정)
+    width: 100%;
 
     > table {
-      table-layout: fixed;
-      width: auto; // 동적 너비 허용
-      min-width: 100%; // 최소 너비는 컨테이너 100%
+      table-layout: auto; // 초기에는 자동 레이아웃으로 화면에 맞게 확장
+      width: 100%; // 컨테이너 전체 너비 사용
+      max-width: 100%; // 컨테이너를 넘지 않도록 제한
 
       // 컬럼 너비 변경 시 깜박임 방지
       th, td {
         transition: none !important;
       }
     }
+
+    // 리사이징 모드일 때만 fixed 레이아웃 사용
+    &.table-resizing > table {
+      table-layout: fixed;
+      width: auto;
+    }
+  }
 
     .material-icons{
       color:#191919;
@@ -301,7 +342,7 @@
     > table > tfoot > tr > td,
     > table > tfoot > tr > th {
       padding: 0 20px;
-      border-right: 1px solid #e0e0e0;
+      border-right: 1px solid #e0e0e0 !important; // 세로선 강제 적용
       box-sizing: border-box; // 패딩과 보더를 포함한 정확한 너비 계산
 
       // 리사이즈 중 안정적인 너비 유지
@@ -309,7 +350,7 @@
       word-wrap: break-word;
 
       &:last-child {
-        border-right: none;
+        border-right: none !important; // 마지막 셀은 세로선 제거
       }
     }
 
@@ -327,7 +368,7 @@
       font-weight: 600;
     }
   }
-}
+
 
 .s-data-table-pagination {
   :deep(.v-pagination__item.v-pagination__item--is-active) {
