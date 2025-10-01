@@ -369,7 +369,7 @@
     }
   }
 
-// resizable이 false일 때 세로선 숨기기
+// resizable이 false일 때 세로선 숨기기 및 가로 스크롤 허용
 .s-data-table.no-vertical-lines {
   :deep(th.v-data-table__th) {
     border-right: none !important;
@@ -386,6 +386,36 @@
   > table > tfoot > tr > td,
   > table > tfoot > tr > th {
     border-right: none !important;
+  }
+
+  // resizable이 false일 때만 가로 스크롤 허용 및 고정 너비 적용
+  :deep(.v-table__wrapper) {
+    overflow-x: auto !important;
+
+    > table {
+      table-layout: fixed !important; // 고정 레이아웃으로 변경하여 너비 안정성 확보
+      width: max-content !important;
+      min-width: 100% !important;
+      max-width: none !important;
+    }
+  }
+
+  // 각 컬럼별로 개별 너비 적용
+  :deep(table) {
+    @for $i from 1 through 20 { // 최대 20개 컬럼까지 지원
+      th:nth-child(#{$i}),
+      td:nth-child(#{$i}) {
+        width: var(--column-#{$i - 1}-width, var(--column-width, 45px)) !important;
+        min-width: var(--column-#{$i - 1}-width, var(--column-width, 45px)) !important;
+        max-width: var(--column-#{$i - 1}-width, var(--column-width, 45px)) !important;
+      }
+    }
+  }
+
+  // 데이터 셀에 텍스트 오버플로우 처리
+  :deep(td.v-data-table__td) {
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
   }
 }
 

@@ -681,6 +681,10 @@ watch(
       stopObservingTable()
       nextTick(() => {
         initializeTableWidths()
+        // resizable이 false일 때 고정 너비 적용
+        if (!props.resizable) {
+          applyFixedColumnWidths()
+        }
       })
     }
   },
@@ -730,6 +734,10 @@ onMounted(() => {
   // 테이블 초기화
   nextTick(() => {
     initializeTableWidths()
+    // resizable이 false일 때 컬럼 너비 CSS 변수 설정
+    if (!props.resizable) {
+      applyFixedColumnWidths()
+    }
   })
 })
 
@@ -1089,6 +1097,58 @@ const updateTableTotalWidth = () => {
   // 컨테이너에 가로 스크롤 허용
   if (wrapper) {
     wrapper.style.overflowX = 'auto'
+  }
+}
+
+// width 값을 CSS에서 사용할 수 있는 형태로 변환
+const normalizeWidth = (width) => {
+  if (!width) return '150px' // 기본값
+
+  // 이미 문자열이고 단위가 포함된 경우 (예: '100px', '50%', '10rem')
+  if (typeof width === 'string' && /\d+(px|%|em|rem|vw|vh)$/.test(width)) {
+    return width
+  }
+
+  // 숫자인 경우 px 단위 추가
+  if (typeof width === 'number' || (typeof width === 'string' && /^\d+$/.test(width))) {
+    return `${width}px`
+  }
+
+  // 그 외의 경우 기본값 반환
+  return '150px'
+}
+
+// resizable이 false일 때 고정 컬럼 너비 적용
+const applyFixedColumnWidths = () => {
+  const rootEl = getRootEl()
+  if (!rootEl) return
+
+  // checkbox 컬럼이 있는지 확인 (showSelect prop 사용)
+  const hasCheckbox = props.showSelect
+  const checkboxOffset = hasCheckbox ? 1 : 0
+
+  lazyHeaders.value.forEach((header, index) => {
+    const width = normalizeWidth(header.width) // 너비 값 정규화
+    const actualColumnIndex = index + checkboxOffset + 1 // checkbox가 있으면 +1
+
+    // CSS 변수로 각 컬럼의 너비 설정
+    rootEl.style.setProperty(`--column-${actualColumnIndex - 1}-width`, width)
+
+    // 각 컬럼에 개별 너비 적용
+    const columnSelector = `th:nth-child(${actualColumnIndex}), td:nth-child(${actualColumnIndex})`
+    const elements = rootEl.querySelectorAll(columnSelector)
+    elements.forEach(el => {
+      el.style.setProperty('--column-width', width)
+    })
+  })
+
+  // checkbox 컬럼이 있다면 첫 번째 컬럼(checkbox)에 고정 너비 설정
+  if (hasCheckbox) {
+    rootEl.style.setProperty('--column-0-width', '60px')
+    const checkboxElements = rootEl.querySelectorAll('th:nth-child(1), td:nth-child(1)')
+    checkboxElements.forEach(el => {
+      el.style.setProperty('--column-width', '60px')
+    })
   }
 }
 
