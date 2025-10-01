@@ -58,6 +58,9 @@
       >
         ...
       </div>
+      <div class="s-notification__footer-box" v-if="isMore && items.length > totalCnt - 1" @click="gotoAllMessage" @keypress="gotoAllMessage">
+        {{ allMessageText }} >
+      </div>
     </template>
     <div class="s-notification-no-item" v-else>{{ noItemText }}</div>
   </div>
@@ -66,7 +69,7 @@
 <script setup>
 import { ref, computed } from 'vue';
 
-const emits = defineEmits(['click:delete', 'click:content'])
+const emits = defineEmits(['click:delete', 'click:content', 'click:all-message'])
 
 const props = defineProps({
   notificationName:{
@@ -78,6 +81,14 @@ const props = defineProps({
     default: () => {
       return []
     },
+  },
+  totalCnt: {
+    type: Number,
+    default: 100,
+  },
+  allMessageText: {
+    type: String,
+    default: '모든 알림 보기',
   },
   noItemText: {
     type: String,
@@ -131,6 +142,10 @@ const setEnglishNoti = (noti, item) => {
     return noti[enItem] || noti[item]
   }
   return noti[item]
+}
+
+const gotoAllMessage = () => {
+  emits('click:all-message')
 }
 
 </script>

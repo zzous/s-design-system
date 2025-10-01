@@ -1,7 +1,7 @@
 <template>
   <v-data-table
     ref="sDataTableRef"
-    :class="['s-data-table', { 'disable-sort': disableSort, 'fixed-table': fixedTable }]"
+    :class="['s-data-table', { 'disable-sort': disableSort, 'fixed-table': fixedTable, 'no-vertical-lines': !resizable }]"
     v-bind="$attrs"
     :headers="lazyHeaders"
     :fixed-header="fixedHeader"
@@ -46,6 +46,7 @@
           {{ getSortIcon(header.key) }}
         </v-icon>
         <div
+          v-if="resizable"
           class="resize-handle"
           @mousedown="startResize($event, header.key, index)"
           @click.stop
@@ -418,6 +419,11 @@ const props = defineProps({
     type: Boolean,
     default: false,
     description: '테이블 고정 여부',
+  },
+  resizable: {
+    type: Boolean,
+    default: false,
+    description: '컬럼 크기 조정 가능 여부',
   },
 })
 
@@ -932,6 +938,8 @@ const getRootEl = () => sDataTableRef.value?.$el || null
 const getTableEl = () => getRootEl()?.querySelector('table') || null
 
 const startResize = (e, columnKey, columnIndex) => {
+  if (!props.resizable) return
+
   e.preventDefault()
   e.stopPropagation()
 

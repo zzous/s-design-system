@@ -1,6 +1,33 @@
 <template>
   <vuetify-wrapper>
-    <s-header />
+    <s-header is-logged-in>
+      <template #inner-append>
+        <!-- notification -->
+        <s-btn id="bell-button" depressed elevation="0" icon class="text-none backgroundColor mr-2" stacked>
+          <v-badge
+            class="s-notification-badge"
+            bordered
+            color="#B80303"
+            max="99"
+            :content="notificationSimpleList.length"
+            :value="notificationSimpleList.length || null"
+            overlap
+          >
+            <v-icon>mdi-bell</v-icon>
+          </v-badge>
+        </s-btn>
+        <v-menu activator="#bell-button" :close-on-content-click="false">
+          <div class="notification-wrapper">
+            <transition name="fade">
+              <s-notification
+                class="notification"
+                :items="notificationSimpleList"
+              />
+            </transition>
+          </div>
+        </v-menu>
+      </template>
+    </s-header>
 
     <div style="padding: 2rem;">
     <s-smart-search
@@ -42,6 +69,29 @@ import { ref } from 'vue'
 const { pageNum, searchs, perPages, checkedList, setPage, setPerPages, setCheckedList, onRefresh } =
     useTablePage()
 
+const totalCnt = ref(0)
+
+const notificationSimpleList = ref([])
+
+for (let i = 0; i < 100; i++) {
+  notificationSimpleList.value.push({
+        "msgTitle": "VM 삭제 작업 실패",
+        "msgContent": "자원: advanced-2025-09-30-671qm6",
+        "msgAdditional": "CSP: VMWARE",
+        "msgTitleEn": null,
+        "msgContentEn": null,
+        "msgAdditionalEn": null,
+        "createdAt": "2025-10-01 13:09:17",
+        "detailInfo": "VMware V2 가상머신 삭제 실패: VMware 가상머신 삭제 실패: VMware 가상머신 삭제 실패: 404 Not Found: \"{\"type\":\"com.vmware.vapi.std.errors.not_found\",\"value\":{\"error_type\":\"NOT_FOUND\",\"messages\":[{\"args\":[\"vm-3192:19595054-8196-42fe-a140-bbd3210a3bb8\"],\"default_message\":\"Virtual machine with identifier 'vm-3192:19595054-8196-42fe-a140-bbd3210a3bb8' does not exist.\",\"id\":\"com.vmware.api.vcenter.vm.not_found\"}]}}\"",
+        "detailInfoEn": null,
+        "notificationIdx": i,
+        "alertInfo": {
+            "sourceType": null,
+            "sourceIdx": null
+        }
+    }
+  )
+}
 
 const list = ref([
     {
@@ -1308,5 +1358,11 @@ const headers = [
 }
 body {
   min-height: 100dvh;
+}
+
+#bell-button {
+  width: 48px;
+  height: 48px;
+  min-width: 48px;
 }
 </style>

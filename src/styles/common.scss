@@ -357,3 +357,15 @@ html * {
         padding-top: 10px;
     }
 }
+
+#bell-button {
+    width: 48px;
+    height: 48px;
+    min-width: 48px;
+}
+
+.s-global-select.v-input--disabled {
+    :deep(.v-field__overlay) {
+        opacity: 0;
+    }
+}

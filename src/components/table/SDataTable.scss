@@ -369,6 +369,25 @@
     }
   }
 
+// resizable이 false일 때 세로선 숨기기
+.s-data-table.no-vertical-lines {
+  :deep(th.v-data-table__th) {
+    border-right: none !important;
+  }
+
+  :deep(td.v-data-table__td) {
+    border-right: none !important;
+  }
+
+  > table > tbody > tr > td,
+  > table > tbody > tr > th,
+  > table > thead > tr > td,
+  > table > thead > tr > th,
+  > table > tfoot > tr > td,
+  > table > tfoot > tr > th {
+    border-right: none !important;
+  }
+}
 
 .s-data-table-pagination {
   :deep(.v-pagination__item.v-pagination__item--is-active) {
