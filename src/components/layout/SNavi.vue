@@ -28,7 +28,7 @@
         </div>
       </div>
     </slot>
-    <div id="s-menu-wrapper">
+    <div id="s-menu-wrapper" :class="{ 'with-project-select': useProject }">
       <v-list v-model:opened="open" class="navi-menu" v-if="menuPath && menuPath.subMenus && menuPath.subMenus.length">
         <v-list-group v-for="menu in menuPath.subMenus" :key="menu.idx" :value="menu.idx">
           <template #activator="{ props: itemProps }" v-if="menu.accessible">

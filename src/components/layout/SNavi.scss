@@ -27,9 +27,14 @@
   width: 300px;
   padding-right: 30px;
   padding-left: 30px;
-  height: inherit;
+  height: calc(100% - 68px); // s-menu-title-wrapper(72px) + s-navi padding-bottom(30px) + 여분(30px) 제외
   overflow-y: auto;
   padding-bottom: 30px;
+
+  // project_select_wrapper가 있을 때 추가 높이 조정
+  &.with-project-select {
+    height: calc(100% - 138px); // s-menu-title-wrapper(72px) + project_select_wrapper(88px) + s-navi padding-bottom(30px) + 여분(30px) 제외
+  }
 
   :deep(.v-list) {
     padding: 0;

@@ -49,6 +49,8 @@
         :page="pageNum"
         select-strategy="single"
         return-object
+        resizable
+        tooltip
         @update:page="setPage"
         @update:model-value="setCheckedList"
     />
