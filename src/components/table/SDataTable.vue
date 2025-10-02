@@ -34,7 +34,11 @@
     </template>
 
     <template v-for="(header, index) in lazyHeaders" #[`header.${header.key}`] :key="index">
-      <div class="header-cell d-flex align-center justify-space-between position-relative" @click="handleSortClick(header.key)">
+      <div
+        class="header-cell d-flex align-center position-relative"
+        :class="getHeaderAlignClass(header.align)"
+        @click="handleSortClick(header.key)"
+      >
         <span>{{ header.title || header.value }}</span>
         <v-icon
           v-if="header.sortable !== false && !disableSort"
@@ -746,12 +750,17 @@ const initializeTableWidths = () => {
   const table = getTableEl()
   if (!table) return
 
+  // checkbox 컬럼이 있는지 확인
+  const hasCheckbox = props.showSelect
+  const checkboxOffset = hasCheckbox ? 1 : 0
+
   // 실제 DOM에서 렌더링된 너비를 사용 (한 번만 초기화)
   if (!isTableInitialized.value) {
     lazyHeaders.value.forEach((header, index) => {
       if (!columnWidths.value.has(header.key)) {
-        // 실제 DOM에서 현재 너비 가져오기
-        const th = table.querySelector(`thead tr th:nth-child(${index + 1})`)
+        // 실제 DOM에서 현재 너비 가져오기 (checkbox 오프셋 고려)
+        const actualDomIndex = index + checkboxOffset + 1
+        const th = table.querySelector(`thead tr th:nth-child(${actualDomIndex})`)
         if (th) {
           const actualWidth = th.offsetWidth
           console.log(`Initializing ${header.key}: actual DOM width = ${actualWidth}, header.width = ${header.width}`)
@@ -780,6 +789,11 @@ const applyStoredWidths = (force = false) => {
   }
 
   console.log('Applying stored widths', force ? '(forced)' : '')
+
+  // checkbox 컬럼이 있는지 확인
+  const hasCheckbox = props.showSelect
+  const checkboxOffset = hasCheckbox ? 1 : 0
+
   lazyHeaders.value.forEach((header, index) => {
     const storedWidth = columnWidths.value.get(header.key)
     console.log(`Column ${header.key}: stored width = ${storedWidth}, header.width = ${header.width}`)
@@ -788,8 +802,11 @@ const applyStoredWidths = (force = false) => {
       const table = getTableEl()
       if (!table) return
 
+      // 실제 DOM 인덱스 계산 (checkbox 오프셋 고려)
+      const actualDomIndex = index + checkboxOffset + 1
+
       // 헤더 너비 업데이트
-      const th = table.querySelector(`thead tr th:nth-child(${index + 1})`)
+      const th = table.querySelector(`thead tr th:nth-child(${actualDomIndex})`)
       if (th) {
         th.style.width = `${storedWidth}px`
         th.style.minWidth = `${storedWidth}px`
@@ -801,7 +818,7 @@ const applyStoredWidths = (force = false) => {
       if (tbody) {
         const rows = tbody.querySelectorAll('tr')
         rows.forEach(row => {
-          const td = row.querySelector(`td:nth-child(${index + 1})`)
+          const td = row.querySelector(`td:nth-child(${actualDomIndex})`)
           if (td) {
             td.style.width = `${storedWidth}px`
             td.style.minWidth = `${storedWidth}px`
@@ -815,7 +832,7 @@ const applyStoredWidths = (force = false) => {
       if (tfoot) {
         const footerRows = tfoot.querySelectorAll('tr')
         footerRows.forEach(row => {
-          const td = row.querySelector(`td:nth-child(${index + 1})`)
+          const td = row.querySelector(`td:nth-child(${actualDomIndex})`)
           if (td) {
             td.style.width = `${storedWidth}px`
             td.style.minWidth = `${storedWidth}px`
@@ -875,6 +892,22 @@ const startObservingTable = () => {
 // tr class를 결정하는 함수 추가
 const getItemClass = (item) => {
   return item.highlight || ''  // highlight 속성이 있으면 해당 클래스를 반환
+}
+
+// header align에 따른 클래스 반환 함수
+const getHeaderAlignClass = (align) => {
+  switch (align) {
+    case 'start':
+    case 'left':
+      return 'justify-start'
+    case 'center':
+      return 'justify-center'
+    case 'end':
+    case 'right':
+      return 'justify-end'
+    default:
+      return 'justify-start' // 기본값
+  }
 }
 
 const tableColumnWidth = (width) => {
@@ -958,14 +991,19 @@ const startResize = (e, columnKey, columnIndex) => {
     // 리사이징 플래그를 가장 먼저 설정하여 다른 함수들이 실행되지 않도록 함
     isResizing.value = true
 
-    console.log('Starting resize for column:', columnKey, 'index:', columnIndex)
-    startX.value = e.clientX
-    currentColumn.value = { key: columnKey, index: columnIndex }
+    // checkbox 컬럼이 있는지 확인하고 실제 DOM 인덱스 계산
+    const hasCheckbox = props.showSelect
+    const checkboxOffset = hasCheckbox ? 1 : 0
+    const actualDomIndex = columnIndex + checkboxOffset
 
-    // 현재 컬럼 너비 가져오기
+    console.log('Starting resize for column:', columnKey, 'lazyHeaders index:', columnIndex, 'actual DOM index:', actualDomIndex)
+    startX.value = e.clientX
+    currentColumn.value = { key: columnKey, index: actualDomIndex }
+
+    // 현재 컬럼 너비 가져오기 (실제 DOM 인덱스 사용)
     const table = getTableEl()
     if (table) {
-      const th = table.querySelector(`thead tr th:nth-child(${columnIndex + 1})`)
+      const th = table.querySelector(`thead tr th:nth-child(${actualDomIndex + 1})`)
       if (th) {
         startWidth.value = th.offsetWidth
         console.log('Initial width:', startWidth.value)

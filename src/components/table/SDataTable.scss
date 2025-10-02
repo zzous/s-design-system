@@ -1,6 +1,21 @@
 .s-data-table {
   border-radius: 0;
 
+  // header align에 따른 정렬 스타일
+  .header-cell {
+    &.justify-start {
+      justify-content: flex-start !important;
+    }
+
+    &.justify-center {
+      justify-content: center !important;
+    }
+
+    &.justify-end {
+      justify-content: flex-end !important;
+    }
+  }
+
   :deep(th.v-data-table__th) {
     --v-table-header-height: 36px;
     font-weight: 600;
@@ -377,6 +392,20 @@
 
   :deep(td.v-data-table__td) {
     border-right: none !important;
+  }
+
+  .header-cell {
+    &.justify-start {
+      justify-content: flex-start !important;
+    }
+
+    &.justify-center {
+      justify-content: center !important;
+    }
+
+    &.justify-end {
+      justify-content: flex-end !important;
+    }
   }
 
   > table > tbody > tr > td,
