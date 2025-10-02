@@ -1,0 +1,335 @@
+import { Meta } from "@storybook/blocks";
+
+<Meta title="Documents/Table Alignment" />
+
+# 📊 테이블 정렬 가이드
+
+SDataTable 컴포넌트에서 사용하는 헤더 정렬 규칙과 가이드라인입니다.
+
+## 📋 정렬 규칙
+
+### 🔢 숫자 데이터
+숫자 데이터는 **오른쪽 정렬**을 사용합니다.
+
+<div style={{
+  display: 'grid',
+  gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))',
+  gap: '16px',
+  margin: '16px 0 32px 0'
+}}>
+  <div style={{
+    padding: '16px',
+    border: '1px solid #E9ECEF',
+    borderRadius: '8px',
+    background: '#F8F9FA'
+  }}>
+    <h4 style={{margin: '0 0 12px 0', color: '#495057'}}>✅ 올바른 예시</h4>
+    <div style={{
+      background: 'white',
+      border: '1px solid #DEE2E6',
+      borderRadius: '4px',
+      overflow: 'hidden'
+    }}>
+      <div style={{
+        display: 'flex',
+        background: '#F7F9FA',
+        borderBottom: '1px solid #DEE2E6',
+        fontWeight: '600',
+        fontSize: '14px'
+      }}>
+        <div style={{flex: 1, padding: '12px', textAlign: 'left'}}>상품명</div>
+        <div style={{flex: 1, padding: '12px', textAlign: 'right'}}>가격</div>
+        <div style={{flex: 1, padding: '12px', textAlign: 'right'}}>수량</div>
+      </div>
+      <div style={{display: 'flex', borderBottom: '1px solid #DEE2E6'}}>
+        <div style={{flex: 1, padding: '12px', textAlign: 'left'}}>노트북</div>
+        <div style={{flex: 1, padding: '12px', textAlign: 'right'}}>1,200,000</div>
+        <div style={{flex: 1, padding: '12px', textAlign: 'right'}}>5</div>
+      </div>
+      <div style={{display: 'flex'}}>
+        <div style={{flex: 1, padding: '12px', textAlign: 'left'}}>마우스</div>
+        <div style={{flex: 1, padding: '12px', textAlign: 'right'}}>25,000</div>
+        <div style={{flex: 1, padding: '12px', textAlign: 'right'}}>12</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+### 📝 텍스트 데이터
+텍스트 데이터는 **왼쪽 정렬**을 사용합니다.
+
+<div style={{
+  display: 'grid',
+  gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))',
+  gap: '16px',
+  margin: '16px 0 32px 0'
+}}>
+  <div style={{
+    padding: '16px',
+    border: '1px solid #E9ECEF',
+    borderRadius: '8px',
+    background: '#F8F9FA'
+  }}>
+    <h4 style={{margin: '0 0 12px 0', color: '#495057'}}>✅ 올바른 예시</h4>
+    <div style={{
+      background: 'white',
+      border: '1px solid #DEE2E6',
+      borderRadius: '4px',
+      overflow: 'hidden'
+    }}>
+      <div style={{
+        display: 'flex',
+        background: '#F7F9FA',
+        borderBottom: '1px solid #DEE2E6',
+        fontWeight: '600',
+        fontSize: '14px'
+      }}>
+        <div style={{flex: 1, padding: '12px', textAlign: 'left'}}>이름</div>
+        <div style={{flex: 1, padding: '12px', textAlign: 'left'}}>부서</div>
+        <div style={{flex: 1, padding: '12px', textAlign: 'left'}}>직급</div>
+      </div>
+      <div style={{display: 'flex', borderBottom: '1px solid #DEE2E6'}}>
+        <div style={{flex: 1, padding: '12px', textAlign: 'left'}}>김철수</div>
+        <div style={{flex: 1, padding: '12px', textAlign: 'left'}}>개발팀</div>
+        <div style={{flex: 1, padding: '12px', textAlign: 'left'}}>선임</div>
+      </div>
+      <div style={{display: 'flex'}}>
+        <div style={{flex: 1, padding: '12px', textAlign: 'left'}}>이영희</div>
+        <div style={{flex: 1, padding: '12px', textAlign: 'left'}}>디자인팀</div>
+        <div style={{flex: 1, padding: '12px', textAlign: 'left'}}>주임</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+### 📅 날짜 데이터
+날짜 데이터는 **왼쪽 정렬**을 사용합니다.
+
+<div style={{
+  display: 'grid',
+  gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))',
+  gap: '16px',
+  margin: '16px 0 32px 0'
+}}>
+  <div style={{
+    padding: '16px',
+    border: '1px solid #E9ECEF',
+    borderRadius: '8px',
+    background: '#F8F9FA'
+  }}>
+    <h4 style={{margin: '0 0 12px 0', color: '#495057'}}>✅ 올바른 예시</h4>
+    <div style={{
+      background: 'white',
+      border: '1px solid #DEE2E6',
+      borderRadius: '4px',
+      overflow: 'hidden'
+    }}>
+      <div style={{
+        display: 'flex',
+        background: '#F7F9FA',
+        borderBottom: '1px solid #DEE2E6',
+        fontWeight: '600',
+        fontSize: '14px'
+      }}>
+        <div style={{flex: 1, padding: '12px', textAlign: 'left'}}>이름</div>
+        <div style={{flex: 1, padding: '12px', textAlign: 'left'}}>입사일</div>
+        <div style={{flex: 1, padding: '12px', textAlign: 'left'}}>생년월일</div>
+      </div>
+      <div style={{display: 'flex', borderBottom: '1px solid #DEE2E6'}}>
+        <div style={{flex: 1, padding: '12px', textAlign: 'left'}}>김철수</div>
+        <div style={{flex: 1, padding: '12px', textAlign: 'left'}}>2023-03-15</div>
+        <div style={{flex: 1, padding: '12px', textAlign: 'left'}}>1990-05-20</div>
+      </div>
+      <div style={{display: 'flex'}}>
+        <div style={{flex: 1, padding: '12px', textAlign: 'left'}}>이영희</div>
+        <div style={{flex: 1, padding: '12px', textAlign: 'left'}}>2024-01-08</div>
+        <div style={{flex: 1, padding: '12px', textAlign: 'left'}}>1985-12-03</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+### 🎯 상태 및 중앙 정렬
+상태나 아이콘 같은 짧은 데이터는 **가운데 정렬**을 사용할 수 있습니다.
+
+<div style={{
+  display: 'grid',
+  gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))',
+  gap: '16px',
+  margin: '16px 0 32px 0'
+}}>
+  <div style={{
+    padding: '16px',
+    border: '1px solid #E9ECEF',
+    borderRadius: '8px',
+    background: '#F8F9FA'
+  }}>
+    <h4 style={{margin: '0 0 12px 0', color: '#495057'}}>✅ 올바른 예시</h4>
+    <div style={{
+      background: 'white',
+      border: '1px solid #DEE2E6',
+      borderRadius: '4px',
+      overflow: 'hidden'
+    }}>
+      <div style={{
+        display: 'flex',
+        background: '#F7F9FA',
+        borderBottom: '1px solid #DEE2E6',
+        fontWeight: '600',
+        fontSize: '14px'
+      }}>
+        <div style={{flex: 2, padding: '12px', textAlign: 'left'}}>서비스명</div>
+        <div style={{flex: 1, padding: '12px', textAlign: 'center'}}>상태</div>
+        <div style={{flex: 1, padding: '12px', textAlign: 'center'}}>액션</div>
+      </div>
+      <div style={{display: 'flex', borderBottom: '1px solid #DEE2E6'}}>
+        <div style={{flex: 2, padding: '12px', textAlign: 'left'}}>웹 서버</div>
+        <div style={{flex: 1, padding: '12px', textAlign: 'center'}}>
+          <span style={{
+            background: '#D4EDDA',
+            color: '#155724',
+            padding: '4px 8px',
+            borderRadius: '12px',
+            fontSize: '12px'
+          }}>실행중</span>
+        </div>
+        <div style={{flex: 1, padding: '12px', textAlign: 'center'}}>⚙️</div>
+      </div>
+      <div style={{display: 'flex'}}>
+        <div style={{flex: 2, padding: '12px', textAlign: 'left'}}>데이터베이스</div>
+        <div style={{flex: 1, padding: '12px', textAlign: 'center'}}>
+          <span style={{
+            background: '#F8D7DA',
+            color: '#721C24',
+            padding: '4px 8px',
+            borderRadius: '12px',
+            fontSize: '12px'
+          }}>중지됨</span>
+        </div>
+        <div style={{flex: 1, padding: '12px', textAlign: 'center'}}>⚙️</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+## 📖 코드 예시
+
+### 기본 정렬 설정
+```javascript
+const headers = [
+  // 텍스트 데이터 - 왼쪽 정렬
+  { title: '이름', key: 'name', align: 'start' },
+  { title: '부서', key: 'department', align: 'left' },
+
+  // 날짜 데이터 - 왼쪽 정렬
+  { title: '입사일', key: 'hireDate', align: 'start' },
+  { title: '생년월일', key: 'birthDate', align: 'left' },
+
+  // 숫자 데이터 - 오른쪽 정렬
+  { title: '급여', key: 'salary', align: 'end' },
+  { title: '나이', key: 'age', align: 'right' },
+
+  // 상태 데이터 - 가운데 정렬
+  { title: '상태', key: 'status', align: 'center' },
+]
+```
+
+### SDataTable 사용 예시
+```vue
+<template>
+  <s-data-table
+    :headers="headers"
+    :items="items"
+    :resizable="false"
+  />
+</template>
+
+<script setup>
+const headers = [
+  { title: '상품명', key: 'productName', width: 200, align: 'start' },
+  { title: '카테고리', key: 'category', width: 150, align: 'start' },
+  { title: '등록일', key: 'registeredDate', width: 120, align: 'start' },
+  { title: '가격', key: 'price', width: 120, align: 'end' },
+  { title: '재고', key: 'stock', width: 100, align: 'end' },
+  { title: '상태', key: 'status', width: 100, align: 'center' },
+]
+
+const items = [
+  {
+    productName: '노트북',
+    category: '전자제품',
+    registeredDate: '2024-01-15',
+    price: 1200000,
+    stock: 5,
+    status: '판매중'
+  },
+  {
+    productName: '마우스',
+    category: '전자제품',
+    registeredDate: '2024-02-03',
+    price: 25000,
+    stock: 12,
+    status: '품절'
+  }
+]
+</script>
+```
+
+## 🎯 정렬 가이드라인
+
+### 📊 데이터 타입별 정렬
+
+| 데이터 타입 | 정렬 방향 | align 값 | 예시 |
+|-------------|-----------|----------|------|
+| **텍스트** | 왼쪽 | `start`, `left` | 이름, 주소, 설명 |
+| **숫자** | 오른쪽 | `end`, `right` | 가격, 수량, 점수 |
+| **날짜** | 왼쪽 | `start`, `left` | 2024-01-01, 생년월일 |
+| **상태/아이콘** | 가운데 | `center` | 활성/비활성, 아이콘 |
+| **액션 버튼** | 가운데 | `center` | 편집, 삭제 버튼 |
+
+### 🔍 왜 이렇게 정렬할까요?
+
+#### 숫자 오른쪽 정렬의 이유
+- **자릿수 비교**: 큰 수와 작은 수를 쉽게 비교할 수 있습니다
+- **계산 편의성**: 덧셈, 뺄셈 시 자릿수가 맞춰져 있어 계산하기 쉽습니다
+- **시각적 일관성**: 소수점이나 콤마 위치가 일정합니다
+
+#### 텍스트 왼쪽 정렬의 이유
+- **읽기 자연스러움**: 한국어와 영어는 왼쪽에서 오른쪽으로 읽습니다
+- **스캔 효율성**: 첫 글자부터 차례로 비교하며 찾기 쉽습니다
+- **일관된 시작점**: 모든 텍스트가 같은 위치에서 시작합니다
+
+#### 날짜 왼쪽 정렬의 이유
+- **일관된 형식**: 날짜 형식(YYYY-MM-DD)이 일정한 길이를 가지므로 왼쪽 정렬이 자연스럽습니다
+- **텍스트와의 일관성**: 날짜도 문자열 형태로 표시되므로 텍스트와 동일한 정렬을 사용합니다
+- **시각적 흐름**: 연도부터 시작하는 날짜 형식의 읽기 흐름과 일치합니다
+
+### ⚠️ 주의사항
+
+#### 혼합 데이터 처리
+```javascript
+// ❌ 잘못된 예시 - 숫자와 텍스트가 섞인 경우
+{ title: 'ID', key: 'id', align: 'start' } // "USER001", "2", "ADMIN123"
+
+// ✅ 올바른 예시 - 데이터 타입에 따라 분리
+{ title: '사용자 ID', key: 'userId', align: 'start' }    // "USER001", "ADMIN123"
+{ title: '순번', key: 'sequence', align: 'end' }         // 1, 2, 3
+```
+
+#### 긴 텍스트 처리
+```javascript
+// 긴 텍스트도 왼쪽 정렬 유지
+{ title: '설명', key: 'description', align: 'start', width: 300 }
+```
+
+### 🎨 시각적 일관성
+
+- **같은 데이터 타입**은 항상 **같은 정렬** 사용
+- **관련된 컬럼**들은 **논리적으로 그룹화**
+- **액션 버튼**은 보통 **테이블 끝**에 배치하고 **가운데 정렬**
+
+## 🔗 관련 문서
+
+- [SDataTable 컴포넌트 가이드](/?path=/docs/components-table-sdatatable--docs)
+- [Material Design Icons](/?path=/docs/documents-icons--docs)
+- [Vuetify 데이터 테이블 문서](https://vuetifyjs.com/en/components/data-tables/)
