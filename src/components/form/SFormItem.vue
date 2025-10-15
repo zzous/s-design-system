@@ -46,10 +46,10 @@ const resizeObserver = ref(null)
 
 // s-form__item-content-item의 너비에서 30px을 뺀 값을 툴팁 title-width로 설정
 const tooltipTitleWidth = computed(() => {
-  console.log('tooltipTitleWidth 계산:', {
-    contentItemWidth: contentItemWidth.value,
-    calculated: Math.max(100, contentItemWidth.value - 30)
-  })
+  // console.log('tooltipTitleWidth 계산:', {
+  //   contentItemWidth: contentItemWidth.value,
+  //   calculated: Math.max(100, contentItemWidth.value - 30)
+  // })
   return Math.max(100, contentItemWidth.value - 30)
 })
 
@@ -62,11 +62,11 @@ const measureContainerWidth = async () => {
 
   if (contentItemRef.value) {
     const width = contentItemRef.value.offsetWidth
-    console.log('컨테이너 너비 측정:', {
-      offsetWidth: width,
-      clientWidth: contentItemRef.value.clientWidth,
-      scrollWidth: contentItemRef.value.scrollWidth
-    })
+    // console.log('컨테이너 너비 측정:', {
+    //   offsetWidth: width,
+    //   clientWidth: contentItemRef.value.clientWidth,
+    //   scrollWidth: contentItemRef.value.scrollWidth
+    // })
     contentItemWidth.value = width
   } else {
     console.log('contentItemRef가 없음')
@@ -75,10 +75,10 @@ const measureContainerWidth = async () => {
 
 // 부모 컴포넌트에서 사용할 툴팁 생성 함수
 const createTooltip = (text) => {
-  console.log('createTooltip 호출:', {
-    text: text?.substring(0, 30) + '...',
-    titleWidth: tooltipTitleWidth.value
-  })
+  // console.log('createTooltip 호출:', {
+  //   text: text?.substring(0, 30) + '...',
+  //   titleWidth: tooltipTitleWidth.value
+  // })
 
   return h(SSimpleTooltip, {
     title: text,
@@ -89,12 +89,12 @@ const createTooltip = (text) => {
 
 // 윈도우 리사이즈 핸들러
 const handleResize = () => {
-  console.log('윈도우 리사이즈 감지')
+  // console.log('윈도우 리사이즈 감지')
   measureContainerWidth()
 }
 
 onMounted(() => {
-  console.log('SFormItem 마운트됨')
+  // console.log('SFormItem 마운트됨')
 
   // 여러 번 시도하여 너비 측정
   measureContainerWidth()
@@ -114,7 +114,7 @@ onMounted(() => {
     resizeObserver.value = new ResizeObserver((entries) => {
       for (const entry of entries) {
         const width = entry.contentRect.width
-        console.log('ResizeObserver 감지:', width)
+        // console.log('ResizeObserver 감지:', width)
         if (width > 0) {
           contentItemWidth.value = width
         }

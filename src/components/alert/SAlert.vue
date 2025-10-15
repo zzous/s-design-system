@@ -102,12 +102,12 @@ const dynamicHeight = computed(() => {
     // 최소 높이만 보장하고 최대 높이 제한 제거
     const minHeight = 48
     const height = Math.max(calculatedHeight.value, minHeight)
-    console.log('dynamicHeight 계산:', {
-      calculatedHeight: calculatedHeight.value,
-      finalHeight: height,
-      multiLine: props.multiLine,
-      isHeightCalculated: isHeightCalculated.value
-    })
+    // console.log('dynamicHeight 계산:', {
+    //   calculatedHeight: calculatedHeight.value,
+    //   finalHeight: height,
+    //   multiLine: props.multiLine,
+    //   isHeightCalculated: isHeightCalculated.value
+    // })
     return `${height}px`
   }
   return props.height
@@ -125,11 +125,11 @@ const shouldShowAlert = computed(() => {
 })
 
 const calculateTextHeight = async () => {
-  console.log('calculateTextHeight 시작:', {
-    titleRef: !!titleRef.value,
-    isActive: isActive.value,
-    isCalculating: isCalculating.value
-  })
+  // console.log('calculateTextHeight 시작:', {
+  //   titleRef: !!titleRef.value,
+  //   isActive: isActive.value,
+  //   isCalculating: isCalculating.value
+  // })
 
   if (!titleRef.value || !isActive.value || isCalculating.value) {
     console.log('calculateTextHeight 조건 불만족으로 종료')
