@@ -304,7 +304,7 @@ const filterItems = computed(() => {
     )
   }
 
-  console.log(optionItems)
+  // console.log(optionItems)
   return optionItems
 })
 

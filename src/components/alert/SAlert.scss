@@ -1,5 +1,8 @@
 .s-alert {
   .v-snack__wrapper {
+    // 자연스러운 높이 전환 애니메이션
+    transition: height 0.3s ease-in-out;
+
     .v-snack__content {
       justify-content: center;
 
@@ -9,8 +12,54 @@
 
       display: flex;
       padding: 13px 19px;
-      align-items: center;
+      align-items: flex-start; // 여러 줄 텍스트를 위해 flex-start로 변경
+      min-height: 48px; // 최소 높이 보장
       @include set-text(500, 15, #fff);
+
+      // 텍스트 내용 변화에 대한 부드러운 전환
+      transition: all 0.2s ease-in-out;
     }
+  }
+}
+.s-alert__title {
+  width: 100%;
+  max-width: 100%;
+  padding-right: 30px;
+  word-break: break-word; // break-all 대신 break-word 사용
+  overflow-wrap: break-word;
+  white-space: pre-wrap; // 줄바꿈과 공백을 유지하면서 자동 줄바꿈
+  line-height: 1.4; // 줄 간격 조정
+  margin: 0; // 기본 마진 제거
+  display: block; // 블록 요소로 명시
+  box-sizing: border-box; // 패딩 포함한 크기 계산
+
+  // 텍스트 내용 변화에 대한 부드러운 전환
+  transition: all 0.2s ease-in-out;
+}
+
+.v-snackbar--multi-line .v-snackbar__wrapper {
+  min-height: 48px;
+}
+
+// 높이 계산을 위한 숨겨진 측정 요소
+.s-alert__hidden-measure {
+  position: absolute;
+  top: -9999px;
+  left: -9999px;
+  visibility: hidden;
+  pointer-events: none;
+  width: 600px; // v-snackbar의 min-width와 동일
+
+  .s-alert__title {
+    width: 100%;
+    max-width: 100%;
+    padding-right: 30px;
+    word-break: break-word;
+    overflow-wrap: break-word;
+    white-space: pre-wrap;
+    line-height: 1.4;
+    margin: 0;
+    display: block;
+    box-sizing: border-box;
   }
 }

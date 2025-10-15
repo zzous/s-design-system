@@ -154,7 +154,7 @@ const setFieldSetLanguage = languageCode => {
 
 const checkCompanySlackEnabled = () => {
   emits('get-company-slack-enabled')
-  console.log('checkCompanySlackEnabled')
+  // console.log('checkCompanySlackEnabled')
 }
 
 onMounted(() => {

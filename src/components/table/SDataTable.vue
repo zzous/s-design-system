@@ -580,7 +580,7 @@ const filterDatas = computed(() => {
           if (isNaN(bValue)) bValue = 0
 
           // 디버깅 로그
-          console.log(`Sorting ${sortKey}: aValue=${aValue}, bValue=${bValue}, desc=${desc}`)
+          // console.log(`Sorting ${sortKey}: aValue=${aValue}, bValue=${bValue}, desc=${desc}`)
 
           if (aValue < bValue) return desc ? 1 : -1
           if (aValue > bValue) return desc ? -1 : 1
@@ -763,12 +763,12 @@ const initializeTableWidths = () => {
         const th = table.querySelector(`thead tr th:nth-child(${actualDomIndex})`)
         if (th) {
           const actualWidth = th.offsetWidth
-          console.log(`Initializing ${header.key}: actual DOM width = ${actualWidth}, header.width = ${header.width}`)
+          // console.log(`Initializing ${header.key}: actual DOM width = ${actualWidth}, header.width = ${header.width}`)
           columnWidths.value.set(header.key, actualWidth)
         } else {
           // DOM 요소를 찾을 수 없는 경우에만 헤더 width 또는 기본값 사용
           const fallbackWidth = header.width || 150
-          console.log(`Fallback for ${header.key}: using ${fallbackWidth}`)
+          // console.log(`Fallback for ${header.key}: using ${fallbackWidth}`)
           columnWidths.value.set(header.key, fallbackWidth)
         }
       }
@@ -784,11 +784,11 @@ const initializeTableWidths = () => {
 const applyStoredWidths = (force = false) => {
   // 리사이징 중이면 실행하지 않음 (force가 true가 아닌 경우)
   if (!force && isResizing.value) {
-    console.log('Skipping applyStoredWidths - resizing in progress')
+    // console.log('Skipping applyStoredWidths - resizing in progress')
     return
   }
 
-  console.log('Applying stored widths', force ? '(forced)' : '')
+  // console.log('Applying stored widths', force ? '(forced)' : '')
 
   // checkbox 컬럼이 있는지 확인
   const hasCheckbox = props.showSelect
@@ -796,7 +796,7 @@ const applyStoredWidths = (force = false) => {
 
   lazyHeaders.value.forEach((header, index) => {
     const storedWidth = columnWidths.value.get(header.key)
-    console.log(`Column ${header.key}: stored width = ${storedWidth}, header.width = ${header.width}`)
+    // console.log(`Column ${header.key}: stored width = ${storedWidth}, header.width = ${header.width}`)
     if (storedWidth) {
       // updateColumnWidth 대신 직접 스타일 적용 (무한 루프 방지)
       const table = getTableEl()
@@ -996,7 +996,7 @@ const startResize = (e, columnKey, columnIndex) => {
     const checkboxOffset = hasCheckbox ? 1 : 0
     const actualDomIndex = columnIndex + checkboxOffset
 
-    console.log('Starting resize for column:', columnKey, 'lazyHeaders index:', columnIndex, 'actual DOM index:', actualDomIndex)
+    // console.log('Starting resize for column:', columnKey, 'lazyHeaders index:', columnIndex, 'actual DOM index:', actualDomIndex)
     startX.value = e.clientX
     currentColumn.value = { key: columnKey, index: actualDomIndex }
 
@@ -1006,7 +1006,7 @@ const startResize = (e, columnKey, columnIndex) => {
       const th = table.querySelector(`thead tr th:nth-child(${actualDomIndex + 1})`)
       if (th) {
         startWidth.value = th.offsetWidth
-        console.log('Initial width:', startWidth.value)
+        // console.log('Initial width:', startWidth.value)
       }
     }
 
@@ -1032,7 +1032,7 @@ const onMouseMove = (e) => {
   const diffX = e.clientX - startX.value
   const newWidth = Math.max(50, startWidth.value + diffX) // 최소 너비 50px
 
-  console.log('Mouse move - diffX:', diffX, 'newWidth:', newWidth)
+  // console.log('Mouse move - diffX:', diffX, 'newWidth:', newWidth)
 
   // 실시간으로 너비 적용
   updateColumnWidth(currentColumn.value.key, currentColumn.value.index, newWidth)
@@ -1057,25 +1057,25 @@ const stopResize = () => {
 }
 
 const updateColumnWidth = (columnKey, columnIndex, width) => {
-  console.log('Updating column width:', columnKey, 'to', width, 'px')
+  // console.log('Updating column width:', columnKey, 'to', width, 'px')
 
   columnWidths.value.set(columnKey, width)
 
   const table = getTableEl()
   if (!table) {
-    console.log('Table not found!')
+    // console.log('Table not found!')
     return
   }
 
   // 헤더 너비 업데이트
   const th = table.querySelector(`thead tr th:nth-child(${columnIndex + 1})`)
   if (th) {
-    console.log('Updating th element width to:', width)
+    // console.log('Updating th element width to:', width)
     th.style.width = `${width}px`
     th.style.minWidth = `${width}px`
     th.style.maxWidth = `${width}px`
   } else {
-    console.log('TH element not found for index:', columnIndex + 1)
+    // console.log('TH element not found for index:', columnIndex + 1)
   }
 
   // 모든 행의 해당 컬럼 너비 업데이트

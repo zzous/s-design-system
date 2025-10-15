@@ -17,8 +17,9 @@ export default {
 // More on writing stories with args: https://storybook.js.org/docs/writing-stories/args
 export const Default = {
     args: {
-        titleName: "Test Strato Alarm!",
+        titleName: "Test Strato Alarm! This is a very long text that should trigger the height calculation and make the alert expand naturally to accommodate the content.",
         modelValue: true,
-        timeout: -1
+        timeout: -1,
+        multiLine: true
     },
 };

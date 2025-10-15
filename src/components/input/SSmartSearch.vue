@@ -424,7 +424,7 @@ const onEnter = (event, title, type, value) => {
       return
     }
   } else {
-    console.log('key 값 세팅', menuProps)
+    // console.log('key 값 세팅', menuProps)
     // key 값 세팅
     menuProps.closeOnClick = true
     menuProps.closeOnContentClick = true
