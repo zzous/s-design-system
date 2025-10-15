@@ -7,10 +7,10 @@
     :cover="cover"
     :eager="eager"
     :gradient="gradient"
-    :lazy-src="(lazySrc && `/assets/images/` + lazySrc) || lazySrcUrl"
+    :lazy-src="getLazySrc"
     :options="options"
     :sizes="sizes"
-    :src="(src && `/assets/images/` + src) || srcUrl"
+    :src="getSrc"
     :srcset="srcset"
     :transition="transition"
     :width="width"
@@ -33,9 +33,9 @@ const tag = '[Image]'
 
 import { computed } from 'vue'
 
-const emits = defineEmits(['error'])
+const emits = defineEmits(['error', 'load', 'loadstart'])
 
-defineProps({
+const props = defineProps({
   /*
     @brief 클래스 이름 값 할당
     @date 2021/11/04
@@ -162,6 +162,39 @@ defineProps({
     description: '/public 이후의 경로',
   }
 })
+
+// 이미지 경로 처리 computed 속성들
+const getSrc = computed(() => {
+  if (props.srcUrl) {
+    console.log(tag, 'srcUrl 사용:', props.srcUrl)
+    return props.srcUrl
+  }
+
+  if (props.src) {
+    const srcPath = props.publicPath ? `${props.publicPath}/${props.src}` : `/assets/images/${props.src}`
+    console.log(tag, 'src 경로 생성:', srcPath)
+    return srcPath
+  }
+
+  console.log(tag, 'src가 없음')
+  return ''
+})
+
+const getLazySrc = computed(() => {
+  if (props.lazySrcUrl) {
+    console.log(tag, 'lazySrcUrl 사용:', props.lazySrcUrl)
+    return props.lazySrcUrl
+  }
+
+  if (props.lazySrc) {
+    const lazySrcPath = props.publicPath ? `${props.publicPath}/${props.lazySrc}` : `/assets/images/${props.lazySrc}`
+    console.log(tag, 'lazySrc 경로 생성:', lazySrcPath)
+    return lazySrcPath
+  }
+
+  console.log(tag, 'lazySrc가 없음')
+  return undefined
+})
 /*
     @brief 에러 발생 함수
     @date 2021/11/09
@@ -170,7 +203,7 @@ defineProps({
     - event: EventTarget(이벤트 값)
 */
 const onError = event => {
-  console.log(tag, 'onError')
+  console.log(tag, 'onError', event)
   emits('error', event)
 }
 /*
@@ -180,7 +213,10 @@ const onError = event => {
     @param
     - event: EventTarget(이벤트 값)
 */
-const onLoad = () => {}
+const onLoad = (event) => {
+  console.log(tag, 'onLoad', event)
+  emits('load', event)
+}
 /*
     @brief 이미지 로드가 시작될 떄 호출되는 함수
     @date 2021/11/09
@@ -188,7 +224,10 @@ const onLoad = () => {}
     @param
     - event: EventTarget(이벤트 값)
 */
-const onLoadStart = () => {}
+const onLoadStart = (event) => {
+  console.log(tag, 'onLoadStart', event)
+  emits('loadstart', event)
+}
 /*
     @brief 클릭 이벤트 함수
     @date 2021/11/08

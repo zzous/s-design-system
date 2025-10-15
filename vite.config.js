@@ -3,6 +3,7 @@ import vue from '@vitejs/plugin-vue';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import compression from 'vite-plugin-compression2';
+import { viteStaticCopy } from 'vite-plugin-static-copy';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -13,6 +14,15 @@ export default defineConfig({
         compression({
             include: /\.(js|scss)$/,
             threshold: 1400,
+        }),
+        // 이미지 파일들을 라이브러리 빌드에 포함
+        viteStaticCopy({
+            targets: [
+                {
+                    src: 'public/assets/images/*',
+                    dest: 'assets/images'
+                }
+            ]
         }),
         { // 빌드 시 css src 속성 경로 수정
             name: 'update-font-paths',
@@ -30,12 +40,12 @@ export default defineConfig({
             },
         },
     ],
-    
+
     resolve: {
         extensions: ['.js', '.ts', '.tsx'],
         alias: [{ find: '@', replacement: path.resolve(__dirname, 'src') }],
     },
-    
+
     css: {
         preprocessorOptions: {
             scss: {
@@ -43,7 +53,7 @@ export default defineConfig({
             },
         },
     },
-    
+
     build: {
         outDir: './lib',
         assetsInlineLimit: 0,

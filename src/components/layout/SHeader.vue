@@ -40,11 +40,16 @@
             <v-avatar>
               <div class="s-avater__border">
                 <s-img
-                  v-if="userInfo.picture"
+                  v-if="userInfo.picture?.data"
                   lazy-src="profile.svg"
                   :src-url="`data:image/${userInfo.picture.format};base64,${userInfo.picture.data}`"
+                  @error="onImageError"
+                  @load="onImageLoad"
                 />
-                <s-img v-else lazy-src="profile.svg" src="profile.svg" />
+                <v-img
+                  v-else
+                  class="s-img--default_profile"
+                />
               </div>
             </v-avatar>
           </template>
@@ -96,7 +101,6 @@ const props = defineProps({
       return {
         name: '-',
         picture: {
-          format: 'png',
         },
       }
     },
