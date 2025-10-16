@@ -30,7 +30,7 @@ const PER_PAGES = Object.freeze([
 const emit = defineEmits(['on-refresh', 'set-per-pages'])
 const props = defineProps({
   list: { type: Array, default: () => [] },
-  perPages: { type: Number, default: 10 },
+  perPages: { type: [Number, String], default: 10 },
   perPageList: { type: Array, default: () => null },
   refreshDateTitle: { type: String, default: 'Date' },
   density: { type: String, default: 'comfortable' }

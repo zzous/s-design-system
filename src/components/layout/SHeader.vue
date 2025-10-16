@@ -43,8 +43,6 @@
                   v-if="userInfo.picture?.data"
                   lazy-src="profile.svg"
                   :src-url="`data:image/${userInfo.picture.format};base64,${userInfo.picture.data}`"
-                  @error="onImageError"
-                  @load="onImageLoad"
                 />
                 <v-img
                   v-else
