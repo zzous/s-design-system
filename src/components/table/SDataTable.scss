@@ -3,6 +3,8 @@
 
   // header align에 따른 정렬 스타일
   .header-cell {
+    width: 100%;
+    height: 100%;
     &.justify-start {
       justify-content: flex-start !important;
     }
@@ -64,7 +66,7 @@
     // 리사이즈 핸들 스타일
     .resize-handle {
       position: absolute;
-      right: -20px; // 세로선의 중앙에 위치하도록 조정
+      right: -20px; // 데이터 컬럼 핸들 위치
       top: 0;
       bottom: 0;
       width: 8px;
@@ -90,6 +92,12 @@
       &:active {
         background: rgba(27, 117, 187, 0.2);
       }
+    }
+  }
+
+  :deep(.checkbox-header) {
+    .resize-handle {
+      right: -12px !important; // 체크박스 컬럼 핸들 위치
     }
   }
 
