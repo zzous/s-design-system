@@ -4,10 +4,9 @@
   padding-right: 10px;
   min-height: 52px;
   line-height: 50px;
-  width: 300px;
-}
-#s-menu-title-wrapper a {
-  text-decoration: none;
+  width: $s-navi-width-size;
+
+  a { text-decoration: none; }
 }
 
 #s-menu-title {

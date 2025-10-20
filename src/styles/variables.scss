@@ -48,9 +48,7 @@ $s-btn__secondary: linear-gradient(90deg, #7C0F80 0%, #1B75BB 100%);
 $s-btn__primary: #1C2536;
 $s-btn--violet-1: #574794;
 
-/**
-* TEXT COLOR
-*/
+// TEXT COLOR
 $s-default--gray-0: #FFFFFF;
 $s-default--gray-1: #F7F9FA;
 $s-default--gray-2: #F6F6F6;
@@ -73,3 +71,7 @@ $s-tab-color: #1b75bb;
     --s-text-field-min-width: 450px;
     --s-text-select-min-width: 410px;
 }
+
+
+// LAYOUT
+$s-navi-width-size: 300px;

@@ -15,11 +15,17 @@
                 {{ title }}
               </h2>
               <button @click="onClose" class="panel__container__header__close-button">
-                <svg width="24px" height="24px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g stroke-width="0"></g><g stroke-linecap="round" stroke-linejoin="round"></g><g><path fill-rule="evenodd" clip-rule="evenodd" d="M5.29289 5.29289C5.68342 4.90237 6.31658 4.90237 6.70711 5.29289L12 10.5858L17.2929 5.29289C17.6834 4.90237 18.3166 4.90237 18.7071 5.29289C19.0976 5.68342 19.0976 6.31658 18.7071 6.70711L13.4142 12L18.7071 17.2929C19.0976 17.6834 19.0976 18.3166 18.7071 18.7071C18.3166 19.0976 17.6834 19.0976 17.2929 18.7071L12 13.4142L6.70711 18.7071C6.31658 19.0976 5.68342 19.0976 5.29289 18.7071C4.90237 18.3166 4.90237 17.6834 5.29289 17.2929L10.5858 12L5.29289 6.70711C4.90237 6.31658 4.90237 5.68342 5.29289 5.29289Z" fill="currentColor"></path> </g></svg>
+                <svg width="24px" height="24px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <g stroke-width="0"></g>
+                  <g stroke-linecap="round" stroke-linejoin="round"></g>
+                  <g>
+                    <path fill-rule="evenodd" clip-rule="evenodd" d="M5.29289 5.29289C5.68342 4.90237 6.31658 4.90237 6.70711 5.29289L12 10.5858L17.2929 5.29289C17.6834 4.90237 18.3166 4.90237 18.7071 5.29289C19.0976 5.68342 19.0976 6.31658 18.7071 6.70711L13.4142 12L18.7071 17.2929C19.0976 17.6834 19.0976 18.3166 18.7071 18.7071C18.3166 19.0976 17.6834 19.0976 17.2929 18.7071L12 13.4142L6.70711 18.7071C6.31658 19.0976 5.68342 19.0976 5.29289 18.7071C4.90237 18.3166 4.90237 17.6834 5.29289 17.2929L10.5858 12L5.29289 6.70711C4.90237 6.31658 4.90237 5.68342 5.29289 5.29289Z" fill="currentColor"/>
+                  </g>
+                </svg>
               </button>
             </div>
             <div ref="panelContentRef" class="panel__container__content">
-              <slot name="default" />
+              <slot name="default"/>
             </div>
           </div>
         </Transition>
@@ -28,7 +34,7 @@
 </template>
 
 <script setup>
-import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue'
+import { computed, onMounted, ref, watch } from 'vue'
 import { useOutsideClick } from '@/hooks/index.js'
 
 const props = defineProps({
@@ -52,7 +58,7 @@ const props = defineProps({
   },
   direction: {
     type: String,
-    default: 'right',
+    default: 'bottom',
     validator: (value) => ([undefined, 'right', 'bottom'].includes(value))
   },
   closeOnOutsideClick: {
@@ -188,6 +194,8 @@ const onMouseMove = (e) => {
   } else {
     if (newSize >= props.size && newSize <= MAX_SIZE - headerHeight.value) {
       panelSize.value = newSize
+    } else if (newSize >= props.size) {
+      panelSize.value = MAX_SIZE - headerHeight.value
     }
   }
 }
@@ -236,7 +244,6 @@ $resizer-active-width-size: 2px;
     display: flex;
     flex-direction: column;
     background: $s-default--gray-0;
-    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
     z-index: 1007;
 
     &.s-slide-panel__container--resize-on {
@@ -290,12 +297,14 @@ $resizer-active-width-size: 2px;
 
   &.s-slide-panel--bottom {
 
+    $s-slide-panel-left: calc(#{$s-navi-width-size} + 1px);
+
     .s-slide-panel__container {
       top: auto;
-      left: 0;
+      left: $s-slide-panel-left;
       bottom: 0;
       right: auto;
-      width: 100%;
+      width: calc(100% - #{$s-slide-panel-left});
       height: calc(100dvh - #{var(--global-nav-header-height)});
     }
 
