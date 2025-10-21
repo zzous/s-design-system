@@ -166,33 +166,33 @@ const props = defineProps({
 // 이미지 경로 처리 computed 속성들
 const getSrc = computed(() => {
   if (props.srcUrl) {
-    console.log(tag, 'srcUrl 사용:', props.srcUrl)
+    // console.log(tag, 'srcUrl 사용:', props.srcUrl)
     return props.srcUrl
   }
 
   if (props.src) {
     const srcPath = props.publicPath ? `${props.publicPath}/${props.src}` : `/assets/images/${props.src}`
-    console.log(tag, 'src 경로 생성:', srcPath)
+    // console.log(tag, 'src 경로 생성:', srcPath)
     return srcPath
   }
 
-  console.log(tag, 'src가 없음')
+  // console.log(tag, 'src가 없음')
   return ''
 })
 
 const getLazySrc = computed(() => {
   if (props.lazySrcUrl) {
-    console.log(tag, 'lazySrcUrl 사용:', props.lazySrcUrl)
+    // console.log(tag, 'lazySrcUrl 사용:', props.lazySrcUrl)
     return props.lazySrcUrl
   }
 
   if (props.lazySrc) {
     const lazySrcPath = props.publicPath ? `${props.publicPath}/${props.lazySrc}` : `/assets/images/${props.lazySrc}`
-    console.log(tag, 'lazySrc 경로 생성:', lazySrcPath)
+    // console.log(tag, 'lazySrc 경로 생성:', lazySrcPath)
     return lazySrcPath
   }
 
-  console.log(tag, 'lazySrc가 없음')
+  // console.log(tag, 'lazySrc가 없음')
   return undefined
 })
 /*
