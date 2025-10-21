@@ -348,6 +348,17 @@
     &.table-resizing > table {
       table-layout: fixed;
       width: auto;
+
+      // 컬럼 너비를 CSS 변수에서 가져오도록 설정 (깜빡임 방지)
+      @for $i from 0 through 20 { // 최대 21개 컬럼 지원 (0-indexed)
+        th:nth-child(#{$i + 1}),
+        td:nth-child(#{$i + 1}) {
+          width: var(--column-#{$i}-width) !important;
+          min-width: var(--column-#{$i}-width) !important;
+          max-width: var(--column-#{$i}-width) !important;
+          box-sizing: border-box;
+        }
+      }
     }
   }
 

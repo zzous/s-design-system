@@ -450,7 +450,6 @@ const startWidth = ref(0)
 const currentColumn = ref(null) // { key, index }
 const columnWidths = ref(new Map())
 const sDataTableRef = ref(null)
-const tableObserver = ref(null)
 const isTableInitialized = ref(false)
 
 const updateModelValue = item => {
@@ -674,25 +673,14 @@ const currentPage = computed({
   set: (value) => updatePage(value)
 })
 
-// 테이블 DOM 변경 감지 중지
-const stopObservingTable = () => {
-  if (tableObserver.value) {
-    tableObserver.value.disconnect()
-    tableObserver.value = null
-  }
-}
-
 watch(
   () => props.headers,
   nv => {
     lazyHeaders.value = nv.filter(h => h.align !== 'd-none')
-    // 리사이징 중이 아닐 때만 테이블 너비 초기화
     if (!isResizing.value) {
-      // 헤더가 변경되면 Observer 중지 후 테이블 너비 다시 초기화
-      stopObservingTable()
+      isTableInitialized.value = false;
       nextTick(() => {
         initializeTableWidths()
-        // resizable이 false일 때 고정 너비 적용
         if (!props.resizable) {
           applyFixedColumnWidths()
         }
@@ -727,24 +715,7 @@ watch(
   }
 )
 
-// items가 변경될 때도 너비 재적용
-watch(
-  () => props.items,
-  (newItems) => {
-    // When items change (like pagination), re-apply the stored widths to the new rows.
-    // This should only happen if the layout is already fixed.
-    const wrapper = getRootEl()?.querySelector('.v-table__wrapper');
-    if (newItems && newItems.length > 0 && !isResizing.value && wrapper?.classList.contains('table-resizing')) {
-      nextTick(() => {
-        applyStoredWidths();
-      });
-    }
-  },
-  { deep: true }
-)
-
 onMounted(() => {
-  // Defer initialization to ensure the DOM is fully rendered and styles are applied.
   requestAnimationFrame(() => {
     initializeTableWidths();
     if (!props.resizable) {
@@ -755,10 +726,11 @@ onMounted(() => {
 
 // 초기 테이블 너비 설정
 const initializeTableWidths = () => {
+  const rootEl = getRootEl();
   const table = getTableEl();
-  if (!table || isTableInitialized.value) return;
+  if (!rootEl || !table || isTableInitialized.value) return;
 
-  const wrapper = getRootEl()?.querySelector('.v-table__wrapper');
+  const wrapper = rootEl.querySelector('.v-table__wrapper');
   if (!wrapper) return;
 
   if (props.resizable) {
@@ -776,18 +748,15 @@ const initializeTableWidths = () => {
 
       if (hasCheckbox && index === 0) {
         key = 'data-table-select-header';
-        width = th.offsetWidth; // Checkbox width is best left to browser
+        width = 48; // 고정 너비
       } else if (header) {
         key = header.key;
-        // Prioritize header.width
         if (header.width) {
           width = parseInt(String(header.width), 10);
         } else {
-          // Fallback to DOM width
           width = th.offsetWidth;
         }
       } else {
-        // Fallback for safety
         width = th.offsetWidth;
       }
 
@@ -811,13 +780,12 @@ const initializeTableWidths = () => {
 
     // 3. Decide whether to scale or not
     if (totalInitialWidth < containerWidth) {
-      // Scale UP data columns to fill the remaining space
       const availableWidthForDataCols = containerWidth - checkboxWidth;
-      if (totalDataColumnWidth > 0) { // Only scale if there are data columns
-        const scaleFactor = (availableWidthForDataCols - 2) / totalDataColumnWidth; // Subtract margin
+      if (totalDataColumnWidth > 0) {
+        const scaleFactor = (availableWidthForDataCols - 2) / totalDataColumnWidth;
         tempWidths.forEach((width, key) => {
           if (key === 'data-table-select-header') {
-            columnWidths.value.set(key, width); // Use original width for checkbox
+            columnWidths.value.set(key, width);
           } else {
             columnWidths.value.set(key, Math.max(50, Math.floor(width * scaleFactor)));
           }
@@ -826,98 +794,33 @@ const initializeTableWidths = () => {
         columnWidths.value.set('data-table-select-header', checkboxWidth);
       }
     } else {
-      // Use defined/snapshot widths directly, allowing for a scrollbar
       tempWidths.forEach((width, key) => {
         columnWidths.value.set(key, Math.max(50, width || 0));
       });
     }
 
-    // 4. Switch to fixed layout.
+    // 4. Apply widths as CSS variables
+    if (hasCheckbox) {
+      const width = columnWidths.value.get('data-table-select-header');
+      if (width) {
+        rootEl.style.setProperty('--column-0-width', `${width}px`);
+      }
+    }
+    lazyHeaders.value.forEach((header, index) => {
+      const width = columnWidths.value.get(header.key);
+      if (width) {
+        const cssIndex = index + checkboxOffset;
+        rootEl.style.setProperty(`--column-${cssIndex}-width`, `${width}px`);
+      }
+    });
+
+    // 5. Switch to fixed layout.
     table.style.tableLayout = 'fixed';
     wrapper?.classList.add('table-resizing');
-  }
-
-  // 5. Apply these final widths and set up observers.
-  nextTick(() => {
-    if (props.resizable) {
-      applyStoredWidths(true);
-    }
-    startObservingTable();
+    updateTableTotalWidth(); // Update total width after setting individual widths
     isTableInitialized.value = true;
-  });
-};
-
-// 저장된 너비를 테이블에 적용
-const applyStoredWidths = (force = false) => {
-  if (!force && isResizing.value) {
-    return;
-  }
-
-  const hasCheckbox = props.showSelect;
-  const checkboxOffset = hasCheckbox ? 1 : 0;
-
-  // Apply widths to data columns
-  lazyHeaders.value.forEach((header, index) => {
-    const storedWidth = columnWidths.value.get(header.key);
-    if (storedWidth) {
-      // The DOM index for a header at `index` is `index + checkboxOffset + 1`
-      const actualDomIndex = index + checkboxOffset + 1;
-      applyColumnWidth(actualDomIndex, storedWidth);
-    }
-  });
-
-  // Explicitly apply width to the checkbox column if it exists
-  if (hasCheckbox) {
-    const checkboxWidth = columnWidths.value.get('data-table-select-header');
-    if (checkboxWidth) {
-      applyColumnWidth(1, checkboxWidth);
-    }
-  }
-
-  const wrapper = getRootEl()?.querySelector('.v-table__wrapper');
-  if (wrapper?.classList.contains('table-resizing')) {
-    updateTableTotalWidth();
   }
 };
-
-// 테이블 DOM 변경 감지 시작
-const startObservingTable = () => {
-  const table = getTableEl()
-  if (!table || tableObserver.value) return
-
-  tableObserver.value = new MutationObserver((mutations) => {
-    let shouldReapply = false
-
-    mutations.forEach((mutation) => {
-      // tbody의 자식 노드가 변경되었는지 확인 (페이지 변경 감지)
-      if (mutation.type === 'childList' &&
-          (mutation.target.tagName === 'TBODY' ||
-           mutation.target.closest('tbody'))) {
-        shouldReapply = true
-      }
-    })
-
-    if (shouldReapply && !isResizing.value) {
-      // 다음 프레임에서 실행하여 DOM이 완전히 준비되도록 함 (리사이징 중이 아닐 때만)
-      requestAnimationFrame(() => {
-        const table = getTableEl()
-        if (table && table.tBodies?.[0]?.rows?.length > 0) {
-          applyStoredWidths()
-        }
-      })
-    }
-  })
-
-  // tbody 변경 감지
-  const tbody = table.querySelector('tbody')
-  if (tbody) {
-    tableObserver.value.observe(tbody, {
-      childList: true,
-      subtree: true
-    })
-  }
-}
-
 
 // tr class를 결정하는 함수 추가
 const getItemClass = (item) => {
@@ -1009,23 +912,6 @@ const handleSortClick = (key) => {
 const getRootEl = () => sDataTableRef.value?.$el || null
 const getTableEl = () => getRootEl()?.querySelector('table') || null
 
-// Helper to apply width to all cells in a column (header, body, footer)
-const applyColumnWidth = (domIndex, width) => {
-  if (width === null || width === undefined) return;
-  const table = getTableEl();
-  if (!table) return;
-
-  const widthPx = `${width}px`;
-  const selector = `th:nth-child(${domIndex}), td:nth-child(${domIndex})`;
-  const elements = table.querySelectorAll(selector);
-  elements.forEach(el => {
-    el.style.width = widthPx;
-    el.style.minWidth = widthPx;
-    el.style.maxWidth = widthPx;
-  });
-};
-
-
 const startResize = (e, columnKey, columnIndex) => {
   if (!props.resizable) return;
 
@@ -1036,53 +922,18 @@ const startResize = (e, columnKey, columnIndex) => {
 
   const table = getTableEl();
   if (!table) return;
-  const wrapper = getRootEl()?.querySelector('.v-table__wrapper');
 
-  // On the very first resize, snapshot all column widths and lock the table layout.
-  if (table.style.tableLayout !== 'fixed') {
-    const ths = table.querySelectorAll('thead tr th');
-    const hasCheckbox = props.showSelect;
-    const checkboxOffset = hasCheckbox ? 1 : 0;
-
-    // 1. Snapshot widths. Prioritize `header.width` over DOM `offsetWidth`.
-    ths.forEach((th, index) => {
-      let width;
-      let key;
-      const headerIndex = index - checkboxOffset;
-      const header = lazyHeaders.value[headerIndex];
-
-      if (hasCheckbox && index === 0) {
-        key = 'data-table-select-header';
-        width = th.offsetWidth;
-      } else if (header) {
-        key = header.key;
-        if (header.width) {
-          width = parseInt(String(header.width), 10);
-        } else {
-          width = th.offsetWidth;
-        }
-      } else {
-        width = th.offsetWidth;
-      }
-
-      if (key) {
-        columnWidths.value.set(key, width);
-      }
-    });
-
-    // 2. NOW, change the table layout to fixed.
-    table.style.tableLayout = 'fixed';
-    wrapper?.classList.add('table-resizing'); // Add class to signify fixed layout state
-
-    // 3. Apply these snapped widths back to the table to lock them in.
-    applyStoredWidths(true);
+  // startResize가 처음 호출될 때 너비가 아직 초기화되지 않았다면 초기화 실행
+  if (!isTableInitialized.value) {
+    initializeTableWidths();
   }
 
   isResizing.value = true;
 
   const hasCheckbox = props.showSelect;
   const checkboxOffset = hasCheckbox ? 1 : 0;
-  const actualDomIndex = columnIndex + checkboxOffset;
+  // SDataTable.vue의 columnIndex는 lazyHeaders 기준이므로, 실제 DOM 인덱스 계산
+  const actualDomIndex = columnIndex === -1 ? 0 : columnIndex + checkboxOffset;
 
   startX.value = e.clientX;
   currentColumn.value = { key: columnKey, index: actualDomIndex };
@@ -1138,11 +989,12 @@ const stopResize = () => {
   document.body.style.cursor = '';
 };
 
-const updateColumnWidth = (columnKey, columnIndex, width) => {
-  columnWidths.value.set(columnKey, width);
+const updateColumnWidth = (columnKey, domIndex, width) => {
+  const rootEl = getRootEl()
+  if (!rootEl) return
 
-  const domIndex = columnIndex + 1; // 1-based for nth-child
-  applyColumnWidth(domIndex, width);
+  columnWidths.value.set(columnKey, width);
+  rootEl.style.setProperty(`--column-${domIndex}-width`, `${width}px`);
 
   updateTableTotalWidth();
 };
@@ -1151,19 +1003,23 @@ const updateColumnWidth = (columnKey, columnIndex, width) => {
 const updateTableTotalWidth = () => {
   const table = getTableEl();
   const wrapper = getRootEl()?.querySelector('.v-table__wrapper');
-  if (!table) return;
+  if (!table || !wrapper) return;
 
-  if (wrapper?.classList.contains('table-resizing')) {
+  if (wrapper.classList.contains('table-resizing')) {
     const totalWidth = Array.from(columnWidths.value.values()).reduce((sum, width) => sum + (width || 0), 0);
 
     if (totalWidth > 0) {
       table.style.width = `${totalWidth}px`;
       table.style.minWidth = `${totalWidth}px`;
     }
-  }
 
-  if (wrapper) {
-    wrapper.style.overflowX = 'auto';
+    const containerWidth = wrapper.clientWidth;
+    // 컨테이너 너비보다 클 때만 가로 스크롤 표시
+    if (totalWidth > containerWidth) {
+      wrapper.style.overflowX = 'auto';
+    } else {
+      wrapper.style.overflowX = 'hidden';
+    }
   }
 };
 
@@ -1227,7 +1083,6 @@ onBeforeUnmount(() => {
     document.body.style.userSelect = ''
     document.body.style.cursor = ''
   }
-  stopObservingTable()
 })
 
 </script>
