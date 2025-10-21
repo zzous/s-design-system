@@ -214,7 +214,7 @@ const onError = event => {
     - event: EventTarget(이벤트 값)
 */
 const onLoad = (event) => {
-  console.log(tag, 'onLoad', event)
+  // console.log(tag, 'onLoad', event)
   emits('load', event)
 }
 /*
@@ -225,7 +225,7 @@ const onLoad = (event) => {
     - event: EventTarget(이벤트 값)
 */
 const onLoadStart = (event) => {
-  console.log(tag, 'onLoadStart', event)
+  // console.log(tag, 'onLoadStart', event)
   emits('loadstart', event)
 }
 /*
