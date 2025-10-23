@@ -115,6 +115,8 @@ const panelContentRef = ref(null)
 const headerHeight = ref(0)
 const rightDirection = computed(() => props.direction === 'right')
 useOutsideClick(slidePanelContainerRef, props.onClose, () => props.isOpen && props.closeOnOutsideClick)
+
+const defaultSize = computed(() => (typeof props.size === 'number' ? props.size : parseInt(props.size)))
 // endregion
 
 // region [Styles]
@@ -188,13 +190,13 @@ const onMouseMove = (e) => {
   const newSize = MAX_SIZE - (rightDirection.value ? e.clientX : e.clientY) - paddingLeft
 
   if (rightDirection.value) {
-    if (newSize >= props.size && newSize <= MAX_SIZE) {
+    if (newSize >= defaultSize.value && newSize <= MAX_SIZE) {
       panelSize.value = newSize
     }
   } else {
-    if (newSize >= props.size && newSize <= MAX_SIZE - headerHeight.value) {
+    if (newSize >= defaultSize.value && newSize <= MAX_SIZE - headerHeight.value) {
       panelSize.value = newSize
-    } else if (newSize >= props.size) {
+    } else if (newSize >= defaultSize.value) {
       panelSize.value = MAX_SIZE - headerHeight.value
     }
   }
