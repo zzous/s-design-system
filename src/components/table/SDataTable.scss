@@ -486,3 +486,7 @@
   }
 
 }
+
+.v-table.v-table--fixed-header>.v-table__wrapper>table>thead>tr>th {
+  background-color: $s-default--gray-1 !important;
+}
