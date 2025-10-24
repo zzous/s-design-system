@@ -72,7 +72,7 @@
           >
             {{ isEmpty(bind.item[el.key]) ? '-' : bind.item[el.key] }}
           </span>
-          <span v-else>
+          <span v-else :class="[bind.item.highlight || '']">
             <slot :name="`item.${el.key}`" v-bind="bind">
               {{ isEmpty(bind.item[el.key]) ? '-' : bind.item[el.key] }}
             </slot>
@@ -109,14 +109,21 @@
         />
       </div>
     </template>
-    <template #[`item.data-table-select`]="bind" v-if="$slots['item.data-table-select']">
-      <slot name="item.data-table-select" v-bind="bind">
-        <template v-if="bind.item.selectable">
-          <v-checkbox-btn :model-value="bind.isSelected(bind.item)" @update:model-value="bind.toggleSelect(bind.item)" />
-        </template>
-        <template v-else>
-        </template>
-      </slot>
+    <template #[`item.data-table-select`]="{ item, isSelected, toggleSelect, internalItem }">
+      <div :class="[item?.highlight || '']">
+        <slot v-if="$slots['item.data-table-select']" name="item.data-table-select" v-bind="{ item, isSelected, toggleSelect, internalItem }">
+          <template v-if="item.selectable">
+            <v-checkbox-btn :model-value="isSelected(internalItem)" @update:model-value="toggleSelect(internalItem)" />
+          </template>
+          <template v-else>
+          </template>
+        </slot>
+        <v-checkbox-btn
+          v-else-if="!itemSelectable || item[itemSelectable] !== false"
+          :model-value="isSelected(internalItem)"
+          @update:model-value="toggleSelect(internalItem)"
+        />
+      </div>
     </template>
     <template #no-data>
       <div class="text-center no-data">
