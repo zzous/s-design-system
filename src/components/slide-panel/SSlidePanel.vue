@@ -302,6 +302,14 @@ watch(() => props.isMinimized, (val) => {
     }
   }
 })
+// panelSize가 변경되면 스크롤 높이 재계산 (resize 시)
+watch(() => panelSize.value, (newSize) => {
+  const showNaviElement = document.querySelector('.show-navi')
+  if (showNaviElement && props.isOpen && !internalIsMinimized.value) {
+    // 최소화 상태가 아닐 때만 패널 높이에 맞춰 스크롤 조정
+    showNaviElement.style.paddingBottom = `${newSize}px`
+  }
+})
 onMounted(initializeHeaderHeight)
 // endregion
 </script>
