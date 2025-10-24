@@ -1,5 +1,5 @@
 <template>
-  <vuetify-wrapper>
+  <v-app>
     <s-header is-logged-in>
       <template #inner-append>
         <!-- notification -->
@@ -29,42 +29,48 @@
       </template>
     </s-header>
     <div class="show-header">
-    <s-navi/>
-      <div class="base-layout" style="padding: 300px;">
-        <s-button @click="openSlidePanel">test</s-button>
+      <s-navi
+        service-name="test"
+        menu-path="{ menuUrl: '/', menuName: 'test', menuNameKr: 'test' }"
+        lang="ko"
+      />
+      <div class="base-layout">
+        <div class="show-navi">
+          <s-slide-panel v-bind="slidePanelProps" :content="Test" />
+          <s-btn @click="openSlidePanel" title="test" />
+
+          <div style="padding-top: 20rem;">
+            <s-data-table
+                v-model="checkedList"
+                show-select
+                class="fixed-table"
+                :headers="headers"
+                :items="list"
+                :smart-search="searchs"
+                :items-per-page="perPages"
+                item-value="vpcId"
+                :page="pageNum"
+                select-strategy="single"
+                return-object
+                resizable
+                tooltip
+                @update:page="setPage"
+                @update:model-value="setCheckedList"
+            />
+          </div>
+        </div>
+        <s-footer />
+        <!-- <s-global-progress v-model="loading" /> -->
       </div>
-      </div>
-    <div style="padding: 2rem;">
-
-    <br>
-    <s-data-table
-        v-model="checkedList"
-        show-select
-        class="fixed-table"
-        :headers="headers"
-        :items="list"
-        :smart-search="searchs"
-        :items-per-page="perPages"
-        item-value="vpcId"
-        :page="pageNum"
-        select-strategy="single"
-        return-object
-        resizable
-        tooltip
-        @update:page="setPage"
-        @update:model-value="setCheckedList"
-    />
-  </div>
-
-    <s-slide-panel v-bind="slidePanelProps" :content="Test" />
-
-  </vuetify-wrapper>
+    </div>
+  </v-app>
 </template>
 
 
 <script setup>
-import SButton from '@/components/button/SBtn.vue'
+import SBtn from '@/components/button/SBtn.vue'
 import SHeader from '@/components/layout/SHeader.vue'
+import SFooter from '@/components/layout/SFooter.vue'
 import SSlidePanel from '@/components/slide-panel/SSlidePanel.vue'
 import VuetifyWrapper from '../.storybook/VuetifyWrapper.vue'
 import SDataTable from '@/components/table/SDataTable.vue'
@@ -327,12 +333,13 @@ const headers = [
 
 </script>
 
-<style>
-* {
-  box-sizing: border-box;
-}
-body {
-  min-height: 100dvh;
+<style scoped lang="scss">
+.show-header {
+  position: relative;
+  top: 0;
+  height: 100%;
+  width: 100%;
+  padding: 68px 0;
 }
 
 #bell-button {
@@ -340,4 +347,5 @@ body {
   height: 48px;
   min-width: 48px;
 }
+
 </style>

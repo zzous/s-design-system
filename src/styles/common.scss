@@ -55,6 +55,8 @@ html * {
         min-width: 1100px;
         min-height: calc(100vh - 136px);
         position: relative;
+        padding-bottom: 0;
+        transition: padding-bottom 0.3s ease;
     }
 
     &:has(.show-navi) {

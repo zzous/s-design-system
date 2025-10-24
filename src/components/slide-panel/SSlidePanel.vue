@@ -10,21 +10,44 @@
           <div v-if="isOpen" ref="slidePanelContainerRef" :class="containerClass" :style="containerStyles">
             <div v-if="resizable" :class="resizerClass" @mousedown="onMouseDownPanel" />
             <div class="panel__container__header" v-if="title">
-              <h2 class="panel__container__header__title">
+                <h2 class="panel__container__header__title">
                 <slot name="title" />
                 {{ title }}
               </h2>
-              <button @click="onClose" class="panel__container__header__close-button">
-                <svg width="24px" height="24px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <g stroke-width="0"></g>
-                  <g stroke-linecap="round" stroke-linejoin="round"></g>
-                  <g>
-                    <path fill-rule="evenodd" clip-rule="evenodd" d="M5.29289 5.29289C5.68342 4.90237 6.31658 4.90237 6.70711 5.29289L12 10.5858L17.2929 5.29289C17.6834 4.90237 18.3166 4.90237 18.7071 5.29289C19.0976 5.68342 19.0976 6.31658 18.7071 6.70711L13.4142 12L18.7071 17.2929C19.0976 17.6834 19.0976 18.3166 18.7071 18.7071C18.3166 19.0976 17.6834 19.0976 17.2929 18.7071L12 13.4142L6.70711 18.7071C6.31658 19.0976 5.68342 19.0976 5.29289 18.7071C4.90237 18.3166 4.90237 17.6834 5.29289 17.2929L10.5858 12L5.29289 6.70711C4.90237 6.31658 4.90237 5.68342 5.29289 5.29289Z" fill="currentColor"/>
-                  </g>
-                </svg>
-              </button>
+              <div class="panel__container__header__buttons">
+                <button
+                  v-if="showMinimizeButton && !rightDirection"
+                  @click="onMinimizeClick"
+                  class="panel__container__header__minimize-button"
+                  :title="internalIsMinimized ? '복원' : '최소화'"
+                >
+                  <svg v-if="!internalIsMinimized" width="24px" height="24px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <g stroke-width="0"></g>
+                    <g stroke-linecap="round" stroke-linejoin="round"></g>
+                    <g>
+                      <path d="M6 9L12 15L18 9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </g>
+                  </svg>
+                  <svg v-else width="24px" height="24px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <g stroke-width="0"></g>
+                    <g stroke-linecap="round" stroke-linejoin="round"></g>
+                    <g>
+                      <path d="M6 15L12 9L18 15" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </g>
+                  </svg>
+                </button>
+                <button @click="onClose" class="panel__container__header__close-button">
+                  <svg width="24px" height="24px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <g stroke-width="0"></g>
+                    <g stroke-linecap="round" stroke-linejoin="round"></g>
+                    <g>
+                      <path fill-rule="evenodd" clip-rule="evenodd" d="M5.29289 5.29289C5.68342 4.90237 6.31658 4.90237 6.70711 5.29289L12 10.5858L17.2929 5.29289C17.6834 4.90237 18.3166 4.90237 18.7071 5.29289C19.0976 5.68342 19.0976 6.31658 18.7071 6.70711L13.4142 12L18.7071 17.2929C19.0976 17.6834 19.0976 18.3166 18.7071 18.7071C18.3166 19.0976 17.6834 19.0976 17.2929 18.7071L12 13.4142L6.70711 18.7071C6.31658 19.0976 5.68342 19.0976 5.29289 18.7071C4.90237 18.3166 4.90237 17.6834 5.29289 17.2929L10.5858 12L5.29289 6.70711C4.90237 6.31658 4.90237 5.68342 5.29289 5.29289Z" fill="currentColor"/>
+                    </g>
+                  </svg>
+                </button>
+              </div>
             </div>
-            <div ref="panelContentRef" class="panel__container__content">
+            <div ref="panelContentRef" class="panel__container__content" :class="{ 'panel__container__content--minimized': internalIsMinimized }">
               <slot name="default"/>
             </div>
           </div>
@@ -37,6 +60,9 @@
 import { computed, onMounted, ref, watch } from 'vue'
 import { useOutsideClick } from '@/hooks/index.js'
 
+// TODO direction이 right인 경우 가로 스크롤 조절 필요
+
+const emit = defineEmits(['update:isMinimized'])
 const props = defineProps({
   isOpen: {
     type: Boolean,
@@ -92,7 +118,7 @@ const props = defineProps({
   },
   size: {
     type: [String, Number],
-    default: 480,
+    default: 380,
     validator: value => (['string', 'number'].includes(typeof value)),
   },
   resizable: {
@@ -105,9 +131,20 @@ const props = defineProps({
     default: 'body',
     description: 'Teleport ID',
   },
+  isMinimized: {
+    type: Boolean,
+    default: false,
+    description: '최소화 상태 여부',
+  },
+  showMinimizeButton: {
+    type: Boolean,
+    default: true,
+    description: '최소화 버튼 표시 여부',
+  },
 })
 
 // region [Hooks]
+const internalIsMinimized = ref(props.isMinimized)
 const isResizeMode = ref(false)
 const panelSize = ref(typeof props.size === 'number' ? props.size : parseInt(props.size))
 const slidePanelContainerRef = ref(null)
@@ -139,6 +176,7 @@ const containerClass = computed(() => ({
   's-slide-panel__container': true,
   's-slide-panel__container--resize-on': isResizeMode.value,
   's-slide-panel__container__resize-off': !isResizeMode.value,
+  's-slide-panel__container--minimized': internalIsMinimized.value,
 }));
 const resizerClass = computed(() => ({
   's-slide-panel__container__resizer': true,
@@ -159,7 +197,20 @@ const cleanupListeners = () => {
   window.removeEventListener('mousemove', onMouseUpEvent)
 }
 const onToggleScroll = (isScroll) => {
-  document.body.style.overflow = isScroll ? 'auto' : 'hidden'
+  if (isScroll) {
+    // 패널이 열릴 때: .show-navi에 패널 높이만큼 padding-bottom 추가
+    const panelHeight = panelSize.value
+    const showNaviElement = document.querySelector('.show-navi')
+    if (showNaviElement) {
+      showNaviElement.style.paddingBottom = `${panelHeight}px`
+    }
+  } else {
+    // 패널이 닫힐 때: 원래 상태로 복원
+    const showNaviElement = document.querySelector('.show-navi')
+    if (showNaviElement) {
+      showNaviElement.style.paddingBottom = '0'
+    }
+  }
 }
 const initializePanelWidth = (isOpen) => {
   if (isOpen) {
@@ -169,6 +220,26 @@ const initializePanelWidth = (isOpen) => {
 // endregion
 
 // region [Events]
+const onMinimizeClick = () => {
+  const showNaviElement = document.querySelector('.show-navi')
+
+  if (internalIsMinimized.value) {
+    // 복원 시: 전체 패널 높이만큼 padding-bottom 적용
+    internalIsMinimized.value = false
+    if (showNaviElement) {
+      showNaviElement.style.paddingBottom = `${panelSize.value}px`
+    }
+    emit('update:isMinimized', false)
+  } else {
+    // 최소화 시: 최소화된 패널 높이(64px)만큼 padding-bottom 적용
+    internalIsMinimized.value = true
+    if (showNaviElement) {
+      showNaviElement.style.paddingBottom = '64px'
+    }
+    emit('update:isMinimized', true)
+  }
+}
+
 const onMouseDownPanel = () => {
   isResizeMode.value = true
   document.body.style.cursor = rightDirection.value ? 'col-resize' : 'row-resize'
@@ -207,6 +278,30 @@ const onMouseMove = (e) => {
 watch(() => props.isOpen, onToggleScroll)
 watch(() => props.isOpen, initializePanelWidth)
 watch(() => props.isOpen, cleanupListeners)
+watch(() => props.isOpen, (isOpen) => {
+  if (isOpen === false) {
+    // 패널이 닫힐 때 최소화 상태도 초기화
+    internalIsMinimized.value = false
+    emit('update:isMinimized', false)
+  }
+})
+// props.isMinimized가 외부에서 변경되면 내부 상태도 동기화하고 스크롤 조정
+watch(() => props.isMinimized, (val) => {
+  internalIsMinimized.value = val
+  emit('update:isMinimized', val)
+
+  // 스크롤 영역 조정
+  const showNaviElement = document.querySelector('.show-navi')
+  if (showNaviElement && props.isOpen) {
+    if (val) {
+      // 최소화 시: 64px
+      showNaviElement.style.paddingBottom = '64px'
+    } else {
+      // 복원 시: 전체 패널 높이
+      showNaviElement.style.paddingBottom = `${panelSize.value}px`
+    }
+  }
+})
 onMounted(initializeHeaderHeight)
 // endregion
 </script>
@@ -277,22 +372,96 @@ $resizer-active-width-size: 2px;
       border-bottom: 1px solid #eee;
 
       .panel__container__header__title {
-        width: calc(100% - #{$close-button-size});
+        width: calc(100% - #{$close-button-size * 2});
         font-size: 18px;
         @include one-line-ellipsis();
       }
 
+      .panel__container__header__buttons {
+        display: flex;
+        gap: 8px;
+        align-items: center;
+      }
+
+      .panel__container__header__minimize-button,
       .panel__container__header__close-button {
         display: inline-flex;
         justify-content: center;
         align-items: center;
         width: $close-button-size;
         height: $close-button-size;
+        border: none;
+        background: none;
+        cursor: pointer;
+        color: #666;
+        transition: color 0.2s ease;
+
+        &:hover {
+          color: #333;
+        }
+      }
+
+      .panel__container__header__minimize-button {
+        &:hover {
+          color: #007bff;
+        }
+      }
+
+      .panel__container__header__close-button {
+        &:hover {
+          color: #dc3545;
+        }
       }
     }
     .panel__container__content {
       padding: 18px;
       overflow-y: auto;
+
+      &.panel__container__content--minimized {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        width: 100%;
+        height: auto;
+        min-height: auto;
+        max-height: 60px;
+        padding: 0;
+        background: $s-default--gray-0;
+        border-top: 1px solid #eee;
+        z-index: 1008;
+      }
+    }
+
+    &.s-slide-panel__container--minimized {
+      position: fixed;
+      bottom: 0;
+      top: auto;
+      left: 0;
+      right: 0;
+      width: 100%;
+      height: 64px;
+      min-height: 64px;
+      max-height: 64px;
+      border-radius: 0;
+
+      .panel__container__content {
+        display: none;
+      }
+
+      .panel__container__header {
+        border-bottom: none;
+        border-top: 1px solid #eee;
+        padding: 12px 18px;
+        min-height: 40px;
+        height: 64px;
+        display: flex;
+        align-items: center;
+
+        .panel__container__header__title {
+          font-size: 16px;
+        }
+      }
     }
   }
 

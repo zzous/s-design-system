@@ -23,6 +23,7 @@
     :expand-on-click="expandOnClick"
     :item-class="getItemClass"
     :sort-by="[]"
+    item-selectable
     @update:sort-by="onSortBy"
     @update:model-value="updateModelValue"
     @update:options="$emit('update:options', $event)"
