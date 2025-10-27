@@ -132,7 +132,7 @@ const calculateTextHeight = async () => {
   // })
 
   if (!titleRef.value || !isActive.value || isCalculating.value) {
-    console.log('calculateTextHeight 조건 불만족으로 종료')
+    // console.log('calculateTextHeight 조건 불만족으로 종료')
     return
   }
 
@@ -149,11 +149,11 @@ const calculateTextHeight = async () => {
     const textHeight = titleRef.value.scrollHeight
     const clientHeight = titleRef.value.clientHeight
 
-    console.log('텍스트 높이 측정:', {
-      scrollHeight: textHeight,
-      clientHeight: clientHeight,
-      textContent: titleRef.value.textContent?.substring(0, 50) + '...'
-    })
+    // console.log('텍스트 높이 측정:', {
+    //   scrollHeight: textHeight,
+    //   clientHeight: clientHeight,
+    //   textContent: titleRef.value.textContent?.substring(0, 50) + '...'
+    // })
 
     // 기본 패딩과 여백을 고려하여 최소 높이 계산
     const minHeight = 48
@@ -162,24 +162,24 @@ const calculateTextHeight = async () => {
 
     // 높이 변화가 있을 때만 업데이트 (임계값 완화)
     if (Math.abs(newHeight - calculatedHeight.value) > 2) {
-      console.log('높이 업데이트:', {
-        oldHeight: calculatedHeight.value,
-        newHeight: newHeight,
-        textHeight: textHeight,
-        difference: Math.abs(newHeight - calculatedHeight.value)
-      })
+      // console.log('높이 업데이트:', {
+      //   oldHeight: calculatedHeight.value,
+      //   newHeight: newHeight,
+      //   textHeight: textHeight,
+      //   difference: Math.abs(newHeight - calculatedHeight.value)
+      // })
       calculatedHeight.value = newHeight
     } else {
-      console.log('높이 변화 미미하여 업데이트 스킵:', {
-        oldHeight: calculatedHeight.value,
-        newHeight: newHeight,
-        difference: Math.abs(newHeight - calculatedHeight.value)
-      })
+      // console.log('높이 변화 미미하여 업데이트 스킵:', {
+      //   oldHeight: calculatedHeight.value,
+      //   newHeight: newHeight,
+      //   difference: Math.abs(newHeight - calculatedHeight.value)
+      // })
     }
 
     // 높이 계산 완료 표시
     isHeightCalculated.value = true
-    console.log('높이 계산 완료:', calculatedHeight.value)
+    // console.log('높이 계산 완료:', calculatedHeight.value)
   } finally {
     isCalculating.value = false
   }
