@@ -7,7 +7,11 @@
       <span v-if="required" class="required">*</span>
     </div>
     <div class="s-form__item-content" :class="[contentClass]">
-      <div ref="contentItemRef" class="s-form__item-content-item">
+      <div
+        ref="contentItemRef"
+        class="s-form__item-content-item"
+        :class="[contentItemClass, { 'single-line': singleLine }]"
+      >
         <slot name="default" :tooltip="createTooltip" />
       </div>
       <div v-if="$slots['outer-append']" class="s-form__item-append">
@@ -32,7 +36,17 @@ const props = defineProps({
   contentClass: {
     type: String,
     default: '',
-    description: '콘텐트 영역 클랙스',
+    description: '콘텐트 영역 클래스',
+  },
+  contentItemClass: {
+    type: String,
+    default: '',
+    description: '콘텐트 아이템 영역 클래스',
+  },
+  singleLine: {
+    type: Boolean,
+    default: true,
+    description: 'tooltip과 아이콘을 한 줄로 표시 (flex-wrap: nowrap)',
   },
   label: { type: String, required: false, default: '', description: '폼라벨' },
   showLabel: { type: Boolean, required: false, default: true, description: '폼라벨 노출 여부' },
@@ -44,13 +58,18 @@ const contentItemRef = ref(null)
 const contentItemWidth = ref(0)
 const resizeObserver = ref(null)
 
-// s-form__item-content-item의 너비에서 30px을 뺀 값을 툴팁 title-width로 설정
+// s-form__item-content-item의 너비에서 여백을 뺀 값을 툴팁 title-width로 설정
+// single-line 모드일 때는 아이콘 공간(24px) + gap(10px) + 여유 공간(16px) = 50px을 추가로 뺌
 const tooltipTitleWidth = computed(() => {
+  const padding = props.singleLine ? 50 : 30
+
   // console.log('tooltipTitleWidth 계산:', {
   //   contentItemWidth: contentItemWidth.value,
-  //   calculated: Math.max(100, contentItemWidth.value - 30)
+  //   singleLine: props.singleLine,
+  //   padding: padding,
+  //   calculated: Math.max(100, contentItemWidth.value - padding)
   // })
-  return Math.max(100, contentItemWidth.value - 30)
+  return Math.max(100, contentItemWidth.value - padding)
 })
 
 // 컨테이너 너비 측정 함수

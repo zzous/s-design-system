@@ -1,0 +1,190 @@
+
+
+.v-theme--light {
+  --v-border-color: $s-default--gray-5;
+}
+
+.v-application__wrap {
+  background-color: $s-base-background;
+}
+
+.v-menu .v-overlay__content > .v-list{
+  padding:5px 0;
+  border: solid 1px $active-font-color;
+}
+
+.v-list {
+  .v-list-item {
+      margin:0 5px;
+  }
+
+  .v-list-item + .v-list-item {
+      margin-top: 5px;
+  }
+
+  .v-list-item > .v-list-item__overlay {
+      background: $active-font-color;
+      border-radius:99px;
+  }
+
+  .v-list-item--active {
+      font-weight:400;
+  }
+
+  .v-list-item--active > .v-list-item__overlay,
+  .v-list-item:hover > .v-list-item__overlay {
+      opacity: .3;
+  }
+
+  .v-list-item--density-default.v-list-item--one-line {
+      min-height: 24px;
+
+      .v-list-item-title {
+          @include set-text(500, 12, $s-default--gray-9);
+      }
+  }
+
+  .v-list-item--density-comfortable.v-list-item--one-line {
+      min-height: 24px;
+
+      .v-list-item-title {
+          @include set-text(500, 14, $s-default--gray-9);
+      }
+  }
+
+  .v-virtual-scroll__container {
+      .v-virtual-scroll__item {
+          margin:0 5px;
+      }
+
+      .v-virtual-scroll__item + .v-virtual-scroll__item {
+          margin-top: 5px;
+      }
+  }
+}
+
+.v-input {
+  &.v-input--disabled,
+  &.v-input--readonly {
+      // --v-disabled-opacity: 1;
+      .v-field__overlay{
+          background-color: $s-default--gray-1;
+      }
+  }
+
+  .v-field--variant-outlined {
+      &:not(.v-field--error) .v-field__outline {
+          --v-field-border-opacity: 1;
+          color: $s-default--gray-5;
+      }
+
+      &.v-field--error .v-field__outline {
+          --v-field-border-opacity: 1;
+          color: $s-btn--red-1;
+      }
+  }
+
+  &.v-input--density-compact {
+      --v-input-control-height: 30px;
+
+      &.v-file-input,
+      &.v-text-field,
+      &.v-select {
+          .v-field__input,
+          .v-select__selection {
+              font-size: 12px;
+              --v-input-control-height: 20px;
+              --v-field-input-padding-top: 3px;
+              --v-field-input-padding-bottom: 3px;
+              --v-input-padding-top: 0px;
+
+              &::placeholder{
+                  font-weight: 300;
+              }
+          }
+      }
+      .v-field--no-label {
+          --v-field-padding-bottom: 6px;
+      }
+
+      .v-selection-control--density-compact {
+          --v-selection-control-size: 18px;
+
+          .v-label {
+              opacity: 1;
+              font-size: 12px;
+              padding-left: 8px;
+              font-weight: 400;
+
+              .label--active {
+                  color: $s-blue;
+              }
+          }
+      }
+
+      .v-text-field__suffix {
+          min-height: var(--v-input-control-height);
+
+          .v-text-field__suffix__text {
+              font-size: 12px;
+          }
+      }
+  }
+  &.v-input--density-comfortable {
+      --v-input-control-height: 40px;
+
+      &.v-file-input,
+      &.v-text-field,
+      &.v-select {
+          // height: 40px;
+          .v-field__input,
+          .v-select__selection {
+              font-size: 16px;
+              --v-input-control-height: 30px;
+              --v-field-input-padding-top: 8px;
+              --v-field-input-padding-bottom: 8px;
+          }
+      }
+  }
+}
+
+.v-tabs--density-compact {
+  --v-tabs-height: 40px !important;
+}
+
+.v-slide-group__content {
+  .v-tab.v-tab {
+      background: $s-default--gray-1;
+      border-left: solid 1px $s-default--gray-5;
+      border-right: solid 1px $s-default--gray-5;
+      border-bottom: solid 1px $s-default--gray-5;
+      border-top: solid 1px $s-default--gray-5;
+
+      .v-btn__content {
+          font-size: 14px;
+          color: $s-default--gray-7;
+          font-weight: 600;
+
+          .v-tab__slider {
+              top: 0;
+              bottom: initial;
+          }
+      }
+
+      &.v-tab--selected {
+          background: #fff;
+          border-top: none;
+
+          .v-btn__content {
+              font-size: 14px;
+              color: $s-tab-color;
+          }
+      }
+  }
+}
+
+.v-window {
+  .view-wrapper {
+      padding-top: 10px;
+  }
+}

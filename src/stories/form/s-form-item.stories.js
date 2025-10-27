@@ -1,5 +1,6 @@
 import {SFormItem} from '@/components';
 import SBtn from '../../components/button/SBtn.vue';
+import { ref } from 'vue';
 
 export default {
     title: 'Form/SFormItem',
@@ -22,6 +23,24 @@ export default {
             table: {
                 type: { summary: 'String' },
                 defaultValue: { summary: "''" }
+            }
+        },
+        contentItemClass: {
+            control: 'text',
+            description: '콘텐트 아이템 영역에 적용할 CSS 클래스명',
+            defaultValue: '',
+            table: {
+                type: { summary: 'String' },
+                defaultValue: { summary: "''" }
+            }
+        },
+        singleLine: {
+            control: 'boolean',
+            description: 'tooltip과 아이콘을 한 줄로 표시 (flex-wrap: nowrap)',
+            defaultValue: true,
+            table: {
+                type: { summary: 'Boolean' },
+                defaultValue: { summary: 'true' }
             }
         },
         label: {
@@ -224,6 +243,134 @@ VariousUsage.parameters = {
     docs: {
         source: {
             code: `<template>${variousUsageTemplateCode}</template>`,
+            language: 'html',
+            type: 'auto',
+        }
+    },
+};
+
+// 📝 SingleLine 모드 - tooltip과 아이콘을 한 줄로 표시
+const singleLineTemplateCode = `
+  <div style="max-width: 800px;">
+    <!-- SingleLine 모드: tooltip과 아이콘을 한 줄로 표시 -->
+    <SFormItem
+      label="스냅샷 ID"
+      :singleLine="true"
+      :required="true"
+    >
+      <template #default="{ tooltip }">
+        <component :is="tooltip('c5a524c6-ec05-4456-9ba1-db178abc4567-1234567890abcdef')" />
+        <v-icon
+          size="small"
+          icon="mdi-content-copy"
+          @click="copyToClipboard"
+          style="cursor: pointer;"
+        />
+      </template>
+    </SFormItem>
+
+    <!-- SingleLine 모드: 긴 텍스트와 여러 아이콘 -->
+    <SFormItem
+      label="긴 텍스트 예시"
+      :singleLine="true"
+    >
+      <template #default="{ tooltip }">
+        <component :is="tooltip('이것은 매우 긴 텍스트입니다. 이 텍스트는 컨테이너의 너비를 초과할 수 있지만, single-line 모드에서는 아이콘과 함께 한 줄에 표시됩니다. 텍스트가 잘리면 말줄임표(...)로 표시되며, 마우스를 올리면 전체 내용을 볼 수 있습니다.')" />
+        <v-icon
+          size="small"
+          icon="mdi-content-copy"
+          @click="copyToClipboard"
+          style="cursor: pointer;"
+        />
+        <v-icon
+          size="small"
+          icon="mdi-open-in-new"
+          style="cursor: pointer;"
+        />
+      </template>
+    </SFormItem>
+
+    <!-- SingleLine 비활성화 모드: 기본 flex-wrap 동작 -->
+    <SFormItem
+      label="줄바꿈 허용"
+      :singleLine="false"
+    >
+      <template #default="{ tooltip }">
+        <component :is="tooltip('이것은 매우 긴 텍스트입니다.')" />
+        <component :is="tooltip('또 다른 긴 텍스트 예시입니다.')" />
+        <component :is="tooltip('여러 개의 툴팁을 사용할 수 있습니다.')" />
+        <v-icon
+          size="small"
+          icon="mdi-content-copy"
+          style="cursor: pointer;"
+        />
+      </template>
+    </SFormItem>
+
+    <!-- 실제 사용 예시: 복사 기능 포함 -->
+    <SFormItem
+      label="URL"
+      :singleLine="true"
+    >
+      <template #default="{ tooltip }">
+        <component :is="tooltip('https://example.com/api/v1/users/123456789/profile/settings?tab=security&lang=ko')" />
+        <v-icon
+          size="small"
+          icon="mdi-content-copy"
+          @click="copyText"
+          style="cursor: pointer; color: #1976d2;"
+        />
+      </template>
+    </SFormItem>
+  </div>
+`
+
+const SingleLineTemplate = (args) => ({
+    components: { SFormItem },
+    setup() {
+        const copyToClipboard = () => {
+            alert('복사 기능 실행!');
+        };
+
+        const copyText = () => {
+            const text = 'https://example.com/api/v1/users/123456789/profile/settings?tab=security&lang=ko';
+            navigator.clipboard.writeText(text).then(() => {
+                alert('URL이 클립보드에 복사되었습니다!');
+            });
+        };
+
+        return { args, copyToClipboard, copyText };
+    },
+    template: singleLineTemplateCode,
+});
+
+export const SingleLineMode = SingleLineTemplate.bind({});
+SingleLineMode.args = {
+    label: "Single Line 예시",
+    showLabel: true,
+    singleLine: true,
+};
+
+SingleLineMode.parameters = {
+    docs: {
+        description: {
+            story: '`singleLine` 속성을 사용하면 tooltip과 아이콘을 항상 한 줄에 표시할 수 있습니다. 텍스트가 길어도 말줄임표로 처리되어 레이아웃이 깨지지 않습니다.'
+        },
+        source: {
+            code: `<template>${singleLineTemplateCode}</template>
+
+<script setup>
+const copyToClipboard = () => {
+  alert('복사 기능 실행!');
+};
+
+const copyText = () => {
+  const text = 'https://example.com/api/v1/users/123456789/profile/settings?tab=security&lang=ko';
+  navigator.clipboard.writeText(text).then(() => {
+    alert('URL이 클립보드에 복사되었습니다!');
+  });
+};
+</script>`,
             language: 'html',
             type: 'auto',
         }
