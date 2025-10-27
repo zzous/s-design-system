@@ -252,9 +252,25 @@ VariousUsage.parameters = {
 // 📝 SingleLine 모드 - tooltip과 아이콘을 한 줄로 표시
 const singleLineTemplateCode = `
   <div style="max-width: 800px;">
-    <!-- SingleLine 모드: tooltip과 아이콘을 한 줄로 표시 -->
+    <!-- SingleLine 모드: 짧은 텍스트 (내용만큼만 폭 차지) -->
     <SFormItem
-      label="스냅샷 ID"
+      label="짧은 ID"
+      :singleLine="true"
+    >
+      <template #default="{ tooltip }">
+        <component :is="tooltip('abc123')" />
+        <v-icon
+          size="small"
+          icon="mdi-content-copy"
+          @click="copyToClipboard"
+          style="cursor: pointer;"
+        />
+      </template>
+    </SFormItem>
+
+    <!-- SingleLine 모드: 긴 텍스트 (말줄임 적용) -->
+    <SFormItem
+      label="긴 스냅샷 ID"
       :singleLine="true"
       :required="true"
     >
@@ -354,7 +370,7 @@ SingleLineMode.args = {
 SingleLineMode.parameters = {
     docs: {
         description: {
-            story: '`singleLine` 속성을 사용하면 tooltip과 아이콘을 항상 한 줄에 표시할 수 있습니다. 텍스트가 길어도 말줄임표로 처리되어 레이아웃이 깨지지 않습니다.'
+            story: '`singleLine` 속성을 사용하면 tooltip과 아이콘을 항상 한 줄에 표시할 수 있습니다.\n\n- **짧은 텍스트**: 텍스트 길이만큼만 폭을 차지합니다\n- **긴 텍스트**: 말줄임표(...)로 처리되어 레이아웃이 깨지지 않습니다\n- **호버 시**: 전체 내용을 툴팁으로 확인할 수 있습니다'
         },
         source: {
             code: `<template>${singleLineTemplateCode}</template>
