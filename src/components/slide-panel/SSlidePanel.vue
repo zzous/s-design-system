@@ -36,7 +36,7 @@
                     </g>
                   </svg>
                 </button>
-                <button @click="onClose" class="panel__container__header__close-button">
+                <button @click="onCloseSlidePanel" class="panel__container__header__close-button">
                   <svg width="24px" height="24px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <g stroke-width="0"></g>
                     <g stroke-linecap="round" stroke-linejoin="round"></g>
@@ -62,7 +62,7 @@ import { useOutsideClick } from '@/hooks/index.js'
 
 // TODO direction이 right인 경우 가로 스크롤 조절 필요
 
-const emit = defineEmits(['update:isMinimized'])
+const emit = defineEmits(['update:is-minimized', 'update:model-value'])
 const props = defineProps({
   isOpen: {
     type: Boolean,
@@ -151,7 +151,13 @@ const slidePanelContainerRef = ref(null)
 const panelContentRef = ref(null)
 const headerHeight = ref(0)
 const rightDirection = computed(() => props.direction === 'right')
-useOutsideClick(slidePanelContainerRef, props.onClose, () => props.isOpen && props.closeOnOutsideClick)
+
+const onCloseSlidePanel = () => {
+  emit('update:model-value', false)
+  props.onClose()
+}
+
+useOutsideClick(slidePanelContainerRef, onCloseSlidePanel, () => props.isOpen && props.closeOnOutsideClick)
 
 const defaultSize = computed(() => (typeof props.size === 'number' ? props.size : parseInt(props.size)))
 // endregion
@@ -229,14 +235,14 @@ const onMinimizeClick = () => {
     if (showNaviElement) {
       showNaviElement.style.paddingBottom = `${panelSize.value}px`
     }
-    emit('update:isMinimized', false)
+    emit('update:is-minimized', false)
   } else {
     // 최소화 시: 최소화된 패널 높이(64px)만큼 padding-bottom 적용
     internalIsMinimized.value = true
     if (showNaviElement) {
       showNaviElement.style.paddingBottom = '64px'
     }
-    emit('update:isMinimized', true)
+    emit('update:is-minimized', true)
   }
 }
 
@@ -282,13 +288,13 @@ watch(() => props.isOpen, (isOpen) => {
   if (isOpen === false) {
     // 패널이 닫힐 때 최소화 상태도 초기화
     internalIsMinimized.value = false
-    emit('update:isMinimized', false)
+    emit('update:is-minimized', false)
   }
 })
 // props.isMinimized가 외부에서 변경되면 내부 상태도 동기화하고 스크롤 조정
 watch(() => props.isMinimized, (val) => {
   internalIsMinimized.value = val
-  emit('update:isMinimized', val)
+  emit('update:is-minimized', val)
 
   // 스크롤 영역 조정
   const showNaviElement = document.querySelector('.show-navi')
