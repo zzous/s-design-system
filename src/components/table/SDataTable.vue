@@ -60,7 +60,7 @@
     </template>
 
     <template v-for="(el, index) in lazyHeaders" #[`item.${el.key}`]="bind" :key="index">
-      <v-tooltip v-if="tooltip" location="bottom">
+      <v-tooltip v-if="tooltip" location="bottom" max-width="450px">
         <template #activator="{ props: dataProps }">
           <span
             v-if="!$slots[`item.${el.key}`]"

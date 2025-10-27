@@ -67,9 +67,10 @@ $s-tab-color: #1b75bb;
 
 :root {
     --s-form-item-label-width: 170px;
-
-    --s-text-field-min-width: 450px;
-    --s-text-select-min-width: 410px;
+    --s-text-field-min-width: 618px;
+    --s-text-field-max-width: 100%;
+    --s-text-select-min-width: 618px;
+    --s-text-select-max-width: 100%;
 }
 
 

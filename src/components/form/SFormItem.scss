@@ -132,15 +132,15 @@
 
 .third_box {
   .s-form__item {
-    :deep(.v-text-field) {
-      min-width: calc(var(--s-text-field-min-width, 618px) / 3);
-      max-width: calc(var(--s-text-field-max-width, 100%) / 3);
+    :deep(.v-text-field):not(.v-textarea) {
+      min-width: calc(var(--s-text-field-min-width, 618px) / 1.5);
+      max-width: calc(var(--s-text-field-max-width, 100%) / 1.5);
     }
 
     .v-input__control .v-field {
       .v-field__input.v-select {
-        min-width: calc(var(--s-text-select-min-width, 618px) / 3);
-        max-width: calc(var(--s-text-select-max-width, 100%) / 3);
+        min-width: calc(var(--s-text-select-min-width, 618px) / 1.5);
+        max-width: calc(var(--s-text-select-max-width, 100%) / 1.5);
       }
     }
   }
