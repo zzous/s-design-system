@@ -124,10 +124,14 @@ const menuProps = reactive({
   closeOnContentClick: false,
 })
 
+// 검색 조건 순서 및 의존성 추적
+const searchOrderIndex = ref(0)
+
 const onClear = () => {
   searchValue.value = null
   isValueSearch.value = false
   isTagSearching.value = false
+  // searchOrderIndex는 리셋하지 않음 - 전체 검색 조건 간의 순서 유지
 }
 
 const updateModelValue = (event) => {
@@ -208,7 +212,13 @@ const setOptionItemFormat = (arr, type) => {
       })
     }
   })
-  return result
+
+  // 오름차순 정렬 (asc)
+  return result.sort((a, b) => {
+    const aTitle = String(a.title).toLowerCase()
+    const bTitle = String(b.title).toLowerCase()
+    return aTitle.localeCompare(bTitle, 'ko-KR')
+  })
 }
 
 const filterItems = computed(() => {
@@ -235,16 +245,66 @@ const filterItems = computed(() => {
       return []
     }
 
-    const valuesItemMap = valuesItem.value.reduce((acc, item) => {
-      acc[item.key] = item.value;
-      return acc;
-    }, {});
+    // 현재 선택한 key가 이미 이전에 사용된 key인지 확인
+    const usedKeys = valuesItem.value.map(item => item.key)
+    const isReusedKey = usedKeys.includes(selectedKeyItem.value)
+
+    // 필터링에 사용할 조건 생성
+    // 같은 key를 재사용하는 경우, 해당 key와 그 key에 의존하는 조건들을 제외 (OR 조건 추가용)
+    let filterConditions = []
+
+    if (isReusedKey) {
+      // 제외할 order들을 수집 (재귀적으로)
+      const ordersToExclude = new Set()
+
+      // 현재 선택한 key의 모든 order 추가
+      valuesItem.value
+        .filter(v => v.key === selectedKeyItem.value)
+        .forEach(v => ordersToExclude.add(v.order))
+
+      // 재귀적으로 의존하는 모든 조건들의 order 추가
+      const findDependentOrders = (orderToCheck) => {
+        valuesItem.value.forEach(item => {
+          if (item.basedOnOrders && item.basedOnOrders.includes(orderToCheck)) {
+            if (!ordersToExclude.has(item.order)) {
+              ordersToExclude.add(item.order)
+              findDependentOrders(item.order)
+            }
+          }
+        })
+      }
+
+      ordersToExclude.forEach(order => findDependentOrders(order))
+
+      // 제외 목록에 없는 조건들만 포함
+      filterConditions = valuesItem.value.filter(item => {
+        // order가 없는 항목은 유지
+        if (item.order === undefined || item.order === null) {
+          return true
+        }
+        return !ordersToExclude.has(item.order)
+      })
+    } else {
+      filterConditions = valuesItem.value
+    }
+
+    const valuesItemMap = filterConditions.reduce((acc, item) => {
+      if (!acc[item.key]) {
+        acc[item.key] = []
+      }
+      acc[item.key].push(item.value)
+      return acc
+    }, {})
+
     // valuesItem 기준으로 props.items 를 필터링 함.
-    const sanitizedItems = props.items.filter(item => {
-      return Object.keys(valuesItemMap).every(key => {
-        return item[key] === valuesItemMap[key];
-      });
-    });
+    const sanitizedItems = Object.keys(valuesItemMap).length > 0
+      ? props.items.filter(item => {
+          return Object.keys(valuesItemMap).every(key => {
+            // 같은 key의 여러 value는 OR 조건
+            return valuesItemMap[key].includes(item[key])
+          })
+        })
+      : props.items // 필터 조건이 없으면 전체 items 사용
 
     const setFilterDatas = new Set()
 
@@ -401,18 +461,48 @@ const onEnter = (event, title, type, value) => {
     if (setValue) {
       // emit('update:model-value', valuesItem)
 
+      // 현재 선택한 key가 이전에 사용된 적이 있는지 확인
+      const usedKeys = valuesItem.value.map(item => item.key)
+      const isReusedKey = usedKeys.includes(findKey)
+
+      // 이 검색 조건이 기반으로 하는 현재 valuesItem의 order들 저장
+      let basedOnOrders = []
+
+      if (isReusedKey) {
+        // 같은 key를 재선택하는 경우
+        // 기존 같은 key 항목들의 basedOnOrders를 그대로 사용 (같은 레벨의 OR 조건)
+        const existingSameKeyItem = valuesItem.value.find(item => item.key === findKey)
+        basedOnOrders = existingSameKeyItem?.basedOnOrders || []
+      } else {
+        // 새로운 key를 선택하는 경우
+        // 현재까지의 모든 조건에 의존
+        basedOnOrders = valuesItem.value.map(item => item.order)
+      }
+
       // 선택된 key, value, title 정보 저장 - options의 value 사용
       const addItem = {
         title: findTitle,
         value: setValue, // 선택한 options의 value 사용
         key: findKey,
         type: isTagSearching.value ? 'tag' : null,
+        order: searchOrderIndex.value++, // 순서 저장
+        basedOnOrders: basedOnOrders, // 이 조건이 의존하는 이전 조건들의 order
       }
 
-      valuesItem.value = [...new Map([...valuesItem.value, addItem].map(item => [item.key, item])).values()]
+      // 중복 체크: key와 value가 모두 같은 항목이 이미 있는지 확인
+      const isDuplicate = valuesItem.value.some(item =>
+        item.key === addItem.key && item.value === addItem.value
+      )
 
-      // 추가된 아이템 이벤트
-      emit('update:target-item', addItem)
+      if (!isDuplicate) {
+        valuesItem.value = [...valuesItem.value, addItem]
+
+        // 추가된 아이템 이벤트
+        emit('update:target-item', addItem)
+      } else {
+        // 중복인 경우 order index 되돌리기
+        searchOrderIndex.value--
+      }
 
       // 이벤트 delay => 너무 빨라서 select headers 목록이 안닫힘
       setTimeout(() => {
@@ -452,7 +542,18 @@ const onEnter = (event, title, type, value) => {
 }
 
 const onClickSearchNullTag = () => {
-  valuesItem.value = [...valuesItem.value, { title: '미지정 태그', value: '-', key: 'undefinedTag', type: 'tag' }]
+  const basedOnOrders = valuesItem.value.map(item => item.order)
+
+  const addItem = {
+    title: '미지정 태그',
+    value: '-',
+    key: 'undefinedTag',
+    type: 'tag',
+    order: searchOrderIndex.value++,
+    basedOnOrders: basedOnOrders,
+  }
+
+  valuesItem.value = [...valuesItem.value, addItem]
 
   if (autoComp.value) {
     autoComp.value.search = ''
@@ -460,6 +561,7 @@ const onClickSearchNullTag = () => {
 }
 
 const onDeleteSearchItem = (index) => {
+  // 단순히 해당 index의 항목만 삭제 (의존성 무시)
   const next = valuesItem.value.slice()
   next.splice(index, 1)
   valuesItem.value = next

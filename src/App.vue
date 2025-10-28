@@ -39,7 +39,10 @@
           <s-slide-panel v-bind="slidePanelProps" :content="Test" />
           <s-btn @click="openSlidePanel" title="test" />
 
-          <div style="padding-top: 20rem;">
+          <div style="margin-top: 20rem;" class="layout__list-contents">
+            <div class="search">
+              <s-smart-search :items="list" :headers="headers" v-model="searchs" />
+            </div>
             <s-data-table
                 v-model="checkedList"
                 show-select
