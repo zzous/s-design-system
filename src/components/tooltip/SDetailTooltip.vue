@@ -27,15 +27,18 @@
                   titleWidth="360"
                 />
               </span>
-              <v-icon
-                v-if="props.icon !== ''"
-                :icon="props.icon"
-                @click="
-                  props.icon === 'mdi-content-copy'
-                    ? copyText(item)
-                    : props.itemClick(item)
-                "
-              />
+              <!-- append-icon 슬롯이 제공되면 슬롯 사용, 없으면 기본 v-icon 사용 -->
+              <slot name="append-icon" :item="item">
+                <v-icon
+                  v-if="props.icon !== ''"
+                  :icon="props.icon"
+                  @click="
+                    props.icon === 'mdi-content-copy'
+                      ? copyText(item)
+                      : props.itemClick(item)
+                  "
+                />
+              </slot>
             </v-chip>
           </v-card>
         </v-overlay>
