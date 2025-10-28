@@ -40,9 +40,20 @@
         :class="getHeaderAlignClass(header.align)"
         @click="handleSortClick(header.key)"
       >
-        <span>{{ header.title || header.value }}</span>
+        <!-- 우측 정렬일 때는 아이콘을 텍스트 앞에 배치 -->
         <v-icon
-          v-if="header.sortable !== false && !disableSort"
+          v-if="(header.sortable !== false && !disableSort) && (header.align === 'end' || header.align === 'right')"
+          class="custom-sort-icon"
+          :class="{
+            'active': isColumnSorted(header.key)
+          }"
+        >
+          {{ getSortIcon(header.key) }}
+        </v-icon>
+        <span>{{ header.title || header.value }}</span>
+        <!-- 좌측/중앙 정렬일 때는 아이콘을 텍스트 뒤에 배치 -->
+        <v-icon
+          v-if="(header.sortable !== false && !disableSort) && (header.align !== 'end' && header.align !== 'right')"
           class="custom-sort-icon"
           :class="{
             'active': isColumnSorted(header.key)

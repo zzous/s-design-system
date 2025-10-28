@@ -5,6 +5,8 @@
   .header-cell {
     width: 100%;
     height: 100%;
+    gap: 0; // 아이콘과 텍스트 사이 간격은 margin으로 처리
+
     &.justify-start {
       justify-content: flex-start !important;
     }
@@ -15,6 +17,15 @@
 
     &.justify-end {
       justify-content: flex-end !important;
+    }
+
+    // 헤더 텍스트 말줄임 처리
+    > span {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      flex: 1;
+      min-width: 0;
     }
   }
 
@@ -36,13 +47,13 @@
 
     // 커스텀 정렬 아이콘 스타일
     .custom-sort-icon {
-      position: absolute;
-      right: 8px;
-      top: 50%;
-      transform: translateY(-50%);
+      position: relative;
       font-size: 16px;
       opacity: 0;
       cursor: pointer;
+      flex-shrink: 0; // 아이콘이 축소되지 않도록
+      margin-left: 4px; // 좌측/중앙 정렬 시 텍스트와 간격
+      margin-right: 4px; // 우측 정렬 시 텍스트와 간격
     }
 
     .custom-sort-icon.active {
@@ -53,14 +64,6 @@
     // hover 상태일 때 아이콘 표시
     th:hover .custom-sort-icon {
       opacity: 1;
-    }
-
-    .custom-sort-icon.asc {
-      transform: translateY(-50%);
-    }
-
-    .custom-sort-icon.desc {
-      transform: translateY(-50%);
     }
 
     // 리사이즈 핸들 스타일
