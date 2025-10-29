@@ -124,9 +124,27 @@ html * {
 .form-item--half {
     --half-width: calc((var(--s-text-field-min-width, 618px) - 10px) / 2);
     width: 100%;
-    display: grid;
-    grid-template-columns: var(--half-width) var(--half-width) 110px;
+    display: flex;
+    flex-wrap: wrap;
     gap: 10px;
+
+    // SFormItem이 최대 --half-width를 가지되, 내용이 작으면 줄어들고, 공간이 부족하면 다음 줄로 넘어감
+    > .s-form__item {
+        flex: 0 1 var(--half-width);
+        max-width: var(--half-width);
+        min-width: 0;
+
+        // form-item--half 내부에서는 content가 내용에 맞춰 줄어들도록
+        .s-form__item-content {
+            flex: 0 1 auto;
+        }
+    }
+
+    // 버튼 등 고정 폭 요소
+    > :not(.s-form__item) {
+        flex: 0 0 auto;
+        max-width: 110px;
+    }
 
     // override vuetify default style
     .v-text-field {

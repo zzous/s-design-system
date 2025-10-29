@@ -522,3 +522,11 @@
 .v-table.v-table--fixed-header>.v-table__wrapper>table>thead>tr>th {
   background-color: $s-default--gray-1 !important;
 }
+
+.v-table {
+  :deep(.v-table__wrapper) {
+    .v-selection-control--density-default {
+      --v-selection-control-size: 30px;
+    }
+  }
+}
