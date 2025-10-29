@@ -524,6 +524,13 @@
 }
 
 .v-table {
+  line-height: 0.8;
+
+
+  td, th {
+    line-height: 1.5;
+  }
+
   :deep(.v-table__wrapper) {
     .v-selection-control--density-default {
       --v-selection-control-size: 30px;
