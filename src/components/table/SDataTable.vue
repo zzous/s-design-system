@@ -470,6 +470,7 @@ const currentColumn = ref(null) // { key, index }
 const columnWidths = ref(new Map())
 const sDataTableRef = ref(null)
 const isTableInitialized = ref(false)
+const resizeObserver = ref(null)
 
 const updateModelValue = item => {
   // console.log('updateModelValue', item)
@@ -741,6 +742,28 @@ onMounted(() => {
       applyFixedColumnWidths();
     }
   });
+
+  // ResizeObserver 설정 - eager 탭 내의 테이블 너비 갱신을 위해 필요
+  if (props.resizable) {
+    const rootEl = getRootEl();
+    if (rootEl) {
+      resizeObserver.value = new ResizeObserver((entries) => {
+        for (const entry of entries) {
+          const wrapper = entry.target.querySelector('.v-table__wrapper');
+          if (wrapper && wrapper.clientWidth > 0) {
+            // 컨테이너가 실제로 보이는 상태일 때만 재계산
+            if (!isTableInitialized.value || columnWidths.value.size === 0) {
+              isTableInitialized.value = false;
+              nextTick(() => {
+                initializeTableWidths();
+              });
+            }
+          }
+        }
+      });
+      resizeObserver.value.observe(rootEl);
+    }
+  }
 });
 
 // 초기 테이블 너비 설정
@@ -1101,6 +1124,12 @@ onBeforeUnmount(() => {
     document.removeEventListener('mouseup', stopResize)
     document.body.style.userSelect = ''
     document.body.style.cursor = ''
+  }
+
+  // ResizeObserver 정리
+  if (resizeObserver.value) {
+    resizeObserver.value.disconnect()
+    resizeObserver.value = null
   }
 })
 
