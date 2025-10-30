@@ -18,13 +18,8 @@
     </template>
     <v-list
       select-strategy="classic"
-      :item-title="props.itemTitle"
-      :item-value="props.itemValue"
-      :items="filterItems"
-      :selected="filterValues"
       :density="density"
       min-width="360px"
-      @update:selected="onUpdateModelValue"
     >
       <div class="s-filter-select__filter">
         <v-text-field
@@ -33,7 +28,8 @@
           variant="plain"
           hide-details
           :placeholder="placeholder"
-          v-model="searchWord"
+          :model-value="searchWord"
+          @update:model-value="onSearchWordChange"
           prepend-icon="mdi-filter"
         />
         <v-divider class="mb-1"></v-divider>
@@ -55,48 +51,51 @@
         </v-list-item>
         <v-divider class="my-1"></v-divider>
       </div>
-      <v-virtual-scroll
-        :items="filterItems"
-        max-height="350"
-      >
-        <template v-slot="{ item }">
-          <div class="v-virtual-scroll__item">
-            <slot name="null-data" v-if="props.hasNullValue">
-              <v-list-item
-                v-if="[null, props.nullValue].includes(item[props.itemValue])"
-                :value="props.nullValue"
-                :density="density"
-              >
-                <template v-slot:prepend="{ isActive }">
-                  <v-list-item-action start>
-                    <v-checkbox-btn class="s-filter-select__checkbox-btn" :model-value="isActive" :density="density"></v-checkbox-btn>
-                  </v-list-item-action>
-                </template>
-                <v-list-item-title :title="props.nullTitle" :density="density">
-                  {{ props.nullTitle }}
-                </v-list-item-title>
-              </v-list-item>
-            </slot>
-            <v-list-item
-              v-if="![null, props.nullValue].includes(item[props.itemValue])"
-              :value="item[props.itemValue]"
-              :density="density"
-            >
-              <template v-slot:prepend="{ isActive }">
-                <v-list-item-action start>
-                  <v-checkbox-btn :model-value="isActive" :density="density"></v-checkbox-btn>
-                </v-list-item-action>
-              </template>
-              <v-list-item-title
-                :title="getDisplayTitle(item)"
-                :density="density"
-              >
-                {{ getDisplayTitle(item) }}
-              </v-list-item-title>
-            </v-list-item>
-          </div>
+
+      <div style="max-height: 350px; overflow-y: auto;">
+        <template v-for="item in filterItems" :key="item[props.itemValue]">
+          <!-- null 값 처리 -->
+          <v-list-item
+            v-if="props.hasNullValue && [null, props.nullValue].includes(item[props.itemValue])"
+            :value="props.nullValue"
+            :density="density"
+            @click="onItemClick(props.nullValue)"
+          >
+            <template v-slot:prepend>
+              <v-list-item-action start>
+                <v-checkbox-btn
+                  class="s-filter-select__checkbox-btn"
+                  :model-value="filterValues.includes(props.nullValue)"
+                  :density="density"
+                ></v-checkbox-btn>
+              </v-list-item-action>
+            </template>
+            <v-list-item-title :title="props.nullTitle">
+              {{ props.nullTitle }}
+            </v-list-item-title>
+          </v-list-item>
+
+          <!-- 일반 값 처리 -->
+          <v-list-item
+            v-else
+            :value="item[props.itemValue]"
+            :density="density"
+            @click="onItemClick(item[props.itemValue])"
+          >
+            <template v-slot:prepend>
+              <v-list-item-action start>
+                <v-checkbox-btn
+                  :model-value="filterValues.includes(item[props.itemValue])"
+                  :density="density"
+                ></v-checkbox-btn>
+              </v-list-item-action>
+            </template>
+            <v-list-item-title :title="getDisplayTitle(item)">
+              {{ getDisplayTitle(item) }}
+            </v-list-item-title>
+          </v-list-item>
         </template>
-      </v-virtual-scroll>
+      </div>
     </v-list>
   </v-menu>
 </template>
@@ -170,7 +169,7 @@ const props = defineProps({
 
 const emits = defineEmits(['update:model-value'])
 
-const searchWord = ref(null)
+const searchWord = ref('')
 const filterItems = ref([])
 const filterValues = ref([])
 
@@ -187,17 +186,22 @@ const setAllChecked = () => {
 watch(
   () => props.items,
   () => {
-    filterItems.value = props.items.map(item => {
-      if (item[props.itemValue] === null) {
-        return {
-          ...item,
-          [props.itemTitle]: props.nullTitle,
-          [props.itemValue]: props.nullValue,
+    // 검색어가 있으면 즉시 필터링 수행
+    if (searchWord.value) {
+      performSearch(searchWord.value)
+    } else {
+      filterItems.value = props.items.map(item => {
+        if (item[props.itemValue] === null) {
+          return {
+            ...item,
+            [props.itemTitle]: props.nullTitle,
+            [props.itemValue]: props.nullValue,
+          }
         }
-      }
-      return item
-    })
-    setAllChecked()
+        return item
+      })
+      setAllChecked()
+    }
   },
   {
     immediate: true,
@@ -231,14 +235,27 @@ const setNullValues = () => {
   }
 }
 
-watch(
-  () => searchWord.value,
-  () =>
-  {
-    if (searchWord.value) {
-      const searchTerm = searchWord.value.trim().toLowerCase()
+// 검색어 필터링 로직을 별도 함수로 분리
+const performSearch = (searchTerm) => {
+  // 검색어를 trim하고 빈 문자열 체크
+  const trimmedSearch = (searchTerm || '').trim()
 
-      filterItems.value = props.items.filter(item => {
+  if (trimmedSearch) {
+    const searchTermLower = trimmedSearch.toLowerCase()
+
+    filterItems.value = props.items
+      .map(item => {
+        // null 값을 nullValue로 변환
+        if (item[props.itemValue] === null) {
+          return {
+            ...item,
+            [props.itemTitle]: props.nullTitle,
+            [props.itemValue]: props.nullValue,
+          }
+        }
+        return item
+      })
+      .filter(item => {
         const titleValue = item[props.itemTitle]
         const idValue = item[props.itemValue]
 
@@ -248,14 +265,14 @@ watch(
           (titleValue === props.nullValue && idValue === props.nullValue)
         ) {
           return props.hasNullValue
-            ? props.nullTitle.toLowerCase().includes(searchTerm)
+            ? props.nullTitle.toLowerCase().includes(searchTermLower)
             : false
         }
 
         // title 검색 (null, undefined, nullValue가 아닌 경우만)
         if (titleValue && titleValue !== props.nullValue) {
           const titleStr = String(titleValue).toLowerCase()
-          if (titleStr.includes(searchTerm)) {
+          if (titleStr.includes(searchTermLower)) {
             return true
           }
         }
@@ -263,7 +280,7 @@ watch(
         // ID 검색 허용 (searchByValue가 true이고, null, undefined, nullValue가 아닌 경우만)
         if (props.searchByValue && idValue && idValue !== props.nullValue) {
           const idStr = String(idValue).toLowerCase()
-          if (idStr.includes(searchTerm)) {
+          if (idStr.includes(searchTermLower)) {
             return true
           }
         }
@@ -271,14 +288,34 @@ watch(
         return false
       })
 
-      setNullValues()
-    } else {
-      filterItems.value = props.items
-      setNullValues()
-    }
-    setAllChecked()
+    setNullValues()
+  } else {
+    // 검색어가 없으면 전체 목록 표시
+    filterItems.value = props.items.map(item => {
+      if (item[props.itemValue] === null) {
+        return {
+          ...item,
+          [props.itemTitle]: props.nullTitle,
+          [props.itemValue]: props.nullValue,
+        }
+      }
+      return item
+    })
+
+    setNullValues()
   }
-)
+  setAllChecked()
+}
+
+// 검색어 변경 핸들러 (한글 입력 문제 해결)
+const onSearchWordChange = (value) => {
+  // null, undefined를 빈 문자열로 변환
+  const searchValue = value ?? ''
+  searchWord.value = searchValue
+
+  // 즉시 필터링 수행
+  performSearch(searchValue)
+}
 
 // modelValue의 null을 nullValue 문자열로 치환하는 함수
 const convertNullToString = (values) => {
@@ -355,6 +392,23 @@ const toggle = () => {
 const onUpdateModelValue = value => {
   onChangeFilterValue(value)
   emits('update:model-value', changeNullValue(value))
+}
+
+// 아이템 클릭 핸들러
+const onItemClick = (value) => {
+  const currentValues = [...filterValues.value]
+  const index = currentValues.indexOf(value)
+
+  if (index > -1) {
+    // 이미 선택된 경우 제거
+    currentValues.splice(index, 1)
+  } else {
+    // 선택되지 않은 경우 추가
+    currentValues.push(value)
+  }
+
+  onChangeFilterValue(currentValues)
+  emits('update:model-value', changeNullValue(currentValues))
 }
 
 // 표시할 타이틀 생성 함수
