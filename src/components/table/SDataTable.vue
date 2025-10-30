@@ -471,6 +471,7 @@ const columnWidths = ref(new Map())
 const sDataTableRef = ref(null)
 const isTableInitialized = ref(false)
 const resizeObserver = ref(null)
+const observedWidth = ref(0)
 
 const updateModelValue = item => {
   // console.log('updateModelValue', item)
@@ -748,17 +749,18 @@ onMounted(() => {
     const rootEl = getRootEl();
     if (rootEl) {
       resizeObserver.value = new ResizeObserver((entries) => {
-        for (const entry of entries) {
-          const wrapper = entry.target.querySelector('.v-table__wrapper');
-          if (wrapper && wrapper.clientWidth > 0) {
-            // 컨테이너가 실제로 보이는 상태일 때만 재계산
-            if (!isTableInitialized.value || columnWidths.value.size === 0) {
-              isTableInitialized.value = false;
-              nextTick(() => {
-                initializeTableWidths();
-              });
-            }
+        const wrapper = entries[0]?.target.querySelector('.v-table__wrapper');
+        if (wrapper) {
+          const newWidth = wrapper.clientWidth;
+          // 테이블이 표시될 때 너비가 0에서 양수 값으로 변경됩니다.
+          // 이 전환 시에만 다시 초기화하여 무한 루프를 방지합니다.
+          if (newWidth > 0 && observedWidth.value === 0) {
+            isTableInitialized.value = false;
+            nextTick(() => {
+              initializeTableWidths();
+            });
           }
+          observedWidth.value = newWidth;
         }
       });
       resizeObserver.value.observe(rootEl);
