@@ -1,6 +1,11 @@
 .s-data-table {
   border-radius: 0;
 
+  // line-height 우선순위를 높이기 위해 선택자 특이성 증가
+  :deep(.v-table) {
+    line-height: 1.5;
+  }
+
   // header align에 따른 정렬 스타일
   .header-cell {
     width: 100%;
@@ -523,9 +528,9 @@
   background-color: $s-default--gray-1 !important;
 }
 
-.v-table {
+// 같은 요소에 v-table과 s-data-table 클래스가 모두 있을 때
+.v-table.s-data-table {
   line-height: 0.8;
-
 
   td, th {
     line-height: 1.5;
