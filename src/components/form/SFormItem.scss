@@ -74,7 +74,7 @@
           min-width: 0;
           overflow: hidden;
 
-          &button {
+          &button, &.vue-date-picker {
             flex: 0 0 auto;
             width: auto;
           }
