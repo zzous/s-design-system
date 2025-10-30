@@ -88,10 +88,10 @@
                 </v-list-item-action>
               </template>
               <v-list-item-title
-                :title="item[props.itemTitle]"
+                :title="getDisplayTitle(item)"
                 :density="density"
               >
-                {{ item[props.itemTitle] }}
+                {{ getDisplayTitle(item) }}
               </v-list-item-title>
             </v-list-item>
           </div>
@@ -160,6 +160,11 @@ const props = defineProps({
   width: {
     type: [String, Number],
     default: 316,
+  },
+  searchByValue: {
+    type: Boolean,
+    default: false,
+    description: 'value(ID) 값으로도 검색할지 여부',
   },
 })
 
@@ -231,31 +236,38 @@ watch(
   () =>
   {
     if (searchWord.value) {
+      const searchTerm = searchWord.value.trim().toLowerCase()
+
       filterItems.value = props.items.filter(item => {
+        const titleValue = item[props.itemTitle]
+        const idValue = item[props.itemValue]
+
+        // null 값 처리
         if (
-          item[props.itemTitle] === props.nullTitle ||
-          (item[props.itemTitle] === props.nullValue && item[props.itemValue] === props.nullValue)
+          titleValue === props.nullTitle ||
+          (titleValue === props.nullValue && idValue === props.nullValue)
         ) {
           return props.hasNullValue
-            ? props.nullTitle.includes(searchWord.value.trim().toLowerCase())
+            ? props.nullTitle.toLowerCase().includes(searchTerm)
             : false
         }
-        if (item[props.itemTitle] !== props.nullValue) {
-          if (
-            item[props.itemTitle]
-              .toLowerCase()
-              .includes(searchWord.value.trim().toLowerCase())
-          ) {
+
+        // title 검색 (null, undefined, nullValue가 아닌 경우만)
+        if (titleValue && titleValue !== props.nullValue) {
+          const titleStr = String(titleValue).toLowerCase()
+          if (titleStr.includes(searchTerm)) {
             return true
           }
         }
-        // ID 검색 허용 (기존에는 Name 검색만 허용이었으나 Id 검색도 추가)
-        // ID 에는 Null Title이 없음
-        if (item[props.itemValue] !== props.nullValue) {
-          return item[props.itemValue]
-            .toLowerCase()
-            .includes(searchWord.value.trim().toLowerCase())
+
+        // ID 검색 허용 (searchByValue가 true이고, null, undefined, nullValue가 아닌 경우만)
+        if (props.searchByValue && idValue && idValue !== props.nullValue) {
+          const idStr = String(idValue).toLowerCase()
+          if (idStr.includes(searchTerm)) {
+            return true
+          }
         }
+
         return false
       })
 
@@ -343,6 +355,19 @@ const toggle = () => {
 const onUpdateModelValue = value => {
   onChangeFilterValue(value)
   emits('update:model-value', changeNullValue(value))
+}
+
+// 표시할 타이틀 생성 함수
+const getDisplayTitle = (item) => {
+  const title = item[props.itemTitle]
+  const value = item[props.itemValue]
+
+  // searchByValue가 true이고, title과 value가 다른 경우 둘 다 표시
+  if (props.searchByValue && value && title !== value) {
+    return `${title} (${value})`
+  }
+
+  return title
 }
 </script>
 
