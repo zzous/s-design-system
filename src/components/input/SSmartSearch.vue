@@ -300,8 +300,18 @@ const filterItems = computed(() => {
     const sanitizedItems = Object.keys(valuesItemMap).length > 0
       ? props.items.filter(item => {
           return Object.keys(valuesItemMap).every(key => {
+            const itemValue = item[key]
+            const targetValues = valuesItemMap[key]
+
             // 같은 key의 여러 value는 OR 조건
-            return valuesItemMap[key].includes(item[key])
+            return targetValues.some(targetValue => {
+              // '-'는 null, undefined, '', '-'와 매칭
+              if (targetValue === '-') {
+                return itemValue === null || itemValue === undefined || itemValue === '' || itemValue === '-'
+              }
+              // 일반 값은 정확히 일치
+              return itemValue === targetValue
+            })
           })
         })
       : props.items // 필터 조건이 없으면 전체 items 사용
