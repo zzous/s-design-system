@@ -57,7 +57,7 @@
 </template>
 
 <script setup>
-import { computed, onMounted, ref, watch } from 'vue'
+import { computed, onMounted, onBeforeUnmount, ref, watch } from 'vue'
 import { useOutsideClick } from '@/hooks/index.js'
 
 // TODO direction이 right인 경우 가로 스크롤 조절 필요
@@ -316,7 +316,22 @@ watch(() => panelSize.value, (newSize) => {
     showNaviElement.style.paddingBottom = `${newSize}px`
   }
 })
+
 onMounted(initializeHeaderHeight)
+
+// 컴포넌트가 unmount될 때 (라우터 이동 등) padding-bottom 초기화
+onBeforeUnmount(() => {
+  const showNaviElement = document.querySelector('.show-navi')
+  if (showNaviElement) {
+    showNaviElement.style.paddingBottom = '0'
+  }
+
+  // 리사이즈 이벤트 리스너 정리
+  cleanupListeners()
+
+  // 커서 스타일 초기화
+  document.body.style.cursor = 'default'
+})
 // endregion
 </script>
 
