@@ -1,67 +1,68 @@
 <template>
   <Teleport :to="teleportId">
-      <div :class="rootClass">
+    <div :class="rootClass">
 
-        <Transition name="fade">
-          <div v-show="isOpen && isBackdrop" class="s-slide-panel__backdrop" :style="backdropStyles"/>
-        </Transition>
+      <Transition name="fade">
+        <div v-show="isOpen && isBackdrop" class="s-slide-panel__backdrop" :style="backdropStyles"/>
+      </Transition>
 
-        <Transition :name="rightDirection ? 'right-slide' : 'bottom-slide'">
-          <div v-if="isOpen" ref="slidePanelContainerRef" :class="containerClass" :style="containerStyles">
-            <div v-if="resizable" :class="resizerClass" @mousedown="onMouseDownPanel" />
-            <div class="panel__container__header" v-if="title">
-                <h2 class="panel__container__header__title">
-                <slot name="title" />
-                {{ title }}
-              </h2>
-              <div class="panel__container__header__buttons">
-                <button
+      <Transition :name="rightDirection ? 'right-slide' : 'bottom-slide'">
+        <div v-if="isOpen" ref="slidePanelContainerRef" :class="containerClass" :style="containerStyles">
+          <div v-if="resizable" :class="resizerClass" @mousedown="onMouseDownPanel" />
+          <div class="panel__container__header" v-if="title">
+            <h2 class="panel__container__header__title">
+              <slot name="title" />
+              {{ title }}
+            </h2>
+            <div class="panel__container__header__buttons">
+              <button
                   v-if="showMinimizeButton && !rightDirection"
                   @click="onMinimizeClick"
                   class="panel__container__header__minimize-button"
                   :title="internalIsMinimized ? '복원' : '최소화'"
-                >
-                  <svg v-if="!internalIsMinimized" width="24px" height="24px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <g stroke-width="0"></g>
-                    <g stroke-linecap="round" stroke-linejoin="round"></g>
-                    <g>
-                      <path d="M6 9L12 15L18 9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                    </g>
-                  </svg>
-                  <svg v-else width="24px" height="24px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <g stroke-width="0"></g>
-                    <g stroke-linecap="round" stroke-linejoin="round"></g>
-                    <g>
-                      <path d="M6 15L12 9L18 15" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                    </g>
-                  </svg>
-                </button>
-                <button @click="onCloseSlidePanel" class="panel__container__header__close-button">
-                  <svg width="24px" height="24px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <g stroke-width="0"></g>
-                    <g stroke-linecap="round" stroke-linejoin="round"></g>
-                    <g>
-                      <path fill-rule="evenodd" clip-rule="evenodd" d="M5.29289 5.29289C5.68342 4.90237 6.31658 4.90237 6.70711 5.29289L12 10.5858L17.2929 5.29289C17.6834 4.90237 18.3166 4.90237 18.7071 5.29289C19.0976 5.68342 19.0976 6.31658 18.7071 6.70711L13.4142 12L18.7071 17.2929C19.0976 17.6834 19.0976 18.3166 18.7071 18.7071C18.3166 19.0976 17.6834 19.0976 17.2929 18.7071L12 13.4142L6.70711 18.7071C6.31658 19.0976 5.68342 19.0976 5.29289 18.7071C4.90237 18.3166 4.90237 17.6834 5.29289 17.2929L10.5858 12L5.29289 6.70711C4.90237 6.31658 4.90237 5.68342 5.29289 5.29289Z" fill="currentColor"/>
-                    </g>
-                  </svg>
-                </button>
-              </div>
-            </div>
-            <div ref="panelContentRef" class="panel__container__content" :class="{ 'panel__container__content--minimized': internalIsMinimized }">
-              <slot name="default"/>
+              >
+                <svg v-if="!internalIsMinimized" width="24px" height="24px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <g stroke-width="0"></g>
+                  <g stroke-linecap="round" stroke-linejoin="round"></g>
+                  <g>
+                    <path d="M6 9L12 15L18 9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  </g>
+                </svg>
+                <svg v-else width="24px" height="24px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <g stroke-width="0"></g>
+                  <g stroke-linecap="round" stroke-linejoin="round"></g>
+                  <g>
+                    <path d="M6 15L12 9L18 15" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  </g>
+                </svg>
+              </button>
+              <button @click="onCloseSlidePanel" class="panel__container__header__close-button">
+                <svg width="24px" height="24px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <g stroke-width="0"></g>
+                  <g stroke-linecap="round" stroke-linejoin="round"></g>
+                  <g>
+                    <path fill-rule="evenodd" clip-rule="evenodd" d="M5.29289 5.29289C5.68342 4.90237 6.31658 4.90237 6.70711 5.29289L12 10.5858L17.2929 5.29289C17.6834 4.90237 18.3166 4.90237 18.7071 5.29289C19.0976 5.68342 19.0976 6.31658 18.7071 6.70711L13.4142 12L18.7071 17.2929C19.0976 17.6834 19.0976 18.3166 18.7071 18.7071C18.3166 19.0976 17.6834 19.0976 17.2929 18.7071L12 13.4142L6.70711 18.7071C6.31658 19.0976 5.68342 19.0976 5.29289 18.7071C4.90237 18.3166 4.90237 17.6834 5.29289 17.2929L10.5858 12L5.29289 6.70711C4.90237 6.31658 4.90237 5.68342 5.29289 5.29289Z" fill="currentColor"/>
+                  </g>
+                </svg>
+              </button>
             </div>
           </div>
-        </Transition>
-      </div>
+          <div ref="panelContentRef" class="panel__container__content" :class="{ 'panel__container__content--minimized': internalIsMinimized }">
+            <slot name="default"/>
+          </div>
+        </div>
+      </Transition>
+    </div>
   </Teleport>
 </template>
 
 <script setup>
-import { computed, onMounted, onBeforeUnmount, ref, watch } from 'vue'
+import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue'
+import { debounce } from 'lodash-es'
 import { useOutsideClick } from '@/hooks/index.js'
+import { COMPONENT_KEY } from '@/constants/key.js'
 
 // TODO direction이 right인 경우 가로 스크롤 조절 필요
-
 const emit = defineEmits(['update:is-minimized', 'update:model-value'])
 const props = defineProps({
   isOpen: {
@@ -144,22 +145,24 @@ const props = defineProps({
 })
 
 // region [Hooks]
+const defaultPropSize = computed(() => typeof props.size === 'number' ? props.size : parseInt(props.size))
+const panelSize = ref(defaultPropSize.value)
+
 const internalIsMinimized = ref(props.isMinimized)
 const isResizeMode = ref(false)
-const panelSize = ref(typeof props.size === 'number' ? props.size : parseInt(props.size))
+
 const slidePanelContainerRef = ref(null)
 const panelContentRef = ref(null)
-const headerHeight = ref(0)
 const rightDirection = computed(() => props.direction === 'right')
-
-const onCloseSlidePanel = () => {
-  emit('update:model-value', false)
-  props.onClose()
-}
-
-useOutsideClick(slidePanelContainerRef, onCloseSlidePanel, () => props.isOpen && props.closeOnOutsideClick)
-
 const defaultSize = computed(() => (typeof props.size === 'number' ? props.size : parseInt(props.size)))
+
+const headerHeight = computed(() => {
+  const headerHeightString = getComputedStyle(document.documentElement).getPropertyValue('--global-nav-header-height').replace('px', '');
+  return Number(headerHeightString)
+})
+
+useOutsideClick(slidePanelContainerRef, props.onClose, () => props.isOpen && props.closeOnOutsideClick)
+
 // endregion
 
 // region [Styles]
@@ -191,39 +194,43 @@ const resizerClass = computed(() => ({
 }));
 // endregion
 
+
 // region [Privates]
-const initializeHeaderHeight = () => {
-  const root = document.documentElement;
-  const headerHeightString = getComputedStyle(root).getPropertyValue('--global-nav-header-height').replace('px', '');
-  headerHeight.value = Number(headerHeightString)
-}
-const cleanupListeners = () => {
+const getNavigationElement = () => (document.querySelector('.show-navi'))
+
+const cleanup = () => {
   isResizeMode.value = false
   window.removeEventListener('mousemove', onMouseMove)
   window.removeEventListener('mousemove', onMouseUpEvent)
+
+  const showNaviElement = getNavigationElement()
+  showNaviElement.style.paddingBottom = '0'
+  document.body.style.cursor = 'default'
 }
 const onToggleScroll = (isScroll) => {
-  if (isScroll) {
-    // 패널이 열릴 때: .show-navi에 패널 높이만큼 padding-bottom 추가
+  const naviElement = getNavigationElement()
+
+  if (isScroll && naviElement) {
     const panelHeight = panelSize.value
-    const showNaviElement = document.querySelector('.show-navi')
-    if (showNaviElement) {
-      showNaviElement.style.paddingBottom = `${panelHeight}px`
-    }
+    naviElement.style.paddingBottom = `${panelHeight}px`
   } else {
-    // 패널이 닫힐 때: 원래 상태로 복원
-    const showNaviElement = document.querySelector('.show-navi')
-    if (showNaviElement) {
-      showNaviElement.style.paddingBottom = '0'
-    }
+    naviElement.style.paddingBottom = '0'
   }
 }
 const initializePanelWidth = (isOpen) => {
   if (isOpen) {
-    panelSize.value = typeof props.size === 'number' ? props.size : parseInt(String(props.size) || '480', 10)
+    panelSize.value = localStorage.getItem(COMPONENT_KEY.SLIDE_PANEL) || defaultPropSize.value
   }
 }
+const initializeMinimize = (isOpen) => {
+  // 패널이 닫힐 때 최소화 상태도 초기화
+  if (!isOpen) { internalIsMinimized.value = false }
+}
+
+const syncedPanelSize = (size) => { localStorage.setItem(COMPONENT_KEY.SLIDE_PANEL, size) }
+const debouncedSyncPanelSize = debounce(syncedPanelSize, 100)
 // endregion
+
 
 // region [Events]
 const onMinimizeClick = () => {
@@ -278,60 +285,50 @@ const onMouseMove = (e) => {
     }
   }
 }
+
+// isMinimized가 외부에서 변경되면 내부 상태도 동기화하고 스크롤 조정
+const handleMinimizeChange = (val) => {
+  internalIsMinimized.value = val
+  emit('update:is-minimized', val)
+  const showNaviElement = document.querySelector('.show-navi')   // 스크롤 영역 조정
+
+  if (showNaviElement && props.isOpen) {
+    if (val) {
+      showNaviElement.style.paddingBottom = '64px' // 최소화 시: 64px
+    } else {
+      showNaviElement.style.paddingBottom = `${panelSize.value}px` // 복원 시: 전체 패널 높이
+    }
+  }
+}
+
+const handlePanelSizeChange = (newSize) => {
+  const showNaviElement = getNavigationElement()
+  if (showNaviElement && props.isOpen && !internalIsMinimized.value) {
+    showNaviElement.style.paddingBottom = `${newSize}px` // 패널 높이에 맞춰 스크롤 영역(padding-bottom)을 조정합니다.
+  }
+  debouncedSyncPanelSize(newSize)
+}
 // endregion
+
+
+// region [Emit Events]
+const onEmitUpdateIsOpen = (value) => emit('update:model-value', value)
+const onEmitUpdateIsMinimized = (value) => emit('update:is-minimized', value)
+// endregion
+
 
 // region [Life Cycles]
 watch(() => props.isOpen, onToggleScroll)
 watch(() => props.isOpen, initializePanelWidth)
-watch(() => props.isOpen, cleanupListeners)
-watch(() => props.isOpen, (isOpen) => {
-  if (isOpen === false) {
-    // 패널이 닫힐 때 최소화 상태도 초기화
-    internalIsMinimized.value = false
-    emit('update:is-minimized', false)
-  }
-})
-// props.isMinimized가 외부에서 변경되면 내부 상태도 동기화하고 스크롤 조정
-watch(() => props.isMinimized, (val) => {
-  internalIsMinimized.value = val
-  emit('update:is-minimized', val)
+watch(() => props.isOpen, cleanup)
+watch(() => props.isOpen, initializeMinimize)
+watch(() => props.isMinimized, handleMinimizeChange)
+watch(() => panelSize.value, handlePanelSizeChange)
 
-  // 스크롤 영역 조정
-  const showNaviElement = document.querySelector('.show-navi')
-  if (showNaviElement && props.isOpen) {
-    if (val) {
-      // 최소화 시: 64px
-      showNaviElement.style.paddingBottom = '64px'
-    } else {
-      // 복원 시: 전체 패널 높이
-      showNaviElement.style.paddingBottom = `${panelSize.value}px`
-    }
-  }
-})
-// panelSize가 변경되면 스크롤 높이 재계산 (resize 시)
-watch(() => panelSize.value, (newSize) => {
-  const showNaviElement = document.querySelector('.show-navi')
-  if (showNaviElement && props.isOpen && !internalIsMinimized.value) {
-    // 최소화 상태가 아닐 때만 패널 높이에 맞춰 스크롤 조정
-    showNaviElement.style.paddingBottom = `${newSize}px`
-  }
-})
+watch(() => props.isOpen, onEmitUpdateIsOpen)
+watch(() => props.isMinimized, onEmitUpdateIsMinimized)
 
-onMounted(initializeHeaderHeight)
-
-// 컴포넌트가 unmount될 때 (라우터 이동 등) padding-bottom 초기화
-onBeforeUnmount(() => {
-  const showNaviElement = document.querySelector('.show-navi')
-  if (showNaviElement) {
-    showNaviElement.style.paddingBottom = '0'
-  }
-
-  // 리사이즈 이벤트 리스너 정리
-  cleanupListeners()
-
-  // 커서 스타일 초기화
-  document.body.style.cursor = 'default'
-})
+onBeforeUnmount(cleanup)
 // endregion
 </script>
 

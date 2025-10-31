@@ -16,3 +16,7 @@ export const TOKEN_KEY = Object.freeze({
   LOCAL_ACCESS: 'local_access_token',
   LOCAL_REFRESH: 'local_refresh_token',
 })
+
+export const COMPONENT_KEY = {
+  SLIDE_PANEL: 'SLIDE_PANEL'
+}

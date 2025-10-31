@@ -37,7 +37,8 @@
       <div class="base-layout">
         <div class="show-navi">
           <s-slide-panel v-bind="slidePanelProps" :content="Test" />
-          <s-btn @click="openSlidePanel" title="test" />
+          <s-btn @click="openSlidePanel" title="Open Slide Panel" />
+          <s-btn @click="closeSlidePanel" title="Close Slide Panel" class="ml-4"/>
 
           <!-- SFilterSelect 테스트 영역 -->
           <div style="margin-top: 5rem; padding: 20px; border: 2px solid #e0e0e0; border-radius: 8px; background: #f9f9f9;">
