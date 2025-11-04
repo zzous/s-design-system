@@ -524,21 +524,22 @@
 
 }
 
-.v-table.v-table--fixed-header>.v-table__wrapper>table>thead>tr>th {
-  background-color: $s-default--gray-1 !important;
-}
-
 // 같은 요소에 v-table과 s-data-table 클래스가 모두 있을 때
 .v-table.s-data-table {
   line-height: 0.8;
 
-  td, th {
-    line-height: 1.5;
-  }
-
   :deep(.v-table__wrapper) {
     .v-selection-control--density-default {
       --v-selection-control-size: 30px;
+    }
+
+    th {
+      --v-theme-surface: $s-default--gray-1;
+      background-color: $s-default--gray-1;
+    }
+
+    td, th {
+      line-height: 1.5;
     }
   }
 }
