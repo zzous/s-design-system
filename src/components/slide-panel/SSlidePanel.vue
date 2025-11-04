@@ -333,8 +333,9 @@ onBeforeUnmount(cleanup)
 </script>
 
 <style scoped lang="scss">
-$resizer-width-size: 1px;
-$resizer-active-width-size: 2px;
+$resizer-total-size: 8px;
+$resizer-bar-size: 2px;
+$resizer-hover-size: 3px;
 
 .s-slide-panel {
   position: fixed;
@@ -376,15 +377,27 @@ $resizer-active-width-size: 2px;
     .s-slide-panel__container__resizer {
       position: absolute;
       top: 0;
-      left: calc(#{$resizer-width-size} / 2 * -1);
-      width: $resizer-width-size;
+      left: calc(#{$resizer-total-size} / 2 * -1);
+      width: $resizer-total-size;
       height: 100%;
       cursor: col-resize;
-      background: $s-default--gray-5;
+
+      &:after {
+        position: absolute;
+        top: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        content: '';
+        width: $resizer-bar-size;
+        height: 100%;
+        background: $s-default--gray-6;
+      }
 
       &:hover, &.s-slide-panel__container__resizer--on {
-        width: $resizer-active-width-size;
-        background: $main-color;
+        &:after {
+          width: $resizer-hover-size;
+          background: $main-color;
+        }
       }
     }
 
@@ -506,15 +519,31 @@ $resizer-active-width-size: 2px;
     }
 
     .s-slide-panel__container__resizer {
-      top: calc(#{$resizer-width-size} / 2 * -1);;
+      top: calc(#{$resizer-total-size} / 2 * -1);
       left: 0;
       width: 100%;
-      height: $resizer-width-size;
+      height: $resizer-total-size;
       cursor: row-resize;
+
+      &:after {
+        position: absolute;
+        top: 50%;
+        left: 0;
+        transform: translateY(-50%);
+        content: '';
+        width: 100%;
+        height: $resizer-bar-size;
+        background: $s-default--gray-6;
+      }
 
       &:hover, &.s-slide-panel__container__resizer--on {
         width: 100%;
-        height: $resizer-active-width-size;
+
+        &:after {
+          width: 100%;
+          height: $resizer-hover-size;
+          background: $main-color;
+        }
       }
     }
   }
