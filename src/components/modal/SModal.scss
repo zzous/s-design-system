@@ -90,9 +90,13 @@
 
   .s-modal__content {
     padding: 20px 0px 20px 10px;
-    max-height: calc(100vh - 175px);
+    max-height: calc(100vh - 60px - 30px - 48px - 60px); // 전체높이 - 상단여백 - 하단여백 - 헤더 - 푸터예상
     background-color: $s-base-background;
     width: calc(var(--s-modal-width) - 30px);
+    overflow-y: auto;
+    scrollbar-gutter: stable both-edges;
+    @include scroll();
+    -webkit-overflow-scrolling: touch;
   }
   .s-modal__footer {
     width: 100%;
@@ -112,10 +116,7 @@
     }
 
     .v-card-item__content {
-      overflow: auto;
-      scrollbar-gutter: stable both-edges;
-      @include scroll();
-      -webkit-overflow-scrolling: touch;
+      overflow: visible;
       background-color: $s-base-background;
     }
     .v-card-item__append {
@@ -129,6 +130,7 @@
     max-width: fit-content;
     top: 60px !important;
     transform: translateY(0) !important;
+    max-height: calc(100vh - 60px - 30px) !important; // 상단 여백 60px + 하단 여백 30px
 
     .v-card {
       overflow-y: hidden;
