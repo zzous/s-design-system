@@ -91,16 +91,16 @@
     }
 
     :deep(.v-text-field) {
-      min-width: var(--s-text-field-min-width, 618px);
-      max-width: var(--s-text-field-max-width, 100%);
+      // min-width: var(--s-text-field-min-width, 618px);
+      // max-width: var(--s-text-field-max-width, 100%);
 
       .v-input__control .v-field {
         .v-field__input {
           padding: 5px 8px;
 
           &.v-select {
-            min-width: var(--s-text-select-min-width, 618px);
-            max-width: var(--s-text-select-max-width, 100%);
+            // min-width: var(--s-text-select-min-width, 618px);
+            // max-width: var(--s-text-select-max-width, 100%);
           }
         }
 
@@ -138,14 +138,14 @@
 .third_box {
   .s-form__item {
     :deep(.v-text-field):not(.v-textarea) {
-      min-width: calc(var(--s-text-field-min-width, 618px) / 1.5);
-      max-width: calc(var(--s-text-field-max-width, 100%) / 1.5);
+      // min-width: calc(var(--s-text-field-min-width, 618px) / 1.5);
+      // max-width: calc(var(--s-text-field-max-width, 100%) / 1.5);
     }
 
     .v-input__control .v-field {
       .v-field__input.v-select {
-        min-width: calc(var(--s-text-select-min-width, 618px) / 1.5);
-        max-width: calc(var(--s-text-select-max-width, 100%) / 1.5);
+        // min-width: calc(var(--s-text-select-min-width, 618px) / 1.5);
+        // max-width: calc(var(--s-text-select-max-width, 100%) / 1.5);
       }
     }
   }
