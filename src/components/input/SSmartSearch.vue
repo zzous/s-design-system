@@ -1,7 +1,7 @@
 <template>
   <div class="s-smart-search">
     <div class="s-smart-search__top">
-      <div class="s-smart-search__left">
+      <div v-if="$slots.left" class="s-smart-search__left">
         <slot name="left" />
       </div>
       <div class="s-smart-search__input-wrapper">
@@ -45,7 +45,7 @@
           </template>
         </v-autocomplete>
       </div>
-      <div class="s-smart-search__right">
+      <div v-if="$slots.right" class="s-smart-search__right">
         <slot name="right" />
       </div>
     </div>
