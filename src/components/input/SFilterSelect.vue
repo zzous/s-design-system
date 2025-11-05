@@ -57,7 +57,7 @@
           <!-- null 값 처리 -->
           <v-list-item
             v-if="props.hasNullValue && [null, props.nullValue].includes(item[props.itemValue])"
-            :value="props.nullValue"
+            :active="filterValues.includes(props.nullValue)"
             :density="density"
             @click="onItemClick(props.nullValue)"
           >
@@ -78,7 +78,7 @@
           <!-- 일반 값 처리 -->
           <v-list-item
             v-else
-            :value="item[props.itemValue]"
+            :active="filterValues.includes(item[props.itemValue])"
             :density="density"
             @click="onItemClick(item[props.itemValue])"
           >
