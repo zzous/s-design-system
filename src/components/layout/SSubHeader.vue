@@ -16,7 +16,7 @@
 
 <script setup>
 import { computed } from 'vue'
-defineProps({
+const props = defineProps({
   className: {
     type: String,
     default: '',
