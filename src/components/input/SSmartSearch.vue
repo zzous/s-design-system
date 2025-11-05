@@ -1,6 +1,9 @@
 <template>
   <div class="s-smart-search">
     <div class="s-smart-search__top">
+      <div class="s-smart-search__left">
+        <slot name="left" />
+      </div>
       <div class="s-smart-search__input-wrapper">
         <v-autocomplete
           ref="autoComp"

@@ -23,6 +23,12 @@
     width: 100%;
   }
 
+  &__left {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+  }
+
   &__input-wrapper {
     flex-shrink: 0;
   }
