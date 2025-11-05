@@ -71,7 +71,17 @@
 
           <div style="margin-top: 10rem;" class="layout__list-contents">
             <div class="search">
-              <s-smart-search :items="list" :headers="headers" v-model="searchs" />
+              <s-smart-search :items="list" :headers="headers" v-model="searchs" >
+                <template #right>
+                  <s-list-control
+                    :list="list"
+                    :per-pages="perPages"
+                    refresh-date-title="기준 일자"
+                    @set-per-pages="setPerPages"
+                    @on-refresh="getDatas"/>
+                </template>
+              </s-smart-search>
+
             </div>
             <s-data-table
                 v-model="checkedList"
@@ -108,6 +118,7 @@ import SSlidePanel from '@/components/slide-panel/SSlidePanel.vue'
 import VuetifyWrapper from '../.storybook/VuetifyWrapper.vue'
 import SDataTable from '@/components/table/SDataTable.vue'
 import SFilterSelect from '@/components/input/SFilterSelect.vue'
+import SListControl from '@/components/list-control/SListControl.vue'
 import { useTablePage, useSlidePanel } from './hooks/index.js'
 import { ref } from 'vue'
 import SNavi from '@/components/layout/SNavi.vue'

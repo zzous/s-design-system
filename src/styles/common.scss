@@ -73,6 +73,8 @@ html * {
     min-height: 40px;
     margin-bottom: 10px;
     width: 100%;
+    position: relative;
+    align-items: flex-start;
 
     > span:last-child {
         align-self: baseline;

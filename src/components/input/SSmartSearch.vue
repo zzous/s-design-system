@@ -1,53 +1,62 @@
 <template>
   <div class="s-smart-search">
-    <v-autocomplete
-      ref="autoComp"
-      class="s-smart-search"
-      :style="{ width: width + 'px' }"
-      closable-chips
-      :multiple="multiple"
-      :density="density"
-      :variant="variant"
-      :items="filterItems"
-      :search="searchValue"
-      :custom-filter="customFilter"
-      :placeholder="placeholder"
-      :menu-props="menuProps"
-      hide-details
-      :prepend-inner-icon="prependInnerIcon"
-      @input="onUpdateInput"
-      @update:search="updateModelValue"
-      @keyup.enter.stop="onEnter"
-    >
-      <template v-slot:item="{ item }">
-        <template v-if="item.raw.subheader">
-          <v-list-subheader class="s-list-subheader">{{ item.raw.subheader }}</v-list-subheader>
-          <hr />
-        </template>
+    <div class="s-smart-search__top">
+      <div class="s-smart-search__input-wrapper">
+        <v-autocomplete
+          ref="autoComp"
+          class="s-smart-search__input"
+          :style="{ width: width + 'px' }"
+          closable-chips
+          :multiple="multiple"
+          :density="density"
+          :variant="variant"
+          :items="filterItems"
+          :search="searchValue"
+          :custom-filter="customFilter"
+          :placeholder="placeholder"
+          :menu-props="menuProps"
+          hide-details
+          :prepend-inner-icon="prependInnerIcon"
+          @input="onUpdateInput"
+          @update:search="updateModelValue"
+          @keyup.enter.stop="onEnter"
+        >
+          <template v-slot:item="{ item }">
+            <template v-if="item.raw.subheader">
+              <v-list-subheader class="s-list-subheader">{{ item.raw.subheader }}</v-list-subheader>
+              <hr />
+            </template>
 
-        <v-list-item
-          v-else
-          :title="item?.props?.title"
-          @click="onEnter($event, item?.raw.title, item?.raw.type, item?.raw.value)"
-        ></v-list-item>
-      </template>
-      <template v-slot:append-item v-if="searchTag">
-        <slot name="null-tag">
-          <v-list-subheader>미지정 태그 검색</v-list-subheader>
-          <hr />
-          <v-list-item @click="onClickSearchNullTag">미지정 태그</v-list-item>
-        </slot>
-      </template>
-    </v-autocomplete>
-    <v-chip-group v-show="valuesItem.length">
-      <v-chip
-        v-for="(item, index) in valuesItem"
-        :key="'smart-search__value--' + item.title + '__' + item.value"
-        closable
-        @mousedown.prevent
-        @click:close="onDeleteSearchItem(index)"
-      ><strong>{{ item.title }}</strong> : {{ item.value }}</v-chip>
-    </v-chip-group>
+            <v-list-item
+              v-else
+              :title="item?.props?.title"
+              @click="onEnter($event, item?.raw.title, item?.raw.type, item?.raw.value)"
+            ></v-list-item>
+          </template>
+          <template v-slot:append-item v-if="searchTag">
+            <slot name="null-tag">
+              <v-list-subheader>미지정 태그 검색</v-list-subheader>
+              <hr />
+              <v-list-item @click="onClickSearchNullTag">미지정 태그</v-list-item>
+            </slot>
+          </template>
+        </v-autocomplete>
+      </div>
+      <div class="s-smart-search__right">
+        <slot name="right" />
+      </div>
+    </div>
+    <div class="s-smart-search__chips-wrapper" v-show="valuesItem.length">
+      <v-chip-group>
+        <v-chip
+          v-for="(item, index) in valuesItem"
+          :key="'smart-search__value--' + item.title + '__' + item.value"
+          closable
+          @mousedown.prevent
+          @click:close="onDeleteSearchItem(index)"
+        ><strong>{{ item.title }}</strong> : {{ item.value }}</v-chip>
+      </v-chip-group>
+    </div>
   </div>
 </template>
 

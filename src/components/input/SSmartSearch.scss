@@ -1,4 +1,9 @@
 .s-smart-search {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  position: relative;
+
   :deep(.v-input--readonly),
   :deep(.v-input--disabled) {
     .v-input__control > .v-field {
@@ -10,9 +15,33 @@
       font-size: toRem(24);
     }
   }
+
+  &__top {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    width: 100%;
+  }
+
+  &__input-wrapper {
+    flex-shrink: 0;
+  }
+
+  &__right {
+    flex: 1;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    min-width: 0;
+  }
+
+  &__chips-wrapper {
+    width: 100%;
+    margin-top: 8px;
+  }
 }
 
-.s-smart-search .v-chip-group {
+.s-smart-search__chips-wrapper .v-chip-group {
   display: flex;
   flex-wrap: nowrap;
   overflow-x: auto;
@@ -25,7 +54,7 @@
   position: relative;
 }
 
-.s-smart-search .v-chip {
+.s-smart-search__chips-wrapper .v-chip {
   flex: 0 0 auto;
   margin: 0 4px 0 0;
   pointer-events: auto;
@@ -33,7 +62,7 @@
   z-index: 1;
 }
 
-.s-smart-search .v-chip .v-chip__close {
+.s-smart-search__chips-wrapper .v-chip .v-chip__close {
   z-index: 2;
   pointer-events: auto;
   position: relative;
