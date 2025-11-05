@@ -4,7 +4,7 @@
       <div class="s-title-area__title">
         {{ title }}
         <slot name="title-append">
-          <span v-if="showCnt" class="s-title-area__number">({{ listCnt }})</span>
+          <span v-if="showCnt" class="s-title-area__number">({{ listCntComma }})</span>
         </slot>
       </div>
       <div class="s-title-area__buttons button-wrapper">
@@ -34,6 +34,10 @@ defineProps({
     type: Number,
     default: 0,
   },
+})
+
+const listCntComma = computed(() => {
+  return props.listCnt?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') || '0'
 })
 </script>
 <style lang="scss" scoped>
