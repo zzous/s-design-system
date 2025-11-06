@@ -108,10 +108,12 @@
     <template #[`header.data-table-select`]="bind">
       <div class="header-cell checkbox-header d-flex align-center position-relative justify-center">
         <v-checkbox-btn
+          v-if="selectStrategy !== 'single'"
           :indeterminate="bind.someSelected && !bind.allSelected"
           :model-value="bind.allSelected"
           @update:model-value="bind.selectAll(!bind.allSelected)"
         ></v-checkbox-btn>
+        <span v-else></span>
         <div
           v-if="resizable"
           class="resize-handle"
