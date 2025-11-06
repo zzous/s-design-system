@@ -48,7 +48,14 @@
               @click="handleMenuClick($event, menu)"
               >
               <template v-if="!menu.subMenus || menu.subMenus.length === 0" #title>
-                <RouterLink class="navi-inner-menu-title" :to="updateMenuUrl(menu.menuUrl)">
+                <RouterLink
+                  class="navi-inner-menu-title"
+                  :to="updateMenuUrl(menu.menuUrl)"
+                  :class="{
+                    'router-link-active': isMenuActive(menu.menuUrl),
+                    'router-link-exact-active': isMenuPathMatched(menu.menuUrl, props.routerPath)
+                  }"
+                >
                   {{ menuNameLang(menu) }}
                 </RouterLink>
               </template>
@@ -74,6 +81,10 @@
                   v-if="clickableMenu(subMenu)"
                   class="s-navi-inner-menu-title"
                   :to="updateMenuUrl(subMenu.menuUrl)"
+                  :class="{
+                    'router-link-active': isMenuActive(subMenu.menuUrl),
+                    'router-link-exact-active': isMenuPathMatched(subMenu.menuUrl, props.routerPath)
+                  }"
                   ref="menuLink"
                 >
                   {{ menuNameLang(subMenu) }}
@@ -227,9 +238,13 @@ const isMenuPathMatched = (menuUrl, routerPath) => {
   // 정확히 일치하는 경우
   if (menuUrl === routerPath) return true;
 
-  // route parameter를 포함하는 경우 처리
-  const menuParts = menuUrl.split('/').filter(Boolean);
-  const routerParts = routerPath.split('/').filter(Boolean);
+  // 경로를 정규화 (앞뒤 슬래시 제거 후 split)
+  const normalizePath = (path) => {
+    return path.replace(/^\/+|\/+$/g, '').split('/').filter(Boolean);
+  };
+
+  const menuParts = normalizePath(menuUrl);
+  const routerParts = normalizePath(routerPath);
 
   // 경로 부분의 길이가 다르면 매칭되지 않음
   if (menuParts.length !== routerParts.length) return false;
@@ -238,10 +253,39 @@ const isMenuPathMatched = (menuUrl, routerPath) => {
   return menuParts.every((part, index) => {
     const routerPart = routerParts[index];
 
-    // parameter 부분(':' 으로 시작하는 경우)은 항상 true
-    if (part.startsWith(':')) return true;
+    // parameter 부분(':' 으로 시작하는 경우)은 routerPath의 해당 부분이 있으면 매칭
+    if (part.startsWith(':')) {
+      return routerPart !== undefined && routerPart !== '';
+    }
 
-    if (/^\d+$/.test(part) && /^\d+$/.test(routerPart)) return true;
+    // 일반 문자열 비교
+    return part === routerPart;
+  });
+};
+
+// 부모 경로인지 확인하는 함수
+const isParentPath = (menuUrl, routerPath) => {
+  if (!menuUrl || !routerPath) return false;
+
+  // 경로를 정규화 (앞뒤 슬래시 제거 후 split)
+  const normalizePath = (path) => {
+    return path.replace(/^\/+|\/+$/g, '').split('/').filter(Boolean);
+  };
+
+  const menuParts = normalizePath(menuUrl);
+  const routerParts = normalizePath(routerPath);
+
+  // menuUrl이 routerPath보다 길거나 같으면 부모 경로가 아님
+  if (menuParts.length >= routerParts.length) return false;
+
+  // menuUrl의 모든 부분이 routerPath의 앞부분과 일치하는지 확인
+  return menuParts.every((part, index) => {
+    const routerPart = routerParts[index];
+
+    // parameter 부분(':' 으로 시작하는 경우)은 routerPath의 해당 부분이 있으면 매칭
+    if (part.startsWith(':')) {
+      return routerPart !== undefined && routerPart !== '';
+    }
 
     // 일반 문자열 비교
     return part === routerPart;
@@ -255,14 +299,14 @@ watch(
     const nowPath = props.routerPath;
     for (const idx in menus) {
       // route parameter를 고려한 경로 매칭 검사
-      if (isMenuPathMatched(menus[idx].menuUrl, nowPath)) {
+      if (isMenuPathMatched(menus[idx].menuUrl, nowPath) || isParentPath(menus[idx].menuUrl, nowPath)) {
         open.value = [menus[idx].idx];
         break;
       }
       // 서브메뉴에 대해서도 검사
       if (menus[idx].subMenus) {
         const subMenuMatch = menus[idx].subMenus.some(subMenu =>
-          isMenuPathMatched(subMenu.menuUrl, nowPath)
+          isMenuPathMatched(subMenu.menuUrl, nowPath) || isParentPath(subMenu.menuUrl, nowPath)
         );
         if (subMenuMatch) {
           open.value = [menus[idx].idx];
@@ -274,11 +318,12 @@ watch(
   { immediate: true }
 );
 
-const isMenuActive = computed(() => {
-  return (menuUrl) => {
-    return isMenuPathMatched(menuUrl, props.routerPath);
-  };
-});
+// routerPath에 의존하는 함수로 변경하여 반응성 보장
+const isMenuActive = (menuUrl) => {
+  console.log('isMenuActive', menuUrl, props.routerPath)
+  // 정확히 일치하거나 path parameter 매칭, 또는 부모 경로인 경우 active
+  return isMenuPathMatched(menuUrl, props.routerPath) || isParentPath(menuUrl, props.routerPath);
+};
 
 const handleMenuClick = (event, subMenu) => {
   if (clickableMenu(subMenu)) {
