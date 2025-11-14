@@ -13,6 +13,7 @@ export {default as SEmpty} from './components/containment/SEmpty.vue';
 export {default as SScriptEditor} from './components/editor/SScriptEditor.vue';
 export {default as SFormTable} from './components/form/SFormTable.vue';
 export {default as SFormItem} from './components/form/SFormItem.vue';
+export {default as SFormGenerator} from './components/form/SFormGenerator.vue';
 export {default as SAvatar} from './components/images/SAvatar.vue';
 export {default as SImg} from './components/images/SImg.vue';
 export {default as SIcon} from './components/images/SIcon.vue';

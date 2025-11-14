@@ -1,0 +1,43 @@
+/**
+ * Duration/Composite 타입: 입력창 + 셀렉트 조합
+ */
+ .form-item--half {
+  display: flex;
+  gap: 8px;
+
+  // Duration/Composite 타입의 select는 고정 너비 유지 (글자수에 따라 변경되지 않음)
+  :deep(.v-select) {
+    flex: 0 0 120px !important;
+    min-width: 120px !important;
+    max-width: 120px !important;
+    width: 120px !important;
+
+    // select 내부 input도 너비 고정
+    .v-field__input {
+      min-width: 0 !important;
+    }
+  }
+
+  // Duration/Composite 타입의 input은 나머지 공간 차지
+  :deep(.v-text-field) {
+    flex: 1;
+    min-width: 0;
+  }
+}
+
+/**
+ * 라디오 버튼 간격
+ */
+:deep(.v-radio-group) {
+  .v-radio {
+    margin-right: 24px;
+
+    &:last-child {
+      margin-right: 0;
+    }
+  }
+}
+
+.error-text-color {
+  color: #f44336;
+}

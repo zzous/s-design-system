@@ -81,6 +81,7 @@ const defaultCode = `
         :items="items"
         :page="page"
         :search="searchValue"
+        resizable
         @update:page="updatePage"
       />
     </div>
@@ -266,6 +267,7 @@ const Template = (args) => ({
             :items="items"
             :page="page"
             tooltip
+            resizable
             :search="searchValue"
             @update:page="page = $event"
         />
