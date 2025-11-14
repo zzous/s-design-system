@@ -40,10 +40,10 @@
 </template>
 
 <script setup>
-import { ref, computed, reactive, watch, onMounted } from 'vue'
-import useOutsideClick from '../../hooks/out-side-click.js'
+import { computed, reactive, ref, watch } from 'vue'
+import useOutsideClick from '../../../hooks/out-side-click.js'
 import { findIndex, isEqual } from 'lodash-es'
-import dateUtil from '../../utils/date.js'
+import dateUtil from '../../../utils/date.js'
 
 // region [Defines]
 const STEP_LIST = ['field', 'operator', 'value']
@@ -132,8 +132,13 @@ function getValueStepList() {
   if (selectedState.operator === ':') {
     return selectedState.value === '' ? [] : [{ title: selectedState.value, value: selectedState.value }]
   }
-  const filteredItems = props.items.map(item => ({ title: item[selectedState.field], value: item[selectedState.field] })) || []
-  return filteredItems.filter(item => item.value.toLowerCase().includes(selectedState.value?.toLowerCase()))
+
+  const filteredItems = props.items.map(item => ({ title: item[selectedState.field], value: item[selectedState.field] }))
+      .filter(item => item.value !== undefined && item.value !== null) // null/undefined 값 제외
+  const searchValue = selectedState.value?.toLowerCase() // 검색어 소문자 변환
+
+  if (!searchValue) { return filteredItems }
+  return filteredItems.filter(item => String(item.value).toLowerCase().includes(searchValue))
 }
 
 function getType(item, key){

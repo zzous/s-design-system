@@ -203,6 +203,7 @@
 
 <script setup>
 import { ref, watch, computed, onMounted, onBeforeUnmount, nextTick } from 'vue'
+import { filterData } from '@/components/Input/advanced-search/filter-data.js'
 import stringUtil from '@/utils/stringUtil.js'
 
 const { isEmpty } = stringUtil
@@ -407,9 +408,12 @@ const props = defineProps({
     },
     description: 'Smart Search 검색 기능',
   },
-  fixedTable: {
-    type: Boolean,
-    default: false,
+  advancedSearch: {
+    type: Array,
+    default: () => {
+      return []
+    },
+    description: 'Advanced Search 검색 기능',
   },
   setTotal: {
     type: Function,
@@ -579,6 +583,14 @@ const filterDatas = computed(() => {
     return filteredList
   }
 
+
+  if (props.advancedSearch.length > 0) {
+
+    const lists = filterData(props.items, props.advancedSearch)
+    console.log(lists)
+    return lists
+  }
+
   let result = props.items || []
   emit('update:filtered-cnt', result.length)
 
@@ -723,6 +735,15 @@ watch(
 
 watch(
   () => props.smartSearch,
+  () => {
+    updatePage(1)
+  },
+  {
+    deep: true,
+  }
+)
+watch(
+  () => props.advancedSearch,
   () => {
     updatePage(1)
   },
@@ -1120,6 +1141,9 @@ const applyFixedColumnWidths = () => {
     })
   }
 }
+
+
+
 
 // 컴포넌트 언마운트 시 이벤트 리스너 정리
 onBeforeUnmount(() => {

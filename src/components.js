@@ -41,4 +41,4 @@ export {default as SListControl} from './components/list-control/SListControl.vu
 export {default as SDropdownButton} from './components/dropdown-button/SDropdownButton.vue';
 export {default as SDatePicker} from './components/date-picker/SDatePicker.vue';
 export {default as SSlidePanel} from './components/slide-panel/SSlidePanel.vue';
-export {default as SAdvancedSearch} from './components/input/SAdvancedSearch.vue';
+export {default as SAdvancedSearch} from './components/Input/advanced-search/SAdvancedSearch.vue';
