@@ -1,9 +1,13 @@
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 import timezone from 'dayjs/plugin/timezone';
+import customParseFormat from 'dayjs/plugin/customParseFormat';
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
+dayjs.extend(customParseFormat);
+
+const DATE_FORMATS = ['YYYY-MM-DD', 'YYYY/MM/DD', 'YYYYMMDD', 'YYYY-MM-DD HH:mm:ss', 'YYYY-MM-DDTHH:mm:ss'];
 
 // 'let' 키워드로 기본 타임존 변수 선언
 let defaultTimezone = 'Asia/Seoul';
@@ -18,6 +22,21 @@ function setDateConfig(options) {
   if (options.timezone) {
     defaultTimezone = options.timezone;
   }
+}
+
+
+// --- 날짜 파싱 헬퍼 함수 ---
+/**
+ * 날짜 데이터를 Day.js 객체로 변환하는 헬퍼 함수
+ * @param {string|Date|dayjs} dateValue - 원본 날짜 값
+ * @returns {dayjs.Dayjs|null} 유효한 dayjs 객체, 아니면 null
+ */
+const parseDate = (dateValue) => {
+  // SAdvancedSearch에서 이미 type: 'date'로 확정된 값이라고 가정하고 파싱을 시도합니다.
+  const parsed = dayjs(dateValue);
+
+  // 파싱된 dayjs 객체가 유효한지 최종 확인합니다.
+  return parsed.isValid() ? parsed : null;
 }
 
 // 기존 함수들: 이제 매개변수 대신 내부 변수를 사용합니다.
@@ -53,10 +72,33 @@ function getFormattedDate(date, format = defaultDateFormat) {
   return dayjs(date).tz(defaultTimezone).format(format);
 }
 
+/**
+ * 주어진 문자열이 지정된 포맷 목록 중 하나와 일치하는지 엄격하게 검사합니다.
+ * @param {string} dateString - 검사할 날짜 문자열
+ * @param {string[]} formats - 검사할 포맷 문자열 배열 (예: ['YYYY-MM-DD', 'MM/DD/YYYY'])
+ * @returns {boolean} 유효하면 true, 아니면 false
+ */
+function isValidDateFormat(dateString, formats= DATE_FORMATS) {
+  if (typeof dateString !== 'string' || !formats || formats.length === 0) {
+    return false;
+  }
+
+  // Day.js의 엄격 모드(strict=true)를 사용하여 정확하게 포맷 일치 여부 확인
+  for (const format of formats) {
+    if (dayjs(dateString, format, true).isValid()) {
+      return true;
+    }
+  }
+
+  return false;
+}
+
 export default {
   defaultDateFormat,
   setDateConfig,
+  parseDate,
   getCurrentDate,
   calculateDate,
   getFormattedDate,
+  isValidDateFormat,
 };

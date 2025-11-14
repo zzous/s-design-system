@@ -1,0 +1,428 @@
+<template>
+  <div class="s-advanced-search">
+    <div class="s-advanced-search__top">
+      <div class="s-advanced-search__top__search">
+
+        <div v-if="$slots.left" class="s-advanced-search__top__left"><slot name="left"/></div>
+
+        <v-text-field ref="inputRef" v-model="inputValue" :density="density"
+                      :variant="variant" :width="width" :placeholder="placeholder" :hideDetails="true"
+                      prependInnerIcon="mdi-magnify" :appendInnerIcon="`mdi-menu-${isOpen ? 'up' : 'down'}`"
+                      @focus="onFocusTextField" @blur="onBlurTextField" @keydown.arrow-down="onKeydownArrowDownTextField"
+                      @keydown.enter="onKeydownEnterTextField"/>
+
+        <v-list v-if="isOpen" ref="popoverRef" class="s-advanced-search__top__left__popover"
+                :style="{ minWidth: width, ...popupStyle }" @mousedown.prevent @focusin="onFocusInPopover">
+          <v-list-subheader :title="subHeaderTitle"/>
+          <v-divider/>
+          <v-list-item v-for="({title, value}, index) in currentPopoverList" :key="value" :ref="el => { if (el) listItemsRef[index] = el }"
+                       :title="title" tabindex="0" @click="onClickListItem(title, value)" @blur="(e) => onBlurLastListItem(e, index)"
+                        @keydown.enter="onKeydownEnterListItem"/>
+          <v-list-item v-if="currentPopoverList.length === 0" title="No Data"/>
+          <v-list-item v-if="currentPopoverList.length === 0" title="초기화" @click="onClickResetItem"/>
+        </v-list>
+
+      </div>
+
+      <div v-if="$slots.right" class="s-advanced-search__top__right"><slot name="right"/></div>
+
+    </div>
+
+    <v-chip-group class="s-advanced-search__bottom">
+      <v-chip v-for="item in filterOptions" :key="`${item.field}_${item.operator}_${item.value}`" closable :ripple="false" @click:close="onClickDeleteFilter(item)">
+        <span>{{item.field}}</span>
+        <b>{{item.operator}}</b>
+        <span>{{item.value}}</span>
+      </v-chip>
+    </v-chip-group>
+
+  </div>
+</template>
+
+<script setup>
+import { ref, computed, reactive, watch, onMounted } from 'vue'
+import useOutsideClick from '../../hooks/out-side-click.js'
+import { findIndex, isEqual } from 'lodash-es'
+import dateUtil from '../../utils/date.js'
+
+// region [Defines]
+const STEP_LIST = ['field', 'operator', 'value']
+const NUMBER_DATE_OPERATOR = [
+  { title: '같음 (=)', value: '=' },
+  { title: '크거나 같음 (>=)', value: '>=' },
+  { title: '작거나 같음 (<=)', value: '<=' },
+  { title: '보다 작음 (<)', value: '<' },
+  { title: '보다 큼 (>)', value: '>' },
+]
+const STRING_OPERATOR = [{ title: '같음 (=)', value: '=' }, { title: '포함 (:)', value: ':' }]
+
+const emit = defineEmits(['update:model-value', 'update:key', 'update:target-item'])
+const props = defineProps({
+  modelValue: { type: Array, default: () => [] },
+  headers: { type: Array, default: () => [], description: '[{ title: "", key: "" }]' },
+  items: { type: Array, default: () => [], description: '테이블 리스트 데이터' },
+  density: { type: String, default: 'comfortable' },
+  variant: { type: String, default: 'outlined' },
+  width: { type: String, default: '350px' },
+  placeholder: { type: String, default: '검색어를 입력하세요. (Key:Value)' },
+  searchTag: { type: Boolean, default: false, description: 'tag 검색 기능 사용 여부. true면 items의 모든 tag 값을 headers에 추가' },
+})
+
+let blurTimeout = null
+const inputRef = ref(null)
+const popoverRef = ref(null)
+const listItemsRef = ref([])
+
+const isOpen = ref(false)
+const inputValue = ref('')
+const step = ref(STEP_LIST[0])
+const filterOptions = ref([]) // ⚡️ 최종 <SDataTable/> 컴포넌트한테 넘기는 데이터 ⚡️
+const popupStyle = reactive({ top: 0, left: 0 })
+const selectedState = reactive({
+  field: null,
+  fieldText: null,
+  type: null,
+  operator: null,
+  value: null,
+})
+// endregion
+
+
+// region [Computed]
+const popoverRefEl = computed(() => popoverRef.value?.$el)
+const inputRefEl = computed(() => inputRef.value?.$el)
+const operatorList = computed(() => {
+  if (['number', 'date'].includes(selectedState.type)) { return NUMBER_DATE_OPERATOR }
+  if ('string' === selectedState.type) { return STRING_OPERATOR }
+  return []
+})
+
+const currentPopoverList = computed(() => {
+  if (isFieldStep.value) { return getFieldStepList() }
+  if (isOperatorStep.value) { return operatorList.value ?? []}
+  if (isValueStep.value) { return getValueStepList() }
+  return []
+})
+
+const subHeaderTitle = computed(() => {
+  if (step.value === STEP_LIST[0]) { return '속성' }
+  if (step.value === STEP_LIST[1]) { return '연산자' }
+  if (step.value === STEP_LIST[2]) { return `${selectedState.fieldText}값` }
+})
+// endregion
+
+useOutsideClick(popoverRefEl, closePopover, isOpen, inputRefEl)
+
+// region [Step Validation]
+const isFieldStep = computed(() => step.value === STEP_LIST[0])
+const isOperatorStep = computed(() => step.value === STEP_LIST[1])
+const isValueStep = computed(() => step.value === STEP_LIST[2])
+// endregion
+
+
+// region [Privates]
+function getFieldStepList() {
+  const textValue = inputValue.value.trim().toLowerCase()
+  const headerList = props.headers.map(item => ({ title: item.title, value: item.key }))
+  if (textValue === '') { return headerList }
+  return headerList.filter(item => item.title.toLowerCase().includes(textValue))
+}
+
+function getValueStepList() {
+  if (selectedState.operator === ':') {
+    return selectedState.value === '' ? [] : [{ title: selectedState.value, value: selectedState.value }]
+  }
+  const filteredItems = props.items.map(item => ({ title: item[selectedState.field], value: item[selectedState.field] })) || []
+  return filteredItems.filter(item => item.value.toLowerCase().includes(selectedState.value?.toLowerCase()))
+}
+
+function getType(item, key){
+  const value = item[key]
+
+  if (typeof value === 'string' && dateUtil.isValidDateFormat(value)) { return 'date' }
+  return typeof value
+}
+
+function onNextStep() {
+  const currentIndex = STEP_LIST.findIndex(s => s === step.value)
+  const nextIndex = currentIndex + 1
+
+  if (nextIndex < STEP_LIST.length) {
+    step.value = STEP_LIST[nextIndex]
+  }
+  if (nextIndex === STEP_LIST.length) { syncfilterOptions() }
+}
+
+function closePopover() { isOpen.value = false }
+function openPopover() { isOpen.value = true }
+const focusTextField = () => { inputRef.value.focus() }
+const focusPopover = () => {
+  setTimeout(() => { popoverRef.value?.focus() }, 80)
+}
+
+const calculatePopoverPosition = () => {
+  if (!inputRef?.value) {
+    throw Error('not found inputRef:', inputRef)
+  }
+  const rect = inputRef.value?.getBoundingClientRect()
+  const gapSize = { top: 1, left: -36 }
+
+  popupStyle.top = `${rect.bottom + gapSize.top}px`
+  popupStyle.left = `${rect.left + gapSize.bottom}px`
+}
+
+const calculateNextStep = (title, value) => {
+  /** 1. [Field 단계]: 필드와 필드의 Value 타입을 저장 */
+  if (isFieldStep.value) {
+    inputValue.value = title
+    selectedState.fieldText = title
+    selectedState.field = value
+
+    const allTypes = props.items.map(item => getType(item, value)) // 1. 모든 value 의 타입을 배열로 만듬 ex) ['number', 'string', 'date']
+    const typeCounts = allTypes.reduce((acc, type) => (acc[type] = (acc[type] || 0) + 1, acc), {}) // 2. 타입별 빈도수를 계산
+    const mostFrequentType = Object.keys(typeCounts).sort((a, b) => typeCounts[b] - typeCounts[a])[0] // 3. 가장 많은 타입 검색
+
+    if (Object.keys(typeCounts).length > 1) {
+      // 4. 타입이 섞여 있을 경우 경고
+      console.error(`Multiple types found. Using majority type: ${mostFrequentType}`)
+    }
+    selectedState.type = mostFrequentType // 가장 많은 타입으로 적용
+  }
+  /** 2. Operator => Operator 저장 */
+  if (isOperatorStep.value) {
+    selectedState.operator = value
+    const isContainedOperator = inputValue.value.includes(value)
+    if (!isContainedOperator) { inputValue.value += value}
+  }
+  /** 3. Value => Value 저장 */
+  if (isValueStep.value) {
+    selectedState.value = value
+  }
+  onNextStep()
+}
+
+function syncTextFieldValue(value) {
+
+  const val = value.trim().toLowerCase()
+  const targetItem = currentPopoverList.value[0]
+  const fieldList = props.headers.map(item => item.title)
+
+  const isCorrectField = fieldList.some(field => val === field.toLowerCase())
+
+  if (val === '') { clearStep() }
+
+  if (isFieldStep.value && isCorrectField) {
+    calculateNextStep(targetItem.title, targetItem.value)
+  }
+
+  if (isOperatorStep.value) {
+    const fieldTextLower = selectedState.fieldText.toLowerCase()
+
+    if (!val.includes(fieldTextLower)) {
+      clearStep() // console.log(`필드명 '${selectedState.fieldText}'이(가) 입력값에 없음. Step 초기화.`)
+      return
+    }
+
+    const foundOperator = currentPopoverList.value.find(operator => val.includes(operator.value))
+
+    if (foundOperator) {
+      calculateNextStep(foundOperator.title, foundOperator.value)
+    }
+  }
+
+  if (isValueStep.value) {
+    const isCurrectValue = val.includes(selectedState.fieldText.toLowerCase() + selectedState.operator) // ex: "vpcid="
+    const frontStrLength = selectedState.fieldText.length + selectedState.operator.length // field + operator 까지 길이
+
+    if (!isCurrectValue) {
+      step.value = STEP_LIST[1]
+    } else {
+      selectedState.value = value.slice(frontStrLength).trim()
+    }
+  }
+}
+function syncfilterOptions() {
+  filterOptions.value = [...filterOptions.value, { ...selectedState }]
+  clearStep()
+  closePopover()
+  inputValue.value = ''
+  inputRef.value.blur()
+}
+
+function clearStep() {
+  selectedState.field = null
+  selectedState.fieldText = null
+  selectedState.operator = null
+  selectedState.type = null
+  selectedState.value = null
+  step.value = STEP_LIST[0]
+}
+
+function clearOnCurrentStep() {
+  if (isFieldStep.value) { inputValue.value = '' }
+  if (isOperatorStep.value) { clearStep() }
+  if (isValueStep.value) { clearStep() }
+}
+
+function deleteFilter(item) {
+  const indexToRemove = findIndex(filterOptions.value, (currentItem) => isEqual(item, currentItem))
+  if (indexToRemove !== -1) {
+    filterOptions.value.splice(indexToRemove, 1)
+  } else {
+    console.error("제거하려는 항목을 filterOptions에서 찾을 수 없습니다.", item)
+  }
+}
+// endregion
+
+
+// region [Events]
+const onFocusTextField = () => {
+  if (blurTimeout) { clearTimeout(blurTimeout) }
+  calculatePopoverPosition()
+  openPopover()
+}
+const onBlurTextField = () => {
+  blurTimeout = setTimeout(() => {
+    // 팝오버를 닫기 전에, 포커스가 팝오버 내부로 이동했는지 확인
+    const activeEl = document.activeElement
+    const popoverRefEl = popoverRef.value?.$el
+
+    if (popoverRefEl && popoverRefEl.contains(activeEl)) {
+       return // 포커스가 팝오버 내부에 있다면 닫지 않고 타이머를 재설정하지 않습니다.
+    }
+    closePopover()
+  }, 100)
+}
+const onFocusInPopover = () => {
+  const popoverRefEl = popoverRef.value?.$el
+
+  if (popoverRefEl && popoverRefEl.contains(document.activeElement)) {
+    if (blurTimeout) {
+      clearTimeout(blurTimeout)
+      blurTimeout = null
+    }
+  }
+}
+
+const onBlurLastListItem = (e, idx) => {
+
+  if (currentPopoverList.value.length - 1 !== idx) { return }
+
+  setTimeout(() => {
+    const activeEl = document.activeElement
+    const popoverRefEl = popoverRef.value?.$el
+    const inputEl = inputRef.value?.$el
+    if ((popoverRefEl && popoverRefEl.contains(activeEl)) || (inputEl && inputEl.contains(activeEl))) { return }
+    closePopover()
+  }, 100)
+}
+
+const onClickListItem = calculateNextStep
+const onClickDeleteFilter = deleteFilter
+const onClickResetItem = clearOnCurrentStep
+const onKeydownArrowDownTextField = focusPopover
+const onKeydownEnterListItem = focusPopover
+const onKeydownEnterTextField = () => {
+  if (!isValueStep.value) { return }
+
+  if (currentPopoverList.value.length === 1) {
+    calculateNextStep(null, currentPopoverList.value[0].value)
+  }
+}
+// endregion
+
+
+// region [Life Cycles]
+watch(inputValue, syncTextFieldValue)
+watch(filterOptions, nv => emit('update:model-value', nv))
+// endregion
+</script>
+
+<style lang="scss">
+.s-advanced-search {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  width: 100%;
+
+  .s-advanced-search__top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+    width: 100%;
+
+    .s-advanced-search__top__search {
+      position: relative;
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+
+      .s-advanced-search__top__left__popover {
+        position: fixed;
+        top: auto;
+        left: auto;
+        display: block;
+        width: auto;
+        max-width: 100%;
+        max-height: 400px;
+        padding: 4px 0;
+        border: 1px solid $active-font-color;
+        border-radius: 3px;
+        background: $s-default--gray-0;
+        z-index: 1010;
+        box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
+        overflow: visible;
+
+        .v-divider {
+          margin-bottom: 4px !important;
+        }
+      }
+    }
+    .s-advanced-search__top__right {}
+  }
+}
+
+.s-advanced-search__bottom {
+  position: relative;
+  display: flex;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  align-items: center;
+  gap: 6px;
+  width: 100%;
+  max-width: 100%;
+  padding-bottom: 4px;
+  margin-top: 8px;
+  background: transparent;
+  box-shadow: none;
+
+  .v-slide-group__container {
+
+    .v-slide-group__content {
+
+      .v-chip {
+        flex: 0 0 auto;
+        margin: 0 4px 0 0;
+        pointer-events: auto;
+        position: relative;
+        z-index: 1;
+
+        .v-chip__content {
+          display: flex;
+          align-items: center;
+          gap: 4px;
+        }
+
+        .v-chip__close {
+          z-index: 2;
+          pointer-events: auto;
+          position: relative;
+        }
+      }
+    }
+  }
+
+
+}
+</style>
