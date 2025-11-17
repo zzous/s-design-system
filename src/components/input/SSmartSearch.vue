@@ -321,8 +321,10 @@ const filterItems = computed(() => {
               if (targetValue === '-') {
                 return itemValue === null || itemValue === undefined || itemValue === '' || itemValue === '-'
               }
-              // 일반 값은 정확히 일치
-              return itemValue === targetValue
+              // 일반 값은 문자열로 비교하여 숫자 0 등 falsy 값도 정확히 매칭
+              const normalizedItemValue = itemValue === null || itemValue === undefined ? '' : String(itemValue)
+              const normalizedTargetValue = String(targetValue)
+              return normalizedItemValue === normalizedTargetValue
             })
           })
         })

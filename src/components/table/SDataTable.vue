@@ -108,7 +108,7 @@
     <template #[`header.data-table-select`]="bind">
       <div class="header-cell checkbox-header d-flex align-center position-relative justify-center">
         <v-checkbox-btn
-          v-if="selectStrategy !== 'single'"
+          v-if="selectStrategy !== 'single' || $slots['item.data-table-select']"
           :indeterminate="bind.someSelected && !bind.allSelected"
           :model-value="bind.allSelected"
           @update:model-value="bind.selectAll(!bind.allSelected)"
