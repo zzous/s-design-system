@@ -586,9 +586,7 @@ const filterDatas = computed(() => {
 
   if (props.advancedSearch.length > 0) {
 
-    const lists = filterData(props.items, props.advancedSearch)
-    console.log(lists)
-    return lists
+    return filterData(props.items, props.advancedSearch)
   }
 
   let result = props.items || []

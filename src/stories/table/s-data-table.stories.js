@@ -233,7 +233,6 @@ const Template = (args) => ({
 
             setTimeout(() => {
                 items.value = tempItems;
-                console.log(pageNum, page.value)
                 updatePage(pageNum);
             }, 500);
         };

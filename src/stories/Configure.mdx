@@ -24,16 +24,13 @@ import { getVersion } from './utils/version.js';
     ## 📌 Initialize(`main.js`)
     ```javascript
     import { createApp } from 'vue';
-    import { createVuetify } from 'vuetify';
-    import * as components from 'vuetify/components';
-    import * as directives from 'vuetify/directives';
-    import { customTheme } from '@strato/components';
+    import { StratoVuetify } from '@strato/components' // Vuetify Components, directives, customTheme, icons 모두 포함
 
     // styles
     import '@mdi/font/css/materialdesignicons.css';
     import '@strato/components/lib/style.css'; // Vuetify 스타일 포함
 
-    const Vuetify = createVuetify({components, directives, theme: { ...customTheme }});
+    app.use(StratoVuetify) //
     createApp(App).use(Vuetify).mount('#app')
     ```
   </div>

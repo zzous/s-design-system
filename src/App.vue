@@ -83,18 +83,18 @@
               </s-advanced-search>
             </div>
 
-<!--            <div class="search">-->
-<!--              <s-smart-search :items="list" :headers="headers" v-model="searchs" >-->
-<!--                <template #right>-->
-<!--                  <s-list-control-->
-<!--                    :list="list"-->
-<!--                    :per-pages="perPages"-->
-<!--                    refresh-date-title="기준 일자"-->
-<!--                    @set-per-pages="setPerPages"-->
-<!--                    @on-refresh="getDatas"/>-->
-<!--                </template>-->
-<!--              </s-smart-search>-->
-<!--            </div>-->
+            <div class="search">
+              <s-smart-search :items="list" :headers="headers" v-model="searchs"  search-tag>
+                <template #right>
+                  <s-list-control
+                    :list="list"
+                    :per-pages="perPages"
+                    refresh-date-title="기준 일자"
+                    @set-per-pages="setPerPages"
+                    @on-refresh="getDatas"/>
+                </template>
+              </s-smart-search>
+            </div>
             <s-data-table
                 v-model="checkedList"
                 show-select
@@ -441,7 +441,7 @@ const list = ref([
       "networkAclId": null,
       "networkAclName": null,
       "defaultRouteTableId": "d8abe622-3896-4c5e-8c75-00a0c0dd30aa",
-      "defaultRouteTableName": "vpc-fc9cc639-98232-1",
+      "displayDefaultYn": "vpc-fc9cc639-98232-1",
       "vmCount": 9,
       "tagList": null
     },
@@ -464,7 +464,7 @@ const list = ref([
       "networkAclId": null,
       "networkAclName": null,
       "defaultRouteTableId": "8395c1f7-7ae8-4152-90a0-9b592ffc1f66",
-      "defaultRouteTableName": "vpc-4cd51a6f-abcd",
+      "displayDefaultYn": "vpc-4cd51a6f-abcd",
       "vmCount": 8,
       "tagList": null
     },
@@ -487,7 +487,7 @@ const list = ref([
       "networkAclId": null,
       "networkAclName": null,
       "defaultRouteTableId": null,
-      "defaultRouteTableName": null,
+      "displayDefaultYn": null,
       "vmCount": 7,
       "tagList": null
     },
@@ -510,7 +510,7 @@ const list = ref([
       "networkAclId": null,
       "networkAclName": null,
       "defaultRouteTableId": "9561a4eb-2558-497b-b931-b4f265420ede",
-      "defaultRouteTableName": "vpc-447f6bd3-135d",
+      "displayDefaultYn": "vpc-447f6bd3-135d",
       "vmCount": 6,
       "tagList": null
     },
@@ -533,7 +533,7 @@ const list = ref([
       "networkAclId": "acl-08682ba51743a4748",
       "networkAclName": null,
       "defaultRouteTableId": "rtb-0307b8073e0addf14",
-      "defaultRouteTableName": null,
+      "displayDefaultYn": null,
       "vmCount": 0,
       "tagList": null
     },
@@ -556,7 +556,7 @@ const list = ref([
       "networkAclId": "acl-0246d7817411334c1",
       "networkAclName": null,
       "defaultRouteTableId": "rtb-0978161682ed2c777",
-      "defaultRouteTableName": null,
+      "displayDefaultYn": null,
       "vmCount": 1,
       "tagList": null
     },
@@ -579,7 +579,7 @@ const list = ref([
       "networkAclId": "acl-0de5d4ff5b60d644d",
       "networkAclName": null,
       "defaultRouteTableId": "rtb-0e95a4e0ca56d43e6",
-      "defaultRouteTableName": null,
+      "displayDefaultYn": null,
       "vmCount": 2,
       "tagList": null
     },
@@ -602,7 +602,7 @@ const list = ref([
       "networkAclId": "acl-0a10b5934e11bb43b",
       "networkAclName": null,
       "defaultRouteTableId": null,
-      "defaultRouteTableName": null,
+      "displayDefaultYn": null,
       "vmCount": 3,
       "tagList": null
     },
@@ -625,17 +625,14 @@ const list = ref([
       "networkAclId": null,
       "networkAclName": null,
       "defaultRouteTableId": null,
-      "defaultRouteTableName": null,
+      "displayDefaultYn": null,
       "vmCount": 4,
-      "tagList": null
+      "tagList": null,
     },
 ])
-watch(() => searchs.value, nv => {
-  console.log(nv)
-})
 
 const headers = [
-  { title: 'vpcName', key: 'vpcName', width: 300, align: 'start' },
+  { title: 'VPC 이름', key: 'vpcName', width: 300, align: 'start' },
   { title: 'vpcId', key: 'vpcId', width: 250, align: 'start' },
   { title: 'cloudType', key: 'cloudType', width: 150, align: 'center' },
   { title: 'vmCount', key: 'vmCount', width: 120, align: 'center' },

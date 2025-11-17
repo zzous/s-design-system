@@ -29,7 +29,7 @@
     <v-chip-group class="s-advanced-search__bottom">
       <v-chip v-for="item in filterOptions" :key="`${item.field}_${item.operator}_${item.value}`"
               closable  :ripple="false" @click:close="onClickDeleteFilter(item)" :link="false">
-        <span>{{item.field}}</span>
+        <span>{{item.fieldText}}</span>
         <b>{{item.operator}}</b>
         <span>{{item.value}}</span>
       </v-chip>
@@ -63,7 +63,8 @@ const props = defineProps({
   variant: { type: String, default: 'outlined' },
   width: { type: String, default: '350px' },
   placeholder: { type: String, default: '검색어를 입력하세요. (Key<=Value)' },
-  searchTag: { type: Boolean, default: false, description: 'tag 검색 기능 사용 여부. true면 items의 모든 tag 값을 headers에 추가' },
+  languageCode: { type: String, default: 'ko', description: '언어 구분 문자열 "ko" | "en"' },
+  // searchTag: { type: Boolean, default: false, description: 'tag 검색 기능 사용 여부. true면 items의 모든 tag 값을 headers에 추가' },
 })
 
 let blurTimeout = null
@@ -90,6 +91,7 @@ const selectedState = reactive({
 // region [Computed]
 const popoverRefEl = computed(() => popoverRef.value?.$el)
 const inputRefEl = computed(() => inputRef.value?.$el)
+const isKorean = computed(() => props.languageCode === 'ko')
 const operatorList = computed(() => {
   if (['number', 'date'].includes(selectedState.type)) {
     return NUMBER_DATE_OPERATOR
@@ -115,13 +117,14 @@ const currentPopoverList = computed(() => {
 
 const subHeaderTitle = computed(() => {
   if (step.value === STEP_LIST[0]) {
-    return '속성'
+    return isKorean.value ? '속성' : 'Attribute'
   }
   if (step.value === STEP_LIST[1]) {
-    return '연산자'
+    return isKorean.value ? '연산자' : 'Operator'
   }
   if (step.value === STEP_LIST[2]) {
-    return `${selectedState.fieldText}값`
+    return isKorean.value ? `${selectedState.fieldText}값` : `${selectedState.fieldText} values`
+    return
   }
 })
 const isDatePicker = computed(() =>
@@ -139,7 +142,10 @@ useOutsideClick(popoverRefEl, closePopover, isOpen, inputRefEl)
 // region [Privates]
 function getFieldStepList() {
   const textValue = inputValue.value.trim().toLowerCase()
-  const headerList = props.headers.map(item => ({ title: item.title, value: item.key }))
+  const headerList = props.headers
+      .filter(item => item.key !== "tagList") // 'tagList' 값 제외 시킴 나중에 태그 추가 개발시 수정
+      .map(item => ({ title: item.title, value: item.key }))
+
   if (textValue === '') {
     return headerList
   }
@@ -147,17 +153,36 @@ function getFieldStepList() {
 }
 
 function getValueStepList() {
-  const searchValue = selectedState.value?.toLowerCase() // 검색어 소문자 변환
-  const filteredItems = props.items.map(item => ({
-    title: item[selectedState.field],
-    value: item[selectedState.field]
-  }))
-      .filter(item => item.value !== undefined && item.value !== null) // null/undefined 값 제외
-  const sanitizedItems = Array.from(new Map(filteredItems.map(item => [item.value, item]))).map(([_, item]) => item) // 중복제거
+  const searchValue = selectedState.value?.toLowerCase()
 
-  if (!searchValue) {
-    return sanitizedItems
-  }
+  // 1. 연산자 조건 확인: ':', '=' 일 때만 값이 null 또는 undefined 항목에 '-'를 추가
+  const isEqualityOperator = selectedState.operator === '='
+
+  let filteredItems = props.items.map(item => {
+    const rawValue = item[selectedState.field]
+    let displayValue
+
+    if (rawValue === undefined || rawValue === null) {
+      displayValue = isEqualityOperator ? '-' : null //  '-' or null 반환(null 이면 filteredItems 에서 걸러짐)
+    } else {
+      displayValue = rawValue
+    }
+
+    return { title: displayValue, value: displayValue }
+  })
+
+  // 2. value가 null인 항목 (값이 없었으나 동등 연산자가 아니어서 제외된 항목)을 제거
+  filteredItems = filteredItems.filter(item => item.value !== null)
+  // 3. '-' 값 정렬 (항상 맨 뒤로)
+  filteredItems.sort((a, b) => {
+    if (a.value === '-' && b.value !== '-') return 1
+    if (a.value !== '-' && b.value === '-') return -1
+    return 0
+  })
+
+  const sanitizedItems = Array.from(new Map(filteredItems.map(item => [item.value, item]))).map(([_, item]) => item)
+
+  if (!searchValue) { return sanitizedItems }
 
   const filteredItemsBySearch = sanitizedItems.filter(item => String(item.value).toLowerCase().includes(searchValue))
 
@@ -184,7 +209,7 @@ function onNextStep() {
     step.value = STEP_LIST[nextIndex]
   }
   if (nextIndex === STEP_LIST.length) {
-    syncfilterOptions()
+    syncFilterOptions()
   }
 }
 
@@ -214,22 +239,27 @@ const calculatePopoverPosition = () => {
   const rect = inputRef.value?.getBoundingClientRect()
   const gapSize = { top: 1, left: -36 }
 
+  // popupStyle.top = `${rect.bottom + gapSize.top}px`
   popupStyle.top = `${rect.bottom + gapSize.top}px`
   popupStyle.left = `${rect.left + gapSize.bottom}px`
 }
 
 const calculateNextStep = (title, value) => {
-  /** 1. [Field 검색]: 필드와 필드의 Value 타입을 저장 */
+  /** 1. [Field 검색]: 필드와 필드의 Value 타입 저장 */
   if (isFieldStep.value) {
     inputValue.value = title
     selectedState.fieldText = title
     selectedState.field = value
+    emit('update:key', value)
 
-    const allTypes = props.items.map(item => getType(item, value)) // (1) 모든 value 의 타입을 배열로 만듬 ex) ['number', 'string', 'date']
+    const allTypes = props.items.filter(item => {
+      const fieldValue = item[value]
+      return fieldValue !== null && fieldValue !== undefined
+    }).map(item => getType(item, value)) // (1) 모든 value 의 타입을 undefined, null 제외하고 배열로 만듬 ex) ['number', 'string', 'date']
     const typeCounts = allTypes.reduce((acc, type) => (acc[type] = (acc[type] || 0) + 1, acc), {}) // (2) 타입별 빈도수를 계산
     const mostFrequentType = Object.keys(typeCounts).sort((a, b) => typeCounts[b] - typeCounts[a])[0] // (3) 가장 많은 타입 검색
 
-    if (Object.keys(typeCounts).length > 1) { // (4) 타입 섞여있는 경우 경고
+    if (Object.keys(typeCounts).length > 1) { // (4) 타입이 섞여있는 경우 경고
       console.error(`Multiple types found. Using majority type: ${mostFrequentType}`)
     }
     selectedState.type = mostFrequentType // 가장 많은 타입으로 적용
@@ -277,10 +307,10 @@ function syncTextFieldValue(value) {
   }
 
   if (isValueStep.value) {
-    const isCurrectValue = lowerValue.includes(selectedState.fieldText.toLowerCase() + selectedState.operator) // ex: "vpcid="
+    const isCorrectValue = lowerValue.includes(selectedState.fieldText.toLowerCase() + selectedState.operator) // ex: "vpcid="
     const frontStrLength = selectedState.fieldText.length + selectedState.operator.length // field + operator 까지 길이
 
-    if (!isCurrectValue) {
+    if (!isCorrectValue) {
       step.value = STEP_LIST[1]
     } else {
       selectedState.value = value.slice(frontStrLength).trim()
@@ -288,12 +318,13 @@ function syncTextFieldValue(value) {
   }
 }
 
-function syncfilterOptions() {
+function syncFilterOptions() {
   filterOptions.value = [...filterOptions.value, { ...selectedState }]
   clearStep()
   closePopover()
   inputValue.value = ''
   inputRef.value.blur()
+  emit('update:target-item', { ...selectedState })
 }
 
 function clearStep() {
@@ -400,10 +431,8 @@ const onClickResetItem = clearOnCurrentStep
 const onKeydownArrowDownTextField = focusPopover
 const onKeydownEnterListItem = focusPopover
 const onKeydownEnterTextField = () => {
-  if (!isValueStep.value) {
-    return
-  }
-  if (selectedState.operator === ':') {
+  if (!isValueStep.value) { return }
+  if (selectedState.operator === ':' || selectedState.type === 'number') {
     calculateNextStep(null, selectedState.value)
   }
   if (currentPopoverList.value.length === 1) {
@@ -418,9 +447,7 @@ watch(inputValue, syncTextFieldValue)
 watch(dateValue, initializeDate)
 watch(filterOptions, newValue => emit('update:model-value', newValue))
 watch(isOpen, setupPopoverListeners)
-onUnmounted(() => {
-  cleanupPopoverListeners()
-})
+onUnmounted(cleanupPopoverListeners)
 // endregion
 </script>
 
