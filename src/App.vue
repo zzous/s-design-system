@@ -71,25 +71,37 @@
 
           <div style="margin-top: 10rem;" class="layout__list-contents">
             <div class="search">
-              <s-smart-search :items="list" :headers="headers" v-model="searchs" >
+              <s-advanced-search v-model="searchs" :items="list" :headers="headers">
                 <template #right>
                   <s-list-control
-                    :list="list"
-                    :per-pages="perPages"
-                    refresh-date-title="기준 일자"
-                    @set-per-pages="setPerPages"
-                    @on-refresh="getDatas"/>
+                      :list="list"
+                      :per-pages="perPages"
+                      refresh-date-title="기준 일자"
+                      @set-per-pages="setPerPages"
+                      @on-refresh="getDatas"/>
                 </template>
-              </s-smart-search>
-
+              </s-advanced-search>
             </div>
+
+<!--            <div class="search">-->
+<!--              <s-smart-search :items="list" :headers="headers" v-model="searchs" >-->
+<!--                <template #right>-->
+<!--                  <s-list-control-->
+<!--                    :list="list"-->
+<!--                    :per-pages="perPages"-->
+<!--                    refresh-date-title="기준 일자"-->
+<!--                    @set-per-pages="setPerPages"-->
+<!--                    @on-refresh="getDatas"/>-->
+<!--                </template>-->
+<!--              </s-smart-search>-->
+<!--            </div>-->
             <s-data-table
                 v-model="checkedList"
                 show-select
                 class="fixed-table"
                 :headers="headers"
                 :items="list"
-                :smart-search="searchs"
+                :advanced-search="searchs"
                 :items-per-page="perPages"
                 item-value="vpcId"
                 :page="pageNum"
@@ -115,12 +127,12 @@ import SBtn from '@/components/button/SBtn.vue'
 import SHeader from '@/components/layout/SHeader.vue'
 import SFooter from '@/components/layout/SFooter.vue'
 import SSlidePanel from '@/components/slide-panel/SSlidePanel.vue'
-import VuetifyWrapper from '../.storybook/VuetifyWrapper.vue'
+import SAdvancedSearch from '@/components/Input/advanced-search/SAdvancedSearch.vue'
 import SDataTable from '@/components/table/SDataTable.vue'
 import SFilterSelect from '@/components/input/SFilterSelect.vue'
 import SListControl from '@/components/list-control/SListControl.vue'
 import { useTablePage, useSlidePanel } from './hooks/index.js'
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 import SNavi from '@/components/layout/SNavi.vue'
 
 
@@ -128,8 +140,6 @@ const { pageNum, searchs, perPages, checkedList, setPage, setPerPages, setChecke
     useTablePage()
 
 const { slidePanelProps, openSlidePanel, closeSlidePanel } = useSlidePanel({ title: '슬라이드 패널 제목'})
-
-
 const totalCnt = ref(0)
 
 const notificationSimpleList = ref([])
@@ -173,202 +183,6 @@ const companyList = ref([
     "defaultSelectYn": "N"
   },
   {
-    "companyNameKr": "테 스트기업6",
-    "companyNameEn": null,
-    "companyType": "managed",
-    "uuid": "3e495c91-18e0-4a05-8010-99daafa87102",
-    "defaultSelectYn": "N"
-  },
-  {
-    "companyNameKr": "테 스트기업5",
-    "companyNameEn": null,
-    "companyType": "managed",
-    "uuid": "852f65cb-7d73-42aa-8d46-70e05fa0a0e2",
-    "defaultSelectYn": "N"
-  },
-  {
-    "companyNameKr": "테 스트기업4",
-    "companyNameEn": null,
-    "companyType": "managed",
-    "uuid": "d4480482-615a-4830-9a0e-f7bf5bc4c596",
-    "defaultSelectYn": "N"
-  },
-  {
-    "companyNameKr": "테 스트기업3",
-    "companyNameEn": null,
-    "companyType": "managed",
-    "uuid": "dc6fd803-36f0-453e-acaf-58dfa9ba50e3",
-    "defaultSelectYn": "N"
-  },
-  {
-    "companyNameKr": "테스 트기업",
-    "companyNameEn": null,
-    "companyType": "managed",
-    "uuid": "544c01cc-16ca-475a-b255-42d7809f914e",
-    "defaultSelectYn": "N"
-  },
-  {
-    "companyNameKr": "계정사용자등록",
-    "companyNameEn": null,
-    "companyType": "managed",
-    "uuid": "24698719-44c9-4517-8555-cfa6bb5efc06",
-    "defaultSelectYn": "N"
-  },
-  {
-    "companyNameKr": "계정명하나법인",
-    "companyNameEn": null,
-    "companyType": "managed",
-    "uuid": "9acf78cb-3941-439d-96a3-54282953a577",
-    "defaultSelectYn": "N"
-  },
-  {
-    "companyNameKr": "account-test-new",
-    "companyNameEn": "account-test-new",
-    "companyType": "managed",
-    "uuid": "34a88aab-b681-4e18-9d63-aef5f8390418",
-    "defaultSelectYn": "N"
-  },
-  {
-    "companyNameKr": "등록계생성및초기데이터2",
-    "companyNameEn": null,
-    "companyType": "managed",
-    "uuid": "12dd330a-7010-4cf5-8206-26227d041b9b",
-    "defaultSelectYn": "N"
-  },
-  {
-    "companyNameKr": "등록계생성및초기데이터1",
-    "companyNameEn": null,
-    "companyType": "managed",
-    "uuid": "00792ec2-91fb-470d-931f-30cf6bc1ece2",
-    "defaultSelectYn": "N"
-  },
-  {
-    "companyNameKr": "등록계생성",
-    "companyNameEn": null,
-    "companyType": "managed",
-    "uuid": "555233f3-e09d-42e8-b09e-2b1987807928",
-    "defaultSelectYn": "N"
-  },
-  {
-    "companyNameKr": "법인등록",
-    "companyNameEn": null,
-    "companyType": "managed",
-    "uuid": "42e7f36d-61e6-44ba-b1fe-e5e5f4afad8b",
-    "defaultSelectYn": "N"
-  },
-  {
-    "companyNameKr": "테스트기업100",
-    "companyNameEn": "testCompany100",
-    "companyType": "managed",
-    "uuid": "00552f8b-e76a-49a6-b2c2-d78c661962d1",
-    "defaultSelectYn": "N"
-  },
-  {
-    "companyNameKr": "테스트기업99",
-    "companyNameEn": "testCompany99",
-    "companyType": "managed",
-    "uuid": "0592faa6-ff97-46d6-ba31-8ada1a39ec20",
-    "defaultSelectYn": "N"
-  },
-  {
-    "companyNameKr": "법인컬럼추가기업",
-    "companyNameEn": "engcol",
-    "companyType": "managed",
-    "uuid": "941aa40f-ffaf-4af7-8931-31c9ff3dfcb8",
-    "defaultSelectYn": "N"
-  },
-  {
-    "companyNameKr": "테스트기업ABC",
-    "companyNameEn": "testCompABC",
-    "companyType": "managed",
-    "uuid": "6db5dce8-bf93-4473-aee2-031def702e2f",
-    "defaultSelectYn": "N"
-  },
-  {
-    "companyNameKr": "계정하나야이",
-    "companyNameEn": null,
-    "companyType": "managed",
-    "uuid": "9e89969b-1ffc-41ce-9de3-979b93cdd400",
-    "defaultSelectYn": "N"
-  },
-  {
-    "companyNameKr": "계정하나야",
-    "companyNameEn": null,
-    "companyType": "managed",
-    "uuid": "da5c3bcb-f02c-4b50-9c2f-d00b4d36ff45",
-    "defaultSelectYn": "N"
-  },
-  {
-    "companyNameKr": "테테테",
-    "companyNameEn": null,
-    "companyType": "managed",
-    "uuid": "ab42f56b-0881-4dce-b51a-ea01d2714029",
-    "defaultSelectYn": "N"
-  },
-  {
-    "companyNameKr": "계정등록하나둘",
-    "companyNameEn": null,
-    "companyType": "managed",
-    "uuid": "0512a206-ec58-4d92-a975-59ee50591d49",
-    "defaultSelectYn": "N"
-  },
-  {
-    "companyNameKr": "계정등록하나",
-    "companyNameEn": null,
-    "companyType": "managed",
-    "uuid": "46af7f29-6cc8-4352-8d62-fb175b4fa801",
-    "defaultSelectYn": "N"
-  },
-  {
-    "companyNameKr": "test기업정보임",
-    "companyNameEn": null,
-    "companyType": "managed",
-    "uuid": "dab34758-a50f-4ad9-b12d-13edde06f387",
-    "defaultSelectYn": "N"
-  },
-  {
-    "companyNameKr": "테스트기업A-OPAS",
-    "companyNameEn": null,
-    "companyType": "managed",
-    "uuid": "b5bc72c2-98ee-4e80-8947-9c3f81519976",
-    "defaultSelectYn": "N"
-  },
-  {
-    "companyNameKr": "com회사",
-    "companyNameEn": null,
-    "companyType": "managed",
-    "uuid": "f9b50abb-6d7d-4eba-82d6-47cfcf867a32",
-    "defaultSelectYn": "N"
-  },
-  {
-    "companyNameKr": "테스트기업A-OPA",
-    "companyNameEn": null,
-    "companyType": "managed",
-    "uuid": "260b4444-198d-4ec0-84be-7d88dbec4392",
-    "defaultSelectYn": "N"
-  },
-  {
-    "companyNameKr": "테스트기업하나둘셋",
-    "companyNameEn": null,
-    "companyType": "managed",
-    "uuid": "49d1e48b-d6e0-4778-b645-2493557b554b",
-    "defaultSelectYn": "N"
-  },
-  {
-    "companyNameKr": "stratotestcompany",
-    "companyNameEn": null,
-    "companyType": "managed",
-    "uuid": "187a984f-ae56-4c5a-918d-aa38f856b7d9",
-    "defaultSelectYn": "N"
-  },
-  {
-    "companyNameKr": "테스트기업0730",
-    "companyNameEn": "test0730",
-    "companyType": "managed",
-    "uuid": "a5a8cd24-c917-4edc-9aa4-68683eee96a1",
-    "defaultSelectYn": "N"
-  },
-  {
     "companyNameKr": "테스트기업CCDD",
     "companyNameEn": "테스트기업CCDD",
     "companyType": "managed",
@@ -394,34 +208,6 @@ const companyList = ref([
     "companyNameEn": null,
     "companyType": "managed",
     "uuid": "6eaae97b-50a8-458c-be5c-41d27a08d109",
-    "defaultSelectYn": "N"
-  },
-  {
-    "companyNameKr": "테스트",
-    "companyNameEn": null,
-    "companyType": "member",
-    "uuid": "1a184e16-b4ff-4966-9882-d833c37b9179",
-    "defaultSelectYn": "N"
-  },
-  {
-    "companyNameKr": "아이티센",
-    "companyNameEn": "itcen",
-    "companyType": "managed",
-    "uuid": "386003d4-1678-494c-84b4-49f61a7786ce",
-    "defaultSelectYn": "N"
-  },
-  {
-    "companyNameKr": "에스피테크놀러지",
-    "companyNameEn": "sptek",
-    "companyType": "managed",
-    "uuid": "29f3194a-336a-469e-8bb8-793b3128c70b",
-    "defaultSelectYn": "N"
-  },
-  {
-    "companyNameKr": "클로잇",
-    "companyNameEn": "cloit",
-    "companyType": "managed",
-    "uuid": "20303cca-589f-4f98-8085-985f6363df9e",
     "defaultSelectYn": "N"
   },
   {
@@ -656,7 +442,7 @@ const list = ref([
       "networkAclName": null,
       "defaultRouteTableId": "d8abe622-3896-4c5e-8c75-00a0c0dd30aa",
       "defaultRouteTableName": "vpc-fc9cc639-98232-1",
-      "vmCount": 0,
+      "vmCount": 9,
       "tagList": null
     },
     {
@@ -679,7 +465,7 @@ const list = ref([
       "networkAclName": null,
       "defaultRouteTableId": "8395c1f7-7ae8-4152-90a0-9b592ffc1f66",
       "defaultRouteTableName": "vpc-4cd51a6f-abcd",
-      "vmCount": 0,
+      "vmCount": 8,
       "tagList": null
     },
     {
@@ -702,7 +488,7 @@ const list = ref([
       "networkAclName": null,
       "defaultRouteTableId": null,
       "defaultRouteTableName": null,
-      "vmCount": 0,
+      "vmCount": 7,
       "tagList": null
     },
     {
@@ -725,7 +511,7 @@ const list = ref([
       "networkAclName": null,
       "defaultRouteTableId": "9561a4eb-2558-497b-b931-b4f265420ede",
       "defaultRouteTableName": "vpc-447f6bd3-135d",
-      "vmCount": 0,
+      "vmCount": 6,
       "tagList": null
     },
     {
@@ -739,7 +525,7 @@ const list = ref([
       "regionCode": "ap-northeast-2",
       "cloudType": "AWS",
       "serviceGroupUuid": "3d1835d9-fdac-480f-9050-10bf8a58b49f",
-      "createdAt": null,
+      "createdAt": "2025-11-01T17:03:59",
       "companyUuid": "77eeb5a5-d08d-49b6-a7fe-e15a941a9607",
       "internetGatewayId": "igw-045e61fe80b26b98f",
       "serviceGroupName": "imp-test-01",
@@ -762,7 +548,7 @@ const list = ref([
       "regionCode": "ap-northeast-2",
       "cloudType": "AWS",
       "serviceGroupUuid": "3d1835d9-fdac-480f-9050-10bf8a58b49f",
-      "createdAt": null,
+      "createdAt": "2025-11-02T17:03:59",
       "companyUuid": "77eeb5a5-d08d-49b6-a7fe-e15a941a9607",
       "internetGatewayId": "igw-0b235b237849637aa",
       "serviceGroupName": "imp-test-01",
@@ -771,7 +557,7 @@ const list = ref([
       "networkAclName": null,
       "defaultRouteTableId": "rtb-0978161682ed2c777",
       "defaultRouteTableName": null,
-      "vmCount": 0,
+      "vmCount": 1,
       "tagList": null
     },
     {
@@ -785,7 +571,7 @@ const list = ref([
       "regionCode": "ap-northeast-2",
       "cloudType": "AWS",
       "serviceGroupUuid": "3d1835d9-fdac-480f-9050-10bf8a58b49f",
-      "createdAt": null,
+      "createdAt": "2025-11-03T17:03:59",
       "companyUuid": "77eeb5a5-d08d-49b6-a7fe-e15a941a9607",
       "internetGatewayId": "igw-05b9daafcd7fd7338",
       "serviceGroupName": "imp-test-01",
@@ -794,7 +580,7 @@ const list = ref([
       "networkAclName": null,
       "defaultRouteTableId": "rtb-0e95a4e0ca56d43e6",
       "defaultRouteTableName": null,
-      "vmCount": 0,
+      "vmCount": 2,
       "tagList": null
     },
     {
@@ -808,7 +594,7 @@ const list = ref([
       "regionCode": "ap-northeast-2",
       "cloudType": "AWS",
       "serviceGroupUuid": "3d1835d9-fdac-480f-9050-10bf8a58b49f",
-      "createdAt": null,
+      "createdAt": "2025-11-04T17:03:59",
       "companyUuid": "77eeb5a5-d08d-49b6-a7fe-e15a941a9607",
       "internetGatewayId": "igw-0d79a297a9fc921a7",
       "serviceGroupName": "imp-test-01",
@@ -817,7 +603,7 @@ const list = ref([
       "networkAclName": null,
       "defaultRouteTableId": null,
       "defaultRouteTableName": null,
-      "vmCount": 0,
+      "vmCount": 3,
       "tagList": null
     },
     {
@@ -831,7 +617,7 @@ const list = ref([
       "regionCode": "koreasouth",
       "cloudType": "AZURE",
       "serviceGroupUuid": "3d1835d9-fdac-480f-9050-10bf8a58b49f",
-      "createdAt": null,
+      "createdAt": "2025-11-05T17:03:59",
       "companyUuid": "77eeb5a5-d08d-49b6-a7fe-e15a941a9607",
       "internetGatewayId": null,
       "serviceGroupName": "imp-test-01",
@@ -840,19 +626,22 @@ const list = ref([
       "networkAclName": null,
       "defaultRouteTableId": null,
       "defaultRouteTableName": null,
-      "vmCount": 0,
+      "vmCount": 4,
       "tagList": null
     },
 ])
-
+watch(() => searchs.value, nv => {
+  console.log(nv)
+})
 
 const headers = [
   { title: 'vpcName', key: 'vpcName', width: 300, align: 'start' },
   { title: 'vpcId', key: 'vpcId', width: 250, align: 'start' },
   { title: 'cloudType', key: 'cloudType', width: 150, align: 'center' },
+  { title: 'vmCount', key: 'vmCount', width: 120, align: 'center' },
   { title: 'region', key: 'regionCode', width: 170, align: 'center' },
   { title: 'ipv4Cidr', key: 'ipv4CidrBlock', width: 200, align: 'end'   },
-  { title: 'basedNetworkACL', key: 'displayNetworkAcl', width: 300, align: 'center' },
+  { title: 'createdAt', key: 'createdAt', width: 160, align: 'center' },
   { title: 'basedVPC', key: 'displayDefaultYn', width: 200, align: 'center' },
   { title: 'tag', key: 'tagList', width: 180, align: 'd-none' },
 ]
