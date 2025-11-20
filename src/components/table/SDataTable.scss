@@ -155,16 +155,6 @@
       box-sizing: border-box;
     }
 
-    // 말줄임 텍스트 요소에만 여백 적용
-    .s-table-column__text {
-      padding-right: 20px; // 헤더 아이콘 공간만큼 여백
-    }
-
-    // text-truncate 클래스가 있는 span에도 적용
-    > span.text-truncate {
-      padding-right: 20px;
-    }
-
     .v-selection-control.v-checkbox-btn {
       &.v-selection-control--disabled {
         cursor: not-allowed;
@@ -286,7 +276,6 @@
     width: 100%;
     max-width: 100%;
     box-sizing: border-box;
-    padding-right: 20px; // 헤더 아이콘 공간만큼 여백
 
     // Vuetify의 text-truncate 클래스와 함께 사용될 때
     &.text-truncate {
