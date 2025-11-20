@@ -320,7 +320,6 @@ watch(
 
 // routerPath에 의존하는 함수로 변경하여 반응성 보장
 const isMenuActive = (menuUrl) => {
-  console.log('isMenuActive', menuUrl, props.routerPath)
   // 정확히 일치하거나 path parameter 매칭, 또는 부모 경로인 경우 active
   return isMenuPathMatched(menuUrl, props.routerPath) || isParentPath(menuUrl, props.routerPath);
 };
