@@ -105,19 +105,19 @@ const headers = [
         title: "VPC ID",
         key: 'vpcId',
         width: 250,
-        align: 'center',
+        align: 'start',
     },
     {
         title: "Cloud Type",
         key: 'cloudType',
         width: 150,
-        align: 'center',
+        align: 'end',
     },
     {
         title: "Region",
         key: 'regionCode',
         width: 170,
-        align: 'center',
+        align: 'start',
     }
 ]
 const items = [
@@ -287,19 +287,19 @@ Default.args = {
             title: "VPC ID",
             key: 'vpcId',
             width: 250,
-            align: 'center',
+            align: 'start',
         },
         {
             title: "Cloud Type",
             key: 'cloudType',
             width: 150,
-            align: 'center',
+            align: 'end',
         },
         {
             title: "Region",
             key: 'regionCode',
             width: 170,
-            align: 'center',
+            align: 'start',
         }
     ],
     items: [
