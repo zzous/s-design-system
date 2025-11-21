@@ -1,4 +1,4 @@
-import { SModal, SBtn, SSubHeader, SFormTable, SFormItem } from '@/components';
+import { SModal, SBtn, SSubHeader } from '@/components';
 import { ref } from 'vue';
 
 export default {
@@ -23,7 +23,9 @@ const Template = (args) => ({
     components: { SModal, SBtn },
     setup() {
         const isOpen = ref(false);
-        return { args, isOpen };
+        const mode = ref('detail');
+
+        return { args, isOpen, mode };
     },
     template: `
       <div>
@@ -31,13 +33,14 @@ const Template = (args) => ({
         <SModal
           v-model="isOpen"
           v-bind="args"
+          :mode="mode"
           @update:model-value="isOpen = $event"
         >
-          <template #footer>
-            <div class="form__btn-wrapper">
-              <SBtn title="Close" @click="isOpen = false" />
+          <div class="view-wrapper">
+            <div class="form-wrapper">
+              <SSubHeader title="기본 정보" :show-cnt="false" class-name="sub-title" />
             </div>
-          </template>
+          </div>
         </SModal>
       </div>
     `,
@@ -45,8 +48,9 @@ const Template = (args) => ({
 
 export const Default = Template.bind({});
 Default.args = {
-    title: 'Modal Title',
-    size: 'medium'
+    title: '기본 모달',
+    mode: 'detail',
+    hideEditButton: true,
 };
 
 const newModalTemplate = `
@@ -60,14 +64,9 @@ const newModalTemplate = `
       <div class="view-wrapper">
         <div class="form-wrapper">
           <SSubHeader title="기본 정보" :show-cnt="false" class-name="sub-title" />
+          <s-text-field />
         </div>
       </div>
-      <template #footer>
-        <div class="form__btn-wrapper">
-          <SBtn title="저장" @click="isOpen = false" />
-          <SBtn title="취소" variant="outlined" @click="isOpen = false" />
-        </div>
-      </template>
     </SModal>
   </div>
 `;
@@ -76,14 +75,15 @@ export const NewModal = (args) => ({
   components: { SModal, SBtn, SSubHeader },
   setup() {
     const isOpen = ref(false);
-    return { args, isOpen };
+    const onSave = () => { isOpen.value = false }
+    return { args: { ...args, onSave} , isOpen };
   },
   template: newModalTemplate,
 });
 
 NewModal.args = {
   title: '자원 등록',
-  size: 'large'
+  mode: 'new',
 };
 
 NewModal.parameters = {
@@ -96,86 +96,46 @@ NewModal.parameters = {
   },
 };
 
-const editModalTemplate = `
-  <div>
-    <SBtn title="Open Modal" @click="isOpen = true" />
-    <SModal
-      v-model="isOpen"
-      v-bind="args"
-      @update:model-value="isOpen = $event"
-    >
-      <div class="view-wrapper">
-        <div class="form-wrapper">
-          <SSubHeader title="기본 정보" :show-cnt="false" class-name="sub-title" />
-          <SFormTable>
-            <SFormItem label="이름">
-              <VTextField v-model="name" variant="outlined" density="compact" hide-details="auto" v-if="editMode" />
-              <div v-else>{{ name }}</div>
-            </SFormItem>
-          </SFormTable>
-        </div>
-      </div>
-      <template #footer>
-        <div class="form__btn-wrapper">
-          <SBtn title="수정" v-if="!editMode" @click="editMode = true" />
-          <SBtn title="저장" v-else @click="editMode = false" />
-          <SBtn title="취소" variant="outlined" @click="onClose" />
-        </div>
-      </template>
-    </SModal>
-  </div>
-`;
 
-const editModalScript = `
-<script setup>
-import { ref } from 'vue'
-
-const isOpen = ref(false);
-const editMode = ref(false);
-const name = ref('이름');
-
-const onClose = () => {
-  if (editMode.value) {
-    editMode.value = false;
-  } else {
-   editMode.value = false;
-    isOpen.value = false;
-  }
-}
-</script>
-`;
-
-export const DetailEditModal = (args) => ({
-  components: { SModal, SBtn, SSubHeader, SFormTable, SFormItem },
+const Template2 = (args) => ({
+  components: { SModal, SBtn },
   setup() {
-    const isOpen = ref(false);
-    const editMode = ref(false);
-    const name = ref('이름');
+    const isOpen = ref(false)
+    const mode = ref(args.mode ?? 'detail')
 
-    const onClose = () => {
-      if (editMode.value) {
-        editMode.value = false;
-      } else {
-        editMode.value = false;
-        isOpen.value = false;
-      }
+    const changeMode = (newMode) => {
+      mode.value = newMode
     }
-    return { args, isOpen, editMode, onClose, name };
-  },
-  template: editModalTemplate,
-});
+    const onUpdate = () => {
+      changeMode('detail')
+    }
 
+    return { args: { ...args, onUpdate }, isOpen, mode, changeMode }
+  },
+  template: `
+    <div>
+      <SBtn title="Open modal" @click="isOpen = true" />
+
+      <SModal
+        v-model="isOpen"
+        v-bind="args"
+        :mode="mode"
+        :title="mode === 'detail' ? '상세 모달' : '수정 모달'"
+        :changeMode="changeMode"
+      >
+        <template #default>
+          <div style="padding: 20px">
+            모달 내부 콘텐츠입니다.<br>
+            현재 모드: <b>{{ mode }}</b>
+          </div>
+        </template>
+      </SModal>
+    </div>
+  `,
+})
+
+export const DetailEditModal = Template2.bind({})
 DetailEditModal.args = {
-  title: '자원 상세',
-  size: 'large'
-};
-
-DetailEditModal.parameters = {
-  docs: {
-    source: {
-      code: `<template>${editModalTemplate}</template>\n${editModalScript}`,
-      language: 'html',
-      type: 'auto',
-    },
-  },
-};
+  languageCode: 'ko',
+  mode: 'detail',
+}

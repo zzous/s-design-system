@@ -157,20 +157,6 @@ html * {
     }
 }
 
-.form__btn-wrapper {
-    display: flex;
-    justify-content: center;
-    padding: 10px 30px 30px;
-
-    .s-btn {
-        min-width: 110px;
-        height: 36px;
-        &:not(:first-child){
-            margin-left:10px
-        }
-    }
-}
-
 .selected__chip {
     display: flex;
     flex-wrap: wrap;
