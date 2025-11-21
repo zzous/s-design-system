@@ -639,9 +639,9 @@ const filterDatas = computed(() => {
 
 const pageCnt = computed(() => {
   if(props.itemsPerPage !== -1) {
-  return props.options?.pageCnt || Math.ceil(filterDatas.value.length / props.itemsPerPage)
+    return props.options?.pageCnt || Math.max(1, Math.ceil(filterDatas.value.length / props.itemsPerPage))
   }
-  return props.options?.pageCnt || Math.ceil(filterDatas.value.length)
+    return props.options?.pageCnt || Math.max(1, Math.ceil(filterDatas.value.length))
 })
 
 // const getChipColor = (status) => {
