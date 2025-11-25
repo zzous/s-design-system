@@ -29,7 +29,7 @@ export default function useSlidePanel(props) {
         isMinimized: isMinimized.value,
         onClose: closeSlidePanel,
         'onUpdate:isMinimized': onUpdateIsMinimized,
-        data,
+        data: data.value,
       })),
       openSlidePanel,
       closeSlidePanel,
