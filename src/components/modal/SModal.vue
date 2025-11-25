@@ -32,22 +32,22 @@
 
             <div v-if="isNewMode || (!hideEditButton && isDetailMode) || isUpdateMode"
                  class="s-modal__footer__positive">
-              <SBtn v-if="isNewMode" @click="onSave">
+              <SBtn v-if="!hideSaveButton && isNewMode" @click="onSave">
                 <s-icon name="save" v-bind="commonIconProps" />{{ buttonLabels.save }}
               </SBtn>
               <SBtn v-if="!hideEditButton && isDetailMode" @click="onClickEdit">
                 <s-icon name="edit" v-bind="commonIconProps" />{{ buttonLabels.update }}
               </SBtn>
-              <SBtn v-if="isUpdateMode" @click="onClickUpdate">
+              <SBtn v-if="!hideSaveButton && isUpdateMode" @click="onClickUpdate">
                 <s-icon name="edit" v-bind="commonIconProps" />{{ buttonLabels.save }}
               </SBtn>
             </div>
 
-            <div v-if="isDetailMode || (isNewMode || isUpdateMode)" class="s-modal__footer__negative">
-              <SBtn v-if="isDetailMode" variant="outlined" @click="onClickClose">
+            <div v-if="(!hideCloseButton && isDetailMode) || (!hideCancelButton && (isNewMode || isUpdateMode))">
+              <SBtn v-if="!hideCloseButton && isDetailMode" variant="outlined" @click="onClickClose">
                 <s-icon name="close" :size="16" class="mr-1"/>{{ buttonLabels.close }}
               </SBtn>
-              <SBtn v-if="isNewMode || isUpdateMode" variant="outlined" @click="onClickCancel">
+              <SBtn v-if="!hideCancelButton && (isNewMode || isUpdateMode)" variant="outlined" @click="onClickCancel">
                 <s-icon name="close" :size="16" class="mr-1"/>{{ buttonLabels.cancel }}
               </SBtn>
             </div>
@@ -91,7 +91,10 @@ const props = defineProps({
   onSave: { type: Function, default: null, description: 'new 모드에서 저장 버튼 눌렀을 때 함수' },
   onEdit: { type: Function, default: null, description: 'detail 모드에서 수정 버튼 눌렀을 때 함수' },
   onUpdate: { type: Function, default: null, description: 'update 모드에서 저장 버튼 눌렀을 때 함수' },
+  hideSaveButton: { type: Boolean, default: false, description: 'new 모드에서 저장 버튼 숨기기' },
   hideEditButton: { type: Boolean, default: false, description: 'detail 모드에서 수정 버튼 숨기기' },
+  hideCloseButton: { type: Boolean, default: false, description: 'detail 모드에서 닫기 버튼 숨기기' },
+  hideCancelButton: { type: Boolean, default: false, description: 'new, update 모드에서 취소 버튼 숨기기' },
 })
 // endregion
 
