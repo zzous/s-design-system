@@ -18,6 +18,25 @@ UI에서 버튼 텍스트는 사용자의 행동을 명확하게 전달해야 �
 - 수정된 값 저장(Update)
 - 작성 완료 후 제출
 
+### **적용 방법**
+- `<SModal />` 컴포넌트에 아래와 같은 Prop 을 전달한다.
+- 저장 버튼은 `mode` 값이 `'new'` 또는 `'update'`인 경우에만 노출`(props.mode 값을 그대로 전달하도록 권장)`
+- 저장 버튼의 이벤트는 emit이 아닌 prop 방식에 `onSave`로 전달.
+- 다국어 처리를 위해 `languageCode` 도 전달.
+
+```vue
+  <s-modal
+    :model-value="open"
+    :title="title"
+    :mode="mode"
+    @update:model-value="closeModal"
+    :on-save="onClickSave"
+    :languageCode="languageCode"
+  >
+    ...
+```
+
+
 ## 📘 2. 조회 · 확인 화면
 
 ### **닫기**
@@ -26,6 +45,23 @@ UI에서 버튼 텍스트는 사용자의 행동을 명확하게 전달해야 �
 - 상세 조회 모달
 - 조회용 팝업
 - 정보 확인 모달
+
+### **적용 방법**
+- `<SModal />` 컴포넌트에 아래와 같은 Prop 을 전달한다.
+- 닫기 버튼은 `mode` 값이 `'detail'` 인 경우에만 노출`(props.mode 값을 그대로 전달하도록 권장)`
+- 닫기 버튼의 이벤트는 emit이 아닌 prop 방식에 `onClose`로 전달.
+
+```vue
+  <s-modal
+    :model-value="open"
+    :title="title"
+    :mode="mode"
+    @update:model-value="closeModal"
+    :on-close="onClickClose"
+    :languageCode="languageCode"
+  >
+    ...
+```
 
 ## ✏️ 3. 등록 · 수정 화면
 
@@ -36,12 +72,20 @@ UI에서 버튼 텍스트는 사용자의 행동을 명확하게 전달해야 �
 - 수정 화면에서 이탈
 - 단계 진행 중 취소
 
+### **적용 방법**
+- `<SModal />` 컴포넌트에 아래와 같은 Prop 을 전달한다.
+- 취소 버튼은 `mode` 값이 `'new'` 또는 `'update'`인 경우에만 노출`(props.mode 값을 그대로 전달하도록 권장)`
+- 취소 버튼의 이벤트는 emit이 아닌 prop 방식에 `onCancel`로 전달.
 
-## 📝 4. 알림 · 안내 모달
+```vue
+  <s-modal
+    :model-value="open"
+    :title="title"
+    :mode="mode"
+    @update:model-value="closeModal"
+    :on-cancel="onClickCancel"
+    :languageCode="languageCode"
+  >
+    ...
+```
 
-### **확인**
-내용을 읽고 단순히 확인만 하면 되는 경우 사용합니다.
-
-- 경고/주의 메시지
-- 단일 선택 알림
-- 정보성 안내
