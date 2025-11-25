@@ -5,14 +5,17 @@ export default function useSlidePanel(props) {
 
     const isOpen = ref(false)
     const isMinimized = ref(false)
+    const data = ref(null)
 
-    const openSlidePanel = () => {
+    const openSlidePanel = (_data) => {
       isOpen.value = true
+      data.value = _data
     }
 
     const closeSlidePanel = () => {
       isOpen.value = false
       isMinimized.value = false
+      data.value = null
     }
 
     const onUpdateIsMinimized = (value) => {
@@ -25,7 +28,8 @@ export default function useSlidePanel(props) {
         isOpen: isOpen.value,
         isMinimized: isMinimized.value,
         onClose: closeSlidePanel,
-        'onUpdate:isMinimized': onUpdateIsMinimized
+        'onUpdate:isMinimized': onUpdateIsMinimized,
+        data,
       })),
       openSlidePanel,
       closeSlidePanel,
