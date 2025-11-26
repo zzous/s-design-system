@@ -119,7 +119,7 @@ const props = defineProps({
   },
   size: {
     type: [String, Number],
-    default: 380,
+    default: undefined,
     validator: value => (['string', 'number'].includes(typeof value)),
   },
   resizable: {
@@ -145,7 +145,17 @@ const props = defineProps({
 })
 
 // region [Hooks]
-const defaultPropSize = computed(() => typeof props.size === 'number' ? props.size : parseInt(props.size))
+const defaultPropSize = computed(() => {
+  // 1) 숫자형 size가 명시된 경우 그대로 사용
+  if (typeof props.size === 'number' && !Number.isNaN(props.size)) return props.size
+  // 2) 문자열 숫자인 경우 파싱 결과 사용
+  const parsed = parseInt(props.size)
+  if (!Number.isNaN(parsed)) return parsed
+  // 3) 명시되지 않았거나 파싱 불가인 경우: 방향에 따라 화면의 50%를 기본값으로 사용
+  const isRight = props.direction === 'right'
+  const base = isRight ? window.innerWidth : window.innerHeight
+  return Math.round(base * 0.5)
+})
 const panelSize = ref(defaultPropSize.value)
 
 const internalIsMinimized = ref(props.isMinimized)
@@ -154,7 +164,7 @@ const isResizeMode = ref(false)
 const slidePanelContainerRef = ref(null)
 const panelContentRef = ref(null)
 const rightDirection = computed(() => props.direction === 'right')
-const defaultSize = computed(() => (typeof props.size === 'number' ? props.size : parseInt(props.size)))
+const defaultSize = computed(() => defaultPropSize.value)
 
 const headerHeight = computed(() => {
   const headerHeightString = getComputedStyle(document.documentElement).getPropertyValue('--global-nav-header-height').replace('px', '');

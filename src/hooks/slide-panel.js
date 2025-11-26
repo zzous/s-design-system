@@ -9,6 +9,7 @@ export default function useSlidePanel(props) {
 
   const openSlidePanel = (item, list) => {
     isOpen.value = true
+    isMinimized.value = false
     data.value = item
 
     onHighlightRow(item, list)
