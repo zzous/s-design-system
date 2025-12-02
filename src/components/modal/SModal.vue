@@ -30,7 +30,7 @@
           <div class="s-modal__footer">
             <slot name="footer" />
 
-            <div v-if="isNewMode || (!hideEditButton && isDetailMode) || isUpdateMode"
+            <div v-if="(isNewMode || (!hideEditButton && isDetailMode) || isUpdateMode) && !$slots.footer"
                  class="s-modal__footer__positive">
               <SBtn v-if="!hideSaveButton && isNewMode" @click="onSave">
                 <s-icon name="save" v-bind="commonIconProps" />{{ buttonLabels.save }}
@@ -43,7 +43,7 @@
               </SBtn>
             </div>
 
-            <div v-if="(!hideCloseButton && isDetailMode) || (!hideCancelButton && (isNewMode || isUpdateMode))">
+            <div v-if="((!hideCloseButton && isDetailMode) || (!hideCancelButton && (isNewMode || isUpdateMode))) && !$slots.footer">
               <SBtn v-if="!hideCloseButton && isDetailMode" variant="outlined" @click="onClickClose">
                 <s-icon name="close" :size="16" class="mr-1"/>{{ buttonLabels.close }}
               </SBtn>
