@@ -4,7 +4,7 @@
 - [Nexus Repository](http://210.217.178.150:8081/#browse/browse:strato-ui)
 
 ## 프로젝트 구조
-
+ 
 ```bash
 📁 frontend-documentation
 ├── 📁 .storybook                # 📌 스토리북 설정 공간
