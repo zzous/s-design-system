@@ -2,4 +2,24 @@
   display: flex;
   align-items: center;
   gap: 10px;
+
+  &__text {
+    padding: 8px 12px;
+    border-radius: 4px;
+    font-size: 14px;
+    line-height: 20px;
+    height: 36px;
+    box-sizing: border-box;
+    background-color: #f5f5f5;
+    outline: none;
+    transition: border-color 0.3s ease;
+
+    &:focus {
+      border-color: #1976d2;
+    }
+
+    &::placeholder {
+      color: #999;
+    }
+  }
 }

@@ -63,13 +63,10 @@ export const SFileInputBtn: React.FC<SFileInputBtnProps> = ({
         value={fileName || ''}
         readOnly
         placeholder={placeholder}
+        className="s-file-input__text"
         style={{
-          padding: '8px 12px',
           border: errorMessages.length > 0 ? '1px solid red' : '1px solid #ccc',
-          borderRadius: '4px',
-          fontSize: '14px',
           flex: 1,
-          backgroundColor: '#f5f5f5',
         }}
       />
       {errorMessages.length > 0 && hideDetails !== true && (
@@ -77,7 +74,7 @@ export const SFileInputBtn: React.FC<SFileInputBtnProps> = ({
           {errorMessages[0]}
         </div>
       )}
-      <SBtn height={30} variant="outlined" disabled={btnDisabled} onClick={handleButtonClick}>
+      <SBtn height={36} variant="outlined" disabled={btnDisabled} onClick={handleButtonClick}>
         <SIcon name="file" size={16} className="mr-1" />
         {buttonText}
       </SBtn>

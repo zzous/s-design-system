@@ -58,19 +58,19 @@ importers:
         specifier: ^1.9.0
         version: 1.9.0(react@18.3.1)
       '@storybook/addon-essentials':
-        specifier: ^8.3.6
+        specifier: 8.5.3
         version: 8.5.3(@types/react@18.3.27)(storybook@8.5.3)
       '@storybook/addon-interactions':
-        specifier: ^8.3.6
+        specifier: 8.5.3
         version: 8.5.3(storybook@8.5.3)
       '@storybook/addon-links':
-        specifier: ^8.3.6
+        specifier: 8.5.3
         version: 8.5.3(react@18.3.1)(storybook@8.5.3)
       '@storybook/addon-onboarding':
-        specifier: ^8.3.6
+        specifier: 8.5.3
         version: 8.5.3(storybook@8.5.3)
       '@storybook/blocks':
-        specifier: ^8.3.6
+        specifier: 8.5.3
         version: 8.5.3(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(storybook@8.5.3)
       '@storybook/preset-scss':
         specifier: ^1.0.3
@@ -82,7 +82,7 @@ importers:
         specifier: 8.5.3
         version: 8.5.3(@storybook/test@8.5.3(storybook@8.5.3))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(rollup@4.34.4)(storybook@8.5.3)(typescript@5.7.3)(vite@5.4.14(@types/node@22.13.1)(sass@1.49.9)(terser@5.38.1))
       '@storybook/test':
-        specifier: ^8.3.6
+        specifier: 8.5.3
         version: 8.5.3(storybook@8.5.3)
       '@types/lodash-es':
         specifier: ^4.17.12
@@ -109,7 +109,7 @@ importers:
         specifier: ^16.0.2
         version: 16.0.4(sass@1.49.9)(webpack@5.97.1(esbuild@0.24.2))
       storybook:
-        specifier: ^8.3.6
+        specifier: 8.5.3
         version: 8.5.3
       style-loader:
         specifier: ^4.0.0
@@ -131,10 +131,6 @@ packages:
 
   '@adobe/css-tools@4.4.1':
     resolution: {integrity: sha512-12WGKBQzjUAI4ayyF4IAtfw2QR/IDoqk6jTddXDhtYTJF9ASmoE1zst7cVtP0aL/F1jUJL5r+JxKXKEgHNbEUQ==}
-
-  '@babel/code-frame@7.26.2':
-    resolution: {integrity: sha512-RJlIHRueQgwWitWgF8OdFYGZX328Ax5BCemNGlqHfplnRT9ESi8JkFlvaVYbS+UubVY6dpv87Fs2u5M29iNFVQ==}
-    engines: {node: '>=6.9.0'}
 
   '@babel/code-frame@7.28.6':
     resolution: {integrity: sha512-JYgintcMjRiCvS8mMECzaEn+m3PfoQiyqukOMCCVQtoJGYJw8j/8LBJEiqkHLkfwCcs74E3pbAUFNg7d9VNJ+Q==}
@@ -2434,12 +2430,6 @@ snapshots:
 
   '@adobe/css-tools@4.4.1': {}
 
-  '@babel/code-frame@7.26.2':
-    dependencies:
-      '@babel/helper-validator-identifier': 7.25.9
-      js-tokens: 4.0.0
-      picocolors: 1.1.1
-
   '@babel/code-frame@7.28.6':
     dependencies:
       '@babel/helper-validator-identifier': 7.28.5
@@ -3249,7 +3239,7 @@ snapshots:
 
   '@testing-library/dom@10.4.0':
     dependencies:
-      '@babel/code-frame': 7.26.2
+      '@babel/code-frame': 7.28.6
       '@babel/runtime': 7.26.7
       '@types/aria-query': 5.0.4
       aria-query: 5.3.0

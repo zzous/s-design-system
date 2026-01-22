@@ -39,3 +39,6 @@ storybook-static/*
 
 # npmrc with tokens (use environment variables instead)
 .npmrc
+
+# Windows special files
+nul

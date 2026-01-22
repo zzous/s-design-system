@@ -86,12 +86,14 @@ export const SConfirm: React.FC<SConfirmProps> = ({
     </div>
   );
 
-  const teleportElement = document.getElementById(teleportId);
+  // teleportId가 지정된 경우 해당 요소에 포털 생성
+  const teleportElement = teleportId ? document.getElementById(teleportId) : null;
   if (teleportElement) {
     return createPortal(content, teleportElement);
   }
 
-  return content;
+  // teleportId가 없거나 요소를 찾을 수 없는 경우 body에 직접 포털 생성
+  return createPortal(content, document.body);
 };
 
 export default SConfirm;

@@ -27,7 +27,6 @@ export { SGlobalProgress } from './progress/SGlobalProgress';
 export { SProgressStages } from './progress/SProgressStages';
 
 // Image Components
-export { SAvatar } from './images/SAvatar';
 export { SIcon } from './images/SIcon';
 export { SImg } from './images/SImg';
 

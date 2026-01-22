@@ -21,7 +21,6 @@ export { SGlobalProgress } from './progress/SGlobalProgress';
 export { SProgressStages } from './progress/SProgressStages';
 
 // Image Components
-export { SAvatar } from './images/SAvatar';
 export { SIcon } from './images/SIcon';
 export { SImg } from './images/SImg';
 
@@ -33,7 +32,3 @@ export { SEmpty } from './containment/SEmpty';
 
 // Accordion Components
 export { SAccordionMenu } from './accordion/SAccordionMenu';
-
-// Dropdown Button Components
-export { SDropdownButton } from './dropdown-button/SDropdownButton';
-

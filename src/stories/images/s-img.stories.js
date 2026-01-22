@@ -12,7 +12,8 @@ export default {
 // More on writing stories with args: https://storybook.js.org/docs/writing-stories/args
 export const Default = {
     args: {
-        'src-url': 'https://cdn.pixabay.com/photo/2020/06/20/11/09/cat-5320572_1280.jpg',
+        srcUrl: 'https://cdn.pixabay.com/photo/2020/06/20/11/09/cat-5320572_1280.jpg',
         width: 300,
+        eager: true,
     },
 };

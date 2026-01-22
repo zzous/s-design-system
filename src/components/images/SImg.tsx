@@ -42,7 +42,6 @@ export const SImg: React.FC<SImgProps> = ({
   cover = false,
   eager = false,
   gradient,
-  options,
   sizes,
   srcset,
   transition = 'fade-transition',
@@ -54,7 +53,7 @@ export const SImg: React.FC<SImgProps> = ({
   onLoadStart,
   children,
 }) => {
-  const [isLoaded, setIsLoaded] = useState(false);
+  const [isLoaded, setIsLoaded] = useState(eager);
   const [error, setError] = useState(false);
 
   const getSrc = useMemo(() => {
@@ -62,6 +61,15 @@ export const SImg: React.FC<SImgProps> = ({
       return srcUrl;
     }
     if (src) {
+      // src가 객체인 경우 처리
+      if (typeof src === 'object') {
+        return '';
+      }
+      // src가 이미 전체 URL인 경우
+      if (typeof src === 'string' && (src.startsWith('http://') || src.startsWith('https://') || src.startsWith('/'))) {
+        return src;
+      }
+      // 상대 경로인 경우
       const srcPath = publicPath ? `${publicPath}/${src}` : `/assets/images/${src}`;
       return srcPath;
     }
@@ -105,8 +113,10 @@ export const SImg: React.FC<SImgProps> = ({
     height: cover ? '100%' : 'auto',
     objectFit: cover ? 'cover' : 'contain',
     backgroundImage: gradient ? `linear-gradient(${gradient})` : undefined,
-    opacity: isLoaded ? 1 : 0,
-    transition: transition ? `opacity ${transition}` : undefined,
+    opacity: isLoaded ? 1 : (eager ? 1 : 0),
+    transition: transition && transition !== 'fade-transition'
+      ? transition
+      : (isLoaded ? 'opacity 0.3s ease' : undefined),
   };
 
   const placeholderStyle: React.CSSProperties = {
@@ -134,7 +144,7 @@ export const SImg: React.FC<SImgProps> = ({
       {!error && getSrc && (
         <img
           src={getSrc}
-          alt={alt}
+          alt={alt || ''}
           style={imageStyle}
           sizes={sizes}
           srcSet={srcset}
@@ -143,6 +153,22 @@ export const SImg: React.FC<SImgProps> = ({
           onLoadStart={handleLoadStart}
           loading={eager ? 'eager' : 'lazy'}
         />
+      )}
+      {error && (
+        <div style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          width: '100%',
+          height: '100%',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          backgroundColor: '#f0f0f0',
+          color: '#999',
+        }}>
+          이미지를 불러올 수 없습니다
+        </div>
       )}
       {children}
     </div>

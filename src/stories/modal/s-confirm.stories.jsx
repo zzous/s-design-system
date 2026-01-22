@@ -1,3 +1,4 @@
+import React, { useState } from 'react';
 import { SConfirm } from '@/components/modal/SConfirm';
 import { SBtn } from '@/components/button/SBtn';
 
@@ -44,35 +45,65 @@ export default {
 };
 
 export const Default = {
+    render: (args) => {
+        const [isOpen, setIsOpen] = useState(false);
+        return (
+            <div>
+                <SBtn onClick={() => setIsOpen(true)}>모달 열기</SBtn>
+                <SConfirm
+                    {...args}
+                    modelValue={isOpen}
+                    onUpdateModelValue={setIsOpen}
+                />
+            </div>
+        );
+    },
     args: {
-        modelValue: false,
-        contents: 'Confirm Text\nConfirm Text',
+        contents: '이 작업을 진행하시겠습니까?',
         confirmButtonText: '확인',
         cancelButtonText: '취소',
-        teleportId: 'storybook-root',
-        width: '400px',
-        hideCancel: false
+        noCancel: false
     },
 };
 
 export const SingleButton = {
+    render: (args) => {
+        const [isOpen, setIsOpen] = useState(false);
+        return (
+            <div>
+                <SBtn onClick={() => setIsOpen(true)}>모달 열기</SBtn>
+                <SConfirm
+                    {...args}
+                    modelValue={isOpen}
+                    onUpdateModelValue={setIsOpen}
+                />
+            </div>
+        );
+    },
     args: {
-        modelValue: false,
         contents: '확인 버튼만 있는 모달입니다.',
         confirmButtonText: '확인',
-        teleportId: 'storybook-root',
-        hideCancel: true,
         noCancel: true
     },
 };
 
 export const LongContent = {
+    render: (args) => {
+        const [isOpen, setIsOpen] = useState(false);
+        return (
+            <div>
+                <SBtn onClick={() => setIsOpen(true)}>모달 열기</SBtn>
+                <SConfirm
+                    {...args}
+                    modelValue={isOpen}
+                    onUpdateModelValue={setIsOpen}
+                />
+            </div>
+        );
+    },
     args: {
-        modelValue: false,
         contents: '첫 번째 줄\n두 번째 줄\n세 번째 줄\n네 번째 줄\n다섯 번째 줄',
         confirmButtonText: '확인',
-        cancelButtonText: '취소',
-        teleportId: 'storybook-root',
-        width: '500px'
+        cancelButtonText: '취소'
     },
 };
