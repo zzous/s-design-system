@@ -1,3 +1,5 @@
+{% raw %}
+
 # Table 컴포넌트 React 변환 가이드 (ag-Grid)
 
 ## 개요
@@ -28,7 +30,7 @@ interface TableProps<T = any> {
 
 function DataTable<T>({ items, headers, itemsPerPage = 10 }: TableProps<T>) {
   return (
-    <div className="ag-theme-alpine s-data-table" style={{ height: 400 }}>
+    <div className="ag-theme-alpine s-data-table" style={% raw %}{{ height: 400 }}{% endraw %}>
       <AgGridReact
         rowData={items}
         columnDefs={headers}
@@ -67,6 +69,7 @@ const convertHeaders = (vueHeaders: any[]): ColDef[] => {
 ### 2. 정렬 기능 (내장)
 
 ```tsx
+{% raw %}
 <AgGridReact
   rowData={items}
   columnDefs={columnDefs}
@@ -79,7 +82,11 @@ const convertHeaders = (vueHeaders: any[]): ColDef[] => {
 />
 ```
 
+{% endraw %}
+
 ### 3. 필터링 기능 (내장)
+
+{% raw %}
 
 ```tsx
 <AgGridReact
@@ -93,6 +100,8 @@ const convertHeaders = (vueHeaders: any[]): ColDef[] => {
   }}
 />
 ```
+
+{% endraw %}
 
 ### 4. 페이징 기능 (내장)
 
@@ -313,3 +322,4 @@ const columnDefs: ColDef[] = [
 - [ag-Grid React 문서](https://www.ag-grid.com/react-data-grid/)
 - [Column 정의](https://www.ag-grid.com/react-data-grid/column-definitions/)
 - [Cell Renderer](https://www.ag-grid.com/react-data-grid/cell-rendering/)
+{% endraw %}
