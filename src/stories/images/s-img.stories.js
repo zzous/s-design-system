@@ -1,4 +1,4 @@
-import {SImg} from '@/components';
+import { SImg } from '@/components/images/SImg';
 
 export default {
     title: 'Images/SImg',

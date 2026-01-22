@@ -1,4 +1,4 @@
-import {SFileInputBtn} from '@/components';
+import { SFileInputBtn } from '@/components/input/SFileInputBtn';
 
 export default {
     title: 'input/SFileInputBtn',

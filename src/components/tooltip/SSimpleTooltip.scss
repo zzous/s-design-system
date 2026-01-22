@@ -1,0 +1,21 @@
+.s-simple-tooltip {
+  position: relative;
+  display: inline-block;
+
+  &__popup {
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    margin-bottom: 8px;
+    padding: 8px 12px;
+    background: rgba(0, 0, 0, 0.9);
+    color: white;
+    border-radius: 4px;
+    font-size: 12px;
+    white-space: normal;
+    word-break: break-word;
+    z-index: 1000;
+    pointer-events: none;
+  }
+}

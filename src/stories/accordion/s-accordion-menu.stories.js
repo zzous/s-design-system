@@ -1,4 +1,4 @@
-import {SAccordionMenu} from '@/components';
+import { SAccordionMenu } from '@/components/accordion/SAccordionMenu';
 
 export default {
     title: 'Accordion/SAccordionMenu',
@@ -6,23 +6,14 @@ export default {
     tags: ['autodocs'],
     argTypes: {
         // 📌 스토리북 작성 가이드 https://storybook.js.org/docs/essentials/controls#annotation
+        title: { control: { type: 'text' }, description: '아코디언 제목' },
+        titleBold: { control: { type: 'boolean' }, description: '제목 굵게 표시' },
     },
 };
 
-const Template = (args) => ({
-    components: { SAccordionMenu },
-    setup() { return { args }; },
-    template: `
-      <SAccordionMenu v-bind="args">
-        <div>
-          Accordion Content
-        </div>
-        </SAccordionMenu>
-    `,
-});
-
-export const Default = Template.bind({});
-Default.args = {
-  title: "Accordion Title",
-  titleBold: true
+export const Default = {
+    args: {
+        title: "Accordion Title",
+        titleBold: true
+    },
 };

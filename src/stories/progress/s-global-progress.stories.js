@@ -1,11 +1,10 @@
-import {SGlobalProgress} from '@/components';
+import { SGlobalProgress } from '@/components/progress/SGlobalProgress';
 
 export default {
     title: 'Progress/SGlobalProgress',
     component: SGlobalProgress,
     tags: ['autodocs'],
     argTypes: {
-        // 📌 스토리북 작성 가이드 https://storybook.js.org/docs/essentials/controls#annotation
         loadingMessage: {
             control: 'text',
             description: '로딩창 메시지 값',
@@ -21,15 +20,10 @@ export default {
     },
 };
 
-const Template = (args) => ({
-    components: { SGlobalProgress },
-    setup() { return { args }; },
-    template: `<SGlobalProgress v-bind="args" />`,
-});
-
-export const Default = Template.bind({});
-Default.args = {
-    loadingMessage: "Loading Message",
-    modelValue: false,
-    teleportId: 'storybook-docs',
+export const Default = {
+    args: {
+        loadingMessage: "Loading Message",
+        modelValue: false,
+        teleportId: 'storybook-docs',
+    },
 };

@@ -1,0 +1,8 @@
+.s-img {
+  &.with-btn {
+    .v-responsive__content {
+      width: 20px !important;
+      max-width: 100px;
+    }
+  }
+}

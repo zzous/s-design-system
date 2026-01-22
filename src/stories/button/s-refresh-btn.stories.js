@@ -1,4 +1,4 @@
-import { SRefreshBtn } from '@/components';
+import { SRefreshBtn } from '@/components/button/SRefreshBtn';
 
 export default {
     title: 'Button/SRefreshBtn',
@@ -20,9 +20,3 @@ export const Default = {
         }
     }
 };
-
-
-
-
-
-

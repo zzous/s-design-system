@@ -1,90 +1,96 @@
-# @strato/components
+# S Design System
 
-- [Storybook](http://10.10.30.70:32030/)
-- [Nexus Repository](http://210.217.178.150:8081/#browse/browse:strato-ui)
+React 기반 디자인 시스템 컴포넌트 라이브러리
 
-## 프로젝트 구조
- 
-```bash
-📁 frontend-documentation
-├── 📁 .storybook                # 📌 스토리북 설정 공간
-├── 📁 lib                       # 📌 최종 빌드 경로
-├── 📁 src
-│   ├── 📁 components            # 📌 컴포넌트
-│   │   ├── 📁 Button
-│   │   │   └── 📄 SBtn.vue
-│   │   └── 📁 ...
-│   │
-│   ├── 📁 plugins               # 📌 플러그인
-│   │   ├── 📄 customTheme.js
-│   │   ├── 📄 vuetify.js
-│   │   └── 📄 ...
-│   ├── 📁 stories               # 📌 스토리북
-│   │   └── 📁 Button
-│   │       ├── 📄 s-btn.stories.js
-│   │       └── 📄 Configure.mdx # 📌 스토리북 소개 파일
-│   │       📁 ...
-│   ├── 📁 styles                # 📌 공통 스타일 모음
-│   ├── 📄 App.vue
-│   ├── 📄 index.js              # 📌 최초 빌드 진입 파일
-│   └── 📄 main.js
-├── 📁 storybook-static          # 📌 스토리북 빌드 경로
-├── 📄 index.html
-├── 📄 package.json
-├── 📄 README.md
-└── 📄 vite.config.js
+## 설치
+
+### GitHub Packages에서 설치
+
+1. GitHub Personal Access Token 생성
+   - GitHub Settings > Developer settings > Personal access tokens > Tokens (classic)
+   - `read:packages` 권한 필요
+
+2. 프로젝트 루트에 `.npmrc` 파일 생성:
+```ini
+@zzous:registry=https://npm.pkg.github.com
+//npm.pkg.github.com/:_authToken=YOUR_GITHUB_TOKEN
 ```
 
-## 스토리북 개발 서버 실행
-
+3. 패키지 설치:
 ```bash
-   yarn run sb
+npm install @zzous/s-design-system
+# 또는
+pnpm add @zzous/s-design-system
+# 또는
+yarn add @zzous/s-design-system
 ```
 
-## 스토리북 빌드
+## 사용법
 
-```bash
-   yarn run sb-build
+```tsx
+import { SBtn, SModal, SDataTable } from '@zzous/s-design-system';
+import '@zzous/s-design-system/lib/style.css';
+
+function App() {
+  return (
+    <div>
+      <SBtn title="버튼" onClick={() => alert('클릭!')} />
+    </div>
+  );
+}
 ```
 
-## NPM 배포
+## 개발
 
 ```bash
-   yarn run build && yarn publish
+# 의존성 설치
+pnpm install
+
+# 개발 서버 실행
+pnpm dev
+
+# Storybook 실행
+pnpm sb
+
+# 빌드
+pnpm build
+
+# 패키지 배포
+pnpm publish
 ```
 
-## 개발 서버 실행
+## 배포
 
+GitHub Packages에 배포하려면:
+
+1. GitHub Personal Access Token 생성 (위치: GitHub Settings > Developer settings > Personal access tokens)
+   - `write:packages` 권한 필요
+
+2. 환경 변수 설정:
 ```bash
-   yarn run dev
+export GITHUB_TOKEN=your_token_here
 ```
 
-## 컴포넌트 문서화
-
-### 문서 생성 요청
-
-컴포넌트 문서는 `.cursorrules`에 정의된 규칙에 따라 자동으로 생성됩니다.
-
+3. 빌드 및 배포:
 ```bash
-# 문서 생성 요청 형식
-@{컴포넌트_폴더명} 문서 작성해줘
-
-# 예시
-@button 문서 작성해줘
-@alert 문서 작성해줘
-@input 문서 작성해줘
+pnpm build
+pnpm publish
 ```
 
-### 생성되는 문서
+## 컴포넌트
 
-요청 시 다음 두 가지 형식의 문서가 생성됩니다:
+- **Button**: SBtn, SRefreshBtn
+- **Alert**: SAlert
+- **Modal**: SModal, SConfirm
+- **Table**: SDataTable
+- **Progress**: SProgressCircular, SGlobalProgress, SProgressStages
+- **Input**: SFileInputBtn
+- **Image**: SAvatar, SIcon, SImg
+- **Tooltip**: SSimpleTooltip
+- **Containment**: SEmpty
+- **Accordion**: SAccordionMenu
+- **Dropdown**: SDropdownButton
 
-- JSON 문서: `docs/strato-components/{category}.json`
-- 마크다운 문서: `docs/strato-components/{category}.md`
+## 라이선스
 
-### 문서 구조
-
-- **JSON 문서**: 컴포넌트의 props, slots, events 등의 정보를 구조화된 형태로 저장
-- **마크다운 문서**: 개발자가 읽기 쉬운 형태로 컴포넌트 사용법을 설명
-
-자세한 문서화 규칙은 `.cursorrules` 파일을 참고하세요.
+MIT

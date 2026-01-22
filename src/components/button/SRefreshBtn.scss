@@ -1,0 +1,16 @@
+.refresh-time-wrapper {
+  display: inline-flex;
+  align-items: center;
+}
+
+.refresh-time {
+  font-style: normal;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 16px;
+  text-align: right;
+}
+
+.refresh-icon {
+  cursor: pointer;
+}

@@ -1,0 +1,38 @@
+.s-accordion-wrapper {
+  font-size: 18px;
+  line-height: 50px;
+  overflow: hidden;
+
+  .title {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-right: 30px; // 아이콘 공간 확보
+
+    &.title-bold {
+      font-weight: bold;
+    }
+
+    .s-accordion-icon {
+      position: absolute;
+      right: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      cursor: pointer;
+      font-size: 20px;
+      color: #666;
+      transition: transform 0.3s ease;
+
+      &:hover {
+        color: #333;
+      }
+    }
+  }
+}
+
+.s-accordion-contents {
+  height: 0;
+  transition: height 0.5s;
+  overflow: hidden;
+}

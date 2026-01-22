@@ -1,6 +1,6 @@
-import {SConfirm} from '@/components';
-import {ref} from 'vue';
-import SBtn from '@/components/button/SBtn.vue';
+import { SConfirm } from '@/components/modal/SConfirm';
+import { SBtn } from '@/components/button/SBtn';
+
 export default {
     title: 'Modal/SConfirm',
     component: SConfirm,
@@ -43,51 +43,36 @@ export default {
     },
 };
 
-const Template = (args) => ({
-    components: { SConfirm, SBtn },
-    setup() {
-        const isOpen = ref(false);
-        return {
-            args,
-            isOpen,
-            toggle: () => isOpen.value = !isOpen.value
-        };
+export const Default = {
+    args: {
+        modelValue: false,
+        contents: 'Confirm Text\nConfirm Text',
+        confirmButtonText: '확인',
+        cancelButtonText: '취소',
+        teleportId: 'storybook-root',
+        width: '400px',
+        hideCancel: false
     },
-    template: `
-        <div>
-            <s-btn variant="outlined" @click="toggle">모달 {{ isOpen ? '닫기' : '열기' }}</s-btn>
-            <s-confirm v-bind="args" v-model="isOpen" />
-        </div>
-    `,
-});
-
-export const Default = Template.bind({});
-Default.args = {
-    modelValue: false,
-    contents: 'Confirm Text\nConfirm Text',
-    confirmButtonText: '확인',
-    cancelButtonText: '취소',
-    teleportId: 'storybook-root',
-    width: '400px',
-    hideCancel: false
 };
 
-export const SingleButton = Template.bind({});
-SingleButton.args = {
-    modelValue: false,
-    contents: '확인 버튼만 있는 모달입니다.',
-    confirmButtonText: '확인',
-    teleportId: 'storybook-root',
-    hideCancel: true,
-    noCancel: true
+export const SingleButton = {
+    args: {
+        modelValue: false,
+        contents: '확인 버튼만 있는 모달입니다.',
+        confirmButtonText: '확인',
+        teleportId: 'storybook-root',
+        hideCancel: true,
+        noCancel: true
+    },
 };
 
-export const LongContent = Template.bind({});
-LongContent.args = {
-    modelValue: false,
-    contents: '첫 번째 줄\n두 번째 줄\n세 번째 줄\n네 번째 줄\n다섯 번째 줄',
-    confirmButtonText: '확인',
-    cancelButtonText: '취소',
-    teleportId: 'storybook-root',
-    width: '500px'
+export const LongContent = {
+    args: {
+        modelValue: false,
+        contents: '첫 번째 줄\n두 번째 줄\n세 번째 줄\n네 번째 줄\n다섯 번째 줄',
+        confirmButtonText: '확인',
+        cancelButtonText: '취소',
+        teleportId: 'storybook-root',
+        width: '500px'
+    },
 };

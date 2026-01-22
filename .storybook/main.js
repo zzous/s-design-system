@@ -1,47 +1,38 @@
-/** @type { import('@storybook/vue3-vite').StorybookConfig } */
-import {mergeConfig} from 'vite';
+import { mergeConfig } from 'vite';
 import path from 'path';
+import { fileURLToPath } from 'url';
 
+const dirname = path.dirname(fileURLToPath(import.meta.url));
+
+/** @type { import('@storybook/react-vite').StorybookConfig } */
 const config = {
-    stories: ['../src/**/*.mdx', '../src/**/*.stories.@(js|jsx|mjs|ts|tsx)'],
+    stories: ['../src/**/*.stories.@(js|jsx|mjs|ts|tsx)'],
     addons: [
-        '@storybook/addon-onboarding',
-        '@storybook/addon-links',
         '@storybook/addon-essentials',
-        '@chromatic-com/storybook',
-        '@storybook/addon-interactions',
-        {
-            name: '@storybook/preset-scss',
-            options: {
-                sassLoaderOptions: {
-                    scss: {additionalData: '@import "/src/styles/Entry.scss";'},
+        '@storybook/preset-scss',
+    ],
+    framework: {
+        name: '@storybook/react-vite',
+        options: {}
+    },
+    async viteFinal(config) {
+        return mergeConfig(config, {
+            resolve: {
+                alias: {
+                    '@': path.resolve(dirname, '../src'),
                 },
             },
-        },
-    ],
-    framework: { name: '@storybook/vue3-vite' },
-
-    async viteFinal(config) {
-        // Merge custom configuration into the default config
-
-        return mergeConfig(config, {
-            resolve: {alias: {'@': path.resolve('src')}},
             css: {
                 preprocessorOptions: {
-                    scss: {additionalData: '@import "/src/styles/Entry.scss";'},
+                    scss: {
+                        // SCSS 변수는 각 컴포넌트에서 직접 import
+                    },
                 },
-            },
-            optimizeDeps: {
-                include: ['storybook-dark-mode'],
             },
         });
     },
-    webpackFinal: async (config) => {
-        config.module.rules.push({
-            test: /\.json$/,
-            type: 'json'
-        });
-        return config;
-    }
+    // 전역 스타일을 preview.js에서 import하도록 설정
+    staticDirs: ['../public'],
 };
+
 export default config;

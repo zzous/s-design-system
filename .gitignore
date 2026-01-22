@@ -36,3 +36,6 @@ src/lib/
 
 *storybook.log
 storybook-static/*
+
+# npmrc with tokens (use environment variables instead)
+.npmrc
