@@ -17,6 +17,7 @@ const config = {
     },
     async viteFinal(config) {
         return mergeConfig(config, {
+            base: process.env.GITHUB_PAGES ? '/s-design-system/' : '/',
             resolve: {
                 alias: {
                     '@': path.resolve(dirname, '../src'),
