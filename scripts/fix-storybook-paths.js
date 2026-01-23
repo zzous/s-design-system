@@ -1,4 +1,4 @@
-import { readFileSync, writeFileSync, readdirSync, statSync } from 'fs';
+import { readFileSync, writeFileSync, readdirSync, statSync, copyFileSync, existsSync, mkdirSync, cpSync } from 'fs';
 import { join } from 'path';
 
 const storybookStaticDir = 'storybook-static';
@@ -67,13 +67,42 @@ function fixCssFile(filePath) {
         );
 
         // @mdi/font 경로 수정 (잘못된 경로 패턴)
-        // /assets/@mdi/... -> /s-design-system/assets/@mdi/...
+        // /assets/@mdi/... -> 실제 node_modules 경로를 찾아서 수정
+        // 또는 빌드 시 복사된 경로로 수정
         content = content.replace(
             /url\(["']?(\/assets\/@mdi\/[^"')]+)["']?\)/g,
             (match, path) => {
                 if (!path.startsWith(basePath)) {
                     modified = true;
+                    // @mdi/font는 일반적으로 node_modules에서 처리되므로
+                    // 실제 파일이 assets에 복사되어 있는지 확인 필요
+                    // 일단 경로만 수정
                     return `url("${basePath}${path.substring(1)}")`;
+                }
+                return match;
+            }
+        );
+
+        // @import 문에서 @mdi/font 참조 수정
+        content = content.replace(
+            /@import\s+["'](\/assets\/@mdi\/[^"']+)["']/g,
+            (match, path) => {
+                if (!path.startsWith(basePath)) {
+                    modified = true;
+                    return `@import "${basePath}${path.substring(1)}"`;
+                }
+                return match;
+            }
+        );
+
+        // CSS 내부에서 @mdi/font를 참조하는 모든 경로 수정
+        // href나 src 속성에서도 수정
+        content = content.replace(
+            /(href|src)=["'](\/assets\/@mdi\/[^"']+)["']/g,
+            (match, attr, path) => {
+                if (!path.startsWith(basePath)) {
+                    modified = true;
+                    return `${attr}="${basePath}${path.substring(1)}"`;
                 }
                 return match;
             }
@@ -135,11 +164,40 @@ function walkDir(dir) {
     }
 }
 
-// .nojekyll 파일 복사
-import { copyFileSync, existsSync } from 'fs';
+// @mdi/font CSS 파일 복사
+function copyMdiFont() {
+    const mdiFontPath = 'node_modules/@mdi/font/css/materialdesignicons.css';
+    const mdiFontDest = join(storybookStaticDir, 'assets', '@mdi', 'font', 'css');
+    const mdiFontDestFile = join(mdiFontDest, 'materialdesignicons.css');
+
+    if (existsSync(mdiFontPath)) {
+        // 디렉토리 생성
+        mkdirSync(mdiFontDest, { recursive: true });
+
+        // CSS 파일 복사
+        copyFileSync(mdiFontPath, mdiFontDestFile);
+        console.log('Copied @mdi/font CSS file');
+
+        // @mdi/font의 폰트 파일들도 복사 (필요한 경우)
+        const mdiFontsSource = 'node_modules/@mdi/font/fonts';
+        const mdiFontsDest = join(storybookStaticDir, 'assets', '@mdi', 'font', 'fonts');
+        if (existsSync(mdiFontsSource)) {
+            mkdirSync(mdiFontsDest, { recursive: true });
+            try {
+                cpSync(mdiFontsSource, mdiFontsDest, { recursive: true });
+                console.log('Copied @mdi/font font files');
+            } catch (error) {
+                console.warn('Could not copy @mdi/font fonts:', error.message);
+            }
+        }
+    }
+}
 
 console.log('Fixing Storybook files for GitHub Pages...');
 walkDir(storybookStaticDir);
+
+// @mdi/font 파일 복사
+copyMdiFont();
 
 // .nojekyll 파일 복사
 const nojekyllSource = 'public/.nojekyll';

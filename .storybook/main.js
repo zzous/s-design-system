@@ -50,6 +50,8 @@ const config = {
                     },
                 },
             },
+            // @mdi/font 같은 node_modules 패키지의 CSS를 올바르게 처리
+            assetsInclude: ['**/*.css'],
             // 개발 서버 설정
             server: {
                 fs: {
