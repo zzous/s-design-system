@@ -16,14 +16,12 @@ const config = {
         options: {}
     },
     async viteFinal(config, { configType }) {
-        // GitHub Pages base path 설정
-        const isGitHubPages = process.env.GITHUB_PAGES === 'true';
         // Storybook의 configType이 'PRODUCTION'이면 빌드 모드
         const isBuild = configType === 'PRODUCTION';
 
         return mergeConfig(config, {
             // 빌드 시 GitHub Pages base path 설정
-            // 환경 변수로 제어하거나, 항상 설정하여 배포 환경에서 정상 작동하도록 함
+            // 항상 설정하여 배포 환경에서 정상 작동하도록 함
             ...(isBuild ? { base: '/s-design-system/' } : {}),
             resolve: {
                 alias: {
@@ -41,6 +39,13 @@ const config = {
                 // CSS 파일 경로를 상대 경로로 생성하여 base path 문제 해결
                 assetsDir: 'assets',
                 cssCodeSplit: true,
+                // 빌드된 파일의 경로가 올바르게 생성되도록 설정
+                rollupOptions: {
+                    output: {
+                        // 에셋 파일 경로가 base path를 포함하도록 설정
+                        assetFileNames: 'assets/[name]-[hash][extname]',
+                    },
+                },
             },
             // 개발 서버 설정
             server: {
