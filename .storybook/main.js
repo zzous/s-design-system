@@ -44,6 +44,9 @@ const config = {
                     output: {
                         // 에셋 파일 경로가 base path를 포함하도록 설정
                         assetFileNames: 'assets/[name]-[hash][extname]',
+                        // CSS 파일도 assets 폴더에 생성되도록 설정
+                        chunkFileNames: 'assets/[name]-[hash].js',
+                        entryFileNames: 'assets/[name]-[hash].js',
                     },
                 },
             },

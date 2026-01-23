@@ -8,7 +8,7 @@
     "build": "vite build",
     "preview": "vite preview",
     "sb": "storybook dev -p 6006",
-    "sb-build": "storybook build -o storybook-static",
+    "sb-build": "storybook build -o storybook-static && node scripts/fix-storybook-paths.js",
     "publish": "npm publish"
   },
   "main": "lib/index.umd.js",
