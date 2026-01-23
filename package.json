@@ -1,15 +1,14 @@
 {
   "name": "@zzous/s-design-system",
   "private": false,
-  "version": "0.3.9",
+  "version": "0.3.15",
   "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
     "sb": "storybook dev -p 6006",
-    "sb-build": "storybook build -o storybook-static && node scripts/fix-storybook-paths.js",
-    "publish": "npm publish"
+    "sb-build": "storybook build -o storybook-static && node scripts/fix-storybook-paths.js"
   },
   "main": "lib/index.umd.js",
   "module": "lib/index.es.js",
