@@ -22,8 +22,9 @@ const config = {
         const isBuild = configType === 'PRODUCTION';
 
         return mergeConfig(config, {
-            // 빌드 시에만 base path 설정
-            ...(isBuild && isGitHubPages ? { base: '/s-design-system/' } : {}),
+            // 빌드 시 GitHub Pages base path 설정
+            // 환경 변수로 제어하거나, 항상 설정하여 배포 환경에서 정상 작동하도록 함
+            ...(isBuild ? { base: '/s-design-system/' } : {}),
             resolve: {
                 alias: {
                     '@': path.resolve(dirname, '../src'),
@@ -35,6 +36,11 @@ const config = {
                         // SCSS 변수는 각 컴포넌트에서 직접 import
                     },
                 },
+            },
+            build: {
+                // CSS 파일 경로를 상대 경로로 생성하여 base path 문제 해결
+                assetsDir: 'assets',
+                cssCodeSplit: true,
             },
             // 개발 서버 설정
             server: {
