@@ -15,14 +15,14 @@ const config = {
         name: '@storybook/react-vite',
         options: {}
     },
-    async viteFinal(config) {
-        // 개발 모드에서는 base path를 설정하지 않음 (Storybook이 자동 처리)
-        // 빌드 시에만 GitHub Pages base path 설정
+    async viteFinal(config, { configType }) {
+        // GitHub Pages base path 설정
         const isGitHubPages = process.env.GITHUB_PAGES === 'true';
-        const isBuild = process.env.NODE_ENV === 'production' || process.argv.includes('build');
+        // Storybook의 configType이 'PRODUCTION'이면 빌드 모드
+        const isBuild = configType === 'PRODUCTION';
 
         return mergeConfig(config, {
-            // 빌드 시에만 base path 설정, 개발 모드에서는 undefined로 두어 Storybook이 처리하도록 함
+            // 빌드 시에만 base path 설정
             ...(isBuild && isGitHubPages ? { base: '/s-design-system/' } : {}),
             resolve: {
                 alias: {
